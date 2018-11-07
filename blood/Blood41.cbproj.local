@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.195,C:\_alt\blood\AboutUnit.dfm=C:\_alt\blood\ABOUT.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.704,C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.dfm=C:\_alt\blood\MainUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.371,=C:\_alt\blood\ABOUT.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.857,C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project5PCH1.h=C:\_alt\blood\Project5PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.327,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project5PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.384,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project5PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.365,C:\_alt\photon41\apps\blood\VerInfoUnit.cpp=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.375,=C:\_alt\photon41\photon\ExportRaster.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.772,C:\_alt\blood\BloodUtils.cpp=C:\_alt\blood\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.515,C:\_alt\blood\Project5PCH1.h=C:\_alt\blood\Blood41PCH1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.312,=C:\_alt\photon41\apps\common\VerInfoUnit.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.772,C:\_alt\blood\BloodUtils.h=C:\_alt\blood\Unit1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.195,C:\_alt\blood\AboutUnit.cpp=C:\_alt\blood\ABOUT.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.119,C:\_alt\blood\help.htm=C:\_alt\blood\Untitled1.htm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.037,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.755,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.704,C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp=C:\_alt\blood\MainUnit.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.061,=C:\_alt\blood\VerInfoUnit.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.998,=C:\_alt\photon41\photon\DIBImage41.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.327,=C:\_alt\photon41\photon\pnglibio.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.949,=C:\_alt\blood\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.704,C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.h=C:\_alt\blood\MainUnit.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.195,C:\_alt\blood\AboutUnit.h=C:\_alt\blood\ABOUT.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.330,=C:\_alt\photon41\photon\tifflibio.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.558,C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project5.cbproj=C:\_alt\blood\Blood41.cbproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.103,=C:\_alt\photon41\photon\ImportRaster.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.509,=C:\_alt\blood\Untitled1.htm</Transaction>
+  </Transactions>
+</BorlandProject>

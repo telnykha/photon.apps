@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{FF90FB7F-026E-401F-84B3-1CEDEB0DD8D8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PsyGraph.cbproj">
+            <Dependencies>..\VideoA2\VideoA\VideoAnalytics\Modules\utils\photon4\photon\photon.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="..\VideoA2\VideoA\VideoAnalytics\Modules\utils\photon4\photon\photon.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PsyGraph" DependsOnTargets="photon">
+        <MSBuild Projects="PsyGraph.cbproj"/>
+    </Target>
+    <Target Name="PsyGraph:Clean" DependsOnTargets="photon:Clean">
+        <MSBuild Projects="PsyGraph.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PsyGraph:Make" DependsOnTargets="photon:Make">
+        <MSBuild Projects="PsyGraph.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon">
+        <MSBuild Projects="..\VideoA2\VideoA\VideoAnalytics\Modules\utils\photon4\photon\photon.cbproj"/>
+    </Target>
+    <Target Name="photon:Clean">
+        <MSBuild Projects="..\VideoA2\VideoA\VideoAnalytics\Modules\utils\photon4\photon\photon.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon:Make">
+        <MSBuild Projects="..\VideoA2\VideoA\VideoAnalytics\Modules\utils\photon4\photon\photon.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PsyGraph;photon"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PsyGraph:Clean;photon:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PsyGraph:Make;photon:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
