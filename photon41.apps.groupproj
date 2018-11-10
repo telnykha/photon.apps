@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D183ED2F-ACCC-462B-ABC0-8695F2DA9FC8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ceramica\Ceramica.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ceramica_client\CeramClient.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="blood\Blood41.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Ceramica">
+        <MSBuild Projects="ceramica\Ceramica.cbproj"/>
+    </Target>
+    <Target Name="Ceramica:Clean">
+        <MSBuild Projects="ceramica\Ceramica.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Ceramica:Make">
+        <MSBuild Projects="ceramica\Ceramica.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="CeramClient">
+        <MSBuild Projects="ceramica_client\CeramClient.cbproj"/>
+    </Target>
+    <Target Name="CeramClient:Clean">
+        <MSBuild Projects="ceramica_client\CeramClient.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CeramClient:Make">
+        <MSBuild Projects="ceramica_client\CeramClient.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Blood41">
+        <MSBuild Projects="blood\Blood41.cbproj"/>
+    </Target>
+    <Target Name="Blood41:Clean">
+        <MSBuild Projects="blood\Blood41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Blood41:Make">
+        <MSBuild Projects="blood\Blood41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Ceramica;CeramClient;Blood41"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Ceramica:Clean;CeramClient:Clean;Blood41:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Ceramica:Make;CeramClient:Make;Blood41:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

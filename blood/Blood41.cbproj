@@ -45,7 +45,7 @@
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
-        <FinalOutputDir>.\$(Platform)\$(Config)</FinalOutputDir>
+        <FinalOutputDir>..\..\..\bin\</FinalOutputDir>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
@@ -59,11 +59,11 @@
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <IncludePath>..\common\;..\photon41\photon\;$(PHOTON41);$(AWP);$(TIFF);$(PNG);$(ZLIB);$(LF);$(TINY);$(IncludePath)</IncludePath>
+        <IncludePath>..\..\common\;..\common\;..\photon41\photon\;$(PHOTON41);$(AWP);$(TIFF);$(PNG);$(ZLIB);$(LF);$(TINY);$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <SanitizedProjectName>Blood41</SanitizedProjectName>
-        <ILINK_LibraryPath>..\common\;..\photon41\photon\;$(PHOTON41)\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\common\;..\common\;..\photon41\photon\;$(PHOTON41)\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>appanalytics;bcbsmp;bindcomp;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbrtl;dsnap;fmx;fmxase;fmxdae;fmxobj;FMXTee925;FMXTeeDB925;FMXTeeImport925;FMXTeeLanguage925;FMXTeePro925;FmxTeeUI925;FMXTree25;IndyCore;IndyProtocols;IndySystem;photon;photon41;rtl;svn;Tee925;TeeDB925;TeeGL925;TeeImage925;TeeImport925;TeeLanguage925;TeeMaker125;TeePro925;TeeTree2D25Tee9;TeeUI925;TeeWorld925;tethering;vcl;vclactnband;vcldb;vcldsnap;vclie;vclimg;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -122,6 +122,10 @@
         <FinalOutputDir>..\..\..\..\bin\</FinalOutputDir>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="..\..\common\VerInfoUnit.cpp">
+            <DependentOn>..\..\common\VerInfoUnit.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
         <CppCompile Include="AboutUnit.cpp">
             <Form>AboutBox</Form>
             <FormType>dfm</FormType>
@@ -145,10 +149,6 @@
             <FormType>dfm</FormType>
             <DependentOn>MainUnit.h</DependentOn>
             <BuildOrder>2</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\common\VerInfoUnit.cpp">
-            <DependentOn>..\common\VerInfoUnit.h</DependentOn>
-            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="MainUnit.dfm"/>
         <FormResources Include="AboutUnit.dfm"/>
@@ -178,9 +178,7 @@
                 <Source>
                     <Source Name="MainSource">Blood41.cpp</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\19.0\BPL\photon41.bpl">photon41</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>

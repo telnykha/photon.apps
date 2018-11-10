@@ -7,8 +7,8 @@
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
 USEFORM("AboutUnit.cpp", AboutBox);
-USEFORM("MainUnit.cpp", MainForm);
 USEFORM("VideoControlUnit.cpp", VideoControlDlg);
+USEFORM("MainUnit.cpp", MainForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
