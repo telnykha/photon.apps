@@ -1113,7 +1113,6 @@ object MainForm: TMainForm
     object fileOpenImagesAction: TAction
       Category = 'File'
       Caption = #1054#1090#1082#1088#1099#1090#1100' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1103'...'
-      Visible = False
       OnExecute = fileOpenImagesActionExecute
     end
     object fileOpenVideoAction: TAction
@@ -1338,7 +1337,7 @@ object MainForm: TMainForm
     Left = 152
     Top = 152
     Bitmap = {
-      494C010108001800580010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1749,6 +1748,6 @@ object MainForm: TMainForm
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     Left = 200
-    Top = 160
+    Top = 152
   end
 end
