@@ -9,10 +9,10 @@ const UnicodeString c_FileName = L"default.pam";
 
 struct expEvent
 {
-  int command;
-  int pinStatus;
-  unsigned long pinDelay;
-  AnsiString imageName;
+  int command;              // command
+  int pinStatus;            // intensivity
+  unsigned long pinDelay;   // delay in mks
+  AnsiString imageName;     // connected image
 };
 
 class TCommandsTable

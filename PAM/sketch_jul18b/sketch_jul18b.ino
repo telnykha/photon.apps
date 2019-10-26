@@ -2,6 +2,7 @@
 const int redPin  = 13;       /*номер порта для красного светодиода*/
 const int bluePin = 12;       /*номер порта для синего светодиода*/
 const int camPin  = 11;       /*номер порта для камеры*/
+const int timeBase = 1000;    /*базовое время системы*/
 unsigned char sketchStatus = 0x00;      /*Глобальная переменная. Статус программы. 0 - ожидание, 1 - эксперимент*/
 int counter = 0;              /*Счетчик текущих событий эксперимента*/
 
@@ -81,6 +82,7 @@ void Porcess()
 {
   digitalWrite(redPin, LOW);
   digitalWrite(bluePin, LOW);
+  counter = 0;
   while (counter < progSize)
   {
     if ( Serial.available())
@@ -98,7 +100,6 @@ void Porcess()
   unsigned char value = 0x05;
   Serial.write(&value, 1);
   sketchStatus = 0x00;
-  counter = 0;
 }
 
 //Flash blue LED brightness aBrightness and time aTime
@@ -110,7 +111,7 @@ void BlueFlash(unsigned long aTime, int aBrightness)
       digitalWrite(bluePin, HIGH);
       microDelay(aBrightness*10);
       digitalWrite(bluePin, LOW);
-      microDelay(1000 - aBrightness*10);
+      microDelay(timeBase - aBrightness*10);
     }
 }
 
@@ -123,7 +124,7 @@ void RedFlash(unsigned long aTime, int aBrightness)
       digitalWrite(redPin, HIGH);
       microDelay(aBrightness*10);
       digitalWrite(redPin, LOW);
-      microDelay(1000 - aBrightness*10);
+      microDelay(timeBase - aBrightness*10);
     }
 }
 
@@ -138,7 +139,7 @@ void RedFlashWithCamera(unsigned long aTime, int aBrightness)
       digitalWrite(camPin, HIGH);
       microDelay(aBrightness*10);
       digitalWrite(redPin, LOW);
-      microDelay(1000 - aBrightness*10);
+      microDelay(timeBase - aBrightness*10);
     }
     digitalWrite(camPin, LOW);
 }
@@ -154,7 +155,7 @@ void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
       digitalWrite(camPin, HIGH);
       microDelay(aBrightness*10);
       digitalWrite(bluePin, LOW);
-      microDelay(1000 - aBrightness*10);
+      microDelay(timeBase - aBrightness*10);
     }
     digitalWrite(camPin, LOW);
 }
@@ -175,21 +176,21 @@ void Lighting()
     digitalWrite(firstPin, LOW); 
     microDelay(lDelay );
     digitalWrite(secondPin, LOW); 
-    microDelay(1000 - mDelay - lDelay);
+    microDelay(timeBase - mDelay - lDelay);
   }
   else if (bluePinOn && !redPinOn)
   {
     digitalWrite(bluePin, HIGH);
     microDelay(blueBright*1000/100);
     digitalWrite(bluePin, LOW);
-    microDelay(1000 - blueBright*1000/100);
+    microDelay(timeBase - blueBright*1000/100);
   }
   else if (redPinOn && !bluePinOn)
   {
     digitalWrite(redPin, HIGH); 
     microDelay(redBright*1000/100);
     digitalWrite(redPin, LOW);
-    microDelay(1000 - redBright*1000/100);
+    microDelay(timeBase - redBright*1000/100);
   }
   else
   {
@@ -197,30 +198,40 @@ void Lighting()
     digitalWrite(redPinOn, LOW); 
   }
 }
-
+// главный цикл микропрограммы
 void loop()
 {
+  // если статус системы установлен в 0x00
+  // то она находится в режиме ожидания команд
   if (sketchStatus == 0x00)
   {
     int num = 0;
+    //цикл чтения состояния последовательного порта
     do
     {
       num =  Serial.available();
       Lighting();
     }
+    // выполняется до тех пор, пока число прочитанных байт
+    // равно нулю
     while (num == 0);
-    // read num bytes from serinal
+    
+    // считываем все байты из последовательного порта
     for(int i = 0; i < num; i++)
     {
       int v = Serial.read();
-      // We consider the first byte as a command, 
-      // and ignore the rest
+      // рассматриваем в качестве команды только 
+      // первый байт и присваиваем его значение в 
+      // переменную статуса системы
       if (i == 0)
         sketchStatus = v;     
     }
   }
   else
+  // если статус системы отличен от нулевого, рассматриваем 
+  // вновь пришедший статус. 
   {
+    
     if (sketchStatus != 0x01)
     {
       unsigned char s_status = 0x0F & sketchStatus;

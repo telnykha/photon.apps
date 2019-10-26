@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{71A1FA82-E80E-4815-A33C-1063FF7E5A34}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="OCRdemo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="OCRdemo">
+        <MSBuild Projects="OCRdemo.cbproj"/>
+    </Target>
+    <Target Name="OCRdemo:Clean">
+        <MSBuild Projects="OCRdemo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OCRdemo:Make">
+        <MSBuild Projects="OCRdemo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="OCRdemo;photon41"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="OCRdemo:Clean;photon41:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="OCRdemo:Make;photon41:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

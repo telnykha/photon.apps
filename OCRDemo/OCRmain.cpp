@@ -14,9 +14,8 @@
 #pragma link "PhPaneTool"
 #pragma link "PhSelectRectTool"
 #pragma link "PhZoomToRectTool"
-#pragma link "tesswrapper.lib"
+#pragma link "tesswrapperb.lib"
 #pragma link "awpipl2b.lib"
-#pragma link "DIBImage41"
 
 #pragma resource "*.dfm"
 TForm2 *Form2;
@@ -286,7 +285,7 @@ void __fastcall TForm2::OCRhelper()
         return;
     }
 
-    awpImage* img = NULL;
+    awpImage* img = PhImage1- ;
     dib->GetAWPImage(&img);
     awpResize(img, 128, img->sSizeY*128/img->sSizeX);
     awpConvert(img, AWP_CONVERT_3TO1_BYTE);

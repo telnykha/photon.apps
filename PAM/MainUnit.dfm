@@ -2,8 +2,8 @@
   Left = 0
   Top = 0
   Caption = 'P.A.M.'
-  ClientHeight = 542
-  ClientWidth = 784
+  ClientHeight = 536
+  ClientWidth = 790
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,8 +20,8 @@
   TextHeight = 13
   object Splitter4: TSplitter
     Left = 0
-    Top = 416
-    Width = 784
+    Top = 410
+    Width = 790
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -31,7 +31,7 @@
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 784
+    Width = 790
     Height = 81
     Align = alTop
     TabOrder = 0
@@ -265,8 +265,8 @@
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 523
-    Width = 784
+    Top = 517
+    Width = 790
     Height = 19
     Panels = <
       item
@@ -279,8 +279,8 @@
   end
   object Memo2: TMemo
     Left = 0
-    Top = 419
-    Width = 784
+    Top = 413
+    Width = 790
     Height = 104
     Align = alBottom
     Color = clBlack
@@ -296,21 +296,19 @@
   object PageControl1: TPageControl
     Left = 0
     Top = 81
-    Width = 784
-    Height = 335
+    Width = 790
+    Height = 329
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
-    ExplicitHeight = 272
     object TabSheet1: TTabSheet
       Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
-      ExplicitHeight = 310
       object StringGrid1: TStringGrid
         Left = 0
         Top = 41
-        Width = 776
-        Height = 266
+        Width = 782
+        Height = 260
         Align = alClient
         ColCount = 4
         FixedCols = 0
@@ -320,7 +318,6 @@
         PopupMenu = PopupMenu1
         TabOrder = 0
         OnDblClick = StringGrid1DblClick
-        ExplicitHeight = 269
         ColWidths = (
           498
           108
@@ -330,7 +327,7 @@
       object Panel4: TPanel
         Left = 0
         Top = 0
-        Width = 776
+        Width = 782
         Height = 41
         Align = alTop
         ParentBackground = False
@@ -407,12 +404,11 @@
     object TabSheet2: TTabSheet
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1082#1086#1076' Arduino'
       ImageIndex = 1
-      ExplicitHeight = 310
       object Memo1: TMemo
         Left = 0
         Top = 0
-        Width = 776
-        Height = 307
+        Width = 782
+        Height = 301
         Align = alClient
         Color = clNavy
         Font.Charset = DEFAULT_CHARSET
@@ -426,36 +422,30 @@
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitHeight = 310
       end
     end
     object TabSheet3: TTabSheet
       Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
       ImageIndex = 2
       OnShow = TabSheet3Show
-      ExplicitHeight = 310
       object PhImage1: TPhImage
         Left = 216
         Top = 0
-        Width = 560
-        Height = 307
+        Width = 566
+        Height = 301
         ThumbWidht = 128
         ThumbHeight = 128
         SlideShowInterval = 500
         Align = alClient
         ParentColor = False
-        ExplicitLeft = 153
-        ExplicitWidth = 623
-        ExplicitHeight = 310
       end
       object Panel3: TPanel
         Left = 0
         Top = 0
         Width = 216
-        Height = 307
+        Height = 301
         Align = alLeft
         TabOrder = 1
-        ExplicitHeight = 310
         object GroupBox2: TGroupBox
           AlignWithMargins = True
           Left = 4
@@ -465,7 +455,6 @@
           Align = alTop
           Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1074#1090#1100' 660 nm'
           TabOrder = 0
-          ExplicitWidth = 145
           object TrackBar2: TTrackBar
             AlignWithMargins = True
             Left = 5
@@ -480,7 +469,6 @@
             TabOrder = 0
             TickMarks = tmBoth
             OnChange = TrackBar2Change
-            ExplicitWidth = 135
           end
         end
         object Button1: TButton
@@ -493,7 +481,6 @@
           Caption = #1057#1076#1077#1083#1072#1090#1100' '#1089#1085#1080#1084#1086#1082
           TabOrder = 1
           OnClick = Button1Click
-          ExplicitWidth = 145
         end
         object GroupBox1: TGroupBox
           AlignWithMargins = True
@@ -504,7 +491,6 @@
           Align = alTop
           Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103
           TabOrder = 2
-          ExplicitWidth = 145
           object TrackBar1: TTrackBar
             AlignWithMargins = True
             Left = 5
@@ -519,7 +505,6 @@
             TabOrder = 0
             TickMarks = tmBoth
             OnChange = TrackBar1Change
-            ExplicitWidth = 135
           end
           object ComboBox1: TComboBox
             AlignWithMargins = True
@@ -548,7 +533,6 @@
           Align = alTop
           Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1074#1090#1100' 460 nm'
           TabOrder = 3
-          ExplicitLeft = 2
           object TrackBar3: TTrackBar
             AlignWithMargins = True
             Left = 5
@@ -563,7 +547,6 @@
             TabOrder = 0
             TickMarks = tmBoth
             OnChange = TrackBar3Change
-            ExplicitWidth = 135
           end
         end
       end
@@ -571,11 +554,10 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
-      ExplicitHeight = 310
       object Splitter3: TSplitter
         Left = 179
         Top = 0
-        Height = 307
+        Height = 301
         ExplicitLeft = 192
         ExplicitTop = 144
         ExplicitHeight = 100
@@ -584,10 +566,9 @@
         Left = 0
         Top = 0
         Width = 179
-        Height = 307
+        Height = 301
         Align = alLeft
         TabOrder = 0
-        ExplicitHeight = 310
         object Splitter1: TSplitter
           Left = 1
           Top = 193
@@ -612,42 +593,37 @@
           Left = 1
           Top = 196
           Width = 177
-          Height = 91
+          Height = 85
           Align = alClient
           ItemHeight = 13
           Mask = '*.raw'
           TabOrder = 1
           OnChange = FileListBox1Change
-          ExplicitHeight = 94
         end
         object DriveComboBox1: TDriveComboBox
           Left = 1
-          Top = 287
+          Top = 281
           Width = 177
           Height = 19
           Align = alBottom
           DirList = DirectoryListBox1
           TabOrder = 2
-          ExplicitTop = 290
         end
       end
       object Panel5: TPanel
         Left = 182
         Top = 0
-        Width = 594
-        Height = 307
+        Width = 600
+        Height = 301
         Align = alClient
         BevelOuter = bvNone
         Caption = 'Panel5'
         TabOrder = 1
-        ExplicitLeft = 256
-        ExplicitWidth = 520
-        ExplicitHeight = 310
         object Splitter2: TSplitter
-          Left = 324
+          Left = 330
           Top = 0
           Width = 4
-          Height = 307
+          Height = 301
           Align = alRight
           ExplicitLeft = 204
           ExplicitHeight = 310
@@ -655,23 +631,19 @@
         object PhImage2: TPhImage
           Left = 0
           Top = 0
-          Width = 324
-          Height = 307
+          Width = 330
+          Height = 301
           ThumbWidht = 128
           ThumbHeight = 128
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
-          ExplicitLeft = 91
-          ExplicitTop = -2
-          ExplicitWidth = 237
-          ExplicitHeight = 310
         end
         object StringGrid2: TStringGrid
-          Left = 328
+          Left = 334
           Top = 0
           Width = 266
-          Height = 307
+          Height = 301
           Align = alRight
           ColCount = 4
           DefaultColWidth = 32
@@ -688,8 +660,6 @@
           PopupMenu = PopupMenu1
           TabOrder = 1
           OnClick = StringGrid2Click
-          ExplicitLeft = 331
-          ExplicitHeight = 310
           ColWidths = (
             228
             47

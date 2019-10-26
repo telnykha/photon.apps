@@ -693,6 +693,8 @@ void   __fastcall TmainPAM::StopVideo()
 
 void __fastcall TmainPAM::SetFrame(int width, int height, unsigned char* data, int cameraID)
 {
+    Memo2->Lines->Add(L"TmainPAM::SetFrame");
+
     int bits = 1;//this->m_pInitFile->inputData;
     int type = bits == 0 ? AWP_BYTE:AWP_DOUBLE;
     int size = bits == 0 ? sizeof(AWPBYTE):sizeof(AWPDOUBLE);
@@ -716,7 +718,10 @@ void __fastcall TmainPAM::SetFrame(int width, int height, unsigned char* data, i
 
        }
         if (m_archive != NULL)
+        {
+          //  Memo2->Lines->Add("INFO: Picture ready. Save picture.");
             m_archive->SavePicture(img);
+        }
         awpReleaseImage(&img);
     }
 
