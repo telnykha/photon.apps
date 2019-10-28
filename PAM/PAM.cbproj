@@ -120,10 +120,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.0.31;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.0.32;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
-        <VerInfo_Build>31</VerInfo_Build>
+        <VerInfo_Build>32</VerInfo_Build>
         <Icon_MainIcon>PAM_Icon.ico</Icon_MainIcon>
         <PostBuildEvent><![CDATA[copy setupdll\*.* .\$(Platform)\$(Config)
 mkdir .\$(Platform)\$(Config)\sketch_jul18b

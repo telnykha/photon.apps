@@ -23,7 +23,6 @@ __published:
 	TLabel *Label1;
 	TComboBox *ComboBox1;
 	TLabel *Label2;
-	TComboBox *ComboBox2;
 	TLabel *Label3;
 	TSpinEdit *SpinEdit1;
 	TLabel *Label4;

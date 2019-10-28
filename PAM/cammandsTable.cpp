@@ -131,7 +131,7 @@ void __fastcall TCommandsTable::AddRecord(TeditorDlg* dlg)
         // (2) insert contents of the trailing rows
         expEvent* e = new(expEvent);
         e->command    = dlg->ComboBox1->ItemIndex;
-		e->pinStatus  = dlg->ComboBox2->ItemIndex;
+		e->pinStatus  = dlg->SpinEdit2->Value;
         e->pinDelay   = dlg->SpinEdit1->Value;
         m_list->Add(e);
       }

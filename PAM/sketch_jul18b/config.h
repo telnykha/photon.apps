@@ -1,22 +1,36 @@
-    #define TURNON460 1                   
-    #define TURNON660 2                   
-    #define TURNON_CAM_660  3       
-    #define TURNON_CAM 4                
-    #define TURN_OFF   5                    
- #define TURNON_CAM_460   6 
- #define TURNON_CAM_460_ACT 7
- #define TURNON460_ACT 8               
-    const int progSize =11;
-    expEvent Events[progSize] = {
-{TURN_OFF,HIGH,1000},
-{TURNON_CAM,HIGH,1000},
-{TURNON460,HIGH,100},
-{TURNON_CAM_660,HIGH,100},
-{TURNON460,HIGH,10},
-{TURNON_CAM,HIGH,1000},
-{TURNON_CAM,HIGH,1000},
-{TURNON_CAM,HIGH,1000},
-{TURNON_CAM,HIGH,1000},
-{TURNON_CAM_660,HIGH,1000},
-{TURNON460,HIGH,5000},
+	#define TURNON460 1                 
+	#define TURNON660 2                 
+	#define TURNON_CAM_660  3       	
+	#define TURNON_CAM 4                
+	#define TURN_OFF   5                
+	#define TURNON_CAM_460   6          
+	#define TURNON_CAM_460_ACT   7          
+	#define TURNON460_ACT   8          
+	const int progSize =24;
+	expEvent Events[progSize] = {
+{TURN_OFF,0,1000},
+{TURNON460,100,1000},
+{TURNON460,90,1000},
+{TURNON460,80,1000},
+{TURNON460,70,1000},
+{TURNON460,60,1000},
+{TURNON460,50,1000},
+{TURNON460,40,1000},
+{TURNON460,30,1000},
+{TURNON460,20,1000},
+{TURNON460,10,1000},
+{TURNON460,0,1000},
+{TURNON460_ACT,100,1000},
+{TURNON460_ACT,90,1000},
+{TURNON460_ACT,80,1000},
+{TURNON460_ACT,70,1000},
+{TURNON460_ACT,60,1000},
+{TURNON460_ACT,50,1000},
+{TURNON460_ACT,40,1000},
+{TURNON460_ACT,30,1000},
+{TURNON460_ACT,20,1000},
+{TURNON460_ACT,10,1000},
+{TURNON460_ACT,0,1000},
+{TURN_OFF,0,1000},
 };
+const int exposure = 250;

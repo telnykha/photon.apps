@@ -29,7 +29,7 @@ void __fastcall TPAMArchive::CreateArchiveEntry(TCommandsTable* table)
     for (int i = 0; i < m_table->list->Count; i++)
     {
         expEvent* event = (expEvent*)m_table->list->Items[i];
-        if (event->command == 2 || event->command == 3 || event->command == 5)
+        if (event->command == 2 || event->command == 3 || event->command == 5 || event->command == 6)
             m_indexes.push_back(i);
     }
 //    table->SaveTable(_ansi.c_str());
@@ -113,8 +113,9 @@ void TPAMArchive::SavePicture(awpImage* image)
     AnsiString str =  m_currentPath;
     DWORD t = ::GetTickCount();
     str += IntToStr((__int64)t);
-
-    AnsiString strName = str;
+	str += "_";
+	str += IntToStr(m_counter);
+	AnsiString strName = str;
     strName += ".txt";
 
     FILE* f = fopen(strName.c_str(), "w+t");
@@ -125,18 +126,14 @@ void TPAMArchive::SavePicture(awpImage* image)
 	strName = str;
     strName += ".raw";
 
-	//awpImage* tmp = NULL;
-	//awpCopyImage(image, &tmp);
-	//awpConvert(tmp, AWP_CONVERT_TO_FLOAT);
 	AWPFLOAT* d = (AWPFLOAT*)image->pPixels;
 
 	f = fopen(strName.c_str(), "w+b");
 	fwrite(d, image->sSizeX*image->sSizeY*sizeof(AWPFLOAT), 1, f);
 	fclose(f);
-	//awpReleaseImage(&tmp);
 
     expEvent* event = (expEvent*)m_table->list->Items[m_indexes[m_counter]];
-    m_counter++;
+	m_counter++;
     event->imageName = ExtractFileName(strName);
 
 }

@@ -1,8 +1,6 @@
-
 const int redPin  = 13;       /*номер порта для красного светодиода*/
 const int bluePin = 12;       /*номер порта для синего светодиода*/
 const int camPin  = 11;       /*номер порта для камеры*/
-const int timeBase = 1000;    /*базовое время системы*/
 unsigned char sketchStatus = 0x00;      /*Глобальная переменная. Статус программы. 0 - ожидание, 1 - эксперимент*/
 int counter = 0;              /*Счетчик текущих событий эксперимента*/
 
@@ -56,18 +54,32 @@ void DoCommand(int cammand, int value, unsigned long timeDelay)
     case TURNON_CAM_460:
         BlueFlashWithCamera(timeDelay, value);
       break;
+
     case TURNON_CAM:
-        DarkFrame(timeDelay);
+      {
+        digitalWrite(redPin, LOW);
+        digitalWrite(bluePin, LOW);
+        
+        digitalWrite(camPin, HIGH);
+        microDelay(timeDelay);
+        digitalWrite(camPin, LOW);
+      }
       break;
     case TURN_OFF:
-        TurnOff(timeDelay);
+      {
+        digitalWrite(camPin, LOW);
+        digitalWrite(redPin, LOW);
+        digitalWrite(bluePin, LOW);
+        microDelay(timeDelay);
+      }
       break;
-    case TURNON_CAM_460_ACT:
-        BlueFlashWithCameraAct(timeDelay, value);
-    break;
-    case TURNON460_ACT:
+      case TURNON_CAM_460_ACT:
+        //BlueFlashWithCameraAct(timeDelay, value);
+        BlueFlashWithCamera(timeDelay, value);
+      break;
+      case TURNON460_ACT:
         BlueFlashAct(timeDelay, value);
-    break;
+      break;
   }
 }
 
@@ -98,13 +110,27 @@ void Porcess()
 //Flash blue LED brightness aBrightness and time aTime
 void BlueFlash(unsigned long aTime, int aBrightness)
 {
+    int t1 =  10*aBrightness;
     unsigned long t = micros();
     while(micros() - t < aTime)
     {
       digitalWrite(bluePin, HIGH);
-      microDelay(aBrightness*10);
+      microDelay(t1);
       digitalWrite(bluePin, LOW);
-      microDelay(timeBase - aBrightness*10);
+      microDelay(1000 - t1);
+    }
+}
+
+void BlueFlashAct(unsigned long aTime, int aBrightness)
+{
+    int t1=aBrightness; 
+    unsigned long t = micros();
+    while(micros() - t < aTime)
+    {
+      digitalWrite(bluePin, HIGH);
+      microDelay(t1);
+      digitalWrite(bluePin, LOW);
+      microDelay(1000 - t1);
     }
 }
 
@@ -117,7 +143,7 @@ void RedFlash(unsigned long aTime, int aBrightness)
       digitalWrite(redPin, HIGH);
       microDelay(aBrightness*10);
       digitalWrite(redPin, LOW);
-      microDelay(timeBase - aBrightness*10);
+      microDelay(1000 - aBrightness*10);
     }
 }
 
@@ -132,7 +158,7 @@ void RedFlashWithCamera(unsigned long aTime, int aBrightness)
       digitalWrite(camPin, HIGH);
       microDelay(aBrightness*10);
       digitalWrite(redPin, LOW);
-      microDelay(timeBase - aBrightness*10);
+      microDelay(1000 - aBrightness*10);
     }
     digitalWrite(camPin, LOW);
 }
@@ -141,6 +167,13 @@ void RedFlashWithCamera(unsigned long aTime, int aBrightness)
 // switch on camera 
 void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
 {
+   digitalWrite(camPin, HIGH);
+   digitalWrite(bluePin, HIGH);
+   microDelay(exposure);
+   digitalWrite(bluePin, LOW);
+   digitalWrite(camPin, LOW);
+   BlueFlash(aTime - exposure, aBrightness); 
+/*    
     unsigned long t = micros();
     while(micros() - t < aTime)
     {
@@ -148,41 +181,23 @@ void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
       digitalWrite(camPin, HIGH);
       microDelay(aBrightness*10);
       digitalWrite(bluePin, LOW);
-      microDelay(timeBase - aBrightness*10);
+      microDelay(1000 - aBrightness*10);
     }
     digitalWrite(camPin, LOW);
+*/
 }
 
-//Dark frame 
-void DarkFrame(int timeDelay)
-{
-  digitalWrite(redPin, LOW);
-  digitalWrite(bluePin, LOW);
-  
-  digitalWrite(camPin, HIGH);
-  microDelay(timeDelay);
-  digitalWrite(camPin, LOW);  
-}
-
-// turn off
-void TurnOff(int timeDelay)
-{
-  digitalWrite(camPin, LOW);
-  digitalWrite(redPin, LOW);
-  digitalWrite(bluePin, LOW);
-  microDelay(timeDelay);  
-}
-
+// Flash blue LED brightness aBrightness and time aTime
+// switch on camera 
 void BlueFlashWithCameraAct(unsigned long aTime, int aBrightness)
 {
-  //
+   digitalWrite(camPin, HIGH);
+   digitalWrite(bluePin, HIGH);
+   microDelay(exposure);
+   digitalWrite(bluePin, LOW);
+   digitalWrite(camPin, LOW);
+   BlueFlashAct(aTime - exposure, aBrightness); 
 }
-
-void BlueFlashAct(unsigned long aTime, int aBrightness)
-{
-  //
-}
-
 void Lighting()
 {
   if (bluePinOn && redPinOn)
@@ -199,21 +214,21 @@ void Lighting()
     digitalWrite(firstPin, LOW); 
     microDelay(lDelay );
     digitalWrite(secondPin, LOW); 
-    microDelay(timeBase - mDelay - lDelay);
+    microDelay(1000 - mDelay - lDelay);
   }
   else if (bluePinOn && !redPinOn)
   {
     digitalWrite(bluePin, HIGH);
     microDelay(blueBright*1000/100);
     digitalWrite(bluePin, LOW);
-    microDelay(timeBase - blueBright*1000/100);
+    microDelay(1000 - blueBright*1000/100);
   }
   else if (redPinOn && !bluePinOn)
   {
     digitalWrite(redPin, HIGH); 
     microDelay(redBright*1000/100);
     digitalWrite(redPin, LOW);
-    microDelay(timeBase - redBright*1000/100);
+    microDelay(1000 - redBright*1000/100);
   }
   else
   {
@@ -221,40 +236,30 @@ void Lighting()
     digitalWrite(redPinOn, LOW); 
   }
 }
-// главный цикл микропрограммы
+
 void loop()
 {
-  // если статус системы установлен в 0x00
-  // то она находится в режиме ожидания команд
   if (sketchStatus == 0x00)
   {
     int num = 0;
-    //цикл чтения состояния последовательного порта
     do
     {
       num =  Serial.available();
       Lighting();
     }
-    // выполняется до тех пор, пока число прочитанных байт
-    // равно нулю
     while (num == 0);
-    
-    // считываем все байты из последовательного порта
+    // read num bytes from serinal
     for(int i = 0; i < num; i++)
     {
       int v = Serial.read();
-      // рассматриваем в качестве команды только 
-      // первый байт и присваиваем его значение в 
-      // переменную статуса системы
+      // We consider the first byte as a command, 
+      // and ignore the rest
       if (i == 0)
         sketchStatus = v;     
     }
   }
   else
-  // если статус системы отличен от нулевого, рассматриваем 
-  // вновь пришедший статус. 
   {
-    
     if (sketchStatus != 0x01)
     {
       unsigned char s_status = 0x0F & sketchStatus;

@@ -603,7 +603,7 @@ void __fastcall TmainPAM::editEditActionExecute(TObject *Sender)
     assert(e != NULL);
 
     editorDlg->ComboBox1->ItemIndex = e->command;
-	editorDlg->ComboBox2->ItemIndex = e->pinStatus;
+	editorDlg->SpinEdit2->Value = e->pinStatus;
     editorDlg->SpinEdit1->Value = e->pinDelay;
     editorDlg->Edit1->Text = StringGrid1->Cells[4][StringGrid1->Row];
 
@@ -711,7 +711,7 @@ void __fastcall TmainPAM::SetFrame(int width, int height, unsigned char* data, i
 			   value |= v2;
 			   dst[i] = (AWPFLOAT)value;
 			   i++;
-           }
+		   }
 
        }
         if (m_archive != NULL)

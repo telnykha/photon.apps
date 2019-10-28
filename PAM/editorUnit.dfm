@@ -86,20 +86,6 @@ object editorDlg: TeditorDlg
       #1048#1079#1084#1077#1088#1080#1090#1077#1083#1100#1085#1099#1081' '#1082#1072#1076#1088' '#1074' '#1072#1082#1090#1080#1085#1080#1095#1085#1086#1084' '#1089#1074#1077#1090#1077
       #1040#1082#1090#1080#1085#1080#1095#1085#1099#1081' '#1089#1074#1077#1090' (460 nm)')
   end
-  object ComboBox2: TComboBox
-    Left = 16
-    Top = 80
-    Width = 265
-    Height = 21
-    Style = csDropDownList
-    ItemIndex = 0
-    TabOrder = 3
-    Text = #1042#1099#1089#1086#1082#1072#1103
-    Items.Strings = (
-      #1042#1099#1089#1086#1082#1072#1103
-      #1057#1088#1077#1076#1085#1103#1103
-      #1053#1080#1079#1082#1072#1103)
-  end
   object SpinEdit1: TSpinEdit
     Left = 16
     Top = 128
@@ -107,7 +93,7 @@ object editorDlg: TeditorDlg
     Height = 22
     MaxValue = 100000
     MinValue = 1
-    TabOrder = 4
+    TabOrder = 3
     Value = 10
   end
   object Edit1: TEdit
@@ -115,17 +101,17 @@ object editorDlg: TeditorDlg
     Top = 176
     Width = 265
     Height = 21
-    TabOrder = 5
+    TabOrder = 4
   end
   object SpinEdit2: TSpinEdit
-    Left = 136
-    Top = 128
+    Left = 16
+    Top = 81
     Width = 100
     Height = 22
     Increment = 10
     MaxValue = 100
     MinValue = 0
-    TabOrder = 6
+    TabOrder = 5
     Value = 10
   end
 end
