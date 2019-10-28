@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<pam exposure="250">
+    <pam_entry command="4" status="0" delay="1000" comment="" image="" />
+    <pam_entry command="0" status="100" delay="1000" comment="" image="" />
+    <pam_entry command="0" status="90" delay="1000" comment="" image="1133185421_1.raw" />
+    <pam_entry command="0" status="80" delay="1000" comment="" image="1133185484_2.raw" />
+    <pam_entry command="0" status="70" delay="1000" comment="" image="1133185546_3.raw" />
+    <pam_entry command="0" status="60" delay="1000" comment="" image="1133185593_4.raw" />
+    <pam_entry command="0" status="50" delay="1000" comment="" image="1133185671_5.raw" />
+    <pam_entry command="0" status="40" delay="1000" comment="" image="1133185734_6.raw" />
+    <pam_entry command="0" status="30" delay="1000" comment="" image="1133185781_7.raw" />
+    <pam_entry command="0" status="20" delay="1000" comment="" image="1133185843_8.raw" />
+    <pam_entry command="0" status="10" delay="1000" comment="" image="1133185906_9.raw" />
+    <pam_entry command="0" status="0" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="100" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="90" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="80" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="70" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="60" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="50" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="40" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="30" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="20" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="10" delay="1000" comment="" image="" />
+    <pam_entry command="7" status="0" delay="1000" comment="" image="" />
+    <pam_entry command="4" status="0" delay="1000" comment="" image="" />
+</pam>
