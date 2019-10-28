@@ -248,7 +248,7 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
     this->SpeedButton11->Caption = L"";
     this->SpeedButton12->Caption = L"";
 
-    m_table = new TCommandsTable(this->StringGrid1);
+	m_table = new TCommandsTable(this->StringGrid1);
     m_tableArchive = new TCommandsTable(this->StringGrid2);
 
     m_numCameras = BUFCCDUSB_InitDevice();
@@ -265,7 +265,8 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
         BUFCCDUSB_StartCameraEngine(this->Handle, 12);
 
         ComboBox1->ItemIndex = m_options.exploshureIndex;
-        TrackBar1->Position = m_options.exploshureValue;
+		TrackBar1->Position = m_options.exploshureValue;
+
     }
 }
 //---------------------------------------------------------------------------
@@ -378,10 +379,11 @@ void __fastcall TmainPAM::fileNewActionExecute(TObject *Sender)
 
 void __fastcall TmainPAM::fileOpenActionExecute(TObject *Sender)
 {
-    if (OpenDialog1->Execute())
+	if (OpenDialog1->Execute())
     {
         AnsiString str = OpenDialog1->FileName.c_str();
-        m_table->LoadTable(str.c_str());
+		m_table->LoadTable(str.c_str());
+		this->ExploshureTimeMks(m_table->exposure);
         PageControl1->TabIndex = 0;
     }
 }
@@ -512,8 +514,6 @@ void __fastcall TmainPAM::deviceExperimentActionUpdate(TObject *Sender)
 
 void __fastcall TmainPAM::toolsOptionsActionExecute(TObject *Sender)
 {
-    // todo: setup options
-//    TPAMOptions options;
     OptionsDlg->CheckBox1->Checked = m_options.OpenArchive;
     OptionsDlg->DirectoryListBox1->Directory = m_options.ArchivePath;
     if (OptionsDlg->ShowModal() == mrOk)
@@ -572,7 +572,7 @@ void __fastcall TmainPAM::editInsertActionExecute(TObject *Sender)
 {
     if (editorDlg->ShowModal() == mrOk)
     {
-        //todo: добавить новую команду
+		//todo: добавить новую команду
         m_table->AddRecord(editorDlg);
     }
 }
@@ -603,7 +603,7 @@ void __fastcall TmainPAM::editEditActionExecute(TObject *Sender)
     assert(e != NULL);
 
     editorDlg->ComboBox1->ItemIndex = e->command;
-    editorDlg->ComboBox2->ItemIndex = e->pinStatus;
+	editorDlg->ComboBox2->ItemIndex = e->pinStatus;
     editorDlg->SpinEdit1->Value = e->pinDelay;
     editorDlg->Edit1->Text = StringGrid1->Cells[4][StringGrid1->Row];
 
@@ -634,7 +634,7 @@ void   __fastcall TmainPAM::AskSaveTable()
         MB_YESNO | MB_ICONQUESTION) == IDYES)
         {
            // сохран€ем изменени€.
-           if (m_table->fileName == c_FileName)
+		   if (m_table->fileName == c_FileName)
               fileSaveAsActionExecute(NULL);
            else
               m_table->Save();
@@ -690,37 +690,33 @@ void   __fastcall TmainPAM::StopVideo()
     deviceVideocamAction->Checked = false;
     BUFCCDUSB_StopFrameGrab();
 }
-
+//запись в архив
 void __fastcall TmainPAM::SetFrame(int width, int height, unsigned char* data, int cameraID)
 {
-    Memo2->Lines->Add(L"TmainPAM::SetFrame");
+	Memo2->Lines->Add(L"TmainPAM::SetFrame");
 
-    int bits = 1;//this->m_pInitFile->inputData;
-    int type = bits == 0 ? AWP_BYTE:AWP_DOUBLE;
-    int size = bits == 0 ? sizeof(AWPBYTE):sizeof(AWPDOUBLE);
     awpImage* img = NULL;
-    if (cameraID == 1)
+	if (cameraID == 1)
     {
-       awpCreateImage(&img, width, height, 1, AWP_BYTE);
-       AWPBYTE* dst = (AWPBYTE*)img->pPixels;
+	   awpCreateImage(&img, width, height, 1, AWP_FLOAT);
+	   AWPFLOAT* dst = (AWPFLOAT*)img->pPixels;
        int x,y, i=0;
        for (x = 0; x < width; x++)
        {
-           for (y = 0; y < height; y++)
+		   for (y = 0; y < height; y++)
            {
-               AWPWORD value = data[2*y + 2*x*height+ 1];
+			   AWPWORD value = data[2*y + 2*x*height+ 1];
                AWPWORD v2 = data[2*y + 2*x*height];
                v2 = v2 << 4;
-               value |= v2;
-               dst[i] = 255*(float)value/4096.;
-               i++;
+			   value |= v2;
+			   dst[i] = (AWPFLOAT)value;
+			   i++;
            }
 
        }
         if (m_archive != NULL)
         {
-          //  Memo2->Lines->Add("INFO: Picture ready. Save picture.");
-            m_archive->SavePicture(img);
+			m_archive->SavePicture(img);
         }
         awpReleaseImage(&img);
     }
@@ -729,7 +725,7 @@ void __fastcall TmainPAM::SetFrame(int width, int height, unsigned char* data, i
     UnicodeString s = TPAMArchive::GetCurrentTime();
     StatusBar1->Panels->Items[0]->Text = s;
 }
-
+// предварительный просмотр.
 void __fastcall TmainPAM::PreviewFrame(int width, int height, unsigned char* data, int cameraID)
 {
     int bits = 1;//this->m_pInitFile->inputData;
@@ -758,25 +754,71 @@ void __fastcall TmainPAM::PreviewFrame(int width, int height, unsigned char* dat
         awpReleaseImage(&img);
     }
 }
+
+/*
+User may set the exposure time by invoking this function.
+Argument: DeviceNo Ц the device number which identifies the camera will be operated.
+exposureTime Ц the Exposure Time is set in 50 Microsecond UNIT, e.g. if itТs 4,
+the exposure time of the camera will be set to 200us. The valid range of exposure
+time is 50us Ц 200,000ms, So the exposure time value here is from 1 Ц 4000,000.
+Return:  -1 If the function fails (e.g. invalid device number)                  1
+if the call succeeds. Note: Although the minimum exposure time can be set to 50us,
+camera might revise it to a minimum achievable exposure time in firmware,
+the minimum achievable exposure time of a certain camera is related to its current
+mode (NORMAL or TRIGGER) and its current CCD main clock (frequency).
+Basically, for CCX cameras, when CCD frequency is 28MHz (default),
+the minimum ET is: NORMAL Mode: 1 Row Time (~68us) TRIGGER Mode: 3 Row Times (~200us)
+With slower CCD frequency, the minimum achievable ET is increased proportionally
+*/
 const double c_expLimit[5] = {5, 10, 100, 200, 300};
 double __fastcall TmainPAM::ExploshureTime(int index, int pos)
 {
-    double result = c_expLimit[index] / 10;
+	double result = c_expLimit[index] / 20.;
     double delta = (c_expLimit[index] - result) / 100.;
     result += pos*delta;
-    GroupBox1->Caption = L"Ёкспозици€ " + FormatFloat("000.00 мс", result);
-    for (int i = 0; i < m_numCameras; i++)
+	GroupBox1->Caption = L"Ёкспозици€ " + FormatFloat("000.00 мс", result);
+	Memo2->Lines->Add("Exposure time = " + FormatFloat("###.### ms" , result) + " units = " + IntToStr((int)(result*1000/50)));
+	for (int i = 0; i < m_numCameras; i++)
     {
-        BUFCCDUSB_SetExposureTime(m_camera, result*1000/50);
-    }
+		BUFCCDUSB_SetExposureTime(m_camera, result*1000/50);
+	}
+	if (m_table != NULL)
+        m_table->exposure = (int)(result*1000);
     return result;
+}
+double __fastcall TmainPAM::ExploshureTimeMks(int mks)
+{
+	int v = mks / 50;
+	BUFCCDUSB_SetExposureTime(m_camera, v);
+	TNotifyEvent e1 = this->ComboBox1->OnChange;
+	TNotifyEvent e2 = this->TrackBar1->OnChange;
+
+	this->ComboBox1->OnChange = NULL;
+	this->TrackBar1->OnChange = NULL;
+
+	int i, comboIndex = 0;
+	v = mks / 1000;
+	for (i = 0; i < 5; i++)
+		if ( v < c_expLimit[i])
+			break;
+	comboIndex = i;
+
+	int pos = 0;
+
+	this->ComboBox1->ItemIndex = comboIndex;
+	int delta = c_expLimit[comboIndex] - v;
+
+
+	this->ComboBox1->OnChange = e1;
+	this->TrackBar1->OnChange = e2;
+	return 0;
 }
 
 void __fastcall TmainPAM::ComboBox1Change(TObject *Sender)
 {
 	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
     //TPAMOptions options;
-    m_options.exploshureIndex = ComboBox1->ItemIndex;
+	m_options.exploshureIndex = ComboBox1->ItemIndex;
 }
 //---------------------------------------------------------------------------
 
@@ -1016,5 +1058,7 @@ void __fastcall TmainPAM::StringGrid2Click(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
+
+
 
 

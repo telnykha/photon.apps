@@ -109,21 +109,22 @@ __published:	// IDE-managed Components
 	TMenuItem *N24;
 	TOpenDialog *OpenDialog1;
 	TSaveDialog *SaveDialog1;
-	TGroupBox *GroupBox2;
-	TTrackBar *TrackBar2;
 	TButton *Button1;
 	TPanel *Panel5;
 	TPhImage *PhImage2;
 	TSplitter *Splitter2;
 	TPhPaneTool *PhPaneTool1;
 	TStringGrid *StringGrid2;
+	TSplitter *Splitter3;
+	TSplitter *Splitter4;
+	TPanel *Panel6;
 	TGroupBox *GroupBox1;
 	TTrackBar *TrackBar1;
 	TComboBox *ComboBox1;
 	TGroupBox *GroupBox3;
 	TTrackBar *TrackBar3;
-	TSplitter *Splitter3;
-	TSplitter *Splitter4;
+	TGroupBox *GroupBox2;
+	TTrackBar *TrackBar2;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -189,11 +190,12 @@ private:	// User declarations
     void   __fastcall CheckArduino();
     void   __fastcall StartVideo();
     void   __fastcall StopVideo();
-    double __fastcall ExploshureTime(int index, int pos);
-    void   __fastcall OpenArchivePage(UnicodeString path);
+	double __fastcall ExploshureTime(int index, int pos);
+    double __fastcall ExploshureTimeMks(int mks);
+	void   __fastcall OpenArchivePage(UnicodeString path);
 
-    UnicodeString __fastcall GetSketchPath();
-    void   __fastcall CheckSketch();
+	UnicodeString __fastcall GetSketchPath();
+	void   __fastcall CheckSketch();
 
 public:		// User declarations
 	__fastcall TmainPAM(TComponent* Owner);

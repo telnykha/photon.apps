@@ -28,6 +28,7 @@ __published:
 	TSpinEdit *SpinEdit1;
 	TLabel *Label4;
 	TEdit *Edit1;
+	TSpinEdit *SpinEdit2;
 	void __fastcall ComboBox1Change(TObject *Sender);
 private:
 public:

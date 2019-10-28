@@ -125,15 +125,15 @@ void TPAMArchive::SavePicture(awpImage* image)
 	strName = str;
     strName += ".raw";
 
-    awpImage* tmp = NULL;
-    awpCopyImage(image, &tmp);
-    awpConvert(tmp, AWP_CONVERT_TO_FLOAT);
-    AWPFLOAT* d = (AWPFLOAT*)tmp->pPixels;
+	//awpImage* tmp = NULL;
+	//awpCopyImage(image, &tmp);
+	//awpConvert(tmp, AWP_CONVERT_TO_FLOAT);
+	AWPFLOAT* d = (AWPFLOAT*)image->pPixels;
 
-    f = fopen(strName.c_str(), "w+b");
-    fwrite(d, image->sSizeX*image->sSizeY*sizeof(AWPFLOAT), 1, f);
-    fclose(f);
-    awpReleaseImage(&tmp);
+	f = fopen(strName.c_str(), "w+b");
+	fwrite(d, image->sSizeX*image->sSizeY*sizeof(AWPFLOAT), 1, f);
+	fclose(f);
+	//awpReleaseImage(&tmp);
 
     expEvent* event = (expEvent*)m_table->list->Items[m_indexes[m_counter]];
     m_counter++;

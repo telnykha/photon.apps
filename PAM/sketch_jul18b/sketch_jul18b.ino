@@ -56,25 +56,18 @@ void DoCommand(int cammand, int value, unsigned long timeDelay)
     case TURNON_CAM_460:
         BlueFlashWithCamera(timeDelay, value);
       break;
-
     case TURNON_CAM:
-      {
-        digitalWrite(redPin, LOW);
-        digitalWrite(bluePin, LOW);
-        
-        digitalWrite(camPin, HIGH);
-        microDelay(timeDelay);
-        digitalWrite(camPin, LOW);
-      }
+        DarkFrame(timeDelay);
       break;
     case TURN_OFF:
-      {
-        digitalWrite(camPin, LOW);
-        digitalWrite(redPin, LOW);
-        digitalWrite(bluePin, LOW);
-        microDelay(timeDelay);
-      }
+        TurnOff(timeDelay);
       break;
+    case TURNON_CAM_460_ACT:
+        BlueFlashWithCameraAct(timeDelay, value);
+    break;
+    case TURNON460_ACT:
+        BlueFlashAct(timeDelay, value);
+    break;
   }
 }
 
@@ -158,6 +151,36 @@ void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
       microDelay(timeBase - aBrightness*10);
     }
     digitalWrite(camPin, LOW);
+}
+
+//Dark frame 
+void DarkFrame(int timeDelay)
+{
+  digitalWrite(redPin, LOW);
+  digitalWrite(bluePin, LOW);
+  
+  digitalWrite(camPin, HIGH);
+  microDelay(timeDelay);
+  digitalWrite(camPin, LOW);  
+}
+
+// turn off
+void TurnOff(int timeDelay)
+{
+  digitalWrite(camPin, LOW);
+  digitalWrite(redPin, LOW);
+  digitalWrite(bluePin, LOW);
+  microDelay(timeDelay);  
+}
+
+void BlueFlashWithCameraAct(unsigned long aTime, int aBrightness)
+{
+  //
+}
+
+void BlueFlashAct(unsigned long aTime, int aBrightness)
+{
+  //
 }
 
 void Lighting()

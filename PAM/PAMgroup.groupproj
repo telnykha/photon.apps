@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D0F33513-559E-489A-91C7-126F88AAE3B8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PAM.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon.research\mghtex3\mightex3.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PAM">
+        <MSBuild Projects="PAM.cbproj"/>
+    </Target>
+    <Target Name="PAM:Clean">
+        <MSBuild Projects="PAM.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PAM:Make">
+        <MSBuild Projects="PAM.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="mightex3">
+        <MSBuild Projects="..\..\photon.research\mghtex3\mightex3.cbproj"/>
+    </Target>
+    <Target Name="mightex3:Clean">
+        <MSBuild Projects="..\..\photon.research\mghtex3\mightex3.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mightex3:Make">
+        <MSBuild Projects="..\..\photon.research\mghtex3\mightex3.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PAM;photon41;mightex3"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PAM:Clean;photon41:Clean;mightex3:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PAM:Make;photon41:Make;mightex3:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
