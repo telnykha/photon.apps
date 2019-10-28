@@ -629,7 +629,7 @@ object MainForm: TMainForm
       Left = 1
       Top = 112
       Width = 254
-      Height = 129
+      Height = 123
       BackWall.Brush.Gradient.Direction = gdBottomTop
       BackWall.Brush.Gradient.EndColor = clWhite
       BackWall.Brush.Gradient.StartColor = 15395562
@@ -724,9 +724,9 @@ object MainForm: TMainForm
     end
     object GroupBox2: TGroupBox
       Left = 1
-      Top = 241
+      Top = 235
       Width = 254
-      Height = 331
+      Height = 337
       Align = alClient
       Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099' '#1072#1083#1075#1086#1088#1080#1090#1084#1072
       TabOrder = 2
@@ -976,7 +976,7 @@ object MainForm: TMainForm
       end
       object Memo1: TMemo
         Left = 2
-        Top = 312
+        Top = 318
         Width = 250
         Height = 17
         Align = alBottom
@@ -1021,6 +1021,14 @@ object MainForm: TMainForm
         Caption = #1048#1089#1087#1086#1083#1100#1079#1086#1074#1072#1090#1100' ROI'
         TabOrder = 10
         OnClick = CheckBox3Click
+      end
+      object CheckBox4: TCheckBox
+        Left = 128
+        Top = 289
+        Width = 121
+        Height = 17
+        Caption = #1057#1086#1093#1088#1072#1085#1103#1090#1100' '#1074' BMP'
+        TabOrder = 11
       end
     end
   end
@@ -1337,7 +1345,7 @@ object MainForm: TMainForm
     Left = 152
     Top = 152
     Bitmap = {
-      494C010108001800680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800740010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -4,6 +4,7 @@
 #include "awpipl.h"
 #include "_LF.h"
 #include "CeramArchive.h"
+#include "awpcvvideo.h"
 #pragma hdrstop
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -14,6 +15,7 @@ TCeramArchive::TCeramArchive(const char* path)
     m_pLog       = NULL;
 	m_archive    = "";
 	m_counter = 0;
+    m_bmpFormat = false;
 }
 
 TCeramArchive::~TCeramArchive()
@@ -83,12 +85,13 @@ bool TCeramArchive::AddRecord(TCeramArchiveRecord& record)
 	m_counter++;
     UnicodeString s = DateTimeToStr(Now());
     AnsiString _ansi = s;
- //   UUID _id;
- //   LF_UUID_CREATE(_id)
 	char buf[32];
 	sprintf(buf, "%06d", m_counter);
-	std::string _fn =  buf;//LFGUIDToString(&_id);
-    _fn += ".jpg";
+	std::string _fn =  buf;
+    if (this->m_bmpFormat)
+	    _fn += ".bmp";
+    else
+        _fn += ".jpg";
     std::string _ifn = m_archive.c_str();
     _ifn += "\\";
     _ifn += _fn;
@@ -104,6 +107,7 @@ bool TCeramArchive::AddRecord(TCeramArchiveRecord& record)
     record.angle,
     _fn.c_str()
     );
-    awpSaveImage(_ifn.c_str(), record.img);
+//    awpSaveImage(_ifn.c_str(), record.img);
+    awpcvSaveImage(_ifn.c_str(), record.img);
     return true;
 }

@@ -9,9 +9,6 @@
         <Projects Include="ceramica_client\CeramClient.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="blood\Blood41.cbproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -38,23 +35,14 @@
     <Target Name="CeramClient:Make">
         <MSBuild Projects="ceramica_client\CeramClient.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="Blood41">
-        <MSBuild Projects="blood\Blood41.cbproj"/>
-    </Target>
-    <Target Name="Blood41:Clean">
-        <MSBuild Projects="blood\Blood41.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Blood41:Make">
-        <MSBuild Projects="blood\Blood41.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Ceramica;CeramClient;Blood41"/>
+        <CallTarget Targets="Ceramica;CeramClient"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Ceramica:Clean;CeramClient:Clean;Blood41:Clean"/>
+        <CallTarget Targets="Ceramica:Clean;CeramClient:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Ceramica:Make;CeramClient:Make;Blood41:Make"/>
+        <CallTarget Targets="Ceramica:Make;CeramClient:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

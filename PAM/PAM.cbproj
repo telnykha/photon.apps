@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>PAM.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -61,7 +61,7 @@
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>PAM</SanitizedProjectName>
         <IncludePath>..\..\photon.research\common\;..\common\;..\mt_common\;$(PHOTON41);$(LF);$(AWP);$(TINY);$(PHOTON)\common\Mightex;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;..\mt_common\;D:\_alt\_proj\photon\photon41\photon\lib;$(PHOTON)\common\MighTex;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;..\mt_common\;C:\_alt\_proj\photon\photon41\photon\lib;$(PHOTON)\common\MighTex;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>

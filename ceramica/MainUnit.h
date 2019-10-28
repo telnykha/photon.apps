@@ -167,6 +167,7 @@ __published:	// IDE-managed Components
 	TBevel *Bevel2;
 	TApplicationEvents *ApplicationEvents1;
 	TPhTrackBar *PhTrackBar1;
+	TCheckBox *CheckBox4;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall modeExperimentActionExecute(TObject *Sender);
 	void __fastcall modeExperimentActionUpdate(TObject *Sender);

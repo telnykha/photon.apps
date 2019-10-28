@@ -348,6 +348,7 @@ void __fastcall TMainForm::SetMode(TAction* action)
    Label8->Enabled  = m_modeAction != modeHandAction;
    Label10->Enabled = m_modeAction != modeHandAction;
 
+
     for (int i = 0; i < GroupBox2->ControlCount; i++)
     {
         TControl* c = GroupBox2->Controls[i];
@@ -357,6 +358,7 @@ void __fastcall TMainForm::SetMode(TAction* action)
                 c->Enabled = this->CheckBox3->Checked && m_modeAction == modeHandAction && m_videoSource != NULL;
     }
 
+    CheckBox4->Enabled =  m_modeAction == modeHandAction;
    if (m_modeAction == modeHandAction)
    {
       Reset();
@@ -885,7 +887,7 @@ void __fastcall TMainForm::StartExperiment()
         delete m_archive;
     AnsiString _ansi = Edit2->Text;
     m_archive = new TCeramArchive(_ansi.c_str());
-
+    m_archive->bmpFormat = CheckBox4->Checked;
     TCeramArchiveHeader header;
     header.alfa = m_c.alfa;
     header.bufferSize = m_engine.bufferSize;
@@ -1149,4 +1151,5 @@ void __fastcall TMainForm::PhTrackBar1Change(TObject *Sender)
     }
 }
 //---------------------------------------------------------------------------
+
 

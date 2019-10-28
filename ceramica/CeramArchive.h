@@ -33,11 +33,13 @@ protected:
     std::string m_archive;
 	FILE* m_pLog;
     int m_counter;
+    bool m_bmpFormat;
 public:
     TCeramArchive(const char* path);
     ~TCeramArchive();
     bool Create(TCeramArchiveHeader& header);
     void Close();
     bool AddRecord(TCeramArchiveRecord& record);
+    __property bool bmpFormat = {read = m_bmpFormat, write = m_bmpFormat};
 };
 #endif
