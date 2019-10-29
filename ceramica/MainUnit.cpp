@@ -905,6 +905,23 @@ void __fastcall TMainForm::StopExperiment()
     this->Timer1->Enabled  = false;
     m_archive->Close();
 }
+static void GetCS(unsigned char* buf, unsigned short qty)
+{
+    unsigned short fl1 = 0, fl2 = 0;
+    short int i = 0;
+
+    fl1 = fl2 = 0;
+    for (i = 0; i < qty; i++)
+    {
+        fl1 = (fl1 + *buf++) % 0xFF;
+        fl2 = (fl2+fl1) % 0xFF;
+    }
+
+    *buf = (unsigned char)(0xFF - ((fl2 + fl1) %0xFF));
+    fl2 = *buf++;
+    *buf = (unsigned char)(0xFF - ((fl2 + fl1)% 0xFF));
+}
+
 
 void __fastcall TMainForm::IdTCPServer1Execute(TIdContext *AContext)
 {
@@ -956,31 +973,35 @@ void __fastcall TMainForm::IdTCPServer1Execute(TIdContext *AContext)
   );
 */
 
-  float array[14];
   // упаковка данных
   TByteDynArray a;
-  a.set_length(66);
+  a.set_length(56);
   unsigned char status = 0;
   unsigned char* byte = &a[0];
-  int* tmp = (int*)byte;
-  //tmp[0] = 0xFFDDAA00;
+  unsigned int* tmp = (unsigned int*)&byte[6];
   byte[0] = 0xFF;
-  byte[1] = 0xDD;
-  byte[2] = 0xAA;
-  byte[3] = status;
-  tmp[1] = year;
-  tmp[2] = month;
-  tmp[3] = day;
-  tmp[4] = hour;
-  tmp[5] = min;
-  tmp[6] = sec;
-  float* f = (float*)&tmp[7];
+  byte[1] = 0x88;
+  byte[2] = 0x88;
+  byte[3] = 0x14;
+  byte[4] = 0x3C;
+  byte[5] = status;
+
+  tmp[0] = year;
+  tmp[1] = month;
+  tmp[2] = day;
+  tmp[3] = hour;
+  tmp[4] = min;
+  tmp[5] = sec;
+
+  float* f = (float*)&tmp[6];
   f[0] = r.diam;
-  f[1] = r.ma;
-  f[2] = r.mi;
-  f[3] = r.xpos;
-  f[4] = r.ypos;
+  f[1] = r.xpos;
+  f[2] = r.ypos;
+  f[3] = r.ma;
+  f[4] = r.mi;
   f[5] = r.angle;
+
+  GetCS(byte, 54);
 
   AContext->Connection->IOHandler->WriteDirect(a);
 }
