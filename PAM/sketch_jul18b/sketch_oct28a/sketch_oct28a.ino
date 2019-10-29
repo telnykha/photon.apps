@@ -17,6 +17,6 @@ void microDelay(unsigned long t)
 void loop() {
   // put your main code here, to run repeatedly:
   digitalWrite(bluePin, HIGH);
-  microDelay(100);
+  //microDelay(100);
   digitalWrite(bluePin, LOW);
 }

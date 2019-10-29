@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<pam exposure="1000">
+    <pam_entry command="4" status="10" delay="1000" comment="" image="" />
+    <pam_entry command="3" status="10" delay="10" comment="" image="" />
+    <pam_entry command="8" status="10" delay="10" comment="" image="" />
+    <pam_entry command="1" status="10" delay="10" comment="" image="" />
+</pam>

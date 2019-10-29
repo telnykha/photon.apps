@@ -584,15 +584,134 @@
     Height = 477
     Align = alLeft
     TabOrder = 4
+    object Label1: TLabel
+      Left = 1
+      Top = 335
+      Width = 218
+      Height = 16
+      Align = alTop
+      Alignment = taCenter
+      Caption = #1057#1074#1077#1090#1086#1076#1080#1086#1076#1099
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 83
+    end
+    object Label2: TLabel
+      Left = 1
+      Top = 1
+      Width = 218
+      Height = 16
+      Align = alTop
+      Alignment = taCenter
+      Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072' Mightex'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 145
+    end
+    object Label3: TLabel
+      Left = 1
+      Top = 201
+      Width = 218
+      Height = 16
+      Align = alTop
+      Alignment = taCenter
+      Caption = #1048#1079#1084#1077#1088#1080#1090#1077#1083#1100#1085#1099#1081' '#1080#1084#1087#1091#1083#1100#1089
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitWidth = 165
+    end
+    object GroupBox3: TGroupBox
+      AlignWithMargins = True
+      Left = 4
+      Top = 354
+      Width = 212
+      Height = 71
+      Align = alTop
+      Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' 460 nm'
+      TabOrder = 0
+      object TrackBar3: TTrackBar
+        AlignWithMargins = True
+        Left = 5
+        Top = 18
+        Width = 202
+        Height = 48
+        Align = alClient
+        Max = 100
+        Frequency = 10
+        Position = 25
+        ShowSelRange = False
+        TabOrder = 0
+        TickMarks = tmBoth
+        OnChange = TrackBar3Change
+      end
+    end
+    object GroupBox4: TGroupBox
+      AlignWithMargins = True
+      Left = 4
+      Top = 220
+      Width = 212
+      Height = 53
+      Align = alTop
+      Caption = #1047#1072#1076#1077#1088#1078#1082#1072' (mks)'
+      TabOrder = 1
+      object SpinEdit2: TSpinEdit
+        Left = 5
+        Top = 20
+        Width = 200
+        Height = 22
+        Increment = 10
+        MaxValue = 100
+        MinValue = 0
+        TabOrder = 0
+        Value = 10
+      end
+    end
+    object GroupBox2: TGroupBox
+      AlignWithMargins = True
+      Left = 4
+      Top = 431
+      Width = 212
+      Height = 74
+      Align = alTop
+      Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' 660 nm'
+      TabOrder = 2
+      object TrackBar2: TTrackBar
+        AlignWithMargins = True
+        Left = 5
+        Top = 20
+        Width = 202
+        Height = 49
+        Align = alBottom
+        Max = 100
+        Frequency = 10
+        Position = 25
+        ShowSelRange = False
+        TabOrder = 0
+        TickMarks = tmBoth
+        OnChange = TrackBar2Change
+      end
+    end
     object GroupBox1: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 4
+      Top = 20
       Width = 212
       Height = 101
       Align = alTop
       Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103
-      TabOrder = 0
+      TabOrder = 3
       object TrackBar1: TTrackBar
         AlignWithMargins = True
         Left = 5
@@ -601,7 +720,8 @@
         Height = 49
         Align = alBottom
         Max = 100
-        Frequency = 10
+        Min = 1
+        Frequency = 4
         Position = 25
         ShowSelRange = False
         TabOrder = 0
@@ -623,65 +743,60 @@
         Items.Strings = (
           '5 ms'
           '10 ms'
-          '100 ms'
-          '200 ms'
-          '300 ms')
+          '100 ms')
       end
     end
-    object GroupBox3: TGroupBox
+    object GroupBox5: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 111
+      Top = 127
       Width = 212
-      Height = 74
+      Height = 71
       Align = alTop
-      Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1074#1090#1100' 460 nm'
-      TabOrder = 1
-      object TrackBar3: TTrackBar
+      Caption = #1059#1089#1080#1083#1077#1085#1080#1077
+      TabOrder = 4
+      object TrackBar5: TTrackBar
         AlignWithMargins = True
         Left = 5
-        Top = 20
+        Top = 18
         Width = 202
-        Height = 49
-        Align = alBottom
-        Max = 100
-        Frequency = 10
+        Height = 48
+        Align = alClient
+        Max = 41
+        Min = 6
+        Frequency = 2
         Position = 25
         ShowSelRange = False
         TabOrder = 0
         TickMarks = tmBoth
-        OnChange = TrackBar3Change
+        OnChange = TrackBar5Change
       end
     end
-    object GroupBox2: TGroupBox
+    object GroupBox6: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 191
+      Top = 279
       Width = 212
-      Height = 74
+      Height = 53
       Align = alTop
-      Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1074#1090#1100' 660 nm'
-      TabOrder = 2
-      object TrackBar2: TTrackBar
-        AlignWithMargins = True
+      Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (mks)'
+      TabOrder = 5
+      object SpinEdit1: TSpinEdit
         Left = 5
         Top = 20
-        Width = 202
-        Height = 49
-        Align = alBottom
-        Max = 100
-        Frequency = 10
-        Position = 25
-        ShowSelRange = False
+        Width = 200
+        Height = 22
+        Increment = 10
+        MaxValue = 100
+        MinValue = 0
         TabOrder = 0
-        TickMarks = tmBoth
-        OnChange = TrackBar2Change
+        Value = 10
       end
     end
   end
   object MainMenu1: TMainMenu
-    Left = 24
-    Top = 432
+    Left = 240
+    Top = 496
     object N1: TMenuItem
       Caption = #1060#1072#1081#1083#1099
       object N3: TMenuItem
@@ -756,8 +871,8 @@
     end
   end
   object ActionList1: TActionList
-    Left = 64
-    Top = 432
+    Left = 280
+    Top = 496
     object FileExit1: TFileExit
       Category = 'File'
       Caption = #1042#1099#1093#1086#1076
@@ -842,21 +957,21 @@
     end
     object editInsertAction: TAction
       Category = 'Edit'
-      Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1079#1072#1087#1080#1089#1100
+      Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
       ShortCut = 8237
       OnExecute = editInsertActionExecute
       OnUpdate = editInsertActionUpdate
     end
     object editDeleteAction: TAction
       Category = 'Edit'
-      Caption = #1059#1076#1072#1083#1080#1090#1100' '#1079#1072#1087#1080#1089#1100
+      Caption = #1059#1076#1072#1083#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
       ShortCut = 16430
       OnExecute = editDeleteActionExecute
       OnUpdate = editDeleteActionUpdate
     end
     object editEditAction: TAction
       Category = 'Edit'
-      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1079#1072#1087#1080#1089#1100
+      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
       ShortCut = 8205
       OnExecute = editEditActionExecute
       OnUpdate = editEditActionUpdate
@@ -865,12 +980,12 @@
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     OnHint = ApplicationEvents1Hint
-    Left = 104
-    Top = 432
+    Left = 320
+    Top = 496
   end
   object PopupMenu1: TPopupMenu
-    Left = 228
-    Top = 433
+    Left = 444
+    Top = 497
     object N22: TMenuItem
       Action = editInsertAction
     end
@@ -882,17 +997,17 @@
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 144
-    Top = 432
+    Left = 360
+    Top = 496
   end
   object SaveDialog1: TSaveDialog
     Filter = #1060#1072#1081#1083#1099' PAM|*.pam'
-    Left = 184
-    Top = 432
+    Left = 400
+    Top = 496
   end
   object PhPaneTool1: TPhPaneTool
     PhImage = PhImage2
-    Left = 269
-    Top = 433
+    Left = 485
+    Top = 497
   end
 end

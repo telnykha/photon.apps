@@ -22,13 +22,15 @@ protected:
     TStringGrid* m_grid;
 	TList*       m_list;
 	int          m_exposure; // экспозиция в микросекундах
+    int          m_exp_index;
+    int          m_exp_value;
     UnicodeString m_fileName;
     UnicodeString GetCommandName(int index);
     UnicodeString GetScriptCommandName(int index);
-    UnicodeString GetCommandIntensivity(int index, int indexCommand);
-    int GetCommandIntensivityValue(int index);
 	UnicodeString __fastcall GetScript();
 	void __fastcall SetExposure(int value);
+    void __fastcall SetExpIndex(int value);
+    void __fastcall SetExpValue(int value);
 public:
     TCommandsTable(TStringGrid* grid);
     //
@@ -46,6 +48,8 @@ public:
     __property UnicodeString fileName = {read = m_fileName};
 	__property UnicodeString script = {read = GetScript};
 	__property int exposure = {read = m_exposure, write = SetExposure};
+    __property int exp_index = {read = m_exp_index, write = SetExpIndex};
+    __property int exp_value = {read = m_exp_value, write = SetExpValue};
 };
 
 #endif

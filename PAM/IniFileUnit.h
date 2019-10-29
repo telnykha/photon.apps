@@ -2,15 +2,20 @@
 #ifndef IniFileUnitH
 #define IniFileUnitH
 //---------------------------------------------------------------------------
-
 class TPAMOptions
 {
 protected:
      UnicodeString m_ArchivePath;
      unsigned char m_Intensivity;
      bool          m_OpenArchive;
+
+     // экспозиция (mks)  = T0[m_exploshureIndex]*m_exploshureValue
      int           m_exploshureIndex;
      int           m_exploshureValue;
+     int           m_gain;     // усиление видеокамеры
+
+     int           m_delay;    // задержка перед началом вспышкой от начала экспозиции
+     int           m_lenght;   // длительность вспышки
 
      void __fastcall SetArchivePath(UnicodeString path);
      void __fastcall SetIntensivity(unsigned char value);

@@ -123,9 +123,8 @@ void __fastcall TCommandsTable::AddRecord(TeditorDlg* dlg)
         m_grid->RowCount = row_count + 1;
         if (m_grid->RowCount == 2)
             m_grid->FixedRows  = 1;
-        //m_grid->Cells[0][m_grid->RowCount-1] = IntToStr(m_grid->RowCount-1);
         m_grid->Cells[0][m_grid->RowCount-1] = GetCommandName(dlg->ComboBox1->ItemIndex);
-		m_grid->Cells[1][m_grid->RowCount-1] = dlg->SpinEdit2->Value; //GetCommandIntensivity(dlg->ComboBox2->ItemIndex, dlg->ComboBox1->ItemIndex);
+		m_grid->Cells[1][m_grid->RowCount-1] = dlg->SpinEdit2->Value;
         m_grid->Cells[2][m_grid->RowCount-1] = IntToStr(dlg->SpinEdit1->Value);
         m_grid->Cells[3][m_grid->RowCount-1] = dlg->Edit1->Text;
         // (2) insert contents of the trailing rows
@@ -174,10 +173,11 @@ void __fastcall TCommandsTable::DeleteRecord(int index)
       m_list->Delete(index-1);
       m_changed = true;
 }
+
 void __fastcall TCommandsTable::EditRecord(int index, TeditorDlg* dlg)
 {
         m_grid->Cells[0][index] = GetCommandName(dlg->ComboBox1->ItemIndex);
-		m_grid->Cells[1][index] = dlg->SpinEdit2->Value;//GetCommandIntensivity(dlg->ComboBox2->ItemIndex, dlg->ComboBox1->ItemIndex);
+		m_grid->Cells[1][index] = dlg->SpinEdit2->Value;
 		m_grid->Cells[2][index] = IntToStr(dlg->SpinEdit1->Value);
         m_grid->Cells[3][index] = dlg->Edit1->Text;
 
@@ -186,7 +186,7 @@ void __fastcall TCommandsTable::EditRecord(int index, TeditorDlg* dlg)
         assert(e!=NULL);
 
         e->command = dlg->ComboBox1->ItemIndex;
-		e->pinStatus =  dlg->SpinEdit2->Value;//dlg->ComboBox2->ItemIndex;
+		e->pinStatus =  dlg->SpinEdit2->Value;
         e->pinDelay  = dlg->SpinEdit1->Value;
 
         m_changed = true;
@@ -206,7 +206,7 @@ UnicodeString TCommandsTable::GetCommandName(int index)
         case 0:
 			return L"Насыщающий свет (460 nm)";
 		case 1:
-			return L"Дополнительный свет (460 nm)";
+			return L"Дополнительный свет (660 nm)";
 		case 2:
 			return L"Кадр в дополнительном свете (660 nm";
 		case 3:
@@ -219,6 +219,8 @@ UnicodeString TCommandsTable::GetCommandName(int index)
 			return L"Измерительный кадр в актиничном свете";
 		case 7:
 			return L"Актиничный свет (460 nm)";
+        case 8:
+            return L"Измерительный кадр";
         default:
             return L"неизвестная команда";
     }
@@ -244,50 +246,12 @@ UnicodeString TCommandsTable::GetScriptCommandName(int index)
 			return L"TURNON_CAM_460_ACT";
 		case 7:
 			return L"TURNON460_ACT";
+        case 8:
+            return L"TURNON_CAM_FLASH";
         default:
             return L"TURN_OFF";
     }
 }
-
-/*
-Высокая
-Средняя
-Низкая
-Недоступна
-*/
-UnicodeString TCommandsTable::GetCommandIntensivity(int index, int indexCommand)
-{
-    if (indexCommand == 4 || indexCommand == 3)
-        return L"Недоступна";
-
-    switch(index)
-    {
-        case 0:
-            return L"Высокая";
-        case 1:
-            return L"Средняя";
-        case 2:
-            return L"Низкая";
-        default:
-            return L"неизвестная интенсивность";
-    }
-}
-
-int TCommandsTable::GetCommandIntensivityValue(int index)
-{
-    switch(index)
-    {
-        case 0:
-            return 90;
-        case 1:
-            return 40;
-        case 2:
-            return 10;
-        default:
-            return 0;
-    }
-}
-
 
 void __fastcall TCommandsTable::Save()
 {
@@ -298,47 +262,6 @@ void __fastcall TCommandsTable::Save()
 /***********************************************
   Команды, доступные пользователю.
 **************************************************/
-//#define TURNON460 1                   /*включить насыщающий свет*/
-//#define TURNON660 2                   /*включить актиничный свет*/
-//#define TURNON_CAM_660  3       /*включить актиничный свет и камеру*/
-//#define TURNON_CAM 4                /*включить камеру без света*/
-//#define TURN_OFF   5                    /*выключить все*/
-//#define TURNON_CAM_460  6       /*включить актиничный свет и камеру*/
-
-
-//const int progSize = 20;
-///*
-//    Описание эксперимента в формате
-//     {КОМАНДА, ИНТЕНСИВНОСТЬ, ВРЕМЯ},
-//
-//       время задается в миллисекундах.
-//*/
-//expEvent Events[progSize] =
-//{
-//  {TURNON460, HIGH, 10},
-//  {TURNON660, HIGH, 20},
-//  {TURNON460, HIGH, 50},
-//  {TURNON660, HIGH, 10},
-//  {TURN_OFF,  HIGH, 100},
-//  {TURNON460, HIGH, 100},
-//  {TURNON660, HIGH, 200},
-//  {TURNON460, HIGH, 500},
-//  {TURNON660, HIGH, 100},
-//  {TURN_OFF,  HIGH, 1000},
-//  {TURNON460, HIGH, 10},
-//  {TURNON660, HIGH, 20},
-//  {TURNON460, HIGH, 50},
-//  {TURNON660, HIGH, 10},
-//  {TURN_OFF,  HIGH, 100},
-//  {TURNON460, HIGH, 100},
-//  {TURNON660, HIGH, 200},
-//  {TURNON460, HIGH, 500},
-//  {TURNON660, HIGH, 100},
-//  {TURN_OFF,  HIGH, 100},
-//
-//};
-
-
 UnicodeString __fastcall TCommandsTable::GetScript()
 {
 	UnicodeString str =
@@ -351,6 +274,7 @@ UnicodeString __fastcall TCommandsTable::GetScript()
 	#define TURNON_CAM_460   6          \r\n\
 	#define TURNON_CAM_460_ACT   7          \r\n\
 	#define TURNON460_ACT   8          \r\n\
+	#define TURNON_CAM_FLASH   9          \r\n\
 	const int progSize =";
 	str += IntToStr(m_list->Count);
 	str += L";\r\n\
@@ -362,7 +286,7 @@ UnicodeString __fastcall TCommandsTable::GetScript()
 		str += L"{";
 		str += this->GetScriptCommandName(e->command);
 		str += L",";
-		str += IntToStr(e->pinStatus);//IntToStr(GetCommandIntensivityValue(e->pinStatus));//L"HIGH,";
+		str += IntToStr(e->pinStatus);
 		str += L",";
 		str += IntToStr((int)e->pinDelay);
 		str += L"},\r\n";
@@ -378,4 +302,17 @@ void __fastcall TCommandsTable::SetExposure(int value)
 	m_exposure = value;
     m_changed = true;
 }
+
+void __fastcall TCommandsTable::SetExpIndex(int value)
+{
+    m_exp_index = value;
+    m_changed = true;
+}
+
+void __fastcall TCommandsTable::SetExpValue(int value)
+{
+    m_exp_value = value;
+    m_changed = true;
+}
+
 

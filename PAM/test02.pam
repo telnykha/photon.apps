@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="windows-1251" ?>
-<pam exposure="250">
+<pam exposure="1342">
     <pam_entry command="4" status="0" delay="1000" comment="" image="" />
-    <pam_entry command="3" status="0" delay="10" comment="" image="1136430765_0.raw" />
+    <pam_entry command="3" status="0" delay="10" comment="" image="5572698_0.raw" />
     <pam_entry command="0" status="100" delay="1000" comment="" image="" />
-    <pam_entry command="5" status="10" delay="60" comment="" image="1136440796_1.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136440812_2.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136440875_3.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136440937_4.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136441000_5.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136441062_6.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136441125_7.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136441171_8.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136441234_9.raw" />
-    <pam_entry command="5" status="20" delay="60" comment="" image="1136441281_10.raw" />
+    <pam_entry command="5" status="10" delay="60" comment="" image="5573728_1.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5573759_2.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5573822_3.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5573915_4.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5573993_5.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5574009_6.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5574118_7.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5574165_8.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5574196_9.raw" />
+    <pam_entry command="5" status="20" delay="60" comment="" image="5574258_10.raw" />
     <pam_entry command="7" status="10" delay="2000" comment="" image="" />
-    <pam_entry command="6" status="10" delay="60" comment="" image="1136461359_11.raw" />
-    <pam_entry command="6" status="10" delay="60" comment="" image="1136461406_12.raw" />
-    <pam_entry command="6" status="10" delay="60" comment="" image="1136461484_13.raw" />
+    <pam_entry command="6" status="10" delay="60" comment="" image="5576333_11.raw" />
+    <pam_entry command="6" status="10" delay="60" comment="" image="5576380_12.raw" />
+    <pam_entry command="6" status="10" delay="60" comment="" image="5576442_13.raw" />
     <pam_entry command="4" status="0" delay="100" comment="" image="" />
 </pam>

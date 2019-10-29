@@ -770,21 +770,28 @@ Basically, for CCX cameras, when CCD frequency is 28MHz (default),
 the minimum ET is: NORMAL Mode: 1 Row Time (~68us) TRIGGER Mode: 3 Row Times (~200us)
 With slower CCD frequency, the minimum achievable ET is increased proportionally
 */
-const double c_expLimit[5] = {5, 10, 100, 200, 300};
+const double c_expLimit[5] = {5, 10, 100};
 double __fastcall TmainPAM::ExploshureTime(int index, int pos)
 {
-	double result = c_expLimit[index] / 20.;
-    double delta = (c_expLimit[index] - result) / 100.;
-    result += pos*delta;
-	GroupBox1->Caption = L"Экспозиция " + FormatFloat("000.00 мс", result);
-	Memo2->Lines->Add("Exposure time = " + FormatFloat("###.### ms" , result) + " units = " + IntToStr((int)(result*1000/50)));
-	for (int i = 0; i < m_numCameras; i++)
+    double exp_start = c_expLimit[index] / 100.;
+    double exp = exp_start*pos;
+    int exp_mks = floor(exp*1000 + 0.5);
+    int exp_units = exp_mks / 50;
+	GroupBox1->Caption = L"Экспозиция " + FormatFloat("000.00 мс", exp);
+
+    if (BUFCCDUSB_SetExposureTime(m_camera, exp_units) == -1)
+		Memo2->Lines->Add(L"Не могу установить экспозицю. Подключите видеокамеру Mightex.");
+    else
     {
-		BUFCCDUSB_SetExposureTime(m_camera, result*1000/50);
-	}
-	if (m_table != NULL)
-        m_table->exposure = (int)(result*1000);
-    return result;
+        Memo2->Lines->Add("Exposure time = " + FormatFloat("###.### ms" , exp) + " units = " + IntToStr(exp_units));
+
+        m_options.exploshureIndex = index;
+        m_options.exploshureValue = pos;
+
+        if (m_table != NULL)
+            m_table->exposure = (int)(exp_mks);
+    }
+    return exp;
 }
 double __fastcall TmainPAM::ExploshureTimeMks(int mks)
 {
@@ -817,7 +824,6 @@ double __fastcall TmainPAM::ExploshureTimeMks(int mks)
 void __fastcall TmainPAM::ComboBox1Change(TObject *Sender)
 {
 	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
-    //TPAMOptions options;
 	m_options.exploshureIndex = ComboBox1->ItemIndex;
 }
 //---------------------------------------------------------------------------
@@ -1058,7 +1064,16 @@ void __fastcall TmainPAM::StringGrid2Click(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
-
-
+void __fastcall TmainPAM::TrackBar5Change(TObject *Sender)
+{
+    int v = TrackBar5->Position;
+    if (BUFCCDUSB_SetGains(m_camera, v , v, v) == -1)
+		Memo2->Lines->Add(L"Не могу установить усиление. Подключите видеокамеру Mightex.");
+    else
+    {
+		Memo2->Lines->Add(L"Gain = " + IntToStr(v) + L" dB");
+        GroupBox5->Caption = L"Усиление " + IntToStr(v) + L" dB";
+    }
+}
+//---------------------------------------------------------------------------
 

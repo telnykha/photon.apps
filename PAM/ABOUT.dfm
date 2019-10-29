@@ -187,7 +187,7 @@ object AboutBox: TAboutBox
       IsControl = True
     end
     object ProductName: TLabel
-      Left = 16
+      Left = 72
       Top = 184
       Width = 35
       Height = 13
@@ -201,7 +201,7 @@ object AboutBox: TAboutBox
       IsControl = True
     end
     object Version: TLabel
-      Left = 57
+      Left = 113
       Top = 184
       Width = 35
       Height = 13

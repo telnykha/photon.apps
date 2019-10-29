@@ -25,6 +25,7 @@
 #include "PhImageTool.h"
 #include "PhPaneTool.h"
 #include "PhRulerTool.h"
+#include <Vcl.Samples.Spin.hpp>
 
 //---------------------------------------------------------------------------
 class TmainPAM : public TForm
@@ -118,13 +119,22 @@ __published:	// IDE-managed Components
 	TSplitter *Splitter3;
 	TSplitter *Splitter4;
 	TPanel *Panel6;
+	TGroupBox *GroupBox3;
+	TTrackBar *TrackBar3;
+	TGroupBox *GroupBox4;
+	TGroupBox *GroupBox2;
+	TTrackBar *TrackBar2;
+	TLabel *Label1;
+	TLabel *Label2;
 	TGroupBox *GroupBox1;
 	TTrackBar *TrackBar1;
 	TComboBox *ComboBox1;
-	TGroupBox *GroupBox3;
-	TTrackBar *TrackBar3;
-	TGroupBox *GroupBox2;
-	TTrackBar *TrackBar2;
+	TGroupBox *GroupBox5;
+	TTrackBar *TrackBar5;
+	TLabel *Label3;
+	TGroupBox *GroupBox6;
+	TSpinEdit *SpinEdit2;
+	TSpinEdit *SpinEdit1;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -168,13 +178,14 @@ __published:	// IDE-managed Components
 	void __fastcall TrackBar1Change(TObject *Sender);
 	void __fastcall TabSheet3Show(TObject *Sender);
 	void __fastcall StringGrid2Click(TObject *Sender);
+	void __fastcall TrackBar5Change(TObject *Sender);
 
 
 
 
 
 private:	// User declarations
-    int    m_board;
+    int    			m_board;
     TCommandsTable* m_table;
     int             m_camera;
     int				m_numCameras;
@@ -205,10 +216,9 @@ public:		// User declarations
     void __fastcall FinishProcess();
     void __fastcall CancelProcess();
 
-	__property int CameraMode = {read = m_mode};
-    __property int board = {read = m_board};
+	__property int CameraMode 		 = {read = m_mode};
+    __property int board 			 = {read = m_board};
     __property TCommandsTable* table = {read = m_table};
-
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TmainPAM *mainPAM;
