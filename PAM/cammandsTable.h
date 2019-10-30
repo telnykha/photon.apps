@@ -4,6 +4,7 @@
 //---------------------------------------------------------------------------
 #include <Vcl.Grids.hpp>
 #include "editorUnit.h"
+#include "IniFileUnit.h"
 
 const UnicodeString c_FileName = L"default.pam";
 
@@ -21,18 +22,15 @@ protected:
     bool m_changed;
     TStringGrid* m_grid;
 	TList*       m_list;
-	int          m_exposure; // экспозиция в микросекундах
-    int          m_exp_index;
-    int          m_exp_value;
     UnicodeString m_fileName;
+
+    TPAMOptions* m_options;
+
     UnicodeString GetCommandName(int index);
     UnicodeString GetScriptCommandName(int index);
 	UnicodeString __fastcall GetScript();
-	void __fastcall SetExposure(int value);
-    void __fastcall SetExpIndex(int value);
-    void __fastcall SetExpValue(int value);
 public:
-    TCommandsTable(TStringGrid* grid);
+    TCommandsTable(TStringGrid* grid, TPAMOptions* pOptions);
     //
     void __fastcall NewTable();
     void __fastcall LoadTable(const char* lpFileName);
@@ -44,12 +42,11 @@ public:
     void __fastcall EditRecord(int index, TeditorDlg* dlg);
 
     __property TList* list = {read = m_list};
-    __property bool changed = {read = m_changed};
+    __property bool changed = {read = m_changed, write = m_changed};
     __property UnicodeString fileName = {read = m_fileName};
 	__property UnicodeString script = {read = GetScript};
-	__property int exposure = {read = m_exposure, write = SetExposure};
-    __property int exp_index = {read = m_exp_index, write = SetExpIndex};
-    __property int exp_value = {read = m_exp_value, write = SetExpValue};
+
+    __property TPAMOptions* options = {read = m_options, write = m_options};
 };
 
 #endif

@@ -9,13 +9,14 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-TCommandsTable::TCommandsTable(TStringGrid* grid)
+TCommandsTable::TCommandsTable(TStringGrid* grid, TPAMOptions* pOptions)
 {
     assert(grid != NULL);
+    assert(pOptions != NULL);
+    m_options = pOptions;
     m_grid = grid;
     m_list = new TList();
 	m_changed = false;
-	m_exposure = 1000;
     m_fileName = c_FileName;
     m_grid->Cells[0][0] = L"Команда";
 	m_grid->Cells[1][0] = L"Интенсивность (%)";
@@ -43,8 +44,28 @@ void __fastcall TCommandsTable::LoadTable(const char* lpFileName)
 	const char* name = e->Value();
 	if (strcmp(name, "pam") != 0)
 		return;
-	if (e->QueryIntAttribute("exposure", &m_exposure) == TIXML_NO_ATTRIBUTE )
-        m_exposure = 1000;
+
+    int exposure;
+    int exp_index;
+    int exp_value;
+    int delay;
+    int lenght;
+    int gain;
+
+	if (e->QueryIntAttribute("exposure", &exposure) == TIXML_NO_ATTRIBUTE )
+        exposure = 1000;
+	if (e->QueryIntAttribute("exp_index", &exp_index) == TIXML_NO_ATTRIBUTE )
+        exp_index = 0;
+	if (e->QueryIntAttribute("exp_value", &exp_value) == TIXML_NO_ATTRIBUTE )
+        exp_value = 10;
+	if (e->QueryIntAttribute("gain", &gain) == TIXML_NO_ATTRIBUTE )
+        gain = 10;
+ 	if (e->QueryIntAttribute("delay", &delay) == TIXML_NO_ATTRIBUTE )
+        delay = 10;
+	if (e->QueryIntAttribute("lenght", &lenght) == TIXML_NO_ATTRIBUTE )
+        lenght = 10;
+
+
 	for(TiXmlNode* child = e->FirstChild(); child; child = child->NextSibling() )
 	{
 		 TiXmlElement* e1 = child->ToElement();
@@ -74,19 +95,33 @@ void __fastcall TCommandsTable::LoadTable(const char* lpFileName)
 		  m_list->Add(event);
 	}
 	m_changed = false;
+    // устанавливаем параметры m_options
+    m_options->exploshureIndex = exp_index;
+    m_options->exploshureValue = exp_value;
+    m_options->Gain = gain;
+    m_options->Delay = delay;
+    m_options->Length = lenght;
+    m_options->UpdateUI();
 	m_fileName = lpFileName;
 }
 void __fastcall TCommandsTable::SaveTable(const char* lpFileName)
 {
     assert(m_grid != NULL);
     assert(m_list != NULL);
+    assert(m_options != NULL);
 
     TiXmlDocument doc;
 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "windows-1251", "" );
     doc.LinkEndChild( decl );
 
     TiXmlElement* e = new TiXmlElement("pam");
-	e->SetAttribute("exposure", this->m_exposure);
+	e->SetAttribute("exposure", m_options->Exposure);
+	e->SetAttribute("exp_index", m_options->exploshureIndex);
+	e->SetAttribute("exp_value", m_options->exploshureValue);
+	e->SetAttribute("gain", m_options->Gain);
+    e->SetAttribute("delay", m_options->Delay);
+    e->SetAttribute("lenght", m_options->Length);
+
     for (int i = 0; i < m_list->Count; i++)
     {
         expEvent* event = (expEvent*)m_list->Items[i];
@@ -264,6 +299,8 @@ void __fastcall TCommandsTable::Save()
 **************************************************/
 UnicodeString __fastcall TCommandsTable::GetScript()
 {
+    assert(m_options != NULL);
+
 	UnicodeString str =
 	L"\
 	#define TURNON460 1                 \r\n\
@@ -293,26 +330,16 @@ UnicodeString __fastcall TCommandsTable::GetScript()
 	}
 	str += L"};";
 	str += L"\r\n\const int exposure = ";
-	str += IntToStr(m_exposure);
+	str += IntToStr(m_options->Exposure);
+	str += L";";
+	str += L"\r\n\const int flash_delay = ";
+	str += IntToStr(m_options->Exposure*m_options->Delay/100);
+	str += L";";
+	str += L"\r\n\const int  flash_lenght = ";
+	str += IntToStr(m_options->Exposure*m_options->Length/100);
 	str += L";";
 	return str;
 }
-void __fastcall TCommandsTable::SetExposure(int value)
-{
-	m_exposure = value;
-    m_changed = true;
-}
 
-void __fastcall TCommandsTable::SetExpIndex(int value)
-{
-    m_exp_index = value;
-    m_changed = true;
-}
-
-void __fastcall TCommandsTable::SetExpValue(int value)
-{
-    m_exp_value = value;
-    m_changed = true;
-}
 
 

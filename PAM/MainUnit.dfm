@@ -3,7 +3,7 @@
   Top = 0
   Caption = 'P.A.M.'
   ClientHeight = 684
-  ClientWidth = 790
+  ClientWidth = 1030
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@
   object Splitter4: TSplitter
     Left = 0
     Top = 558
-    Width = 790
+    Width = 1030
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -31,10 +31,11 @@
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 790
+    Width = 1030
     Height = 81
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 790
     object SpeedButton1: TSpeedButton
       Left = 2
       Top = 3
@@ -266,7 +267,7 @@
   object StatusBar1: TStatusBar
     Left = 0
     Top = 665
-    Width = 790
+    Width = 1030
     Height = 19
     Panels = <
       item
@@ -276,11 +277,12 @@
       item
         Width = 50
       end>
+    ExplicitWidth = 790
   end
   object Memo2: TMemo
     Left = 0
     Top = 561
-    Width = 790
+    Width = 1030
     Height = 104
     Align = alBottom
     Color = clBlack
@@ -292,22 +294,25 @@
     ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 2
+    ExplicitWidth = 790
   end
   object PageControl1: TPageControl
     Left = 220
     Top = 81
-    Width = 570
+    Width = 810
     Height = 477
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
+    ExplicitWidth = 570
     object TabSheet1: TTabSheet
       Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
+      ExplicitWidth = 562
       object StringGrid1: TStringGrid
         Left = 0
         Top = 41
-        Width = 562
+        Width = 802
         Height = 408
         Align = alClient
         ColCount = 4
@@ -318,6 +323,7 @@
         PopupMenu = PopupMenu1
         TabOrder = 0
         OnDblClick = StringGrid1DblClick
+        ExplicitWidth = 562
         ColWidths = (
           498
           108
@@ -327,11 +333,12 @@
       object Panel4: TPanel
         Left = 0
         Top = 0
-        Width = 562
+        Width = 802
         Height = 41
         Align = alTop
         ParentBackground = False
         TabOrder = 1
+        ExplicitWidth = 562
         object SpeedButton10: TSpeedButton
           Left = 8
           Top = 3
@@ -404,10 +411,11 @@
     object TabSheet2: TTabSheet
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1082#1086#1076' Arduino'
       ImageIndex = 1
+      ExplicitWidth = 562
       object Memo1: TMemo
         Left = 0
         Top = 0
-        Width = 562
+        Width = 802
         Height = 449
         Align = alClient
         Color = clNavy
@@ -422,30 +430,34 @@
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
+        ExplicitWidth = 562
       end
     end
     object TabSheet3: TTabSheet
       Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
       ImageIndex = 2
       OnShow = TabSheet3Show
+      ExplicitWidth = 562
       object PhImage1: TPhImage
         Left = 0
         Top = 0
-        Width = 562
+        Width = 802
         Height = 400
         ThumbWidht = 128
         ThumbHeight = 128
         SlideShowInterval = 500
         Align = alClient
         ParentColor = False
+        ExplicitWidth = 562
       end
       object Panel3: TPanel
         Left = 0
         Top = 400
-        Width = 562
+        Width = 802
         Height = 49
         Align = alBottom
         TabOrder = 1
+        ExplicitWidth = 562
         object Button1: TButton
           AlignWithMargins = True
           Left = 4
@@ -462,6 +474,7 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
+      ExplicitWidth = 562
       object Splitter3: TSplitter
         Left = 179
         Top = 0
@@ -521,14 +534,15 @@
       object Panel5: TPanel
         Left = 182
         Top = 0
-        Width = 380
+        Width = 620
         Height = 449
         Align = alClient
         BevelOuter = bvNone
         Caption = 'Panel5'
         TabOrder = 1
+        ExplicitWidth = 380
         object Splitter2: TSplitter
-          Left = 110
+          Left = 350
           Top = 0
           Width = 4
           Height = 449
@@ -539,16 +553,17 @@
         object PhImage2: TPhImage
           Left = 0
           Top = 0
-          Width = 110
+          Width = 350
           Height = 449
           ThumbWidht = 128
           ThumbHeight = 128
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
+          ExplicitWidth = 348
         end
         object StringGrid2: TStringGrid
-          Left = 114
+          Left = 354
           Top = 0
           Width = 266
           Height = 449
@@ -568,6 +583,7 @@
           PopupMenu = PopupMenu1
           TabOrder = 1
           OnClick = StringGrid2Click
+          ExplicitLeft = 114
           ColWidths = (
             228
             47
@@ -664,18 +680,38 @@
       Width = 212
       Height = 53
       Align = alTop
-      Caption = #1047#1072#1076#1077#1088#1078#1082#1072' (mks)'
+      Caption = #1047#1072#1076#1077#1088#1078#1082#1072
       TabOrder = 1
+      object Label4: TLabel
+        Left = 72
+        Top = 24
+        Width = 11
+        Height = 13
+        Caption = '%'
+      end
+      object Label5: TLabel
+        Left = 113
+        Top = 24
+        Width = 55
+        Height = 13
+        Caption = 'xxxx mks'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
       object SpinEdit2: TSpinEdit
         Left = 5
         Top = 20
-        Width = 200
+        Width = 65
         Height = 22
-        Increment = 10
-        MaxValue = 100
-        MinValue = 0
+        MaxValue = 50
+        MinValue = 1
         TabOrder = 0
         Value = 10
+        OnChange = SpinEdit2Change
       end
     end
     object GroupBox2: TGroupBox
@@ -781,16 +817,36 @@
       Align = alTop
       Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (mks)'
       TabOrder = 5
+      object Label6: TLabel
+        Left = 73
+        Top = 24
+        Width = 11
+        Height = 13
+        Caption = '%'
+      end
+      object Label7: TLabel
+        Left = 113
+        Top = 24
+        Width = 55
+        Height = 13
+        Caption = 'xxxx mks'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
       object SpinEdit1: TSpinEdit
         Left = 5
         Top = 20
-        Width = 200
+        Width = 65
         Height = 22
-        Increment = 10
-        MaxValue = 100
-        MinValue = 0
+        MaxValue = 50
+        MinValue = 1
         TabOrder = 0
-        Value = 10
+        Value = 25
+        OnChange = SpinEdit1Change
       end
     end
   end

@@ -29,7 +29,7 @@ void __fastcall TPAMArchive::CreateArchiveEntry(TCommandsTable* table)
     for (int i = 0; i < m_table->list->Count; i++)
     {
         expEvent* event = (expEvent*)m_table->list->Items[i];
-        if (event->command == 2 || event->command == 3 || event->command == 5 || event->command == 6)
+        if (event->command == 2 || event->command == 3 || event->command == 5 || event->command == 6 || event->command == 8 )
             m_indexes.push_back(i);
     }
 //    table->SaveTable(_ansi.c_str());

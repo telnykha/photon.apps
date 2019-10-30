@@ -5,10 +5,10 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("PAMLongProcessUnit.cpp", PAMLongProcessForm);
-USEFORM("optionsUnit.cpp", OptionsDlg);
 USEFORM("ABOUT.cpp", AboutBox);
-USEFORM("MainUnit.cpp", mainPAM);
 USEFORM("editorUnit.cpp", editorDlg);
+USEFORM("optionsUnit.cpp", OptionsDlg);
+USEFORM("MainUnit.cpp", mainPAM);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

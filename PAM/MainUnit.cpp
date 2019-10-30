@@ -9,7 +9,7 @@
 #include "editorUnit.h"
 #include "PAMLongProcessUnit.h"
 #include "Buf_USBCCDCamera_SDK.h"
-
+#include "pam_common.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -248,8 +248,8 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
     this->SpeedButton11->Caption = L"";
     this->SpeedButton12->Caption = L"";
 
-	m_table = new TCommandsTable(this->StringGrid1);
-    m_tableArchive = new TCommandsTable(this->StringGrid2);
+	m_table = new TCommandsTable(StringGrid1, &m_options);
+    m_tableArchive = new TCommandsTable(this->StringGrid2, &m_options);
 
     m_numCameras = BUFCCDUSB_InitDevice();
     Memo2->Lines->Add(L"Обнаружено " + IntToStr(m_numCameras) + L" видеокамер.");
@@ -263,11 +263,13 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
         BUFCCDUSB_AddDeviceToWorkingSet(m_camera);
         BUFCCDUSB_InstallFrameHooker( 0, CamHook );
         BUFCCDUSB_StartCameraEngine(this->Handle, 12);
-
-        ComboBox1->ItemIndex = m_options.exploshureIndex;
-		TrackBar1->Position = m_options.exploshureValue;
-
     }
+    ComboBox1->ItemIndex = m_options.exploshureIndex;
+    TrackBar1->Position = m_options.exploshureValue;
+    TrackBar5->Position = m_options.Gain;
+    SpinEdit2->Value = m_options.Delay;
+    SpinEdit1->Value = m_options.Length;
+    m_options.freeze = false;
 }
 //---------------------------------------------------------------------------
 void   __fastcall TmainPAM::StartExperiment()
@@ -383,7 +385,6 @@ void __fastcall TmainPAM::fileOpenActionExecute(TObject *Sender)
     {
         AnsiString str = OpenDialog1->FileName.c_str();
 		m_table->LoadTable(str.c_str());
-		this->ExploshureTimeMks(m_table->exposure);
         PageControl1->TabIndex = 0;
     }
 }
@@ -770,61 +771,35 @@ Basically, for CCX cameras, when CCD frequency is 28MHz (default),
 the minimum ET is: NORMAL Mode: 1 Row Time (~68us) TRIGGER Mode: 3 Row Times (~200us)
 With slower CCD frequency, the minimum achievable ET is increased proportionally
 */
-const double c_expLimit[5] = {5, 10, 100};
 double __fastcall TmainPAM::ExploshureTime(int index, int pos)
 {
     double exp_start = c_expLimit[index] / 100.;
     double exp = exp_start*pos;
     int exp_mks = floor(exp*1000 + 0.5);
     int exp_units = exp_mks / 50;
-	GroupBox1->Caption = L"Экспозиция " + FormatFloat("000.00 мс", exp);
+	GroupBox1->Caption = L"Экспозиция " + IntToStr(exp_mks) + L" mks";
+
+    m_options.exploshureIndex = index;
+    m_options.exploshureValue = pos;
+
+    SpinEdit1Change(NULL);
+    SpinEdit2Change(NULL);
 
     if (BUFCCDUSB_SetExposureTime(m_camera, exp_units) == -1)
 		Memo2->Lines->Add(L"Не могу установить экспозицю. Подключите видеокамеру Mightex.");
     else
     {
-        Memo2->Lines->Add("Exposure time = " + FormatFloat("###.### ms" , exp) + " units = " + IntToStr(exp_units));
-
-        m_options.exploshureIndex = index;
-        m_options.exploshureValue = pos;
-
-        if (m_table != NULL)
-            m_table->exposure = (int)(exp_mks);
+        Memo2->Lines->Add("Exposure time = " + IntToStr(exp_mks) + " mks. Units = " + IntToStr(exp_units));
     }
     return exp;
-}
-double __fastcall TmainPAM::ExploshureTimeMks(int mks)
-{
-	int v = mks / 50;
-	BUFCCDUSB_SetExposureTime(m_camera, v);
-	TNotifyEvent e1 = this->ComboBox1->OnChange;
-	TNotifyEvent e2 = this->TrackBar1->OnChange;
-
-	this->ComboBox1->OnChange = NULL;
-	this->TrackBar1->OnChange = NULL;
-
-	int i, comboIndex = 0;
-	v = mks / 1000;
-	for (i = 0; i < 5; i++)
-		if ( v < c_expLimit[i])
-			break;
-	comboIndex = i;
-
-	int pos = 0;
-
-	this->ComboBox1->ItemIndex = comboIndex;
-	int delta = c_expLimit[comboIndex] - v;
-
-
-	this->ComboBox1->OnChange = e1;
-	this->TrackBar1->OnChange = e2;
-	return 0;
 }
 
 void __fastcall TmainPAM::ComboBox1Change(TObject *Sender)
 {
 	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
 	m_options.exploshureIndex = ComboBox1->ItemIndex;
+    if (m_table != NULL)
+        m_table->changed = true;
 }
 //---------------------------------------------------------------------------
 
@@ -975,6 +950,7 @@ bool __fastcall TmainPAM::StartProcess()
         AnsiString strCommand = "arduino_debug.exe --upload ";
         strCommand += GetSketchPath();
         strCommand += "sketch_jul18b.ino";
+
         Memo2->Lines->Add("Загрузка микропрограммы." );
         TConsoleIO console(Memo2);
 
@@ -1030,6 +1006,9 @@ void __fastcall TmainPAM::TrackBar1Change(TObject *Sender)
 {
 	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
     m_options.exploshureValue = TrackBar1->Position;
+    if (m_table != NULL)
+        m_table->changed = true;
+
 }
 //---------------------------------------------------------------------------
 
@@ -1067,13 +1046,38 @@ void __fastcall TmainPAM::StringGrid2Click(TObject *Sender)
 void __fastcall TmainPAM::TrackBar5Change(TObject *Sender)
 {
     int v = TrackBar5->Position;
+    GroupBox5->Caption = L"Усиление " + IntToStr(v) + L" dB";
+    m_options.Gain = v;
+    if (m_table != NULL)
+        m_table->changed = true;
+
     if (BUFCCDUSB_SetGains(m_camera, v , v, v) == -1)
 		Memo2->Lines->Add(L"Не могу установить усиление. Подключите видеокамеру Mightex.");
     else
     {
 		Memo2->Lines->Add(L"Gain = " + IntToStr(v) + L" dB");
-        GroupBox5->Caption = L"Усиление " + IntToStr(v) + L" dB";
     }
+}
+//---------------------------------------------------------------------------
+void __fastcall TmainPAM::SpinEdit2Change(TObject *Sender)
+{
+    int exp = m_options.Exposure;
+    int value = exp*SpinEdit2->Value / 100;
+    Label5->Caption = IntToStr(value) + L" mks";
+    m_options.Delay = SpinEdit2->Value;
+    if (m_table != NULL)
+        m_table->changed = true;
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TmainPAM::SpinEdit1Change(TObject *Sender)
+{
+    int exp = m_options.Exposure;
+    int value = exp*SpinEdit1->Value / 100;
+    Label7->Caption = IntToStr(value) + L" mks";
+    m_options.Length = SpinEdit1->Value;
+    if (m_table != NULL)
+        m_table->changed = true;
 }
 //---------------------------------------------------------------------------
 

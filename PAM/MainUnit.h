@@ -135,6 +135,10 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox6;
 	TSpinEdit *SpinEdit2;
 	TSpinEdit *SpinEdit1;
+	TLabel *Label4;
+	TLabel *Label5;
+	TLabel *Label6;
+	TLabel *Label7;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -179,6 +183,8 @@ __published:	// IDE-managed Components
 	void __fastcall TabSheet3Show(TObject *Sender);
 	void __fastcall StringGrid2Click(TObject *Sender);
 	void __fastcall TrackBar5Change(TObject *Sender);
+	void __fastcall SpinEdit2Change(TObject *Sender);
+	void __fastcall SpinEdit1Change(TObject *Sender);
 
 
 
@@ -202,7 +208,6 @@ private:	// User declarations
     void   __fastcall StartVideo();
     void   __fastcall StopVideo();
 	double __fastcall ExploshureTime(int index, int pos);
-    double __fastcall ExploshureTimeMks(int mks);
 	void   __fastcall OpenArchivePage(UnicodeString path);
 
 	UnicodeString __fastcall GetSketchPath();

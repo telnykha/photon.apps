@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1251" ?>
-<pam exposure="250">
+<pam exposure="350" exp_index="0" exp_value="7" gain="13" delay="175" lenght="115">
     <pam_entry command="4" status="0" delay="1000" comment="" image="" />
     <pam_entry command="0" status="100" delay="1000" comment="" image="" />
     <pam_entry command="0" status="90" delay="1000" comment="" image="1133185421_1.raw" />
