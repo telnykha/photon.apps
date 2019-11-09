@@ -13,9 +13,9 @@
     <Transaction>1899.12.30 00:00:00.000.776,=C:\_alt\photon41\apps\common\SelDirUnit.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.586,C:\_alt\photon41\apps\common\Bitmap2Dib.h=C:\_alt\photon41\apps\ceramica\Unit1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.346,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.109,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.690,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.037,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.109,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.739,=C:\_alt\_proj\photon\common\SelDirUnit.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.810,C:\_alt\ceramica\PhMediaSource.cpp=C:\_alt\ceramica\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.728,=C:\_alt\_proj\photon\common\PhSlideShow.cpp</Transaction>
@@ -27,11 +27,11 @@
     <Transaction>1899.12.30 00:00:00.000.799,C:\_alt\photon41\apps\ceramica\Unit1.cpp=C:\_alt\photon41\apps\ceramica\PhVideoThread.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.725,C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Unit3.dfm=C:\_alt\ceramica\MainUnit.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.757,C:\_alt\_proj\photon\photon41\apps\ceramica\PhVideoThread.cpp=</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.818,=C:\_alt\photon41\apps\ceramica\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.662,=C:\_alt\photon41\apps\ceramica\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.517,=C:\_alt\photon41\apps\ceramica\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.192,=C:\_alt\photon41\apps\ceramica\Unit1.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.008,=C:\_alt\_proj\photon\photon41\apps\common\PhVideo.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.818,=C:\_alt\photon41\apps\ceramica\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.517,=C:\_alt\photon41\apps\ceramica\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.662,=C:\_alt\photon41\apps\ceramica\Unit1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.773,C:\_alt\_proj\photon\photon41\apps\ceramica\PhMediaSource.cpp=</Transaction>
     <Transaction>1899.12.30 00:00:00.000.394,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project5PCH1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.550,=C:\Users\ALT\Documents\Embarcadero\Studio\Projects\Project5PCH1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.810,C:\_alt\ceramica\PhMediaSource.h=C:\_alt\ceramica\Unit1.h</Transaction>
@@ -51,7 +51,7 @@
     <Transaction>1899.12.30 00:00:00.000.880,C:\_alt\ceramica\PhSlideShow.h=C:\_alt\ceramica\Unit1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.998,=C:\_alt\_proj\photon\photon41\apps\common\PhMediaSource.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.520,C:\_alt\ceramica\Project5PCH1.h=C:\_alt\ceramica\CeramicaPCH1.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.773,C:\_alt\_proj\photon\photon41\apps\ceramica\PhMediaSource.cpp=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.008,=C:\_alt\_proj\photon\photon41\apps\common\PhVideo.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.880,C:\_alt\ceramica\PhSlideShow.cpp=C:\_alt\ceramica\Unit1.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.735,=C:\_alt\_proj\photon\common\PhVideoThread.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.535,=C:\_alt\_proj\photon\photon.research\PhotonVideoBase\photon.base.cpp</Transaction>

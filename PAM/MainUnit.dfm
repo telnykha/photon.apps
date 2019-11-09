@@ -35,7 +35,6 @@
     Height = 81
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 790
     object SpeedButton1: TSpeedButton
       Left = 2
       Top = 3
@@ -277,7 +276,6 @@
       item
         Width = 50
       end>
-    ExplicitWidth = 790
   end
   object Memo2: TMemo
     Left = 0
@@ -294,7 +292,6 @@
     ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 2
-    ExplicitWidth = 790
   end
   object PageControl1: TPageControl
     Left = 220
@@ -305,10 +302,8 @@
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
-    ExplicitWidth = 570
     object TabSheet1: TTabSheet
       Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
-      ExplicitWidth = 562
       object StringGrid1: TStringGrid
         Left = 0
         Top = 41
@@ -323,7 +318,6 @@
         PopupMenu = PopupMenu1
         TabOrder = 0
         OnDblClick = StringGrid1DblClick
-        ExplicitWidth = 562
         ColWidths = (
           498
           108
@@ -338,7 +332,6 @@
         Align = alTop
         ParentBackground = False
         TabOrder = 1
-        ExplicitWidth = 562
         object SpeedButton10: TSpeedButton
           Left = 8
           Top = 3
@@ -411,7 +404,6 @@
     object TabSheet2: TTabSheet
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1082#1086#1076' Arduino'
       ImageIndex = 1
-      ExplicitWidth = 562
       object Memo1: TMemo
         Left = 0
         Top = 0
@@ -430,14 +422,12 @@
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitWidth = 562
       end
     end
     object TabSheet3: TTabSheet
       Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
       ImageIndex = 2
       OnShow = TabSheet3Show
-      ExplicitWidth = 562
       object PhImage1: TPhImage
         Left = 0
         Top = 0
@@ -448,7 +438,6 @@
         SlideShowInterval = 500
         Align = alClient
         ParentColor = False
-        ExplicitWidth = 562
       end
       object Panel3: TPanel
         Left = 0
@@ -457,7 +446,6 @@
         Height = 49
         Align = alBottom
         TabOrder = 1
-        ExplicitWidth = 562
         object Button1: TButton
           AlignWithMargins = True
           Left = 4
@@ -474,7 +462,6 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
-      ExplicitWidth = 562
       object Splitter3: TSplitter
         Left = 179
         Top = 0
@@ -540,7 +527,6 @@
         BevelOuter = bvNone
         Caption = 'Panel5'
         TabOrder = 1
-        ExplicitWidth = 380
         object Splitter2: TSplitter
           Left = 350
           Top = 0
@@ -560,7 +546,6 @@
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
-          ExplicitWidth = 348
         end
         object StringGrid2: TStringGrid
           Left = 354
@@ -583,7 +568,6 @@
           PopupMenu = PopupMenu1
           TabOrder = 1
           OnClick = StringGrid2Click
-          ExplicitLeft = 114
           ColWidths = (
             228
             47

@@ -10,7 +10,7 @@ DefaultGroupName=Ceramica
 AllowNoIcons=yes
 LicenseFile=license_ceramica.txt
 OutputDir=..\setup_output\
-OutputBaseFilename=setup_ceramica10283
+OutputBaseFilename=setup_ceramica10291
 Compression=lzma
 SolidCompression=yes
 
@@ -23,20 +23,20 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\..\..\..\bin\Ceramica.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\..\..\bin\CeramClient.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\..\..\bin\awpcvvideo.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\..\..\bin\pgf_wrapper.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\..\bin\Ceramica.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\..\bin\CeramClient.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\..\bin\awpcvvideo.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\..\..\bin\pgf_wrapper.dll"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "..\install_libs\borlndmm.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\install_libs\cc32160mt.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\install_libs\cc32250mt.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "setupdll\borlndmm.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "setupdll\cc32160mt.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "setupdll\cc32250mt.dll"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "..\install_libs\opencv_ffmpeg300.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\install_libs\opencv_world300.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "setupdll\opencv_ffmpeg300.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "setupdll\opencv_world300.dll"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "..\install_libs\msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\install_libs\msvcp120.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "setupdll\msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "setupdll\msvcp120.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "manual.pdf"; DestDir: "{app}"; Flags: ignoreversion
 

@@ -397,6 +397,9 @@ void __fastcall TmainPAM::fileOpenActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveActionExecute(TObject *Sender)
 {
+    awpImage* img = NULL;
+
+
    if (m_table->fileName == c_FileName)
       fileSaveAsActionExecute(NULL);
    else

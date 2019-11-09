@@ -20,6 +20,7 @@
 #include "PhPaneTool.h"
 #include "PhSelectRectTool.h"
 #include "PhZoomToRectTool.h"
+#include "capi.h"
 //---------------------------------------------------------------------------
 class TForm2 : public TForm
 {
@@ -80,6 +81,7 @@ __published:	// IDE-managed Components
 	TPhPaneTool *PhPaneTool1;
 	TPhZoomToRectTool *PhZoomToRectTool1;
 	TPhLenzTool *PhLenzTool1;
+	TLabel *Label1;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall fileCloseActionExecute(TObject *Sender);
 	void __fastcall fileCloseActionUpdate(TObject *Sender);
@@ -120,6 +122,7 @@ __published:	// IDE-managed Components
 	void __fastcall FormCreate(TObject *Sender);
 private:	// User declarations
     void* m_pTess;
+    TessBaseAPI* tess;
     void __fastcall OCRhelper();
 public:		// User declarations
 	__fastcall TForm2(TComponent* Owner);

@@ -9,6 +9,9 @@
         <Projects Include="..\..\photon41\photon41.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\PAM\PAM.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="photon41:Make">
         <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="PAM">
+        <MSBuild Projects="..\PAM\PAM.cbproj"/>
+    </Target>
+    <Target Name="PAM:Clean">
+        <MSBuild Projects="..\PAM\PAM.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PAM:Make">
+        <MSBuild Projects="..\PAM\PAM.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="OCRdemo;photon41"/>
+        <CallTarget Targets="OCRdemo;photon41;PAM"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="OCRdemo:Clean;photon41:Clean"/>
+        <CallTarget Targets="OCRdemo:Clean;photon41:Clean;PAM:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="OCRdemo:Make;photon41:Make"/>
+        <CallTarget Targets="OCRdemo:Make;photon41:Make;PAM:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

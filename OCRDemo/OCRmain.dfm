@@ -98,6 +98,13 @@ object Form2: TForm2
       Align = alTop
       Caption = 'OCR Tesseract'
       TabOrder = 2
+      object Label1: TLabel
+        Left = 8
+        Top = 24
+        Width = 31
+        Height = 13
+        Caption = 'Label1'
+      end
     end
     object GroupBox2: TGroupBox
       Left = 1

@@ -201,8 +201,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
             <BuildOrder>14</BuildOrder>
         </CppCompile>
         <FormResources Include="PAMLongProcessUnit.dfm"/>
-        <FormResources Include="ABOUT.dfm"/>
         <FormResources Include="editorUnit.dfm"/>
+        <FormResources Include="ABOUT.dfm"/>
         <FormResources Include="optionsUnit.dfm"/>
         <FormResources Include="MainUnit.dfm"/>
         <BuildConfiguration Include="Release">

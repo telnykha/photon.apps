@@ -16,6 +16,8 @@
 #pragma link "PhZoomToRectTool"
 #pragma link "tesswrapperb.lib"
 #pragma link "awpipl2b.lib"
+#pragma link "pvt.cppan.demo.google.tesseract.libtesseract-master.lib"
+
 
 #pragma resource "*.dfm"
 TForm2 *Form2;
@@ -29,6 +31,7 @@ __fastcall TForm2::TForm2(TComponent* Owner)
         ShowMessage("Cannot create OCR engine.");
         Application->Terminate();
     }
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm2::Exit1Click(TObject *Sender)
@@ -285,14 +288,14 @@ void __fastcall TForm2::OCRhelper()
         return;
     }
 
-    awpImage* img = PhImage1- ;
-    dib->GetAWPImage(&img);
-    awpResize(img, 128, img->sSizeY*128/img->sSizeX);
+    awpImage* img = NULL;
+
+    PhImage1->GetSelectedImage(&img);
+    //awpResize(img, 64, img->sSizeY*64/img->sSizeX);
     awpConvert(img, AWP_CONVERT_3TO1_BYTE);
-    awpFilter(img,AWP_BLUR,AWP_FILTER_METHOD_ORDINARY);
-    awpAutoLevels(img);
-    dib->SetAWPImage(img);
-    PhImage2->Bitmap = dib;
+    //awpFilter(img,AWP_BLUR,AWP_FILTER_METHOD_ORDINARY);
+    //awpAutoLevels(img);
+    PhImage2->SetAwpImage(img);
     PhImage2->BestFit();
     char result[32];
     if (tessProcess(m_pTess, (unsigned char*)img->pPixels, img->sSizeX, img->sSizeY, img->bChannels, result) != 0)
@@ -311,6 +314,11 @@ void __fastcall TForm2::OCRhelper()
 void __fastcall TForm2::FormCreate(TObject *Sender)
 {
 	PhImage1->SelectPhTool(PhPaneTool1);
+    const char* ver =  TessVersion();
+    Label1->Caption = ver;
+
+    tess = TessBaseAPICreate();
+
 }
 //---------------------------------------------------------------------------
 

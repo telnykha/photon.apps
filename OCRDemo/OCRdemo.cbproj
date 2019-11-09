@@ -63,7 +63,7 @@
         <IncludePath>$(AWP);$(PHOTON41);$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <ILINK_LibraryPath>..\photon\;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(AWPLIB);C:\_alt\_proj\photon\photon41\photon\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>appanalytics;bcbsmp;bindcomp;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbrtl;dsnap;fmx;fmxase;fmxdae;fmxobj;FMXTee925;FMXTeeDB925;FMXTeeImport925;FMXTeeLanguage925;FMXTeePro925;FmxTeeUI925;FMXTree25;IndyCore;IndyProtocols;IndySystem;photon41;rtl;svn;Tee925;TeeDB925;TeeGL925;TeeImage925;TeeImport925;TeeLanguage925;TeeMaker125;TeePro925;TeeTree2D25Tee9;TeeUI925;TeeWorld925;tethering;vcl;vclactnband;vcldb;vcldsnap;vclie;vclimg;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -102,6 +102,7 @@
         <LinkPackageImports>rtl.bpi;vcl.bpi;photon41.bpi</LinkPackageImports>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <IncludePath>C:\_alt\_proj\va_project\research\tesswrapper\api;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
