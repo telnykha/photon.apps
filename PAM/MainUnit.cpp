@@ -785,6 +785,12 @@ double __fastcall TmainPAM::ExploshureTime(int index, int pos)
     m_options.exploshureIndex = index;
     m_options.exploshureValue = pos;
 
+    int delay = 500 / exp_mks;
+
+    SpinEdit2->MinValue = delay + 1;
+    if (SpinEdit2->Value < SpinEdit2->MinValue)
+        SpinEdit2->Value = SpinEdit2->MinValue;
+
     SpinEdit1Change(NULL);
     SpinEdit2Change(NULL);
 
@@ -845,13 +851,11 @@ void __fastcall TmainPAM::FileListBox1Change(TObject *Sender)
     }
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TmainPAM::ApplicationEvents1Hint(TObject *Sender)
 {
      StatusBar1->Panels->Items[0]->Text = Application->Hint;
 }
 //---------------------------------------------------------------------------
-
 
 void __fastcall TmainPAM::DirectoryListBox1Change(TObject *Sender)
 {
@@ -934,7 +938,7 @@ bool __fastcall TmainPAM::StartProcess()
 
     StopVideo();
 
-    m_archive = new TPAMArchive(m_options.ArchivePath);//&archive;
+    m_archive = new TPAMArchive(m_options.ArchivePath);
     m_archive->CreateArchiveEntry(this->m_table);
     if (find_arduino() > 0)
     {
@@ -1011,7 +1015,6 @@ void __fastcall TmainPAM::TrackBar1Change(TObject *Sender)
     m_options.exploshureValue = TrackBar1->Position;
     if (m_table != NULL)
         m_table->changed = true;
-
 }
 //---------------------------------------------------------------------------
 

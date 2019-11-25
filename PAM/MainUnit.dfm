@@ -310,7 +310,7 @@
         Width = 802
         Height = 408
         Align = alClient
-        ColCount = 4
+        ColCount = 6
         FixedCols = 0
         RowCount = 1
         FixedRows = 0
@@ -322,7 +322,9 @@
           498
           108
           84
-          440)
+          440
+          64
+          64)
       end
       object Panel4: TPanel
         Left = 0
@@ -553,7 +555,7 @@
           Width = 266
           Height = 449
           Align = alRight
-          ColCount = 4
+          ColCount = 6
           DefaultColWidth = 32
           DefaultRowHeight = 18
           FixedCols = 0
@@ -572,7 +574,9 @@
             228
             47
             33
-            100)
+            100
+            32
+            32)
         end
       end
     end

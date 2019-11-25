@@ -10,7 +10,7 @@ DefaultGroupName=Ceramica
 AllowNoIcons=yes
 LicenseFile=license_ceramica.txt
 OutputDir=..\setup_output\
-OutputBaseFilename=setup_ceramica10291
+OutputBaseFilename=setup_ceramica10292
 Compression=lzma
 SolidCompression=yes
 
@@ -24,7 +24,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "..\..\..\bin\Ceramica.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\..\bin\CeramClient.exe"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "..\..\..\bin\CeramClient.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\..\bin\awpcvvideo.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\..\bin\pgf_wrapper.dll"; DestDir: "{app}"; Flags: ignoreversion
 

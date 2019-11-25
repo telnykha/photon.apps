@@ -20,8 +20,11 @@ TCommandsTable::TCommandsTable(TStringGrid* grid, TPAMOptions* pOptions)
     m_fileName = c_FileName;
     m_grid->Cells[0][0] = L"Команда";
 	m_grid->Cells[1][0] = L"Интенсивность (%)";
-	m_grid->Cells[2][0] = L"Время (ms)";
+	m_grid->Cells[2][0] = L"Длительность (ms)";
 	m_grid->Cells[3][0] = L"Комментарий";
+	m_grid->Cells[4][0] = L"Время";
+	m_grid->Cells[5][0] = L"Файл";
+
 }
 //
 void __fastcall TCommandsTable::NewTable()
@@ -87,10 +90,16 @@ void __fastcall TCommandsTable::LoadTable(const char* lpFileName)
 		  int v;
 		  e1->Attribute("delay", &v);
 		  event->pinDelay = v;
+          if (e1->QueryIntAttribute("time", &v) != TIXML_SUCCESS)
+            event->eventTime = 0;
+          else
+            event->eventTime = v;
 		  m_grid->Cells[0][m_grid->RowCount-1] = GetCommandName(event->command);
 		  m_grid->Cells[1][m_grid->RowCount-1] = IntToStr((int)event->pinStatus);//GetCommandIntensivity(event->pinStatus, event->command);
 		  m_grid->Cells[2][m_grid->RowCount-1] = IntToStr((int)event->pinDelay);
 		  m_grid->Cells[3][m_grid->RowCount-1] = e1->Attribute("comment");
+		  m_grid->Cells[4][m_grid->RowCount-1] = IntToStr((int)event->eventTime);
+		  m_grid->Cells[5][m_grid->RowCount-1] = e1->Attribute("image");
 
 		  m_list->Add(event);
 	}
@@ -132,6 +141,7 @@ void __fastcall TCommandsTable::SaveTable(const char* lpFileName)
         AnsiString str = m_grid->Cells[4][i+1];
         e1->SetAttribute("comment", str.c_str());
         e1->SetAttribute("image", event->imageName.c_str());
+        e1->SetAttribute("time", event->eventTime);
         e->LinkEndChild(e1);
     }
 

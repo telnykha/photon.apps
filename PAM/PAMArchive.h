@@ -13,6 +13,7 @@ protected:
 	TCommandsTable* m_table;
     std::vector<int>  m_indexes;
     int m_counter;
+    unsigned int m_expTime;
     UnicodeString m_path;
     UnicodeString m_currentTime;
     UnicodeString m_currentPath;

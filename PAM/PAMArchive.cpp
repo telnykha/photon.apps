@@ -131,10 +131,12 @@ void TPAMArchive::SavePicture(awpImage* image)
 	f = fopen(strName.c_str(), "w+b");
 	fwrite(d, image->sSizeX*image->sSizeY*sizeof(AWPFLOAT), 1, f);
 	fclose(f);
-
     expEvent* event = (expEvent*)m_table->list->Items[m_indexes[m_counter]];
+    if (m_counter == 0)
+        m_expTime = ::GetTickCount();
 	m_counter++;
     event->imageName = ExtractFileName(strName);
+    event->eventTime = ::GetTickCount() - m_expTime;
 
 }
 

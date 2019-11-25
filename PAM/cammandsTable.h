@@ -14,6 +14,7 @@ struct expEvent
   int pinStatus;            // intensivity [0..100]
   unsigned long pinDelay;   // delay in mks
   AnsiString imageName;     // connected image
+  unsigned int eventTime;
 };
 
 class TCommandsTable
