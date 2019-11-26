@@ -32,7 +32,6 @@ void __fastcall TPAMArchive::CreateArchiveEntry(TCommandsTable* table)
         if (event->command == 2 || event->command == 3 || event->command == 5 || event->command == 6 || event->command == 8 )
             m_indexes.push_back(i);
     }
-//    table->SaveTable(_ansi.c_str());
 }
 
 void __fastcall TPAMArchive::DoCurrentPath()
@@ -109,13 +108,8 @@ void TPAMArchive::SavePicture(awpImage* image)
 {
 
 	assert(m_table != NULL);
-    if (m_counter == 0)
-		m_expTime = ::GetTickCount();
+
 	expEvent* event = (expEvent*)m_table->list->Items[m_indexes[m_counter]];
-	event->eventTime = ::GetTickCount() - m_expTime;
-
-
-
 	AnsiString str =  m_currentPath;
 	DWORD t = ::GetTickCount();
 	str += IntToStr((__int64)t);
@@ -173,5 +167,11 @@ void __fastcall TPAMArchive::FinishSave()
     UnicodeString strFileName = m_currentPath + L"\\config.pam";
     AnsiString _ansi = strFileName;
     m_table->SaveTable(_ansi.c_str());
+    for (int i = 0; i < m_table->list->Count; i++)
+    {
+        expEvent* event = (expEvent*)m_table->list->Items[i];
+        event->imageName = L"";
+        event->eventTime = 0;
+    }
 }
 

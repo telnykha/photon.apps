@@ -115,7 +115,6 @@ __published:	// IDE-managed Components
 	TPhImage *PhImage2;
 	TSplitter *Splitter2;
 	TPhPaneTool *PhPaneTool1;
-	TStringGrid *StringGrid2;
 	TSplitter *Splitter3;
 	TSplitter *Splitter4;
 	TPanel *Panel6;
@@ -139,6 +138,22 @@ __published:	// IDE-managed Components
 	TLabel *Label5;
 	TLabel *Label6;
 	TLabel *Label7;
+	TPanel *Panel7;
+	TStringGrid *StringGrid2;
+	TPanel *Panel8;
+	TLabel *Label8;
+	TLabel *Label9;
+	TLabel *Label10;
+	TLabel *Label11;
+	TLabel *Label12;
+	TLabel *Label13;
+	TLabel *Label14;
+	TLabel *Label15;
+	TLabel *Label16;
+	TLabel *Label17;
+	TLabel *Label18;
+	TLabel *Label19;
+	TButton *Button2;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -185,6 +200,7 @@ __published:	// IDE-managed Components
 	void __fastcall TrackBar5Change(TObject *Sender);
 	void __fastcall SpinEdit2Change(TObject *Sender);
 	void __fastcall SpinEdit1Change(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
 
 
 
@@ -192,14 +208,14 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
     int    			m_board;
-    TCommandsTable* m_table;
+    TCommandsTable* m_table; // таблица в окне для редактирования
     int             m_camera;
     int				m_numCameras;
     int 			m_mode;
     TPAMOptions 	m_options;
     UnicodeString   m_currentArchive;
     TPAMArchive*    m_archive;
-    TCommandsTable* m_tableArchive;
+    TCommandsTable* m_tableArchive; // таблица архива
 
     void   __fastcall AskSaveTable();
     void   __fastcall StartExperiment();

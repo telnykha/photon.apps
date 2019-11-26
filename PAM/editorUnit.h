@@ -28,8 +28,13 @@ __published:
 	TLabel *Label4;
 	TEdit *Edit1;
 	TSpinEdit *SpinEdit2;
+	TLabel *Label5;
+	TLabel *Label6;
 	void __fastcall ComboBox1Change(TObject *Sender);
+	void __fastcall SpinEdit2Change(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:
+    void __fastcall SetupControls();
 public:
 	virtual __fastcall TeditorDlg(TComponent* AOwner);
 };

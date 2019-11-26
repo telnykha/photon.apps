@@ -55,6 +55,8 @@ void __fastcall TPAMThread::Execute()
        }
        do
        {
+             if (m_count == 0)
+                m_startTime = ::GetTickCount();
              if (Terminated)
              	break;
              if (!ReadFile(m_comPort, readystatus, 1, &testRead, NULL))
@@ -78,4 +80,7 @@ void __fastcall TPAMThread::ProgressHelper()
 {
     PAMLongProcessForm->Label1->Caption = mainPAM->StringGrid1->Cells[0][m_count+1];
     PAMLongProcessForm->Gauge1->Progress = m_count;
+    //
+    expEvent* e = (expEvent*)mainPAM->table->list->Items[m_count-1];
+    e->eventTime = ::GetTickCount() - m_startTime;
 }

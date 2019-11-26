@@ -530,53 +530,166 @@
         Caption = 'Panel5'
         TabOrder = 1
         object Splitter2: TSplitter
-          Left = 350
+          Left = 356
           Top = 0
           Width = 4
           Height = 449
           Align = alRight
-          ExplicitLeft = 204
-          ExplicitHeight = 310
+          ExplicitLeft = 422
+          ExplicitTop = -2
         end
         object PhImage2: TPhImage
           Left = 0
           Top = 0
-          Width = 350
+          Width = 356
           Height = 449
           ThumbWidht = 128
           ThumbHeight = 128
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
+          ExplicitWidth = 361
         end
-        object StringGrid2: TStringGrid
-          Left = 354
+        object Panel7: TPanel
+          Left = 360
           Top = 0
-          Width = 266
+          Width = 260
           Height = 449
           Align = alRight
-          ColCount = 6
-          DefaultColWidth = 32
-          DefaultRowHeight = 18
-          FixedCols = 0
-          RowCount = 2
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
-          ParentFont = False
-          PopupMenu = PopupMenu1
+          Caption = 'Panel7'
           TabOrder = 1
-          OnClick = StringGrid2Click
-          ColWidths = (
-            228
-            47
-            33
-            100
-            32
-            32)
+          object StringGrid2: TStringGrid
+            Left = 1
+            Top = 121
+            Width = 258
+            Height = 327
+            Align = alClient
+            ColCount = 6
+            DefaultColWidth = 32
+            DefaultRowHeight = 18
+            FixedCols = 0
+            RowCount = 2
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
+            ParentFont = False
+            TabOrder = 0
+            OnClick = StringGrid2Click
+            ExplicitLeft = 2
+            ExplicitTop = 91
+            ExplicitHeight = 356
+            ColWidths = (
+              228
+              47
+              33
+              100
+              32
+              32)
+          end
+          object Panel8: TPanel
+            Left = 1
+            Top = 1
+            Width = 258
+            Height = 120
+            Align = alTop
+            TabOrder = 1
+            object Label8: TLabel
+              Left = 5
+              Top = 37
+              Width = 66
+              Height = 13
+              Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103': '
+            end
+            object Label9: TLabel
+              Left = 5
+              Top = 56
+              Width = 52
+              Height = 13
+              Caption = #1059#1089#1080#1083#1077#1085#1080#1077':'
+            end
+            object Label10: TLabel
+              Left = 5
+              Top = 74
+              Width = 55
+              Height = 13
+              Caption = #1047#1072#1076#1077#1088#1078#1082#1072':'
+            end
+            object Label11: TLabel
+              Left = 5
+              Top = 92
+              Width = 80
+              Height = 13
+              Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100': '
+            end
+            object Label12: TLabel
+              Left = 93
+              Top = 37
+              Width = 52
+              Height = 13
+              Caption = '-------------'
+            end
+            object Label13: TLabel
+              Left = 93
+              Top = 56
+              Width = 52
+              Height = 13
+              Caption = '-------------'
+            end
+            object Label14: TLabel
+              Left = 93
+              Top = 74
+              Width = 52
+              Height = 13
+              Caption = '-------------'
+            end
+            object Label15: TLabel
+              Left = 93
+              Top = 92
+              Width = 52
+              Height = 13
+              Caption = '-------------'
+            end
+            object Label16: TLabel
+              Left = 189
+              Top = 37
+              Width = 17
+              Height = 13
+              Caption = #1084#1082#1089
+            end
+            object Label17: TLabel
+              Left = 189
+              Top = 56
+              Width = 12
+              Height = 13
+              Caption = 'dB'
+            end
+            object Label18: TLabel
+              Left = 189
+              Top = 74
+              Width = 17
+              Height = 13
+              Caption = #1084#1082#1089
+            end
+            object Label19: TLabel
+              Left = 189
+              Top = 92
+              Width = 17
+              Height = 13
+              Caption = #1084#1082#1089
+            end
+            object Button2: TButton
+              Left = 5
+              Top = 8
+              Width = 244
+              Height = 25
+              Caption = #1054#1090#1082#1088#1099#1090#1100' '#1074' '#1088#1077#1076#1072#1082#1090#1086#1088#1077
+              TabOrder = 0
+              OnClick = Button2Click
+            end
+          end
         end
       end
     end

@@ -3,19 +3,20 @@ object editorDlg: TeditorDlg
   Top = 108
   BorderStyle = bsDialog
   Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1082#1086#1084#1072#1085#1076
-  ClientHeight = 185
+  ClientHeight = 361
   ClientWidth = 384
   Color = clBtnFace
   ParentFont = True
   OldCreateOrder = True
   Position = poScreenCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Bevel1: TBevel
     Left = 8
     Top = 8
     Width = 281
-    Height = 169
+    Height = 345
     Shape = bsFrame
   end
   object Label1: TLabel
@@ -27,24 +28,40 @@ object editorDlg: TeditorDlg
   end
   object Label2: TLabel
     Left = 16
-    Top = 73
+    Top = 245
     Width = 149
     Height = 13
     Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' '#1089#1074#1077#1095#1077#1085#1080#1103' (%)'
   end
   object Label3: TLabel
     Left = 16
-    Top = 101
+    Top = 273
     Width = 100
     Height = 13
     Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (ms) '
   end
   object Label4: TLabel
     Left = 16
-    Top = 128
+    Top = 300
     Width = 67
     Height = 13
     Caption = #1050#1086#1084#1084#1077#1085#1090#1072#1088#1080#1081
+  end
+  object Label5: TLabel
+    Left = 16
+    Top = 88
+    Width = 255
+    Height = 129
+    AutoSize = False
+    Caption = 'Label5'
+    WordWrap = True
+  end
+  object Label6: TLabel
+    Left = 16
+    Top = 64
+    Width = 97
+    Height = 13
+    Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1082#1086#1084#1072#1085#1076#1099
   end
   object OKBtn: TButton
     Left = 300
@@ -89,7 +106,7 @@ object editorDlg: TeditorDlg
   end
   object SpinEdit1: TSpinEdit
     Left = 171
-    Top = 98
+    Top = 270
     Width = 100
     Height = 22
     MaxValue = 100000
@@ -99,14 +116,14 @@ object editorDlg: TeditorDlg
   end
   object Edit1: TEdit
     Left = 16
-    Top = 147
+    Top = 319
     Width = 265
     Height = 21
     TabOrder = 4
   end
   object SpinEdit2: TSpinEdit
     Left = 171
-    Top = 70
+    Top = 242
     Width = 100
     Height = 22
     Increment = 10
@@ -114,5 +131,6 @@ object editorDlg: TeditorDlg
     MinValue = 0
     TabOrder = 5
     Value = 10
+    OnChange = SpinEdit2Change
   end
 end

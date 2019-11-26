@@ -9,22 +9,29 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-TCommandsTable::TCommandsTable(TStringGrid* grid, TPAMOptions* pOptions)
+TCommandsTable::TCommandsTable(TStringGrid* grid, TPAMOptions* pOptions, bool editable)
 {
     assert(grid != NULL);
     assert(pOptions != NULL);
+
+    m_editable = editable;
     m_options = pOptions;
     m_grid = grid;
     m_list = new TList();
 	m_changed = false;
     m_fileName = c_FileName;
+
+    // setup grid
+    m_grid->ColCount = m_editable ? 4 : 6;
     m_grid->Cells[0][0] = L"Команда";
 	m_grid->Cells[1][0] = L"Интенсивность (%)";
 	m_grid->Cells[2][0] = L"Длительность (ms)";
 	m_grid->Cells[3][0] = L"Комментарий";
-	m_grid->Cells[4][0] = L"Время";
-	m_grid->Cells[5][0] = L"Файл";
-
+    if (!m_editable)
+    {
+        m_grid->Cells[4][0] = L"Время";
+        m_grid->Cells[5][0] = L"Файл";
+    }
 }
 //
 void __fastcall TCommandsTable::NewTable()
@@ -98,8 +105,11 @@ void __fastcall TCommandsTable::LoadTable(const char* lpFileName)
 		  m_grid->Cells[1][m_grid->RowCount-1] = IntToStr((int)event->pinStatus);//GetCommandIntensivity(event->pinStatus, event->command);
 		  m_grid->Cells[2][m_grid->RowCount-1] = IntToStr((int)event->pinDelay);
 		  m_grid->Cells[3][m_grid->RowCount-1] = e1->Attribute("comment");
-		  m_grid->Cells[4][m_grid->RowCount-1] = IntToStr((int)event->eventTime);
-		  m_grid->Cells[5][m_grid->RowCount-1] = event->imageName;
+          if (!m_editable)
+          {
+              m_grid->Cells[4][m_grid->RowCount-1] = IntToStr((int)event->eventTime);
+              m_grid->Cells[5][m_grid->RowCount-1] = event->imageName;
+          }
 
 		  m_list->Add(event);
 	}
@@ -151,6 +161,7 @@ void __fastcall TCommandsTable::SaveTable(const char* lpFileName)
         ShowMessage("Ошибка: не могу сохранить файл описания эксперимента.");
         return;
     }
+    this->m_fileName = lpFileName;
 	m_changed = false;
 }
 //
@@ -339,17 +350,40 @@ UnicodeString __fastcall TCommandsTable::GetScript()
 		str += L"},\r\n";
 	}
 	str += L"};";
-	str += L"\r\n\const int exposure = ";
+	str += L"\r\n\const unsigned long exposure = ";
 	str += IntToStr(m_options->Exposure);
 	str += L";";
-	str += L"\r\n\const int flash_delay = ";
+	str += L"\r\n\const unsigned long flash_delay = ";
 	str += IntToStr(m_options->Exposure*m_options->Delay/100);
 	str += L";";
-	str += L"\r\n\const int  flash_lenght = ";
+	str += L"\r\n\const unsigned long  flash_lenght = ";
 	str += IntToStr(m_options->Exposure*m_options->Length/100);
 	str += L";";
 	return str;
 }
 
+void __fastcall TCommandsTable::UpdateGrid()
+{
+   m_grid->FixedRows = 0;
+   m_grid->RowCount = 1;
 
+    m_grid->ColCount = m_editable ? 4 : 6;
+    m_grid->Cells[0][0] = L"Команда";
+	m_grid->Cells[1][0] = L"Интенсивность (%)";
+	m_grid->Cells[2][0] = L"Длительность (ms)";
+	m_grid->Cells[3][0] = L"Комментарий";
+    if (!m_editable)
+    {
+        m_grid->Cells[4][0] = L"Время";
+        m_grid->Cells[5][0] = L"Файл";
+    }
+    m_grid->RowCount = m_list->Count + 1;
+    for (int i = 0; i < m_list->Count; i++)
+    {
+        expEvent* e = (expEvent*)m_list->Items[i];
+        m_grid->Cells[0][i+1] = GetCommandName(e->command);
+		m_grid->Cells[1][i+1] = IntToStr(e->pinStatus);
+		m_grid->Cells[2][i+1] = IntToStr((int)e->pinDelay);
+    }
+}
 

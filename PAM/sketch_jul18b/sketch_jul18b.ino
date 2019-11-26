@@ -32,8 +32,12 @@ void setup()
 */
 void microDelay(unsigned long t)
 {
+  unsigned long mils = t / 1000; 
+  if (mils > 0)
+    delay(mils);
   unsigned long t0 = micros();
-  while (micros() - t0 < t)
+  unsigned long t1 = t - mils*1000;
+  while (micros() - t0 < t1)
   {
   }
 }
@@ -75,12 +79,13 @@ void DoCommand(int cammand, int value, unsigned long timeDelay)
       break;
       case TURNON_CAM_460_ACT:
         BlueFlashWithCameraAct(timeDelay, value);
+        //BlueFlashWithCamera(timeDelay, value);
       break;
       case TURNON460_ACT:
         BlueFlashAct(timeDelay, value);
       break;
       case TURNON_CAM_FLASH:
-        BlueFlashWithCameraDark(timeDelay, value);
+        BlueFlashWithCameraDark(timeDelay);
       break;
   }
 }
@@ -99,10 +104,9 @@ void Porcess()
       break;
     unsigned char value = 0x04;
     Serial.write(&value, 1);
-    DoCommand(Events[counter].command,				// command id 
-              Events[counter].pinStatus,                        // % of 1000 mks light 
-              1000 * Events[counter].pinDelay                   // event time mks 
-	     );
+    DoCommand(Events[counter].command,
+              Events[counter].pinStatus,
+              1000 * Events[counter].pinDelay);
     counter++;
   }
   unsigned char value = 0x05;
@@ -113,57 +117,15 @@ void Porcess()
 //Flash blue LED brightness aBrightness and time aTime
 void BlueFlash(unsigned long aTime, int aBrightness)
 {
-    int t1 =  10*aBrightness;  // 100% = 1000 mks 
+    int t1 =  10*aBrightness;
     unsigned long t = micros();
-    while(micros() - t < aTime)
+    while(micros() - t <= aTime)
     {
       digitalWrite(bluePin, HIGH);
       microDelay(t1);
       digitalWrite(bluePin, LOW);
       microDelay(1000 - t1);
     }
-}
-
-void BlueFlashAct(unsigned long aTime, int aBrightness)
-{
-    int t1=aBrightness; 
-    unsigned long t = micros();
-    while(micros() - t < aTime)
-    {
-      digitalWrite(bluePin, HIGH);
-      microDelay(t1);
-      digitalWrite(bluePin, LOW);
-      microDelay(1000 - t1);
-    }
-}
-
-//Flash red LED brightness aBrightness and time aTime
-void RedFlash(unsigned long aTime, int aBrightness)
-{
-    unsigned long t = micros();
-    while(micros() - t < aTime)
-    {
-      digitalWrite(redPin, HIGH);
-      microDelay(aBrightness*10);
-      digitalWrite(redPin, LOW);
-      microDelay(1000 - aBrightness*10);
-    }
-}
-
-// Flash red LED brightness aBrightness and time aTime
-// switch on camera 
-void RedFlashWithCamera(unsigned long aTime, int aBrightness)
-{
-    unsigned long t = micros();
-    while(micros() - t < aTime)
-    {
-      digitalWrite(redPin, HIGH);
-      digitalWrite(camPin, HIGH);
-      microDelay(aBrightness*10);
-      digitalWrite(redPin, LOW);
-      microDelay(1000 - aBrightness*10);
-    }
-    digitalWrite(camPin, LOW);
 }
 
 // Flash blue LED brightness aBrightness and time aTime
@@ -177,8 +139,64 @@ void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
    digitalWrite(bluePin, LOW);
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay);
-   BlueFlash(aTime - exposure, aBrightness); 
+   unsigned long t = 0;
+   if (aTime < exposure)
+    t = 70000;
+   else if (aTime - exposure < 70000)
+    t = 70000;
+   else
+    t = aTime - exposure; 
+   BlueFlash(t, aBrightness); 
 }
+
+void BlueFlashAct(unsigned long aTime, int aBrightness)
+{
+    int t1=aBrightness; 
+    unsigned long t = micros();
+    while(micros() - t <= aTime)
+    {
+      digitalWrite(bluePin, HIGH);
+      microDelay(t1);
+      digitalWrite(bluePin, LOW);
+      microDelay(1000 - t1);
+    }
+}
+
+//Flash red LED brightness aBrightness and time aTime
+void RedFlash(unsigned long aTime, int aBrightness)
+{
+    unsigned long t = micros();
+    while(micros() - t <= aTime)
+    {
+      digitalWrite(redPin, HIGH);
+      microDelay(aBrightness*10);
+      digitalWrite(redPin, LOW);
+      microDelay(1000 - aBrightness*10);
+    }
+}
+
+// Flash red LED brightness aBrightness and time aTime
+// switch on camera 
+void RedFlashWithCamera(unsigned long aTime, int aBrightness)
+{
+
+   digitalWrite(camPin, HIGH);
+   microDelay(flash_delay);
+   digitalWrite(redPin, HIGH);
+   microDelay(flash_lenght);
+   digitalWrite(redPin, LOW);
+   digitalWrite(camPin, LOW);
+   microDelay(exposure - flash_lenght - flash_delay); 
+   unsigned long t = 0;
+   if (aTime < exposure)
+    t = 70000;
+   else if (aTime - exposure < 70000)
+    t = 70000;
+   else
+    t = aTime - exposure; 
+   RedFlash(t, aBrightness);          
+}
+
 
 // Flash blue LED brightness aBrightness and time aTime
 // switch on camera 
@@ -191,10 +209,17 @@ void BlueFlashWithCameraAct(unsigned long aTime, int aBrightness)
    digitalWrite(bluePin, LOW);
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay);
-   BlueFlashAct(aTime - exposure, aBrightness); 
+   unsigned long t = 0;
+   if (aTime < exposure)
+    t = 70000;
+   else if (aTime - exposure < 70000)
+    t = 70000;
+   else
+    t = aTime - exposure; 
+   BlueFlashAct(t, aBrightness); 
 }
 
-void BlueFlashWithCameraDark(unsigned long aTime, int aBrightness)
+void BlueFlashWithCameraDark(unsigned long aTime)
 {
    digitalWrite(camPin, HIGH);
    microDelay(flash_delay);
@@ -203,7 +228,7 @@ void BlueFlashWithCameraDark(unsigned long aTime, int aBrightness)
    digitalWrite(bluePin, LOW);
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay);
-   microDelay(aTime - exposure);
+   microDelay(70000);
 }
 void Lighting()
 {

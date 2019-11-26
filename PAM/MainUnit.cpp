@@ -249,7 +249,7 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
     this->SpeedButton12->Caption = L"";
 
 	m_table = new TCommandsTable(StringGrid1, &m_options);
-    m_tableArchive = new TCommandsTable(this->StringGrid2, &m_options);
+    m_tableArchive = new TCommandsTable(this->StringGrid2, &m_options, false);
 
     m_numCameras = BUFCCDUSB_InitDevice();
     Memo2->Lines->Add(L"Обнаружено " + IntToStr(m_numCameras) + L" видеокамер.");
@@ -368,6 +368,7 @@ void __fastcall TmainPAM::ApplicationEvents1Idle(TObject *Sender, bool &Done)
     str += m_table->fileName;
     str += L"]";
     Caption = str;
+    Button2->Enabled = m_tableArchive != NULL && m_tableArchive->list->Count > 0;
 }
 //---------------------------------------------------------------------------
 
@@ -662,7 +663,14 @@ void __fastcall TmainPAM::PageControl1Change(TObject *Sender)
     else if (PageControl1->TabIndex == 3)
     {
         StopVideo();
-        OpenArchivePage(m_options.ArchivePath);
+        //
+        if (m_tableArchive != NULL && m_tableArchive->fileName != L"default.pam")
+        {
+            Memo2->Lines->Add(m_tableArchive->fileName);
+            OpenArchivePage(m_tableArchive->fileName);
+        }
+        else
+	        OpenArchivePage(m_options.ArchivePath);
     }
     else
         StopVideo();
@@ -859,13 +867,22 @@ void __fastcall TmainPAM::ApplicationEvents1Hint(TObject *Sender)
 
 void __fastcall TmainPAM::DirectoryListBox1Change(TObject *Sender)
 {
+
     m_tableArchive->NewTable();
+    Label12->Caption = "";//IntToStr(m_tableArchive->options->Exposure);
+    Label13->Caption = "";//IntToStr(m_tableArchive->options->Gain);
+    Label14->Caption = "";//IntToStr(m_tableArchive->options->Delay);
+    Label15->Caption = "";//IntToStr(m_tableArchive->options->Length);
     UnicodeString str = DirectoryListBox1->Directory;
     str += L"\\config.pam";
     if (FileExists(str, false))
     {
         AnsiString _ansi = str;
         m_tableArchive->LoadTable(_ansi.c_str());
+        Label12->Caption = IntToStr(m_tableArchive->options->Exposure);
+        Label13->Caption = IntToStr(m_tableArchive->options->Gain);
+        Label14->Caption = IntToStr(m_tableArchive->options->Delay*m_tableArchive->options->Exposure / 100);
+        Label15->Caption = IntToStr(m_tableArchive->options->Length*m_tableArchive->options->Exposure / 100);
     }
 }
 //---------------------------------------------------------------------------
@@ -1085,6 +1102,27 @@ void __fastcall TmainPAM::SpinEdit1Change(TObject *Sender)
     m_options.Length = SpinEdit1->Value;
     if (m_table != NULL)
         m_table->changed = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::Button2Click(TObject *Sender)
+{
+    m_table->NewTable();
+    m_table->fileName = c_FileName;
+    for (int i = 0; i < m_tableArchive->list->Count; i++)
+    {
+		expEvent* e = (expEvent*)m_tableArchive->list->Items[i];
+        assert (e != NULL);
+        expEvent* ee = new expEvent();
+        ee->command = e->command;
+        ee->pinStatus = e->pinStatus;
+        ee->pinDelay = e->pinDelay;
+        ee->imageName = L"";
+        ee->eventTime = 0;
+        m_table->list->Add(ee);
+    }
+    m_table->UpdateGrid();
+    PageControl1->ActivePageIndex = 0;
 }
 //---------------------------------------------------------------------------
 
