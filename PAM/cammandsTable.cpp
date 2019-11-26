@@ -99,7 +99,7 @@ void __fastcall TCommandsTable::LoadTable(const char* lpFileName)
 		  m_grid->Cells[2][m_grid->RowCount-1] = IntToStr((int)event->pinDelay);
 		  m_grid->Cells[3][m_grid->RowCount-1] = e1->Attribute("comment");
 		  m_grid->Cells[4][m_grid->RowCount-1] = IntToStr((int)event->eventTime);
-		  m_grid->Cells[5][m_grid->RowCount-1] = e1->Attribute("image");
+		  m_grid->Cells[5][m_grid->RowCount-1] = event->imageName;
 
 		  m_list->Add(event);
 	}

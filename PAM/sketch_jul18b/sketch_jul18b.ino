@@ -75,7 +75,6 @@ void DoCommand(int cammand, int value, unsigned long timeDelay)
       break;
       case TURNON_CAM_460_ACT:
         BlueFlashWithCameraAct(timeDelay, value);
-        //BlueFlashWithCamera(timeDelay, value);
       break;
       case TURNON460_ACT:
         BlueFlashAct(timeDelay, value);
@@ -100,9 +99,10 @@ void Porcess()
       break;
     unsigned char value = 0x04;
     Serial.write(&value, 1);
-    DoCommand(Events[counter].command,
-              Events[counter].pinStatus,
-              1000 * Events[counter].pinDelay);
+    DoCommand(Events[counter].command,				// command id 
+              Events[counter].pinStatus,                        // % of 1000 mks light 
+              1000 * Events[counter].pinDelay                   // event time mks 
+	     );
     counter++;
   }
   unsigned char value = 0x05;
@@ -113,7 +113,7 @@ void Porcess()
 //Flash blue LED brightness aBrightness and time aTime
 void BlueFlash(unsigned long aTime, int aBrightness)
 {
-    int t1 =  10*aBrightness;
+    int t1 =  10*aBrightness;  // 100% = 1000 mks 
     unsigned long t = micros();
     while(micros() - t < aTime)
     {
@@ -178,18 +178,6 @@ void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay);
    BlueFlash(aTime - exposure, aBrightness); 
-/*    
-    unsigned long t = micros();
-    while(micros() - t < aTime)
-    {
-      digitalWrite(bluePin, HIGH);
-      digitalWrite(camPin, HIGH);
-      microDelay(aBrightness*10);
-      digitalWrite(bluePin, LOW);
-      microDelay(1000 - aBrightness*10);
-    }
-    digitalWrite(camPin, LOW);
-*/
 }
 
 // Flash blue LED brightness aBrightness and time aTime

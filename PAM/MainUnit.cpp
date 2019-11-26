@@ -956,9 +956,10 @@ bool __fastcall TmainPAM::StartProcess()
         Memo1->Lines->SaveToFile(strPath);
         AnsiString strCommand = "arduino_debug.exe --upload ";
         strCommand += GetSketchPath();
-        strCommand += "sketch_jul18b.ino";
+		strCommand += "sketch_jul18b.ino";
 
-        Memo2->Lines->Add("Загрузка микропрограммы." );
+		Memo2->Lines->Add("Загрузка микропрограммы." );
+		Memo2->Lines->Add(strCommand);
         TConsoleIO console(Memo2);
 
         console.Run(strCommand.c_str());

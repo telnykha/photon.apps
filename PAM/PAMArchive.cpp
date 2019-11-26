@@ -97,47 +97,49 @@ awpImage* TPAMArchive::LoadPicture(UnicodeString path)
 
     awpImage* img = NULL;
     if (awpCopyImage(&_img, &img) != AWP_OK)
-    {
-	    free(d);
-        return NULL;
-    }
+	{
+		free(d);
+		return NULL;
+	}
 
-    return img;
+	return img;
 }
 
 void TPAMArchive::SavePicture(awpImage* image)
 {
 
-    assert(m_table != NULL);
+	assert(m_table != NULL);
+    if (m_counter == 0)
+		m_expTime = ::GetTickCount();
+	expEvent* event = (expEvent*)m_table->list->Items[m_indexes[m_counter]];
+	event->eventTime = ::GetTickCount() - m_expTime;
 
-    AnsiString str =  m_currentPath;
-    DWORD t = ::GetTickCount();
-    str += IntToStr((__int64)t);
+
+
+	AnsiString str =  m_currentPath;
+	DWORD t = ::GetTickCount();
+	str += IntToStr((__int64)t);
 	str += "_";
 	str += IntToStr(m_counter);
 	AnsiString strName = str;
-    strName += ".txt";
+	strName += ".txt";
 
-    FILE* f = fopen(strName.c_str(), "w+t");
-    fprintf(f, "%i\n", image->sSizeX);
-    fprintf(f, "%i\n", image->sSizeY);
-    fclose(f);
+	FILE* f = fopen(strName.c_str(), "w+t");
+	fprintf(f, "%i\n", image->sSizeX);
+	fprintf(f, "%i\n", image->sSizeY);
+	fclose(f);
 
 	strName = str;
-    strName += ".raw";
+	strName += ".raw";
 
 	AWPFLOAT* d = (AWPFLOAT*)image->pPixels;
 
 	f = fopen(strName.c_str(), "w+b");
 	fwrite(d, image->sSizeX*image->sSizeY*sizeof(AWPFLOAT), 1, f);
 	fclose(f);
-    expEvent* event = (expEvent*)m_table->list->Items[m_indexes[m_counter]];
-    if (m_counter == 0)
-        m_expTime = ::GetTickCount();
-	m_counter++;
-    event->imageName = ExtractFileName(strName);
-    event->eventTime = ::GetTickCount() - m_expTime;
 
+	m_counter++;
+	event->imageName = ExtractFileName(strName);
 }
 
 void __fastcall TPAMArchive::DeleteArchiveEntry()
