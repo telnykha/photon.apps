@@ -387,3 +387,83 @@ void __fastcall TCommandsTable::UpdateGrid()
     }
 }
 
+void __fastcall TCommandsTable::InsertRecord(int index, TeditorDlg* dlg)
+{
+    assert(m_grid != NULL);
+    assert(dlg != NULL);
+
+    SNDMSG(m_grid->Handle, WM_SETREDRAW, false, 0);
+    int AfterIndex = index;
+     try
+      {
+        const int row_count = m_grid->RowCount;
+
+        // (1) append a new row to the end
+        m_grid->RowCount = row_count + 1;
+        for (int row = m_grid->RowCount; row > index; row--)
+        {
+          m_grid->Rows[row] = m_grid->Rows[row - 1];
+        }
+
+        m_grid->Cells[0][index] = GetCommandName(dlg->ComboBox1->ItemIndex);
+		m_grid->Cells[1][index] = dlg->SpinEdit2->Value;
+        m_grid->Cells[2][index] = IntToStr(dlg->SpinEdit1->Value);
+        m_grid->Cells[3][index] = dlg->Edit1->Text;
+        // (2) insert contents of the trailing rows
+        expEvent* e = new(expEvent);
+        e->command    = dlg->ComboBox1->ItemIndex;
+		e->pinStatus  = dlg->SpinEdit2->Value;
+        e->pinDelay   = dlg->SpinEdit1->Value;
+        m_list->Insert(index-1, e);
+      }
+      __finally
+      {
+        SNDMSG(m_grid->Handle, WM_SETREDRAW, true, 0);
+      }
+      RECT R = m_grid->CellRect(0, AfterIndex);
+      InflateRect(&R, m_grid->Width, m_grid->Height);
+      InvalidateRect(m_grid->Handle, &R, false);
+      m_changed = true;
+}
+
+void __fastcall TCommandsTable::Up(int index)
+{
+   expEvent* e1 = (expEvent*)m_list->Items[index-1];
+   expEvent* e2 = (expEvent*)m_list->Items[index-2];
+    UnicodeString str = m_grid->Cells[3][index];
+    m_grid->Cells[0][index] = GetCommandName(e2->command);
+    m_grid->Cells[1][index] = IntToStr(e2->pinStatus);
+    m_grid->Cells[2][index] = IntToStr((int)e2->pinDelay);
+    m_grid->Cells[3][index] = m_grid->Cells[3][index-1];
+
+    m_grid->Cells[0][index-1] = GetCommandName(e1->command);
+    m_grid->Cells[1][index-1] = IntToStr(e1->pinStatus);
+    m_grid->Cells[2][index-1] = IntToStr((int)e1->pinDelay);
+    m_grid->Cells[3][index-1] = str;
+
+
+   m_list->Exchange(index-1,index-2);
+   m_changed = true;
+}
+
+void __fastcall TCommandsTable::Down(int index)
+{
+    expEvent* e1 = (expEvent*)m_list->Items[index-1];
+    expEvent* e2 = (expEvent*)m_list->Items[index];
+    UnicodeString str = m_grid->Cells[3][index];
+    m_grid->Cells[0][index] = GetCommandName(e2->command);
+    m_grid->Cells[1][index] = IntToStr(e2->pinStatus);
+    m_grid->Cells[2][index] = IntToStr((int)e2->pinDelay);
+    m_grid->Cells[3][index] = m_grid->Cells[3][index-1];
+
+    m_grid->Cells[0][index+1] = GetCommandName(e1->command);
+    m_grid->Cells[1][index+1] = IntToStr(e1->pinStatus);
+    m_grid->Cells[2][index+1] = IntToStr((int)e1->pinDelay);
+    m_grid->Cells[3][index+1] = str;
+
+
+   m_list->Exchange(index-1,index);
+   m_changed = true;
+
+}
+

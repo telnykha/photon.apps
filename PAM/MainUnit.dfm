@@ -548,7 +548,6 @@
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
-          ExplicitWidth = 361
         end
         object Panel7: TPanel
           Left = 360
@@ -578,9 +577,6 @@
             ParentFont = False
             TabOrder = 0
             OnClick = StringGrid2Click
-            ExplicitLeft = 2
-            ExplicitTop = 91
-            ExplicitHeight = 356
             ColWidths = (
               228
               47
@@ -980,6 +976,9 @@
       object N19: TMenuItem
         Action = editInsertAction
       end
+      object N25: TMenuItem
+        Action = editAddAction
+      end
       object N20: TMenuItem
         Action = editDeleteAction
       end
@@ -1133,6 +1132,25 @@
       OnExecute = editEditActionExecute
       OnUpdate = editEditActionUpdate
     end
+    object editAddAction: TAction
+      Category = 'Edit'
+      Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
+      ShortCut = 16429
+      OnExecute = editAddActionExecute
+      OnUpdate = editAddActionUpdate
+    end
+    object editUpAction: TAction
+      Category = 'Edit'
+      Caption = #1055#1086#1076#1085#1103#1090#1100' '#1074#1074#1077#1088#1093
+      OnExecute = editUpActionExecute
+      OnUpdate = editUpActionUpdate
+    end
+    object editDownAction: TAction
+      Category = 'Edit'
+      Caption = #1054#1087#1091#1089#1090#1080#1090#1100' '#1074#1085#1080#1079
+      OnExecute = editDownActionExecute
+      OnUpdate = editDownActionUpdate
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
@@ -1146,11 +1164,23 @@
     object N22: TMenuItem
       Action = editInsertAction
     end
+    object N26: TMenuItem
+      Action = editAddAction
+    end
     object N23: TMenuItem
       Action = editDeleteAction
     end
     object N24: TMenuItem
       Action = editEditAction
+    end
+    object N27: TMenuItem
+      Caption = '-'
+    end
+    object N28: TMenuItem
+      Action = editUpAction
+    end
+    object N29: TMenuItem
+      Action = editDownAction
     end
   end
   object OpenDialog1: TOpenDialog

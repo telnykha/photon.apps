@@ -42,6 +42,9 @@ public:
     void __fastcall AddRecord(TeditorDlg* dlg);
     void __fastcall DeleteRecord(int index);
     void __fastcall EditRecord(int index, TeditorDlg* dlg);
+    void __fastcall InsertRecord(int index, TeditorDlg* dlg);
+    void __fastcall Up(int index);
+    void __fastcall Down(int index);
 
     __property TList* list = {read = m_list};
     __property bool changed = {read = m_changed, write = m_changed};

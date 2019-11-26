@@ -1126,3 +1126,43 @@ void __fastcall TmainPAM::Button2Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TmainPAM::editAddActionExecute(TObject *Sender)
+{
+    if (editorDlg->ShowModal() == mrOk)
+    {
+		//todo: добавить новую команду
+        m_table->InsertRecord(StringGrid1->Row, editorDlg);
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editAddActionUpdate(TObject *Sender)
+{
+    editAddAction->Enabled = StringGrid1->RowCount > 1 && StringGrid1->Row > 0;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editUpActionExecute(TObject *Sender)
+{
+    m_table->Up(StringGrid1->Row);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editUpActionUpdate(TObject *Sender)
+{
+	editUpAction->Enabled = StringGrid1->RowCount > 1 && StringGrid1->Row > 1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editDownActionUpdate(TObject *Sender)
+{
+	editDownAction->Enabled = StringGrid1->RowCount > 1 && StringGrid1->Row < StringGrid1->RowCount-1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editDownActionExecute(TObject *Sender)
+{
+    m_table->Down(StringGrid1->Row);
+}
+//---------------------------------------------------------------------------
+

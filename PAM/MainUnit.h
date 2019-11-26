@@ -154,6 +154,14 @@ __published:	// IDE-managed Components
 	TLabel *Label18;
 	TLabel *Label19;
 	TButton *Button2;
+	TAction *editAddAction;
+	TMenuItem *N25;
+	TMenuItem *N26;
+	TAction *editUpAction;
+	TAction *editDownAction;
+	TMenuItem *N27;
+	TMenuItem *N28;
+	TMenuItem *N29;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -201,6 +209,12 @@ __published:	// IDE-managed Components
 	void __fastcall SpinEdit2Change(TObject *Sender);
 	void __fastcall SpinEdit1Change(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall editAddActionExecute(TObject *Sender);
+	void __fastcall editAddActionUpdate(TObject *Sender);
+	void __fastcall editUpActionExecute(TObject *Sender);
+	void __fastcall editUpActionUpdate(TObject *Sender);
+	void __fastcall editDownActionUpdate(TObject *Sender);
+	void __fastcall editDownActionExecute(TObject *Sender);
 
 
 
