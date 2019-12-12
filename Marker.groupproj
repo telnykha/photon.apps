@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{5B03350F-851A-4C00-B593-7EF3D14BC04D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\photon4\src\photon4\photon\photon.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="LFMarker\ObjectsMarker.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon">
+        <MSBuild Projects="..\photon4\src\photon4\photon\photon.cbproj"/>
+    </Target>
+    <Target Name="photon:Clean">
+        <MSBuild Projects="..\photon4\src\photon4\photon\photon.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon:Make">
+        <MSBuild Projects="..\photon4\src\photon4\photon\photon.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ObjectsMarker">
+        <MSBuild Projects="LFMarker\ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean">
+        <MSBuild Projects="LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make">
+        <MSBuild Projects="LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="awplflibb;photon;ObjectsMarker"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="awplflibb:Clean;photon:Clean;ObjectsMarker:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="awplflibb:Make;photon:Make;ObjectsMarker:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="ObjectsMarker.exe"/>
+    <OBJFILES value="ObjectsMarker.obj MainForm.obj ..\common\AboutForm.obj OptionsForm.obj 
+      TableViewForm.obj ImageViewForm.obj SelRectForm.obj RotateForm.obj 
+      DbInfoForm.obj DbLabeledImages.obj ConvertEyeToXmlForm.obj 
+      DbExportForm.obj SystemOptionsForm.obj EngineErrForm.obj SubsetForm.obj 
+      FindWithoutOveralpForm.obj DbCopyForm.obj ..\common\SelDirUnit.obj 
+      DbConvertForm.obj"/>
+    <RESFILES value="ObjectsMarker.res"/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) MainForm.dfm ..\common\AboutForm.dfm OptionsForm.dfm 
+      TableViewForm.dfm ImageViewForm.dfm SelRectForm.dfm RotateForm.dfm 
+      DbInfoForm.dfm ConvertEyeToXmlForm.dfm DbExportForm.dfm 
+      SystemOptionsForm.dfm EngineErrForm.dfm SubsetForm.dfm 
+      FindWithoutOveralpForm.dfm DbCopyForm.dfm DbConvertForm.dfm"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value="tee.lib vcldb.lib inet.lib xmlrtl.lib bdertl.lib dbrtl.lib bcbsmp.lib 
+      photon.lib vclx.lib rtl.lib vcl.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib vclx.lib photon.lib bcbsmp.lib dbrtl.lib bdertl.lib 
+      xmlrtl.lib inet.lib vcldb.lib tee.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi photon.bpi"/>
+    <PATHCPP value=".;..\common;..\common"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <MAINSOURCE value="ObjectsMarker.cpp"/>
+    <INCLUDEPATH value="..\common;$(BCB)\Bin;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TINY);$(PHOTON);$(LF);$(AWP)"/>
+    <LIBPATH value="..\common;$(BCB)\Bin;$(BCB)\Projects\ObjectsMarker;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I..\common -I$(BCB)\Bin -I$(BCB)\Projects\common -I$(BCB)\Projects 
+      -I$(BCB)\include -I$(BCB)\include\vcl -I$(TINY) -I$(PHOTON) -I$(LF) 
+      -I$(AWP) -src_suffix cpp -D_DEBUG -boa"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c 
+      -tW -tWM"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0w32.obj Memmgr.Lib sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="ObjectsMarker.res" FORMNAME="" UNITNAME="ObjectsMarker.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ObjectsMarker.cpp" FORMNAME="" UNITNAME="ObjectsMarker" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="MainForm.cpp" FORMNAME="Form1" UNITNAME="MainForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\common\AboutForm.cpp" FORMNAME="AboutBox" UNITNAME="AboutForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="OptionsForm.cpp" FORMNAME="OptionsDlg" UNITNAME="OptionsForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TableViewForm.cpp" FORMNAME="TableForm" UNITNAME="TableViewForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ImageViewForm.cpp" FORMNAME="FragmentForm" UNITNAME="ImageViewForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SelRectForm.cpp" FORMNAME="RectToolForm" UNITNAME="SelRectForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="RotateForm.cpp" FORMNAME="RotateDlg" UNITNAME="RotateForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DbInfoForm.cpp" FORMNAME="DbInfoDialog" UNITNAME="DbInfoForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DbLabeledImages.cpp" FORMNAME="" UNITNAME="DbLabeledImages" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ConvertEyeToXmlForm.cpp" FORMNAME="ConvertEyeToXmlDialog" UNITNAME="ConvertEyeToXmlForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DbExportForm.cpp" FORMNAME="DbExportDialog" UNITNAME="DbExportForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SystemOptionsForm.cpp" FORMNAME="PagesDlg" UNITNAME="SystemOptionsForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="EngineErrForm.cpp" FORMNAME="EngineErrDlg" UNITNAME="EngineErrForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SubsetForm.cpp" FORMNAME="SubsetWindow" UNITNAME="SubsetForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="FindWithoutOveralpForm.cpp" FORMNAME="FindWithoutOveralpDlg" UNITNAME="FindWithoutOveralpForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DbCopyForm.cpp" FORMNAME="DbCopyDlg" UNITNAME="DbCopyForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\common\SelDirUnit.cpp" FORMNAME="" UNITNAME="SelDirUnit" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DbConvertForm.cpp" FORMNAME="DbConvertDlg" UNITNAME="DbConvertForm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=1
+MajorVer=1
+MinorVer=0
+Release=0
+Build=141
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1049
+CodePage=1251
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.141
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=30
+Item0=..\common;$(BCB)\Bin;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;$(TINY);$(PHOTON);$(LF);$(AWP)
+Item1=..\common;$(BCB)\Bin;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF)
+Item2=..\common;$(BCB)\Bin;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON)
+Item3=..\common;$(BCB)\Bin;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(AWP);$(LF);$(TINY);$(PHOTON)
+Item4=..\common;$(BCB)\Bin;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY);$(PHOTON)
+Item5=$(BCB)\Bin;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY);$(PHOTON)
+Item6=$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY);$(PHOTON)
+Item7=$(BCB)\Projects\common;$(BCB)\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY);$(PHOTON)
+Item8=$(BCB)\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY);$(PHOTON)
+Item9=..\common;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY);$(PHOTON)
+Item10=..\common;C:\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY)
+Item11=C:\CBuilder6\Projects;$(BCB)\include;$(BCB)\include\vcl;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include;$(AWP);$(LF);$(TINY)
+Item12=C:\CBuilder6\Projects;..\vcl\chaos;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include
+Item13=..\vcl\chaos;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include
+Item14=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include
+Item15=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML\src;..\..\include;..\..\lib\awpipl2\include\_include
+Item16=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML;..\..\include;..\..\lib\awpipl2\include\_include
+Item17=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML;..\..\include
+Item18=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML;..\..\include
+Item19=..\common;C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML;..\..\include
+Item20=..\common;C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML;..\..\linclude
+Item21=..\common;C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML
+Item22=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos;..\..\lib\TinyXML
+Item23=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\vcl\photon;..\..\lib\awpipl2\include;..\..\lib\awplf.lib\include;..\vcl\chaos
+Item24=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\..\components;..\..\chaos;..\..\lib\awpipl2\src;..\..\lib\FVLCore\src;..\..\lib\awplf.lib;..\..\THRID_PART\OpenCV\CV\Include;..\..\THRID_PART\OpenCV\cxcore\include
+Item25=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;C:\work\F15\components;C:\work\F15\chaos;C:\work\F15\lib\awpipl2\src;C:\work\F15\lib\FVLCore\src;C:\work\F15\lib\awplf.lib;C:\work\F15\THRID_PART\OpenCV\cv\include;..\..\THRID_PART\OpenCV\OtherLibs\_Ipl\include;C:\work\F15\THRID_PART\OpenCV\cxcore\include
+Item26=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;C:\work\F15\components;C:\work\F15\chaos;C:\work\F15\lib\awpipl2\src;C:\work\F15\lib\FVLCore\src;C:\work\F15\lib\awplf.lib;C:\work\F15\THRID_PART\OpenCV\cv\include;..\..\THRID_PART\OpenCV\OtherLibs\_Ipl\include
+Item27=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;C:\work\F15\components;C:\work\F15\chaos;C:\work\F15\lib\awpipl2\src;C:\work\F15\lib\FVLCore\src;C:\work\F15\lib\awplf.lib;..\..\THRID_PART\OpenCV\CV\Include;..\..\THRID_PART\OpenCV\OtherLibs\_Ipl\include
+Item28=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;C:\work\F15\components;C:\work\F15\chaos;..\..\lib\awpipl2\src;..\..\lib\FVLCore\src;..\..\lib\awplf.lib;..\..\THRID_PART\OpenCV\CV\Include;..\..\THRID_PART\OpenCV\OtherLibs\_Ipl\include
+Item29=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\include;$(BCB)\include\vcl;..\..\components;..\..\chaos;..\..\lib\awpipl2\src;..\..\lib\FVLCore\src;..\..\lib\awplf.lib;..\..\THRID_PART\OpenCV\CV\Include;..\..\THRID_PART\OpenCV\OtherLibs\_Ipl\include
+
+[HistoryLists\hlLibraryPath]
+Count=30
+Item0=..\common;$(BCB)\Bin;$(BCB)\Projects\ObjectsMarker;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib
+Item1=..\common;$(BCB)\Bin;$(BCB)\Projects\ObjectsMarker;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB);..\photon
+Item2=$(BCB)\Bin;$(BCB)\Projects\ObjectsMarker;$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB);..\photon
+Item3=$(BCB)\Projects\common;$(BCB)\Projects;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB);..\photon
+Item4=$(BCB)\Projects\common;$(BCB)\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB);..\photon
+Item5=$(BCB)\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB);..\photon
+Item6=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB);..\photon\
+Item7=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB)
+Item8=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(AWPLIB);$(PHOTON)
+Item9=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;$(PHOTON);$(AWPLIB)
+Item10=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\bin;$(PHOTON);$(AWPLIB)
+Item11=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\bin;$(PHOTON)
+Item12=C:\CBuilder6\Projects;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\vcl\photon;..\..\lib\TinyXML\bin\borland6;..\..\bin
+Item13=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\vcl\photon;..\..\lib\TinyXML\bin\borland6;..\..\bin
+Item14=..\vcl\chaos;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\vcl\photon;..\..\lib\TinyXML\bin\borland6;..\..\bin
+Item15=..\vcl\chaos;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\vcl\photon;..\..\lib\TinyXML\bin\borland6
+Item16=..\vcl\chaos;C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\..\lib\bin\borland;..\..\lib\TinyXML;..\vcl\photon
+Item17=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\..\lib\bin\borland;..\..\lib\TinyXML;..\vcl\photon
+Item18=C:\Program Files (x86)\Borland\CBuilder6\Projects;..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\..\lib\bin\borland;..\..\lib\TinyXML
+Item19=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\..\lib\bin\borland;..\..\lib\TinyXML
+Item20=..\common;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6;..\..\lib\bin\borland
+Item21=..\common;C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\chaos;..\..\components;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6
+Item22=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\chaos;..\..\components;..\..\lib\jpeg-6b\bin\borland6;..\..\lib\awpipl2\bin\borland6;..\..\lib\awplf.lib\bin\borland6
+Item23=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\chaos;..\..\components;..\..\lib\jpeg-6b\bin\borland6
+Item24=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\chaos;..\..\components;..\..\lib\bin
+Item25=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\work\F15\components;C:\work\F15\lib\bin
+Item26=C:\Program Files\Borland\CBuilder6\Bin;$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\components;..\..\lib\bin
+Item27=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;..\..\components;..\..\lib\bin
+Item28=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\work\photon\components;C:\work\photon\lib\bin
+Item29=$(BCB)\Projects\Lib;$(BCB)\lib\obj;$(BCB)\lib;C:\work\photon\components
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=2
+Item0=_DEBUG
+Item1=_DEBUG;_OPEN_CV_
+
+[HistoryLists\hlFinalOutputDir]
+Count=3
+Item0=..\..\bin\
+Item1=C:\_exchange_\F15\bin\
+Item2=C:\_exchange_\F15\bin
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>

@@ -17,3 +17,8 @@ PAM/__astcache
 PAM/__history
 PAM/__recovery
 PAM/Output
+LFMarker/__astcache
+LFMarker/__history
+LFMarker/__recovery
+LFMarker/debug_build
+LFMarker/release_build
