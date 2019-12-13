@@ -32,7 +32,6 @@ object DetectorForm: TDetectorForm
     Zoom.Allow = False
     Align = alTop
     TabOrder = 0
-    ExplicitTop = 73
     DefaultCanvas = 'TGDIPlusCanvas'
     PrintMargins = (
       15
@@ -74,7 +73,6 @@ object DetectorForm: TDetectorForm
     Height = 89
     Align = alTop
     TabOrder = 1
-    ExplicitTop = -6
     object Label1: TLabel
       Left = 16
       Top = 64
@@ -147,7 +145,6 @@ object DetectorForm: TDetectorForm
     Height = 86
     Align = alTop
     TabOrder = 2
-    ExplicitTop = 267
     object Label2: TLabel
       Left = 16
       Top = 53
@@ -196,7 +193,5 @@ object DetectorForm: TDetectorForm
     BorderStyle = bsFSingle
     Align = alClient
     ParentColor = False
-    ExplicitTop = 353
-    ExplicitHeight = 176
   end
 end

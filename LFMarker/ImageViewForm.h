@@ -32,7 +32,6 @@ __published:	// IDE-managed Components
 	TEdit *Edit3;
 	TEdit *Edit4;
 	TEdit *Edit5;
-	TButton *Button1;
 	TSpeedButton *SpeedButton3;
 	TSpeedButton *SpeedButton4;
 	TSpeedButton *SpeedButton5;
@@ -41,10 +40,10 @@ __published:	// IDE-managed Components
 	TApplicationEvents *ApplicationEvents1;
 	TEdit *Edit2;
 	TLabel *Label8;
+	TSpeedButton *SpeedButton7;
 	void __fastcall SpeedButton1Click(TObject *Sender);
 	void __fastcall SpeedButton2Click(TObject *Sender);
 	void __fastcall CheckBox1Click(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall ComboBox1Change(TObject *Sender);
 	void __fastcall ApplicationEvents1Idle(TObject *Sender, bool &Done);
@@ -53,6 +52,7 @@ __published:	// IDE-managed Components
 	void __fastcall SpeedButton5Click(TObject *Sender);
 	void __fastcall SpeedButton6Click(TObject *Sender);
 	void __fastcall ComboBox1Exit(TObject *Sender);
+	void __fastcall SpeedButton7Click(TObject *Sender);
 private:	// User declarations
 	void __fastcall DoDetectionFragment(awpImage* img);
 	void __fastcall DoDetectionImage(awpImage* img, awpRect& rect);

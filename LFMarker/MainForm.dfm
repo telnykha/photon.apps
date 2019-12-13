@@ -206,12 +206,9 @@ object Form1: TForm1
         Align = alClient
         TabOrder = 0
         TabPosition = tpBottom
+        OnChange = PageControl1Change
         object TabSheet1: TTabSheet
           Caption = 'File System'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 281
-          ExplicitHeight = 291
           object Splitter5: TSplitter
             Left = 0
             Top = 227
@@ -232,7 +229,6 @@ object Form1: TForm1
             FileList = FileListBox1
             TabOrder = 0
             OnChange = DirectoryListBox1Change
-            ExplicitWidth = 297
           end
           object Panel9: TPanel
             Left = 0
@@ -241,9 +237,6 @@ object Form1: TForm1
             Height = 27
             Align = alBottom
             TabOrder = 1
-            ExplicitLeft = -4
-            ExplicitTop = 264
-            ExplicitWidth = 175
             object DriveComboBox1: TDriveComboBox
               Left = 1
               Top = 1
@@ -252,7 +245,6 @@ object Form1: TForm1
               Align = alTop
               DirList = DirectoryListBox1
               TabOrder = 0
-              ExplicitWidth = 173
             end
           end
           object FilterComboBox1: TFilterComboBox
@@ -278,10 +270,6 @@ object Form1: TForm1
             TabOrder = 3
             OnChange = FileListBox1Change
             OnKeyUp = FileListBox1KeyUp
-            ExplicitLeft = 48
-            ExplicitTop = 239
-            ExplicitWidth = 136
-            ExplicitHeight = 82
           end
           object FImage2: TFImage
             Left = 0
@@ -293,59 +281,39 @@ object Form1: TForm1
             Align = alClient
             ParentColor = False
             Visible = False
-            ExplicitLeft = 41
-            ExplicitTop = 251
-            ExplicitWidth = 104
-            ExplicitHeight = 103
           end
         end
         object TabSheet2: TTabSheet
           Caption = 'Project'
           ImageIndex = 1
-          ExplicitWidth = 281
-          ExplicitHeight = 167
-          object Splitter1: TSplitter
-            Left = 0
-            Top = 257
-            Width = 238
-            Height = 3
-            Cursor = crVSplit
-            Align = alTop
-            ExplicitTop = 177
-            ExplicitWidth = 292
-          end
           object TreeView1: TTreeView
             Left = 0
             Top = 0
             Width = 238
-            Height = 257
-            Align = alTop
+            Height = 469
+            Align = alClient
             Indent = 19
             TabOrder = 0
-          end
-          object Panel2: TPanel
-            Left = 0
-            Top = 260
-            Width = 238
-            Height = 41
-            Align = alTop
-            TabOrder = 1
-            ExplicitLeft = 96
-            ExplicitTop = 296
-            ExplicitWidth = 185
-          end
-          object ListView1: TListView
-            Left = 0
-            Top = 301
-            Width = 238
-            Height = 168
-            Align = alClient
-            Columns = <>
-            TabOrder = 2
-            ExplicitLeft = 72
-            ExplicitTop = 344
-            ExplicitWidth = 250
-            ExplicitHeight = 150
+            Items.NodeData = {
+              03010000002C0000000000000000000000FFFFFFFFFFFFFFFF00000000000000
+              00020000000107700072006F006A006500630074003200000000000000000000
+              00FFFFFFFFFFFFFFFF000000000000000003000000010A640069006300740069
+              006F006E00610072007900280000000000000000000000FFFFFFFFFFFFFFFF00
+              0000000000000003000000010577006F007200640031002C0000000000000000
+              000000FFFFFFFFFFFFFFFF00000000000000000000000001077300630061006E
+              006E00650072002E0000000000000000000000FFFFFFFFFFFFFFFF0000000000
+              0000000000000001086400650074006500630074006F0072002E000000000000
+              0000000000FFFFFFFFFFFFFFFF00000000000000000000000001087300650074
+              00740069006E0067007300280000000000000000000000FFFFFFFFFFFFFFFF00
+              0000000000000003000000010577006F007200640032002C0000000000000000
+              000000FFFFFFFFFFFFFFFF00000000000000000000000001077300630061006E
+              006E00650072002E0000000000000000000000FFFFFFFFFFFFFFFF0000000000
+              0000000000000001086400650074006500630074006F0072002E000000000000
+              0000000000FFFFFFFFFFFFFFFF00000000000000000000000001087300650074
+              00740069006E0067007300280000000000000000000000FFFFFFFFFFFFFFFF00
+              0000000000000000000000010577006F007200640033002E0000000000000000
+              000000FFFFFFFFFFFFFFFF000000000000000000000000010864006100740061
+              006200610073006500}
           end
         end
         object TabSheet3: TTabSheet
@@ -358,6 +326,169 @@ object Form1: TForm1
             Height = 33
             Align = alTop
             TabOrder = 0
+            object SpeedButton2: TSpeedButton
+              Left = 1
+              Top = 1
+              Width = 35
+              Height = 31
+              Align = alLeft
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -9
+              Font.Name = 'Small Fonts'
+              Font.Style = []
+              Glyph.Data = {
+                36050000424D3605000000000000360400002800000010000000100000000100
+                0800000000000001000000000000000000000001000000000000000000000000
+                80000080000000808000800000008000800080800000C0C0C000C0DCC000F0CA
+                A6000020400000206000002080000020A0000020C0000020E000004000000040
+                20000040400000406000004080000040A0000040C0000040E000006000000060
+                20000060400000606000006080000060A0000060C0000060E000008000000080
+                20000080400000806000008080000080A0000080C0000080E00000A0000000A0
+                200000A0400000A0600000A0800000A0A00000A0C00000A0E00000C0000000C0
+                200000C0400000C0600000C0800000C0A00000C0C00000C0E00000E0000000E0
+                200000E0400000E0600000E0800000E0A00000E0C00000E0E000400000004000
+                20004000400040006000400080004000A0004000C0004000E000402000004020
+                20004020400040206000402080004020A0004020C0004020E000404000004040
+                20004040400040406000404080004040A0004040C0004040E000406000004060
+                20004060400040606000406080004060A0004060C0004060E000408000004080
+                20004080400040806000408080004080A0004080C0004080E00040A0000040A0
+                200040A0400040A0600040A0800040A0A00040A0C00040A0E00040C0000040C0
+                200040C0400040C0600040C0800040C0A00040C0C00040C0E00040E0000040E0
+                200040E0400040E0600040E0800040E0A00040E0C00040E0E000800000008000
+                20008000400080006000800080008000A0008000C0008000E000802000008020
+                20008020400080206000802080008020A0008020C0008020E000804000008040
+                20008040400080406000804080008040A0008040C0008040E000806000008060
+                20008060400080606000806080008060A0008060C0008060E000808000008080
+                20008080400080806000808080008080A0008080C0008080E00080A0000080A0
+                200080A0400080A0600080A0800080A0A00080A0C00080A0E00080C0000080C0
+                200080C0400080C0600080C0800080C0A00080C0C00080C0E00080E0000080E0
+                200080E0400080E0600080E0800080E0A00080E0C00080E0E000C0000000C000
+                2000C0004000C0006000C0008000C000A000C000C000C000E000C0200000C020
+                2000C0204000C0206000C0208000C020A000C020C000C020E000C0400000C040
+                2000C0404000C0406000C0408000C040A000C040C000C040E000C0600000C060
+                2000C0604000C0606000C0608000C060A000C060C000C060E000C0800000C080
+                2000C0804000C0806000C0808000C080A000C080C000C080E000C0A00000C0A0
+                2000C0A04000C0A06000C0A08000C0A0A000C0A0C000C0A0E000C0C00000C0C0
+                2000C0C04000C0C06000C0C08000C0C0A000F0FBFF00A4A0A000808080000000
+                FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00000000000000
+                000000980000000000000000000000000048E0E0000000000000000000000000
+                98E890E0000000000000000000000000E84800E8000000000000000000000000
+                E04800E8000000000000000000000000E04800E8000000000000000000000000
+                E04848E8000000000000000000000000E04848E00000000000000000000000D8
+                E00000E0D8000000000000000000E0E090000090E0E000000000000048E0E048
+                0000000048E0E04800000090E0E00000000000000000E0E0900090E098000000
+                0000000000000098E090E09800000000000000000000000098E0E09848484848
+                484848484848484898E098E0E0E0E0E0E0E0E0E0E0E0E0E0E098}
+              Layout = blGlyphTop
+              Margin = 3
+              ParentFont = False
+              Spacing = 0
+              ExplicitTop = 0
+              ExplicitHeight = 30
+            end
+            object SpeedButton1: TSpeedButton
+              Left = 36
+              Top = 1
+              Width = 35
+              Height = 31
+              Align = alLeft
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -9
+              Font.Name = 'Small Fonts'
+              Font.Style = []
+              Glyph.Data = {
+                36050000424D3605000000000000360400002800000010000000100000000100
+                0800000000000001000000000000000000000001000000000000000000000000
+                80000080000000808000800000008000800080800000C0C0C000C0DCC000F0CA
+                A6000020400000206000002080000020A0000020C0000020E000004000000040
+                20000040400000406000004080000040A0000040C0000040E000006000000060
+                20000060400000606000006080000060A0000060C0000060E000008000000080
+                20000080400000806000008080000080A0000080C0000080E00000A0000000A0
+                200000A0400000A0600000A0800000A0A00000A0C00000A0E00000C0000000C0
+                200000C0400000C0600000C0800000C0A00000C0C00000C0E00000E0000000E0
+                200000E0400000E0600000E0800000E0A00000E0C00000E0E000400000004000
+                20004000400040006000400080004000A0004000C0004000E000402000004020
+                20004020400040206000402080004020A0004020C0004020E000404000004040
+                20004040400040406000404080004040A0004040C0004040E000406000004060
+                20004060400040606000406080004060A0004060C0004060E000408000004080
+                20004080400040806000408080004080A0004080C0004080E00040A0000040A0
+                200040A0400040A0600040A0800040A0A00040A0C00040A0E00040C0000040C0
+                200040C0400040C0600040C0800040C0A00040C0C00040C0E00040E0000040E0
+                200040E0400040E0600040E0800040E0A00040E0C00040E0E000800000008000
+                20008000400080006000800080008000A0008000C0008000E000802000008020
+                20008020400080206000802080008020A0008020C0008020E000804000008040
+                20008040400080406000804080008040A0008040C0008040E000806000008060
+                20008060400080606000806080008060A0008060C0008060E000808000008080
+                20008080400080806000808080008080A0008080C0008080E00080A0000080A0
+                200080A0400080A0600080A0800080A0A00080A0C00080A0E00080C0000080C0
+                200080C0400080C0600080C0800080C0A00080C0C00080C0E00080E0000080E0
+                200080E0400080E0600080E0800080E0A00080E0C00080E0E000C0000000C000
+                2000C0004000C0006000C0008000C000A000C000C000C000E000C0200000C020
+                2000C0204000C0206000C0208000C020A000C020C000C020E000C0400000C040
+                2000C0404000C0406000C0408000C040A000C040C000C040E000C0600000C060
+                2000C0604000C0606000C0608000C060A000C060C000C060E000C0800000C080
+                2000C0804000C0806000C0808000C080A000C080C000C080E000C0A00000C0A0
+                2000C0A04000C0A06000C0A08000C0A0A000C0A0C000C0A0E000C0C00000C0C0
+                2000C0C04000C0C06000C0C08000C0C0A000F0FBFF00A4A0A000808080000000
+                FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00525252525252
+                525252525252525252525252494A4A5252494952524A4A49525252A4F6080852
+                07F6F607520808F6A45252A40807B552F70707F752B50708A45252A40808F752
+                F70808F752F70808A45252525B5B5252525B5B5252525B5B52525252A49B9B52
+                5BA3A35B529B9BA4525252A4F6080752F70808F7520708F6A45252A40807B552
+                F70808F752B50708A45252A40707F752A40707A452F70707A452525249494952
+                49494949524949495252529B07F7F752A5F5F5A552F7F7079B5252A40807B552
+                F70808F752B50708A45252A40807B552F70808F752B50708A452525BA4A49B52
+                9BA4A49B529BA4A45B5252525252525252525252525252525252}
+              Layout = blGlyphTop
+              Margin = 3
+              ParentFont = False
+              Spacing = 0
+              ExplicitLeft = 47
+              ExplicitTop = 0
+              ExplicitHeight = 30
+            end
+            object ComboBox1: TComboBox
+              AlignWithMargins = True
+              Left = 74
+              Top = 4
+              Width = 160
+              Height = 21
+              Align = alClient
+              TabOrder = 0
+              Text = 'ComboBox1'
+              ExplicitLeft = 106
+              ExplicitTop = 1
+              ExplicitWidth = 119
+            end
+          end
+          object DbView: TListView
+            Left = 0
+            Top = 33
+            Width = 238
+            Height = 415
+            Align = alClient
+            Columns = <>
+            MultiSelect = True
+            ReadOnly = True
+            RowSelect = True
+            TabOrder = 1
+            ViewStyle = vsReport
+            OnSelectItem = DbViewSelectItem
+            ExplicitLeft = 3
+            ExplicitTop = 88
+            ExplicitWidth = 250
+            ExplicitHeight = 150
+          end
+          object Panel2: TPanel
+            Left = 0
+            Top = 448
+            Width = 238
+            Height = 21
+            Align = alBottom
+            Caption = 'Panel2'
+            TabOrder = 2
           end
         end
       end
@@ -370,8 +501,6 @@ object Form1: TForm1
       Align = alClient
       Caption = 'Panel2'
       TabOrder = 2
-      ExplicitLeft = 182
-      ExplicitWidth = 617
       object Panel11: TPanel
         Left = 1
         Top = 1
@@ -379,7 +508,6 @@ object Form1: TForm1
         Height = 495
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 615
         object HSplitter: TSplitter
           Left = 1
           Top = 486
@@ -411,7 +539,6 @@ object Form1: TForm1
           OnDockOver = BottomDocPanelDockOver
           OnGetSiteInfo = BottomDocPanelGetSiteInfo
           OnUnDock = BottomDocPanelUnDock
-          ExplicitWidth = 613
         end
         object Panel13: TPanel
           Left = 538
@@ -423,7 +550,6 @@ object Form1: TForm1
           DockSite = True
           DragKind = dkDock
           TabOrder = 1
-          ExplicitLeft = 609
         end
         object FImage1: TFImage
           Left = 1
@@ -436,22 +562,36 @@ object Form1: TForm1
           OnMouseMove = FImage1MouseMove
           OnMouseUp = FFaceEditor1MouseUp
           AfterOpen = FFaceEditor1AfterOpen
-          ExplicitWidth = 605
+        end
+        object ValueListEditor1: TValueListEditor
+          Left = 1
+          Top = 1
+          Width = 534
+          Height = 485
+          Align = alClient
+          TabOrder = 3
+          Visible = False
+          ColWidths = (
+            150
+            378)
         end
       end
     end
   end
   object OpenDialog1: TOpenDialog
     Filter = 'XML files|*.xml'
-    Left = 376
-    Top = 56
+    Left = 360
+    Top = 88
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 280
-    Top = 56
+    Left = 264
+    Top = 88
     object File1: TMenuItem
       Caption = 'Files'
+      object NewProject1: TMenuItem
+        Action = FileNewProjectAction
+      end
       object N11: TMenuItem
         Caption = '-'
       end
@@ -671,18 +811,13 @@ object Form1: TForm1
   end
   object ActionList2: TActionList
     Images = ImageList1
-    Left = 312
-    Top = 56
+    Left = 296
+    Top = 88
     object CloseAction: TAction
       Category = 'File'
       Caption = 'Exit'
       Hint = 'Exit from program'
       OnExecute = CloseActionExecute
-    end
-    object SaveAction: TAction
-      Category = 'File'
-      Caption = 'Save eyes position'
-      ImageIndex = 0
     end
     object FileOpenDetectorAction: TAction
       Category = 'File'
@@ -863,50 +998,35 @@ object Form1: TForm1
     object ViewSemanticThumbinalsAction: TAction
       Category = 'View'
       Caption = 'View Semantic Thumbnail'
-      OnExecute = ViewSemanticThumbinalsActionExecute
-      OnUpdate = ViewSemanticThumbinalsActionUpdate
     end
     object ViewListAction: TAction
       Category = 'View'
       Caption = 'View File List'
-      OnExecute = ViewListActionExecute
-      OnUpdate = ViewListActionUpdate
     end
     object DbClearSelectionAction: TAction
       Category = 'Database'
       Caption = 'Clear Selection'
       OnExecute = DbClearSelectionActionExecute
-      OnUpdate = DbClearSelectionActionUpdate
     end
     object DbInvertSelectionAction: TAction
       Category = 'Database'
       Caption = 'Invert Selection'
-      OnExecute = DbInvertSelectionActionExecute
-      OnUpdate = DbInvertSelectionActionUpdate
     end
     object DbDeleteSelectedAction: TAction
       Category = 'Database'
       Caption = 'Delete Selected'
-      OnExecute = DbDeleteSelectedActionExecute
-      OnUpdate = DbDeleteSelectedActionUpdate
     end
     object DbCopySelectedToAction: TAction
       Category = 'Database'
       Caption = 'Copy Selected To...'
-      OnExecute = DbCopySelectedToActionExecute
-      OnUpdate = DbCopySelectedToActionUpdate
     end
     object DbMoveSelectedToAction: TAction
       Category = 'Database'
       Caption = 'Db Move Selected To...'
-      OnExecute = DbMoveSelectedToActionExecute
-      OnUpdate = DbMoveSelectedToActionUpdate
     end
     object DbSelectAllAction: TAction
       Category = 'Database'
       Caption = 'Select All'
-      OnExecute = DbSelectAllActionExecute
-      OnUpdate = DbSelectAllActionUpdate
     end
     object DtInfoAction: TAction
       Category = 'Detector'
@@ -1045,12 +1165,18 @@ object Form1: TForm1
       OnExecute = ImageResizeActionExecute
       OnUpdate = ImageResizeActionUpdate
     end
+    object FileNewProjectAction: TAction
+      Category = 'File'
+      Caption = 'New Project...'
+      OnExecute = FileNewProjectActionExecute
+      OnUpdate = FileNewProjectActionUpdate
+    end
   end
   object ImageList1: TImageList
-    Left = 408
-    Top = 56
+    Left = 392
+    Top = 88
     Bitmap = {
-      494C010110001300F80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010110001300FC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1720,20 +1846,20 @@ object Form1: TForm1
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     OnHint = ApplicationEvents1Hint
-    Left = 472
-    Top = 56
+    Left = 456
+    Top = 88
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = '.xml'
     Filter = 'XML files|*.xml'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 504
-    Top = 56
+    Left = 488
+    Top = 88
   end
   object PopupMenu1: TPopupMenu
     Images = ImageList1
-    Left = 344
-    Top = 56
+    Left = 328
+    Top = 88
     object Copy1: TMenuItem
       Action = EditCopy1
     end
@@ -1751,7 +1877,7 @@ object Form1: TForm1
     Enabled = False
     Interval = 100
     OnTimer = Timer1Timer
-    Left = 536
-    Top = 56
+    Left = 520
+    Top = 88
   end
 end

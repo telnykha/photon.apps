@@ -28,7 +28,7 @@
 
 #include "DbLabeledImages.h"
 #include <System.ImageList.hpp>
-typedef enum {vmList, vmThumbDb, vmThumbXml}  EViewMode;
+#include "FImage41.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -42,7 +42,6 @@ __published:	// IDE-managed Components
     TAction *CloseAction;
     TToolBar *ToolBar1;
     TImageList *ImageList1;
-    TAction *SaveAction;
     TToolButton *ToolButton10;
     TToolButton *ToolButton11;
     TToolButton *ToolButton6;
@@ -207,11 +206,16 @@ __published:	// IDE-managed Components
 	TFileListBox *FileListBox1;
 	TFImage *FImage2;
 	TTreeView *TreeView1;
-	TSplitter *Splitter1;
-	TPanel *Panel2;
-	TListView *ListView1;
 	TTabSheet *TabSheet3;
 	TPanel *Panel3;
+	TValueListEditor *ValueListEditor1;
+	TAction *FileNewProjectAction;
+	TMenuItem *NewProject1;
+	TListView *DbView;
+	TPanel *Panel2;
+	TSpeedButton *SpeedButton2;
+	TSpeedButton *SpeedButton1;
+	TComboBox *ComboBox1;
     void __fastcall FileListBox1Change(TObject *Sender);
     void __fastcall FFaceEditor1AfterOpen(TObject *Sender);
     void __fastcall FormShow(TObject *Sender);
@@ -288,24 +292,9 @@ __published:	// IDE-managed Components
 	void __fastcall EditCopy1Update(TObject *Sender);
 	void __fastcall ModeLenzActionExecute(TObject *Sender);
 	void __fastcall ModeLenzActionUpdate(TObject *Sender);
-	void __fastcall ViewSemanticThumbinalsActionExecute(TObject *Sender);
-	void __fastcall ViewSemanticThumbinalsActionUpdate(TObject *Sender);
-	void __fastcall ViewListActionUpdate(TObject *Sender);
-	void __fastcall ViewListActionExecute(TObject *Sender);
 	void __fastcall DirectoryListBox1Change(TObject *Sender);
 	void __fastcall Panel1Resize(TObject *Sender);
 	void __fastcall DbClearSelectionActionExecute(TObject *Sender);
-	void __fastcall DbClearSelectionActionUpdate(TObject *Sender);
-	void __fastcall DbInvertSelectionActionExecute(TObject *Sender);
-	void __fastcall DbInvertSelectionActionUpdate(TObject *Sender);
-	void __fastcall DbDeleteSelectedActionExecute(TObject *Sender);
-	void __fastcall DbDeleteSelectedActionUpdate(TObject *Sender);
-	void __fastcall DbCopySelectedToActionExecute(TObject *Sender);
-	void __fastcall DbCopySelectedToActionUpdate(TObject *Sender);
-	void __fastcall DbMoveSelectedToActionExecute(TObject *Sender);
-	void __fastcall DbMoveSelectedToActionUpdate(TObject *Sender);
-	void __fastcall DbSelectAllActionExecute(TObject *Sender);
-	void __fastcall DbSelectAllActionUpdate(TObject *Sender);
 	void __fastcall DtInfoActionExecute(TObject *Sender);
 	void __fastcall DtInfoActionUpdate(TObject *Sender);
 	void __fastcall ViewFarthestOverlapsActionExecute(TObject *Sender);
@@ -350,12 +339,18 @@ __published:	// IDE-managed Components
 	void __fastcall ImageMedianFilterActionUpdate(TObject *Sender);
 	void __fastcall ImageResizeActionExecute(TObject *Sender);
 	void __fastcall ImageResizeActionUpdate(TObject *Sender);
+	void __fastcall PageControl1Change(TObject *Sender);
+	void __fastcall FileNewProjectActionExecute(TObject *Sender);
+	void __fastcall FileNewProjectActionUpdate(TObject *Sender);
+	void __fastcall DbViewClick(TObject *Sender);
+	void __fastcall DbViewSelectItem(TObject *Sender, TListItem *Item, bool Selected);
+
+
+
 
 
 
 private:	// User declarations
-	EViewMode	m_ViewMode;
-
     AnsiString 		m_strEngineName;
 	TLFDetectEngine m_ObjectEngine;
 	TList* m_objects;
@@ -406,6 +401,8 @@ private:	// User declarations
 	awpRect __fastcall FindnearestOverlap(awpRect rr);
 
     void __fastcall ImageProcessingHelper(awpImage* pImage);
+    void __fastcall InitDbView();
+    void __fastcall UpdateDbView();
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 	__fastcall ~TForm1();

@@ -13,6 +13,7 @@ object TableForm: TTableForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnHide = FormHide
   OnShow = FormShow
   PixelsPerInch = 96
@@ -131,6 +132,7 @@ object TableForm: TTableForm
     Align = alClient
     Columns = <>
     GridLines = True
+    ReadOnly = True
     RowSelect = True
     TabOrder = 1
     ViewStyle = vsReport

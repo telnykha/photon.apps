@@ -44,6 +44,7 @@
 #pragma link "TinyXML.lib"
 
 #pragma link "awplflibb.lib"
+#pragma link "FImage41"
 #pragma resource "*.dfm"
 using namespace std;
 TForm1 *Form1;
@@ -86,8 +87,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	m_strLastPath = "";
 	m_penWidth = 1;
 	m_deltaWidth = 1;
-
-	m_ViewMode = vmList;
 	m_set_nearest_overlap = false;
 	m_detect_in_rect = false;
 }
@@ -184,9 +183,7 @@ void __fastcall TForm1::FormShow(TObject *Sender)
 
 void __fastcall TForm1::CloseActionExecute(TObject *Sender)
 {
-
     FImage1->Close();
-
     Close();
 }
 //---------------------------------------------------------------------------
@@ -235,6 +232,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 	ProgressBar1->Parent = StatusBar1;
 	ProgressBar1->Visible = false;
     UpdateSatatusBar();
+    InitDbView();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DtDetectActionExecute(TObject *Sender)
@@ -476,39 +474,6 @@ void __fastcall TForm1::FFaceEditor1MouseUp(TObject *Sender,
          */
 	}
 
-	if (Button == mbLeft && FImage1->Tool != NULL && FImage1->CurrentTool == ftThumbSelect && m_ViewMode == vmThumbDb)
-	{
-		 TThumbSelectTool* tool = dynamic_cast<TThumbSelectTool*>(FImage1->Tool);
-		 if (tool)
-		 {
-			int idx = tool->GetLastSelected();
-			const char* FileName = m_db.GetFileName(idx);
-			if (FileName)
-			{
-				AnsiString strFileName = FileName;
-				FImage2->Init(strFileName, NULL);
-				FImage2->BestFit();
-			}
-		 }
-
-	}
-
-	if (Button == mbLeft && FImage1->Tool != NULL && FImage1->CurrentTool == ftThumbSelect && m_ViewMode == vmThumbXml)
-	{
-		 TThumbSelectTool* tool = dynamic_cast<TThumbSelectTool*>(FImage1->Tool);
-		 if (tool)
-		 {
-			int idx = tool->GetLastSelected();
-			awpImage* image = m_db.GetSemanticImage(idx);
-			if (image)
-			{
-				FImage2->Bitmap->SetAWPImage(image);
-				FImage2->BestFit();
-				_AWP_SAFE_RELEASE_(image)
-			}
-		 }
-
-	}
 }
 //---------------------------------------------------------------------------
 
@@ -1426,70 +1391,6 @@ void __fastcall TForm1::ModeLenzActionUpdate(TObject *Sender)
 	ModeLenzAction->Checked = FImage1->CurrentTool == ftLenz;
 }
 //---------------------------------------------------------------------------
-
-
-void __fastcall TForm1::ViewSemanticThumbinalsActionExecute(TObject *Sender)
-{
-	   if (m_db.NumImages == 0)
-	   {
-  //			ShowMessage("Database is empty.");
- //			return;
-	   }
-
-
-	   m_ProgressBar1->Position  = 0;
-	   m_ProgressBar1->Visible = true;
-	   m_db.OnProgress = ProgressHandler;
-
-	   awpImage* img = m_db.MakeSemanticThumbinals(32,32);
-	   if (img != NULL)
-	   {
-			FImage1->Bitmap->SetAWPImage(img);
-			FImage1->BestFit();
-			this->UpdateSatatusBar();
-			_AWP_SAFE_RELEASE_(img)
-	   }
-
-	   m_ProgressBar1->Visible = false;
-	   m_ProgressBar1->Position  = 0;
-
-	m_ViewMode = vmThumbXml;
-
-	FImage2->Bitmap->Clear();
-	FImage2->Visible = true;
-	FileListBox1->Visible = false;
-	FImage1->ThumbWidht = 32;
-	FImage1->ThumbHeight = 32;
-	FImage1->ObjectsCount = m_db.NumXmlItems;
-	FImage1->CurrentTool     = ftNone;
-	FImage1->CurrentTool     = ftThumbSelect;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::ViewSemanticThumbinalsActionUpdate(TObject *Sender)
-{
-	ViewSemanticThumbinalsAction->Checked = m_ViewMode == vmThumbXml;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::ViewListActionUpdate(TObject *Sender)
-{
-	ViewListAction->Checked = m_ViewMode == vmList;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::ViewListActionExecute(TObject *Sender)
-{
-	m_ViewMode = vmList;
-	FImage2->Visible = false;
-	FileListBox1->Visible = true;
-
-	FImage1->ObjectsCount = 0;
-	FImage1->CurrentTool     = ftNone;
-	FImage1->CurrentTool     = ftPane;
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 {
 	ModePaneActionExecute(NULL);
@@ -1499,6 +1400,16 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
     if (!m_database.InitDB(str.c_str()))
     {
     	Memo1->Lines->Add(L"ERROR: cannot open database " + str);
+        TabSheet3->TabVisible = false;
+        N1->Visible = false;
+        DbView->Items->Clear();
+    }
+    else
+    {
+        TabSheet3->TabVisible = true;
+        N1->Visible = true;
+        // update visual table
+        UpdateDbView();
     }
 
     if (FragmentForm->Visible)
@@ -1524,115 +1435,6 @@ void __fastcall TForm1::DbClearSelectionActionExecute(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbClearSelectionActionUpdate(TObject *Sender)
-{
-	DbClearSelectionAction->Enabled =  m_ViewMode == vmThumbXml || m_ViewMode == vmThumbDb;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbInvertSelectionActionExecute(TObject *Sender)
-{
-	TThumbSelectTool* tool = dynamic_cast<TThumbSelectTool*>(FImage1->Tool);
-	 if (tool)
-	 {
-		tool->InvertSelection();
-	 }
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbInvertSelectionActionUpdate(TObject *Sender)
-{
-	DbInvertSelectionAction->Enabled =  m_ViewMode == vmThumbXml || m_ViewMode == vmThumbDb;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbDeleteSelectedActionExecute(TObject *Sender)
-{
-  	AnsiString str = DirectoryListBox1->Directory;
-	this->m_db.Init(str);
-
-	if (m_ViewMode == vmThumbXml)
-	{
-		 TThumbSelectTool* tool = dynamic_cast<TThumbSelectTool*>(FImage1->Tool);
-		 if (tool)
-		 {
-			for (int i = 0; i < tool->NumItems; i++)
-			{
-				if (tool->IsSelected[i])
-					m_db.DeleteSementicItem(i);
-			}
-		 }
-		 ViewSemanticThumbinalsActionExecute(NULL);
-	}
-	else if (m_ViewMode == vmThumbDb)
-	{
-		 TThumbSelectTool* tool = dynamic_cast<TThumbSelectTool*>(FImage1->Tool);
-		 if (tool)
-		 {
-			for (int i = 0; i < tool->NumItems; i++)
-			{
-				if (tool->IsSelected[i])
-					m_db.DeleteDatabaseItem(i);
-			}
-		 }
-
-		AnsiString str = DirectoryListBox1->Directory;
-		m_db.Init(str, &this->m_ObjectEngine);
-	  //	ViewDbTubinalsActionExecute(NULL);
-	}
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbDeleteSelectedActionUpdate(TObject *Sender)
-{
-	DbDeleteSelectedAction->Enabled =  m_ViewMode == vmThumbXml || m_ViewMode == vmThumbDb;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::DbCopySelectedToActionExecute(TObject *Sender)
-{
-	if (DbCopyDlg->ShowModal() == mrOk)
-	{
-    	// копирование выбранных элементов.
-	}
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbCopySelectedToActionUpdate(TObject *Sender)
-{
-	DbCopySelectedToAction->Enabled =  m_ViewMode == vmThumbXml || m_ViewMode == vmThumbDb;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbMoveSelectedToActionExecute(TObject *Sender)
-{
-//
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbMoveSelectedToActionUpdate(TObject *Sender)
-{
-	DbMoveSelectedToAction->Enabled =  m_ViewMode == vmThumbXml || m_ViewMode == vmThumbDb;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbSelectAllActionExecute(TObject *Sender)
-{
-	TThumbSelectTool* tool = dynamic_cast<TThumbSelectTool*>(FImage1->Tool);
-	 if (tool)
-	 {
-		tool->SelectAll();
-	 }
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::DbSelectAllActionUpdate(TObject *Sender)
-{
-	DbSelectAllAction->Enabled =  m_ViewMode == vmThumbXml || m_ViewMode == vmThumbDb;
-}
-//---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::DtInfoActionExecute(TObject *Sender)
 {
 	DetectorForm->Label5->Caption = ExtractFileName(this->m_strEngineName);
@@ -1816,6 +1618,7 @@ void __fastcall TForm1::ApplicationEvents1Idle(TObject *Sender, bool &Done)
    {
 	   StatusBar1->Panels->Items[1]->Text = FImage1->Tool->ToolName;
    }
+   Panel2->Caption = L"Total: " + IntToStr(DbView->Items->Count) + L" selected: " + IntToStr(DbView->SelCount);
 }
 //---------------------------------------------------------------------------
 
@@ -2248,6 +2051,71 @@ void __fastcall TForm1::ImageResizeActionExecute(TObject *Sender)
 void __fastcall TForm1::ImageResizeActionUpdate(TObject *Sender)
 {
 	ImageResizeAction->Enabled = !FImage1->Bitmap->Empty;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PageControl1Change(TObject *Sender)
+{
+    if (this->PageControl1->TabIndex == 1)
+        this->ValueListEditor1->Visible = true;
+    else
+        this->ValueListEditor1->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FileNewProjectActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FileNewProjectActionUpdate(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::InitDbView()
+{
+    DbView->Columns->Clear();
+    TListColumn  *NewColumn;
+    TListItem  *ListItem;
+
+    NewColumn = DbView->Columns->Add();
+    NewColumn->Caption = "File Name";
+
+    NewColumn = DbView->Columns->Add();
+    NewColumn->Caption = "Items count";
+}
+
+void __fastcall TForm1::DbViewClick(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::UpdateDbView()
+{
+	TListItem  *ListItem;
+    DbView->Items->Clear();
+    for (int i = 0; i < m_database.GetImagesCount(); i++)
+	{
+        TLFDBSemanticDescriptor* d = m_database.GetDescriptor(i);
+        std::string str = LFGetFileName(d->GetImageFile());
+        str += LFGetFileExt(d->GetImageFile());
+        ListItem = DbView->Items->Add();
+        ListItem->Caption = str.c_str();
+        ListItem->SubItems->Add(d->GetCount());
+    }
+}
+
+void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool Selected)
+{
+    assert(Item != NULL);
+    if (!Selected)
+        return;
+    UnicodeString str = m_database.GetPath().c_str();
+    str += Item->Caption;
+    m_strFileName = str;
+    if (m_strFileName != "")
+         this->InitImageFile(m_strFileName);
 }
 //---------------------------------------------------------------------------
 

@@ -46,7 +46,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <SanitizedProjectName>ObjectsMarker</SanitizedProjectName>
         <VerInfo_Locale>1049</VerInfo_Locale>
-        <IncludePath>..\EngineView\;..\common\;$(AWP);$(AWP)\include;$(LF)\include;$(TINY)\src;$(PHOTON4)\src\photon4\photon;$(IncludePath)</IncludePath>
+        <IncludePath>..\EngineView\;..\common\;$(AWP);$(AWP)\include;$(LF)\include;$(TINY)\src;$(PHOTON4)\src\photon4\photon;$(PHOTON41);$(IncludePath)</IncludePath>
         <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Build>111</VerInfo_Build>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.111;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -59,7 +59,7 @@
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <DynamicRTL>true</DynamicRTL>
-        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib</AllPackageLibs>
+        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib;Tee925.lib;photon41.lib</AllPackageLibs>
         <FinalOutputDir>$(PHOTON)\bin</FinalOutputDir>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BRCC_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(BRCC_IncludePath)</BRCC_IncludePath>
@@ -117,7 +117,7 @@
         <VerInfo_Build>0</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib</LinkPackageStatics>
+        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib;Tee925.lib;photon41.lib</LinkPackageStatics>
         <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -k</BCC_UserSuppliedOptions>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -138,7 +138,7 @@
         <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_LibraryPath>..\..\lib\;$(BDS)\lib\win32\release\;C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(AWP)\lib;..\common\;..\EngineView\;$(LF)\lib</ILINK_LibraryPath>
-        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib</LinkPackageStatics>
+        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib;Tee925.lib;photon41.lib</LinkPackageStatics>
         <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -r</BCC_UserSuppliedOptions>
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -268,6 +268,10 @@
             <BuildOrder>2</BuildOrder>
             <BuildOrder>11</BuildOrder>
         </ResFiles>
+        <CppCompile Include="ProjectUnit.cpp">
+            <DependentOn>ProjectUnit.h</DependentOn>
+            <BuildOrder>28</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ResizeForm.cpp">
             <Form>ResizeDlg</Form>
             <FormType>dfm</FormType>
@@ -298,17 +302,17 @@
             <DependentOn>TableViewForm.h</DependentOn>
             <BuildOrder>16</BuildOrder>
         </CppCompile>
-        <FormResources Include="LongProcessForm.dfm"/>
         <FormResources Include="MainForm.dfm"/>
         <FormResources Include="MedianFilterForm.dfm"/>
-        <FormResources Include="ImageViewForm.dfm"/>
-        <FormResources Include="FilterForm.dfm"/>
+        <FormResources Include="LongProcessForm.dfm"/>
         <FormResources Include="GaussFilterForm.dfm"/>
+        <FormResources Include="ImageViewForm.dfm"/>
         <FormResources Include="SelRectForm.dfm"/>
         <FormResources Include="SystemOptionsForm.dfm"/>
         <FormResources Include="TableViewForm.dfm"/>
         <FormResources Include="RotateForm.dfm"/>
         <FormResources Include="ResizeForm.dfm"/>
+        <FormResources Include="FilterForm.dfm"/>
         <FormResources Include="..\EngineView\EngineViewUnit.dfm"/>
         <FormResources Include="DbConvertForm.dfm"/>
         <FormResources Include="DbCopyForm.dfm"/>

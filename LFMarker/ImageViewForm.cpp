@@ -163,17 +163,6 @@ void __fastcall TFragmentForm::CheckBox1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFragmentForm::Button1Click(TObject *Sender)
-{
-	TLFDetectedItem* di = Form1->m_Descr.GetDetectedItem(Form1->SelectedIndex);
-    //
-    AnsiString _ansi = ComboBox1->Text;
-	di->SetType(_ansi.c_str());
-	_ansi = Edit2->Text;
-	di->SetComment(_ansi.c_str());
-    Form1->DbSaveMarkActionExecute(NULL);
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TFragmentForm::FormShow(TObject *Sender)
 {
@@ -274,6 +263,18 @@ void __fastcall TFragmentForm::ComboBox1Exit(TObject *Sender)
 			 //TableForm->ChangeItem(Form1->SelectedIndex, strLabel.c_str());
 		}
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFragmentForm::SpeedButton7Click(TObject *Sender)
+{
+	TLFDetectedItem* di = Form1->m_Descr.GetDetectedItem(Form1->SelectedIndex);
+    //
+    AnsiString _ansi = ComboBox1->Text;
+	di->SetType(_ansi.c_str());
+	_ansi = Edit2->Text;
+	di->SetComment(_ansi.c_str());
+    Form1->DbSaveMarkActionExecute(NULL);
 }
 //---------------------------------------------------------------------------
 
