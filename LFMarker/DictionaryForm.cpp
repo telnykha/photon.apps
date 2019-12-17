@@ -63,7 +63,7 @@ void __fastcall TDictionaryDialog::Button2Click(TObject *Sender)
 {
     if (this->m_pDictionary != NULL)
     {
-		this->m_pDictionary->SaveXML("dictionary.xml");
+		this->m_pDictionary->SaveXML(c_lpDictFileName);
     }
 }
 //---------------------------------------------------------------------------

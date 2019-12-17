@@ -46,26 +46,26 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <SanitizedProjectName>ObjectsMarker</SanitizedProjectName>
         <VerInfo_Locale>1049</VerInfo_Locale>
-        <IncludePath>..\EngineView\;..\common\;$(AWP);$(AWP)\include;$(LF)\include;$(TINY)\src;$(PHOTON4)\src\photon4\photon;$(PHOTON41);$(IncludePath)</IncludePath>
+        <IncludePath>..\EngineView\;..\common\;$(AWP);$(AWP)\include;$(LF)\include;$(PHOTON41);$(IncludePath)</IncludePath>
         <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Build>111</VerInfo_Build>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.111;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <TASM_AdditionalSwitches> /w2</TASM_AdditionalSwitches>
         <BCC_IncludePath>..\common;$(BDS)\Bin;$(BDS)\include;$(TINY);$(PHOTON);$(LF);$(BCC_IncludePath)</BCC_IncludePath>
-        <PackageImports>vcl.bpi;rtl.bpi;photon.bpi;$(PackageImports)</PackageImports>
+        <PackageImports>vcl.bpi;rtl.bpi;$(PackageImports)</PackageImports>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <BCC_GenerateWindowsApp>true</BCC_GenerateWindowsApp>
         <DCC_IncludePath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_IncludePath)</DCC_IncludePath>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <DynamicRTL>true</DynamicRTL>
-        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib;Tee925.lib;photon41.lib</AllPackageLibs>
+        <AllPackageLibs>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;Tee925.lib;photon41.lib</AllPackageLibs>
         <FinalOutputDir>$(PHOTON)\bin</FinalOutputDir>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BRCC_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(BRCC_IncludePath)</BRCC_IncludePath>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
         <TASM_Debugging>Full</TASM_Debugging>
-        <ILINK_LibraryPath>..\EngineView\;..\common\;$(BDS)\Bin;$(BDS)\lib;$(PHOTON)\lib\;$(AWP)\lib;$(LF)\lib;$(TINY)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\EngineView\;..\common\;$(BDS)\Bin;$(BDS)\lib;$(PHOTON)\lib\;$(AWP)\lib;$(LF)\lib;$(TINY)\lib;$(PHOTON41)\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <TASM_IncludePath>..\common;$(BDS)\Bin;$(BDS)\Projects\common;$(BDS)\Projects;$(BDS)\include;$(BDS)\include\vcl;..\..\awpipl2\include;..\..\awplflib\include;..\..\include;..\..\awpipl2\include\_include;$(TINY);$(PHOTON);$(LF);$(TASM_IncludePath)</TASM_IncludePath>
         <DCC_UnitSearchPath>.\;$(BDS)\lib;$(BDS)\lib\obj;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_AdditionalSwitches> -M</DCC_AdditionalSwitches>
@@ -105,11 +105,11 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Defines>TIXML_USE_STL;$(Defines)</Defines>
-        <ILINK_LibraryPath>$(BDS)\lib\win32\release\;..\..\lib\;$(AWP)\lib;$(LF)\lib;..\common\;..\EngineView;$(TINY)\lib</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDS)\lib\win32\release\;$(AWP)\lib;$(LF)\lib;..\common\;..\EngineView</ILINK_LibraryPath>
         <BCC_AllCodeguardOptions>false</BCC_AllCodeguardOptions>
         <Debugger_HostApplication>fvccreate.xml</Debugger_HostApplication>
         <Debugger_CWD>C:\_alt\VideoA2\VideoA\VideoAnalytics\Modules\bin</Debugger_CWD>
-        <Debugger_DebugSourcePath>C:\_alt\VideoA2\VideoA\VideoAnalytics\awplflib\include\;C:\_alt\_proj\awplflib\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_DebugSourcePath>C:\_alt\VideoA2\VideoA\VideoAnalytics\awplflib\include\;C:\_alt\_proj\awplflib\src\;C:\_alt\_proj\awpipl2\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
@@ -117,10 +117,11 @@
         <VerInfo_Build>0</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib;Tee925.lib;photon41.lib</LinkPackageStatics>
+        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;Tee925.lib;photon41.lib</LinkPackageStatics>
         <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -k</BCC_UserSuppliedOptions>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <PackageImports>DclTeePro925.bpl;$(PackageImports)</PackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <BCC_InlineFunctionExpansion>true</BCC_InlineFunctionExpansion>
@@ -138,7 +139,7 @@
         <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_LibraryPath>..\..\lib\;$(BDS)\lib\win32\release\;C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(AWP)\lib;..\common\;..\EngineView\;$(LF)\lib</ILINK_LibraryPath>
-        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;photon.lib;Tee925.lib;photon41.lib</LinkPackageStatics>
+        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;Tee.lib;Tee925.lib;photon41.lib</LinkPackageStatics>
         <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -r</BCC_UserSuppliedOptions>
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -153,6 +154,18 @@
         <CppCompile Include="..\common\Cube3D.cpp">
             <DependentOn>..\common\Cube3D.h</DependentOn>
             <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\common\dictinaryEditor.cpp">
+            <Form>dictinaryEditDlg</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\common\dictinaryEditor.h</DependentOn>
+            <BuildOrder>32</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\common\dictinaryItemEditor.cpp">
+            <Form>dictinaryItemDlg</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\common\dictinaryItemEditor.h</DependentOn>
+            <BuildOrder>32</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\common\SelDirUnit.cpp">
             <DependentOn>..\common\SelDirUnit.h</DependentOn>
@@ -268,6 +281,10 @@
             <BuildOrder>2</BuildOrder>
             <BuildOrder>11</BuildOrder>
         </ResFiles>
+        <CppCompile Include="PhImageMarkTool.cpp">
+            <DependentOn>PhImageMarkTool.h</DependentOn>
+            <BuildOrder>32</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ProjectUnit.cpp">
             <DependentOn>ProjectUnit.h</DependentOn>
             <BuildOrder>28</BuildOrder>
@@ -302,26 +319,29 @@
             <DependentOn>TableViewForm.h</DependentOn>
             <BuildOrder>16</BuildOrder>
         </CppCompile>
-        <FormResources Include="MainForm.dfm"/>
+        <None Include="todo.txt"/>
         <FormResources Include="MedianFilterForm.dfm"/>
-        <FormResources Include="LongProcessForm.dfm"/>
+        <FormResources Include="MainForm.dfm"/>
         <FormResources Include="GaussFilterForm.dfm"/>
+        <FormResources Include="LongProcessForm.dfm"/>
         <FormResources Include="ImageViewForm.dfm"/>
-        <FormResources Include="SelRectForm.dfm"/>
         <FormResources Include="SystemOptionsForm.dfm"/>
+        <FormResources Include="SelRectForm.dfm"/>
         <FormResources Include="TableViewForm.dfm"/>
         <FormResources Include="RotateForm.dfm"/>
         <FormResources Include="ResizeForm.dfm"/>
         <FormResources Include="FilterForm.dfm"/>
-        <FormResources Include="..\EngineView\EngineViewUnit.dfm"/>
         <FormResources Include="DbConvertForm.dfm"/>
-        <FormResources Include="DbCopyForm.dfm"/>
+        <FormResources Include="..\EngineView\EngineViewUnit.dfm"/>
         <FormResources Include="..\common\AboutForm.dfm"/>
+        <FormResources Include="..\common\dictinaryItemEditor.dfm"/>
+        <FormResources Include="..\common\dictinaryEditor.dfm"/>
         <FormResources Include="DetectorInfoForm.dfm"/>
-        <FormResources Include="DictionaryForm.dfm"/>
-        <FormResources Include="EngineErrForm.dfm"/>
         <FormResources Include="DbSplitForm.dfm"/>
+        <FormResources Include="EngineErrForm.dfm"/>
+        <FormResources Include="DictionaryForm.dfm"/>
         <FormResources Include="DbExportForm.dfm"/>
+        <FormResources Include="DbCopyForm.dfm"/>
         <FormResources Include="DbInfoForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

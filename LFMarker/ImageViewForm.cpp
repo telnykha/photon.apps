@@ -9,7 +9,7 @@
 #include "_LF.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "FImage"
+#pragma link "FImage41"
 #pragma resource "*.dfm"
 TFragmentForm *FragmentForm;
 //---------------------------------------------------------------------------
@@ -29,8 +29,8 @@ void __fastcall TFragmentForm::DrawSelected()
 	TLFDetectedItem* di = Form1->m_Descr.GetDetectedItem(Form1->SelectedIndex);
     if (di == NULL)
     {
-        FImage1->Close();
-		FImage1->Paint();
+        PhImage1->Close();
+		PhImage1->Paint();
 		return;
 	}
 	TLFRect* rr = di->GetBounds();
@@ -39,11 +39,11 @@ void __fastcall TFragmentForm::DrawSelected()
 	awpImage* pImage = NULL;
 	awpImage* pFragment = NULL;
 
-	Form1->FImage1->Bitmap->GetAWPImage(&pImage);
+	Form1->PhImage2->GetAwpImage(&pImage);
 	if (pImage == NULL)
 	{
-		FImage1->Close();
-		FImage1->Paint();
+		PhImage1->Close();
+		PhImage1->Paint();
 		return;
 	}
 
@@ -81,11 +81,12 @@ void __fastcall TFragmentForm::DrawSelected()
 	else
 		DoDetectionImage(pImage, r);
 
-	FImage1->Bitmap->SetAWPImage(pFragment);
+	//FImage1->Bitmap->SetAWPImage(pFragment);
+    PhImage1->SetAwpImage(pFragment);
 	if (this->SpeedButton1->Down)
-		FImage1->BestFit();
+		PhImage1->BestFit();
 	else
-		FImage1->ActualSize();
+		PhImage1->ActualSize();
 	awpReleaseImage(&pFragment);
 	awpReleaseImage(&pImage);
     ///////////////////////////////////////////////

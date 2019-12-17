@@ -16,63 +16,13 @@ object DetectorForm: TDetectorForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Chart1: TChart
-    Left = 0
-    Top = 89
-    Width = 355
-    Height = 194
-    AllowPanning = pmNone
-    Legend.GlobalTransparency = 16
-    Legend.Symbol.Gradient.EndColor = 10708548
-    Legend.TextStyle = ltsValue
-    Title.Text.Strings = (
-      'TChart')
-    Panning.MouseWheel = pmwNone
-    View3D = False
-    Zoom.Allow = False
-    Align = alTop
-    TabOrder = 0
-    DefaultCanvas = 'TGDIPlusCanvas'
-    PrintMargins = (
-      15
-      22
-      15
-      22)
-    ColorPaletteIndex = 13
-    object Series1: TBarSeries
-      Legend.Text = 'qq'
-      Legend.Visible = False
-      LegendTitle = 'qq'
-      BarBrush.Gradient.EndColor = 10708548
-      Marks.ChildLayout = slLeftRight
-      Marks.Frame.Visible = False
-      Marks.Margins.Left = 0
-      Marks.Margins.Top = 0
-      Marks.Margins.Right = 0
-      Marks.Margins.Bottom = 0
-      Marks.Style = smsValue
-      Marks.Arrow.Visible = False
-      Marks.Callout.Arrow.Visible = False
-      Marks.Symbol.Frame.EndStyle = esSquare
-      Marks.Symbol.Pen.EndStyle = esSquare
-      Marks.UseSeriesTransparency = False
-      ShowInLegend = False
-      Transparency = 15
-      Gradient.EndColor = 10708548
-      MarksLocation = mlCenter
-      XValues.Name = 'X'
-      XValues.Order = loAscending
-      YValues.Name = 'Bar'
-      YValues.Order = loNone
-    end
-  end
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 355
     Height = 89
     Align = alTop
-    TabOrder = 1
+    TabOrder = 0
     object Label1: TLabel
       Left = 16
       Top = 64
@@ -137,14 +87,23 @@ object DetectorForm: TDetectorForm
         'Stages threshold'
         'Srages weight ')
     end
+    object Button1: TButton
+      Left = 264
+      Top = 24
+      Width = 75
+      Height = 25
+      Caption = 'Button1'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 283
+    Top = 339
     Width = 355
     Height = 86
     Align = alTop
-    TabOrder = 2
+    TabOrder = 1
     object Label2: TLabel
       Left = 16
       Top = 53
@@ -184,14 +143,81 @@ object DetectorForm: TDetectorForm
       OnClick = CheckBox2Click
     end
   end
-  object FImage1: TFImage
+  object PhImage1: TPhImage
     Left = 0
-    Top = 369
+    Top = 425
     Width = 355
-    Height = 160
-    Cursor = 1
-    BorderStyle = bsFSingle
+    Height = 104
+    ThumbWidht = 128
+    ThumbHeight = 128
+    SlideShowInterval = 500
     Align = alClient
     ParentColor = False
+  end
+  object Chart1: TChart
+    Left = 0
+    Top = 89
+    Width = 355
+    Height = 250
+    BackWall.Brush.Gradient.Direction = gdBottomTop
+    BackWall.Brush.Gradient.EndColor = clWhite
+    BackWall.Brush.Gradient.StartColor = 15395562
+    BackWall.Brush.Gradient.Visible = True
+    BackWall.Transparent = False
+    Foot.Font.Color = clBlue
+    Foot.Font.Name = 'Verdana'
+    Gradient.Direction = gdBottomTop
+    Gradient.EndColor = clWhite
+    Gradient.MidColor = 15395562
+    Gradient.StartColor = 15395562
+    Gradient.Visible = True
+    LeftWall.Color = 14745599
+    Legend.Font.Name = 'Verdana'
+    Legend.Shadow.Transparency = 0
+    Legend.Visible = False
+    RightWall.Color = 14745599
+    Title.Font.Name = 'Verdana'
+    Title.Text.Strings = (
+      'TChart')
+    BottomAxis.Axis.Color = 4210752
+    BottomAxis.Grid.Color = 11119017
+    BottomAxis.LabelsFormat.Font.Name = 'Verdana'
+    BottomAxis.TicksInner.Color = 11119017
+    BottomAxis.Title.Font.Name = 'Verdana'
+    DepthAxis.Axis.Color = 4210752
+    DepthAxis.Grid.Color = 11119017
+    DepthAxis.LabelsFormat.Font.Name = 'Verdana'
+    DepthAxis.TicksInner.Color = 11119017
+    DepthAxis.Title.Font.Name = 'Verdana'
+    DepthTopAxis.Axis.Color = 4210752
+    DepthTopAxis.Grid.Color = 11119017
+    DepthTopAxis.LabelsFormat.Font.Name = 'Verdana'
+    DepthTopAxis.TicksInner.Color = 11119017
+    DepthTopAxis.Title.Font.Name = 'Verdana'
+    LeftAxis.Axis.Color = 4210752
+    LeftAxis.Grid.Color = 11119017
+    LeftAxis.LabelsFormat.Font.Name = 'Verdana'
+    LeftAxis.TicksInner.Color = 11119017
+    LeftAxis.Title.Font.Name = 'Verdana'
+    RightAxis.Axis.Color = 4210752
+    RightAxis.Grid.Color = 11119017
+    RightAxis.LabelsFormat.Font.Name = 'Verdana'
+    RightAxis.TicksInner.Color = 11119017
+    RightAxis.Title.Font.Name = 'Verdana'
+    TopAxis.Axis.Color = 4210752
+    TopAxis.Grid.Color = 11119017
+    TopAxis.LabelsFormat.Font.Name = 'Verdana'
+    TopAxis.TicksInner.Color = 11119017
+    TopAxis.Title.Font.Name = 'Verdana'
+    Align = alTop
+    TabOrder = 3
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series1: TBarSeries
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Bar'
+      YValues.Order = loNone
+    end
   end
 end

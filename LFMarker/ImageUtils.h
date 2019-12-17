@@ -6,5 +6,6 @@
 //---------------------------------------------------------------------------
 
 awpRect TRect2awpRect(TRect& rect);
+TRect awpRect2TRect(awpRect r);
 
 #endif

@@ -5,8 +5,8 @@
 #include "RotateForm.h"
 #include "MainForm.h"
 //---------------------------------------------------------------------
-#pragma link "FImage"
 #pragma link "CSPIN"
+#pragma link "FImage41"
 #pragma resource "*.dfm"
 TRotateDlg *RotateDlg;
 //---------------------------------------------------------------------
@@ -19,10 +19,10 @@ __fastcall TRotateDlg::TRotateDlg(TComponent* AOwner)
 void __fastcall TRotateDlg::FormShow(TObject *Sender)
 {
     _AWP_SAFE_RELEASE_(m_image)
-    Form1->FImage1->Bitmap->GetAWPImage(&m_image);
+    Form1->PhImage2->GetAwpImage(&m_image);
 
-    FImage1->Bitmap->SetAWPImage(m_image);
-    FImage1->BestFit();
+    PhImage1->SetAwpImage(m_image);
+    PhImage1->BestFit();
 }
 //---------------------------------------------------------------------------
 void __fastcall TRotateDlg::CSpinEdit1Change(TObject *Sender)
@@ -42,8 +42,8 @@ void __fastcall TRotateDlg::CSpinEdit1Change(TObject *Sender)
    awpImage* pImage = NULL;
    awpCopyImage(m_image, &pImage);
    awpRotate(pImage, angle);
-   FImage1->Bitmap->SetAWPImage(pImage);
-   FImage1->BestFit();
+   PhImage1->SetAwpImage(pImage);
+   PhImage1->BestFit();
    awpReleaseImage(&pImage);
 }
 //---------------------------------------------------------------------------

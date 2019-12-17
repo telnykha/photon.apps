@@ -7,7 +7,6 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-#include "FImage.h"
 #include "_LF.h"
 
 #include <ExtCtrls.hpp>
@@ -29,6 +28,11 @@
 #include "DbLabeledImages.h"
 #include <System.ImageList.hpp>
 #include "FImage41.h"
+#include "PhImageTool.h"
+#include "PhLenzTool.h"
+#include "PhPaneTool.h"
+#include "PhSelectRectTool.h"
+#include "PhZoomToRectTool.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -193,7 +197,6 @@ __published:	// IDE-managed Components
 	TSplitter *Splitter7;
 	TPanel *BottomDocPanel;
 	TPanel *Panel13;
-	TFImage *FImage1;
 	TSplitter *Splitter2;
 	TPageControl *PageControl1;
 	TTabSheet *TabSheet1;
@@ -204,7 +207,6 @@ __published:	// IDE-managed Components
 	TDriveComboBox *DriveComboBox1;
 	TFilterComboBox *FilterComboBox1;
 	TFileListBox *FileListBox1;
-	TFImage *FImage2;
 	TTreeView *TreeView1;
 	TTabSheet *TabSheet3;
 	TPanel *Panel3;
@@ -215,7 +217,14 @@ __published:	// IDE-managed Components
 	TPanel *Panel2;
 	TSpeedButton *SpeedButton2;
 	TSpeedButton *SpeedButton1;
-	TComboBox *ComboBox1;
+	TPhImage *PhImage1;
+	TPhImage *PhImage2;
+	TPhZoomToRectTool *PhZoomToRectTool1;
+	TPhSelRectTool *PhSelRectTool1;
+	TPhPaneTool *PhPaneTool1;
+	TPhLenzTool *PhLenzTool1;
+	TAction *DbCreateAction;
+	TMenuItem *CreateDatabase1;
     void __fastcall FileListBox1Change(TObject *Sender);
     void __fastcall FFaceEditor1AfterOpen(TObject *Sender);
     void __fastcall FormShow(TObject *Sender);
@@ -344,6 +353,9 @@ __published:	// IDE-managed Components
 	void __fastcall FileNewProjectActionUpdate(TObject *Sender);
 	void __fastcall DbViewClick(TObject *Sender);
 	void __fastcall DbViewSelectItem(TObject *Sender, TListItem *Item, bool Selected);
+	void __fastcall PhImage2AfterOpen(TObject *Sender);
+	void __fastcall DbCreateActionExecute(TObject *Sender);
+	void __fastcall DbCreateActionUpdate(TObject *Sender);
 
 
 
@@ -421,8 +433,6 @@ public:		// User declarations
     void ShowDockPanel(TPanel* APanel, bool MakeVisible, TControl* Client);
 
     TDbLabeledImages			m_db;
-	TLFDBLabeledImages 			m_database;
-
 	TLFDetectedItem*            m_pBaseObject;
     // with this descriptor works TableViewForm and ImageViewForm
     TLFSemanticImageDescriptor  m_Descr;

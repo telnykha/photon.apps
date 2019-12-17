@@ -7,15 +7,15 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-#include "FImage.h"
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.AppEvnts.hpp>
+#include "FImage41.h"
+#include "_LF.h"
 //---------------------------------------------------------------------------
 class TFragmentForm : public TForm
 {
 __published:	// IDE-managed Components
-    TFImage *FImage1;
 	TPanel *Panel1;
 	TSpeedButton *SpeedButton1;
 	TSpeedButton *SpeedButton2;
@@ -41,6 +41,7 @@ __published:	// IDE-managed Components
 	TEdit *Edit2;
 	TLabel *Label8;
 	TSpeedButton *SpeedButton7;
+	TPhImage *PhImage1;
 	void __fastcall SpeedButton1Click(TObject *Sender);
 	void __fastcall SpeedButton2Click(TObject *Sender);
 	void __fastcall CheckBox1Click(TObject *Sender);

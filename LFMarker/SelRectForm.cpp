@@ -28,11 +28,11 @@ void __fastcall TRectToolForm::UpdateDetectedItem()
 	LF_NULL_UUID_CREATE(id);
 	Form1->m_pBaseObject = new TLFDetectedItem(NULL, 0, type, 0, angle,
 	bw,bh,"is marked by a person", id);
-	if (Form1->FImage1->CurrentTool == ftMarkRect)
-	{
-		 TMarkRectTool* theTool =   (TMarkRectTool*)Form1->FImage1->Tool;
-		 theTool->SetAR(Form1->m_pBaseObject->GetBW(),Form1->m_pBaseObject->GetBH());
-	}
+ //	if (Form1->FImage1->CurrentTool == ftMarkRect)
+ //	{
+ //		 TMarkRectTool* theTool =   (TMarkRectTool*)Form1->FImage1->Tool;
+ //		 theTool->SetAR(Form1->m_pBaseObject->GetBW(),Form1->m_pBaseObject->GetBH());
+ //	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TRectToolForm::FormShow(TObject *Sender)
@@ -58,13 +58,14 @@ void __fastcall TRectToolForm::FormShow(TObject *Sender)
 void __fastcall TRectToolForm::FormClose(TObject *Sender,
 	  TCloseAction &Action)
 {
-	if (Form1->FImage1->CurrentTool == ftMarkRect)
+/*	if (Form1->FImage1->CurrentTool == ftMarkRect)
 	{
 		// переключим CurrentTool на ftPane
 	  Form1->FImage1->CurrentTool     = ftNone;
 	  Form1->FImage1->CurrentTool     = ftPane;
 	  this->CheckBox1->Checked = Form1->SetNearestOverlap;
 	}
+    */
 }
 //---------------------------------------------------------------------------
 void __fastcall TRectToolForm::ComboBox1Change(TObject *Sender)

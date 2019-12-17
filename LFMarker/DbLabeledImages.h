@@ -9,6 +9,7 @@
 #include <ComCtrls.hpp>
 #include "_LF.h"
 
+
 typedef void __fastcall (__closure *TDbProgressEvent)(int Progress, AnsiString& aComment);
 enum EExportFormat {awp, jpeg};
 enum EFaceExportOptions {
@@ -60,8 +61,6 @@ struct SDbCopyOptions
 	AnsiString strPathToCopy;
 	bool copyImages;
 	bool copySemantic;
-	bool copyIeye;
-	bool copyFace;
 };
 ////////////////////////////////////////////////////////////////////////////////
 // convert database options
@@ -94,12 +93,17 @@ protected:
 	AnsiString 		MakeExportFileName(SDbExportOptions& options, int num, bool fliped, const char* lpClassLabel = NULL);
 
 	TLFSemanticDictinary* __fastcall GetDictionary();
+    TLFDBLabeledImages*   __fastcall GetDatabase();
+    int __fastcall GetNumLabels();
 public:
 	TDbLabeledImages();
 	~TDbLabeledImages();
 
 	bool __fastcall Init(AnsiString& strDbPath, ILFDetectEngine* engine = NULL);
 	const char* __fastcall GetFileName(int index);
+
+    bool __fastcall CreateDatabase(const char* path);
+
 	//Export of image fragments to the specified directory
 	void __fastcall ExportFragments(SDbExportOptions& options);
 	void __fastcall ConvertDatabase(SDbConvertOptions& convert_options);
@@ -111,12 +115,16 @@ public:
 	awpImage* __fastcall GetDbThumbinals(int thmbWidth = 128, int thmbHeight = 96);
 	awpImage* __fastcall MakeSemanticThumbinals(int thmbWidth = 64, int thmbHeight = 64);
 	void __fastcall DoMarking(ILFDetectEngine* engine);
+
+
 // properties
    __property AnsiString DbName = {read = m_strDbName};
    __property int NumImages    = {read = m_NumImages};
    __property int NumXmlFiles  = {read = m_NumXmlFiles};
    __property int NumXmlItems  = {read = m_NumXmlItems};
+   __property int NumLabels    = {read = GetNumLabels};
    __property TLFSemanticDictinary* Dictionary = {read =  GetDictionary};
+   __property TLFDBLabeledImages*   Data  = {read = GetDatabase};
 // events
    __property  TDbProgressEvent OnProgress = {read = m_ProgressEvent, write = m_ProgressEvent};
 };

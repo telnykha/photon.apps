@@ -12,9 +12,9 @@
 #include <Controls.hpp>
 #include <Buttons.hpp>
 #include <ExtCtrls.hpp>
-#include "FImage.h"
 #include <ComCtrls.hpp>
 #include "CSPIN.h"
+#include "FImage41.h"
 //----------------------------------------------------------------------------
 class TRotateDlg : public TForm
 {
@@ -22,10 +22,10 @@ __published:
 	TButton *OKBtn;
 	TButton *CancelBtn;
 	TBevel *Bevel1;
-        TFImage *FImage1;
         TLabel *Label1;
         TLabel *Label2;
         TCSpinEdit *CSpinEdit1;
+	TPhImage *PhImage1;
         void __fastcall FormShow(TObject *Sender);
         void __fastcall CSpinEdit1Change(TObject *Sender);
     void __fastcall FormClose(TObject *Sender, TCloseAction &Action);

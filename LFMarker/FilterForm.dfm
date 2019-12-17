@@ -40,15 +40,6 @@ object FilterDlg: TFilterDlg
     ModalResult = 2
     TabOrder = 1
   end
-  object FImage1: TFImage
-    Left = 144
-    Top = 16
-    Width = 265
-    Height = 233
-    Cursor = 1
-    BorderStyle = bsFSingle
-    ParentColor = False
-  end
   object ListBox1: TListBox
     Left = 16
     Top = 16
@@ -75,7 +66,17 @@ object FilterDlg: TFilterDlg
       'Previtt Horisontal '
       'Sobel Vertical '
       'Sobel Horizontal')
-    TabOrder = 3
+    TabOrder = 2
     OnClick = ListBox1Click
+  end
+  object PhImage1: TPhImage
+    Left = 144
+    Top = 16
+    Width = 265
+    Height = 233
+    ThumbWidht = 128
+    ThumbHeight = 128
+    SlideShowInterval = 500
+    ParentColor = False
   end
 end

@@ -134,10 +134,13 @@ bool __fastcall TDbLabeledImages::Init(AnsiString& strDbPath, ILFDetectEngine* e
      //Init dictionary
      AnsiString strDictionaryName = strDbPath;
 	 strDictionaryName += "\\";
-     strDictionaryName += "dictionary.xml";
+     strDictionaryName += c_lpDictFileName ;
      if (!m_db.InitDB(strDbPath.c_str()))
         return false;
 
+    m_NumImages = m_db.GetImagesCount();
+    m_NumXmlFiles = m_db.GetDescrFilesCount();
+    m_NumXmlItems = m_db.GetItemsCount();
     m_strDbName = strDbPath;
     m_engine = engine;
 }
@@ -468,10 +471,9 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 		 if (_IsImageFile(sr.Name))
 		 {
 			num++;
-
-			Form1->FImage2->Init(sr.Name, NULL);
+             Form1->PhImage1->Bitmap->LoadFromFile(sr.Name);
 			awpImage* img = NULL;
-			Form1->FImage2->Bitmap->GetAWPImage(&img);
+			Form1->PhImage1->GetAwpImage(&img);
 			if (img)
 			{
 			  TLFSemanticImageDescriptor* sd = NULL;
@@ -565,6 +567,9 @@ void __fastcall TDbLabeledImages::CopyDatabase(SDbCopyOptions& options)
    iAttr |= faAnyFile;
    int num = 0;
 
+   int total = options.copyImages ? m_NumImages : 0;
+   total += options.copySemantic ? NumXmlFiles : 0;
+
    if (FindFirst(strPath, iAttr, sr) == 0)
    {
 	  do
@@ -596,34 +601,10 @@ void __fastcall TDbLabeledImages::CopyDatabase(SDbCopyOptions& options)
 			CopyFile(_ansi.c_str(), strFileName.c_str(), true);
 			was_copy = true;
 		 }
-		 if (options.copyIeye && strExt == ".ieye")
-		 {
-			String strFileName = options.strPathToCopy;
-			strFileName += "\\";
-			strFileName += ExtractFileName(sr.Name);
-			String _ansi = this->m_strDbName;
-			_ansi += "\\";
-			_ansi+= sr.Name;
-			CopyFile(_ansi.c_str(), strFileName.c_str(), true);
-			was_copy = true;
-		 }
-
-		 if (options.copyFace && strExt == ".face")
-		 {
-			String strFileName = options.strPathToCopy;
-			strFileName += "\\";
-			strFileName += ExtractFileName(sr.Name);
-			String _ansi = this->m_strDbName;
-			_ansi += "\\";
-			_ansi+= sr.Name;
-			CopyFile(_ansi.c_str(), strFileName.c_str(), true);
-			was_copy = true;
-		 }
-
 		 if (m_ProgressEvent != NULL && was_copy)
 		 {
 			AnsiString _ansi = sr.Name;
-			m_ProgressEvent(int(100 *num / this->m_NumImages),_ansi );
+			m_ProgressEvent(int(100 *num / total),_ansi );
 		 }
 
 		 Application->ProcessMessages();
@@ -724,9 +705,9 @@ awpImage* __fastcall TDbLabeledImages::GetDbThumbinals(int thmbWidth, int thmbHe
 
 		 if (_IsImageFile(sr.Name))
 		 {
-			Form1->FImage2->Init(sr.Name, NULL);
+			Form1->PhImage1->Bitmap->LoadFromFile(sr.Name);
 			awpImage* img = NULL;
-			Form1->FImage2->Bitmap->GetAWPImage(&img);
+			Form1->PhImage1->GetAwpImage(&img);
 			if (img)
 			{
 				awpImage* fit = FitImage(rect, img);
@@ -806,9 +787,9 @@ awpImage* __fastcall TDbLabeledImages::MakeSemanticThumbinals(int thmbWidth, int
 
 		 if (_IsImageFile(sr.Name))
 		 {
-			Form1->FImage2->Init(sr.Name, NULL);
+			Form1->PhImage1->Bitmap->LoadFromFile(sr.Name);
 			awpImage* img = NULL;
-			Form1->FImage2->Bitmap->GetAWPImage(&img);
+			Form1->PhImage1->GetAwpImage(&img);
 			if (img)
 			{
 				awpImage* fit = NULL;
@@ -1115,3 +1096,19 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 	}
 	_findclose( handle );
 }
+
+TLFDBLabeledImages*   __fastcall TDbLabeledImages::GetDatabase()
+{
+    return &m_db;
+}
+
+int __fastcall TDbLabeledImages::GetNumLabels()
+{
+    return Dictionary->GetCount();
+}
+
+bool __fastcall TDbLabeledImages::CreateDatabase(const char* path)
+{
+    return false;
+}
+

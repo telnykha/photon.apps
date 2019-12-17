@@ -19,30 +19,13 @@ object FragmentForm: TFragmentForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object FImage1: TFImage
-    AlignWithMargins = True
-    Left = 190
-    Top = 54
-    Width = 226
-    Height = 194
-    Cursor = 1
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    BorderStyle = bsFSingle
-    Align = alClient
-    ParentColor = False
-    ExplicitWidth = 213
-  end
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 421
     Height = 49
     Align = alTop
-    TabOrder = 1
-    ExplicitWidth = 408
+    TabOrder = 0
     object SpeedButton1: TSpeedButton
       Left = 1
       Top = 1
@@ -404,7 +387,7 @@ object FragmentForm: TFragmentForm
     Height = 204
     Align = alLeft
     BevelOuter = bvNone
-    TabOrder = 2
+    TabOrder = 1
     object Label1: TLabel
       Left = 8
       Top = 29
@@ -531,6 +514,16 @@ object FragmentForm: TFragmentForm
       Height = 21
       TabOrder = 6
     end
+  end
+  object PhImage1: TPhImage
+    Left = 192
+    Top = 56
+    Width = 221
+    Height = 189
+    ThumbWidht = 128
+    ThumbHeight = 128
+    SlideShowInterval = 500
+    ParentColor = False
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle

@@ -12,6 +12,15 @@
         <Projects Include="LFMarker\ObjectsMarker.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\photon.research\VideoMarker\Video.Marker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\photon41\Demo\PhotonDemo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +56,41 @@
     <Target Name="ObjectsMarker:Make">
         <MSBuild Projects="LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="Video_Marker">
+        <MSBuild Projects="..\photon.research\VideoMarker\Video.Marker.cbproj"/>
+    </Target>
+    <Target Name="Video_Marker:Clean">
+        <MSBuild Projects="..\photon.research\VideoMarker\Video.Marker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Video_Marker:Make">
+        <MSBuild Projects="..\photon.research\VideoMarker\Video.Marker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PhotonDemo">
+        <MSBuild Projects="..\photon41\Demo\PhotonDemo.cbproj"/>
+    </Target>
+    <Target Name="PhotonDemo:Clean">
+        <MSBuild Projects="..\photon41\Demo\PhotonDemo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PhotonDemo:Make">
+        <MSBuild Projects="..\photon41\Demo\PhotonDemo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awplflibb;photon;ObjectsMarker"/>
+        <CallTarget Targets="awplflibb;photon;ObjectsMarker;Video_Marker;PhotonDemo;photon41"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awplflibb:Clean;photon:Clean;ObjectsMarker:Clean"/>
+        <CallTarget Targets="awplflibb:Clean;photon:Clean;ObjectsMarker:Clean;Video_Marker:Clean;PhotonDemo:Clean;photon41:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awplflibb:Make;photon:Make;ObjectsMarker:Make"/>
+        <CallTarget Targets="awplflibb:Make;photon:Make;ObjectsMarker:Make;Video_Marker:Make;PhotonDemo:Make;photon41:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

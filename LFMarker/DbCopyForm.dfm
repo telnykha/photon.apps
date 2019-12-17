@@ -3,7 +3,7 @@ object DbCopyDlg: TDbCopyDlg
   Top = 302
   BorderStyle = bsDialog
   Caption = 'Copy database settings '
-  ClientHeight = 413
+  ClientHeight = 363
   ClientWidth = 313
   Color = clBtnFace
   ParentFont = True
@@ -16,7 +16,7 @@ object DbCopyDlg: TDbCopyDlg
     Left = 8
     Top = 8
     Width = 297
-    Height = 366
+    Height = 313
     Shape = bsFrame
   end
   object Label1: TLabel
@@ -27,8 +27,8 @@ object DbCopyDlg: TDbCopyDlg
     Caption = 'To path: '
   end
   object OKBtn: TButton
-    Left = 64
-    Top = 380
+    Left = 80
+    Top = 327
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -37,8 +37,8 @@ object DbCopyDlg: TDbCopyDlg
     TabOrder = 0
   end
   object CancelBtn: TButton
-    Left = 144
-    Top = 380
+    Left = 160
+    Top = 327
     Width = 75
     Height = 25
     Cancel = True
@@ -51,6 +51,7 @@ object DbCopyDlg: TDbCopyDlg
     Top = 16
     Width = 233
     Height = 21
+    ReadOnly = True
     TabOrder = 2
     Text = 'Edit1'
     OnChange = Edit1Change
@@ -71,36 +72,20 @@ object DbCopyDlg: TDbCopyDlg
     Caption = 'Copy semantic description'
     TabOrder = 4
   end
-  object CheckBox3: TCheckBox
-    Left = 16
-    Top = 296
-    Width = 97
-    Height = 17
-    Caption = 'Copy *.ieye files'
-    TabOrder = 5
-  end
-  object CheckBox4: TCheckBox
-    Left = 16
-    Top = 320
-    Width = 97
-    Height = 17
-    Caption = 'Copy *.face files'
-    TabOrder = 6
-  end
   object CheckBox5: TCheckBox
     Left = 16
-    Top = 344
+    Top = 295
     Width = 145
     Height = 17
     Caption = 'Open databse after copy'
-    TabOrder = 7
+    TabOrder = 5
   end
   object DirectoryListBox1: TDirectoryListBox
     Left = 16
     Top = 72
     Width = 281
     Height = 170
-    TabOrder = 8
+    TabOrder = 6
     OnChange = DirectoryListBox1Change
   end
   object DriveComboBox1: TDriveComboBox
@@ -109,6 +94,6 @@ object DbCopyDlg: TDbCopyDlg
     Width = 281
     Height = 19
     DirList = DirectoryListBox1
-    TabOrder = 9
+    TabOrder = 7
   end
 end

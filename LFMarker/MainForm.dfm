@@ -130,7 +130,7 @@ object Form1: TForm1
       end
       item
         Alignment = taCenter
-        Width = 80
+        Width = 100
       end
       item
         Alignment = taCenter
@@ -164,7 +164,7 @@ object Form1: TForm1
       ExplicitWidth = 335
     end
     object Splitter2: TSplitter
-      Left = 249
+      Left = 345
       Top = 1
       Width = 4
       Height = 497
@@ -192,7 +192,7 @@ object Form1: TForm1
     object Panel1: TPanel
       Left = 1
       Top = 1
-      Width = 248
+      Width = 344
       Height = 497
       Align = alLeft
       TabOrder = 1
@@ -200,7 +200,7 @@ object Form1: TForm1
       object PageControl1: TPageControl
         Left = 1
         Top = 1
-        Width = 246
+        Width = 342
         Height = 495
         ActivePage = TabSheet1
         Align = alClient
@@ -212,7 +212,7 @@ object Form1: TForm1
           object Splitter5: TSplitter
             Left = 0
             Top = 227
-            Width = 238
+            Width = 334
             Height = 10
             Cursor = crVSplit
             Align = alTop
@@ -220,10 +220,22 @@ object Form1: TForm1
             ExplicitTop = 223
             ExplicitWidth = 281
           end
+          object PhImage1: TPhImage
+            Left = 0
+            Top = 237
+            Width = 334
+            Height = 205
+            ThumbWidht = 128
+            ThumbHeight = 128
+            SlideShowInterval = 500
+            Align = alClient
+            ParentColor = False
+            Visible = False
+          end
           object DirectoryListBox1: TDirectoryListBox
             Left = 0
             Top = 0
-            Width = 238
+            Width = 334
             Height = 227
             Align = alTop
             FileList = FileListBox1
@@ -233,14 +245,14 @@ object Form1: TForm1
           object Panel9: TPanel
             Left = 0
             Top = 442
-            Width = 238
+            Width = 334
             Height = 27
             Align = alBottom
             TabOrder = 1
             object DriveComboBox1: TDriveComboBox
               Left = 1
               Top = 1
-              Width = 236
+              Width = 332
               Height = 19
               Align = alTop
               DirList = DirectoryListBox1
@@ -260,7 +272,7 @@ object Form1: TForm1
           object FileListBox1: TFileListBox
             Left = 0
             Top = 237
-            Width = 238
+            Width = 334
             Height = 205
             Align = alClient
             Mask = '*.jpg;*awp;*.png;*.bmp'
@@ -271,25 +283,18 @@ object Form1: TForm1
             OnChange = FileListBox1Change
             OnKeyUp = FileListBox1KeyUp
           end
-          object FImage2: TFImage
-            Left = 0
-            Top = 237
-            Width = 238
-            Height = 205
-            Cursor = 1
-            BorderStyle = bsFSingle
-            Align = alClient
-            ParentColor = False
-            Visible = False
-          end
         end
         object TabSheet2: TTabSheet
           Caption = 'Project'
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object TreeView1: TTreeView
             Left = 0
             Top = 0
-            Width = 238
+            Width = 334
             Height = 469
             Align = alClient
             Indent = 19
@@ -319,10 +324,14 @@ object Form1: TForm1
         object TabSheet3: TTabSheet
           Caption = 'Database'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Panel3: TPanel
             Left = 0
             Top = 0
-            Width = 238
+            Width = 334
             Height = 33
             Align = alTop
             TabOrder = 0
@@ -449,42 +458,26 @@ object Form1: TForm1
               ExplicitTop = 0
               ExplicitHeight = 30
             end
-            object ComboBox1: TComboBox
-              AlignWithMargins = True
-              Left = 74
-              Top = 4
-              Width = 160
-              Height = 21
-              Align = alClient
-              TabOrder = 0
-              Text = 'ComboBox1'
-              ExplicitLeft = 106
-              ExplicitTop = 1
-              ExplicitWidth = 119
-            end
           end
           object DbView: TListView
             Left = 0
             Top = 33
-            Width = 238
+            Width = 334
             Height = 415
             Align = alClient
             Columns = <>
+            GridLines = True
             MultiSelect = True
             ReadOnly = True
             RowSelect = True
             TabOrder = 1
             ViewStyle = vsReport
             OnSelectItem = DbViewSelectItem
-            ExplicitLeft = 3
-            ExplicitTop = 88
-            ExplicitWidth = 250
-            ExplicitHeight = 150
           end
           object Panel2: TPanel
             Left = 0
             Top = 448
-            Width = 238
+            Width = 334
             Height = 21
             Align = alBottom
             Caption = 'Panel2'
@@ -494,9 +487,9 @@ object Form1: TForm1
       end
     end
     object Panel6: TPanel
-      Left = 253
+      Left = 349
       Top = 1
-      Width = 546
+      Width = 450
       Height = 497
       Align = alClient
       Caption = 'Panel2'
@@ -504,14 +497,14 @@ object Form1: TForm1
       object Panel11: TPanel
         Left = 1
         Top = 1
-        Width = 544
+        Width = 448
         Height = 495
         Align = alClient
         TabOrder = 0
         object HSplitter: TSplitter
           Left = 1
           Top = 486
-          Width = 542
+          Width = 446
           Height = 3
           Cursor = crVSplit
           Align = alBottom
@@ -519,7 +512,7 @@ object Form1: TForm1
           ExplicitWidth = 557
         end
         object Splitter7: TSplitter
-          Left = 535
+          Left = 439
           Top = 1
           Height = 485
           Align = alRight
@@ -529,7 +522,7 @@ object Form1: TForm1
         object BottomDocPanel: TPanel
           Left = 1
           Top = 489
-          Width = 542
+          Width = 446
           Height = 5
           Align = alBottom
           DockSite = True
@@ -541,7 +534,7 @@ object Form1: TForm1
           OnUnDock = BottomDocPanelUnDock
         end
         object Panel13: TPanel
-          Left = 538
+          Left = 442
           Top = 1
           Width = 5
           Height = 485
@@ -551,42 +544,43 @@ object Form1: TForm1
           DragKind = dkDock
           TabOrder = 1
         end
-        object FImage1: TFImage
-          Left = 1
-          Top = 1
-          Width = 534
-          Height = 485
-          BorderStyle = bsFSingle
-          Align = alClient
-          ParentColor = False
-          OnMouseMove = FImage1MouseMove
-          OnMouseUp = FFaceEditor1MouseUp
-          AfterOpen = FFaceEditor1AfterOpen
-        end
         object ValueListEditor1: TValueListEditor
           Left = 1
           Top = 1
-          Width = 534
+          Width = 438
           Height = 485
           Align = alClient
-          TabOrder = 3
+          TabOrder = 2
           Visible = False
           ColWidths = (
             150
-            378)
+            282)
+        end
+        object PhImage2: TPhImage
+          Left = 1
+          Top = 1
+          Width = 438
+          Height = 485
+          ThumbWidht = 128
+          ThumbHeight = 128
+          SlideShowInterval = 500
+          Align = alClient
+          ParentColor = False
+          OnMouseMove = FImage1MouseMove
+          AfterOpen = PhImage2AfterOpen
         end
       end
     end
   end
   object OpenDialog1: TOpenDialog
     Filter = 'XML files|*.xml'
-    Left = 360
-    Top = 88
+    Left = 672
+    Top = 144
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 264
-    Top = 88
+    Left = 672
+    Top = 48
     object File1: TMenuItem
       Caption = 'Files'
       object NewProject1: TMenuItem
@@ -722,8 +716,8 @@ object Form1: TForm1
     end
     object N1: TMenuItem
       Caption = 'Database'
-      object DatabaseInfo1: TMenuItem
-        Action = DbInfoAction
+      object CreateDatabase1: TMenuItem
+        Action = DbCreateAction
       end
       object Dictionary1: TMenuItem
         Action = dbDictionaryAction
@@ -745,6 +739,9 @@ object Form1: TForm1
       end
       object SplitDatabase1: TMenuItem
         Action = DbSplitDatabase
+      end
+      object DatabaseInfo1: TMenuItem
+        Action = DbInfoAction
       end
       object N10: TMenuItem
         Caption = '-'
@@ -811,8 +808,8 @@ object Form1: TForm1
   end
   object ActionList2: TActionList
     Images = ImageList1
-    Left = 296
-    Top = 88
+    Left = 704
+    Top = 48
     object CloseAction: TAction
       Category = 'File'
       Caption = 'Exit'
@@ -1171,12 +1168,18 @@ object Form1: TForm1
       OnExecute = FileNewProjectActionExecute
       OnUpdate = FileNewProjectActionUpdate
     end
+    object DbCreateAction: TAction
+      Category = 'Database'
+      Caption = 'Create Database...'
+      OnExecute = DbCreateActionExecute
+      OnUpdate = DbCreateActionUpdate
+    end
   end
   object ImageList1: TImageList
-    Left = 392
-    Top = 88
+    Left = 704
+    Top = 144
     Bitmap = {
-      494C010110001300FC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010110001300300210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1846,20 +1849,20 @@ object Form1: TForm1
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     OnHint = ApplicationEvents1Hint
-    Left = 456
-    Top = 88
+    Left = 672
+    Top = 96
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = '.xml'
     Filter = 'XML files|*.xml'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 488
-    Top = 88
+    Left = 704
+    Top = 96
   end
   object PopupMenu1: TPopupMenu
     Images = ImageList1
-    Left = 328
-    Top = 88
+    Left = 736
+    Top = 48
     object Copy1: TMenuItem
       Action = EditCopy1
     end
@@ -1877,7 +1880,27 @@ object Form1: TForm1
     Enabled = False
     Interval = 100
     OnTimer = Timer1Timer
-    Left = 520
-    Top = 88
+    Left = 736
+    Top = 96
+  end
+  object PhZoomToRectTool1: TPhZoomToRectTool
+    PhImage = PhImage2
+    Left = 734
+    Top = 140
+  end
+  object PhSelRectTool1: TPhSelRectTool
+    PhImage = PhImage2
+    Left = 670
+    Top = 204
+  end
+  object PhPaneTool1: TPhPaneTool
+    PhImage = PhImage2
+    Left = 670
+    Top = 276
+  end
+  object PhLenzTool1: TPhLenzTool
+    PhImage = PhImage2
+    Left = 710
+    Top = 276
   end
 end

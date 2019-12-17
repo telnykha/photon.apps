@@ -24,8 +24,6 @@ __published:
     TEdit *Edit1;
     TCheckBox *CheckBox1;
     TCheckBox *CheckBox2;
-    TCheckBox *CheckBox3;
-    TCheckBox *CheckBox4;
     TCheckBox *CheckBox5;
 	TDirectoryListBox *DirectoryListBox1;
 	TDriveComboBox *DriveComboBox1;

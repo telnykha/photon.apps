@@ -182,8 +182,8 @@ void __fastcall TTableForm::SpeedButton2Click(TObject *Sender)
    Form1->m_Descr.DeleteDetectedItem(Form1->SelectedIndex);
    AnsiString str =  ChangeFileExt(Form1->m_strFileName, ".xml");
    Form1->m_Descr.SaveXML(str.c_str());
-   Form1->FImage1->Init(Form1->m_strFileName, NULL);
-   Form1->FImage1->BestFit();
+   Form1->PhImage2->InitFile(Form1->m_strFileName);
+   Form1->PhImage2->BestFit();
    ListView1->DeleteSelected();
 }
 //---------------------------------------------------------------------------
@@ -192,8 +192,8 @@ void __fastcall TTableForm::SpeedButton3Click(TObject *Sender)
 	Form1->m_Descr.Clear();
    AnsiString str =  ChangeFileExt(Form1->m_strFileName, ".xml");
    Form1->m_Descr.SaveXML(str.c_str());
-	Form1->FImage1->Init(Form1->m_strFileName, NULL);
-    Form1->FImage1->BestFit();
+	Form1->PhImage2->InitFile(Form1->m_strFileName);
+    Form1->PhImage2->BestFit();
     this->ListView1->Clear();
 }
 //---------------------------------------------------------------------------

@@ -24,6 +24,8 @@ void __fastcall TLongProcDlg::ProgressHandler(int Progress, AnsiString& aComment
 }
 void __fastcall TLongProcDlg::FormShow(TObject *Sender)
 {
+  Label1->Caption = L"";
+  ProgressBar1->Position = 0;
   Form1->m_db.OnProgress = ProgressHandler;
   Timer1->Enabled = true;
 }

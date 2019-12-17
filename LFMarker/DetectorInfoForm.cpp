@@ -7,7 +7,7 @@
 #include "MainForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "FImage"
+#pragma link "FImage41"
 #pragma resource "*.dfm"
 TDetectorForm *DetectorForm;
 //---------------------------------------------------------------------------
@@ -34,8 +34,8 @@ void __fastcall TDetectorForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TDetectorForm::DoDetectorInfo()
 {
-	this->Series1->Clear();
-
+    Series1->Clear();
+    Form1->Memo1->Lines->Add("Items count = " + IntToStr(Chart1->Series[0]->Count()));
 	ILFDetectEngine* e = Form1->Engine;
 	TSCObjectDetector* d = (TSCObjectDetector*)e->GetDetector(0);
 	int w = d->GetBaseWidth()*10;
@@ -43,21 +43,23 @@ void __fastcall TDetectorForm::DoDetectorInfo()
 	awpImage* img = NULL;
 	awpCreateImage(&img, w, h, 1, AWP_DOUBLE);
 	double* pix = (double*)img->pPixels;
+    //Series1->ValuesList->Count = d->GetStagesCount();
 	for (int i = 0; i < d->GetStagesCount(); i++)
 	{
 		switch(this->ComboBox1->ItemIndex)
 		{
 			case 0:
-					this->Series1->Add(d->GetSensorsCount(i));
+				  	Series1->AddY( d->GetSensorsCount(i));
 			break;
 			case 1:
-					this->Series1->Add(d->GetStageThreshold(i));
+				  	Chart1->Series[0]->AddY(d->GetStageThreshold(i));
 			break;
 			case 2:
-					this->Series1->Add(d->GetStageWeight(i));
+				    Chart1->Series[0]->AddY(d->GetStageWeight(i));
 			break;
 		}
 	}
+    Series1->EndUpdate();
 
 	TLFObjectList* strongs = d->GetStrongs();
 	for (int i = 0; i < strongs->GetCount(); i++)
@@ -107,14 +109,15 @@ void __fastcall TDetectorForm::DoDetectorInfo()
 
 	}
 	awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
-	this->FImage1->Bitmap->SetAWPImage(img);
-	FImage1->BestFit();
+	PhImage1->SetAwpImage(img);
+	PhImage1->BestFit();
 
 	awpReleaseImage(&img);
 }
 
 void __fastcall TDetectorForm::ComboBox1Change(TObject *Sender)
 {
+    Series1->Clear();
 	DoDetectorInfo();
 }
 //---------------------------------------------------------------------------
@@ -134,6 +137,12 @@ void __fastcall TDetectorForm::CheckBox1Click(TObject *Sender)
 void __fastcall TDetectorForm::CheckBox2Click(TObject *Sender)
 {
 	DoDetectorInfo();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDetectorForm::Button1Click(TObject *Sender)
+{
+    Series1->Clear();
 }
 //---------------------------------------------------------------------------
 

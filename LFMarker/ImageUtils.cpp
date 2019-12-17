@@ -16,3 +16,10 @@ awpRect TRect2awpRect(TRect& rect)
     return result;
 }
 
+TRect awpRect2TRect(awpRect r)
+{
+    TRect result;
+    result.init(r.left, r.top, r.right, r.bottom);
+    return result;
+}
+

@@ -4,27 +4,29 @@
 //---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
-USEFORM("LongProcessForm.cpp", LongProcDlg);
-USEFORM("MainForm.cpp", Form1);
 USEFORM("MedianFilterForm.cpp", MedianFilterDlg);
-USEFORM("ImageViewForm.cpp", FragmentForm);
-USEFORM("FilterForm.cpp", FilterDlg);
+USEFORM("MainForm.cpp", Form1);
 USEFORM("GaussFilterForm.cpp", GaussFilterDlg);
-USEFORM("SelRectForm.cpp", RectToolForm);
+USEFORM("LongProcessForm.cpp", LongProcDlg);
+USEFORM("ImageViewForm.cpp", FragmentForm);
 USEFORM("SystemOptionsForm.cpp", PagesDlg);
+USEFORM("SelRectForm.cpp", RectToolForm);
 USEFORM("TableViewForm.cpp", TableForm);
 USEFORM("RotateForm.cpp", RotateDlg);
 USEFORM("ResizeForm.cpp", ResizeDlg);
-USEFORM("..\EngineView\EngineViewUnit.cpp", EngineViewForm);
+USEFORM("FilterForm.cpp", FilterDlg);
 USEFORM("DbConvertForm.cpp", DbConvertDlg);
-USEFORM("DbCopyForm.cpp", DbCopyDlg);
+USEFORM("..\EngineView\EngineViewUnit.cpp", EngineViewForm);
 USEFORM("..\common\AboutForm.cpp", AboutBox);
 USEFORM("DetectorInfoForm.cpp", DetectorForm);
-USEFORM("DictionaryForm.cpp", DictionaryDialog);
-USEFORM("EngineErrForm.cpp", EngineErrDlg);
 USEFORM("DbSplitForm.cpp", DbSplitDlg);
+USEFORM("EngineErrForm.cpp", EngineErrDlg);
+USEFORM("DictionaryForm.cpp", DictionaryDialog);
 USEFORM("DbExportForm.cpp", DbExportDialog);
+USEFORM("DbCopyForm.cpp", DbCopyDlg);
 USEFORM("DbInfoForm.cpp", DbInfoDialog);
+USEFORM("..\common\dictinaryEditor.cpp", dictinaryEditDlg);
+USEFORM("..\common\dictinaryItemEditor.cpp", dictinaryItemDlg);
 //---------------------------------------------------------------------------
 HANDLE hm = 0;
 bool Check()
@@ -62,6 +64,8 @@ WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 		Application->CreateForm(__classid(TGaussFilterDlg), &GaussFilterDlg);
 		Application->CreateForm(__classid(TMedianFilterDlg), &MedianFilterDlg);
 		Application->CreateForm(__classid(TResizeDlg), &ResizeDlg);
+		Application->CreateForm(__classid(TdictinaryEditDlg), &dictinaryEditDlg);
+		Application->CreateForm(__classid(TdictinaryItemDlg), &dictinaryItemDlg);
 		Application->Run();
         ReleaseMutex(hm);
         CloseHandle(hm);

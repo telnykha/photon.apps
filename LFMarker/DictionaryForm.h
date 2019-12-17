@@ -14,6 +14,7 @@
 #include <Vcl.AppEvnts.hpp>
 #include "_LF.h"
 #include <Vcl.Mask.hpp>
+#include <System.ImageList.hpp>
 //---------------------------------------------------------------------------
 class TDictionaryDialog : public TForm
 {

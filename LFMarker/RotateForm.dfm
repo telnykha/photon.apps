@@ -54,15 +54,6 @@ object RotateDlg: TRotateDlg
     ModalResult = 2
     TabOrder = 1
   end
-  object FImage1: TFImage
-    Left = 16
-    Top = 48
-    Width = 281
-    Height = 201
-    Cursor = 1
-    BorderStyle = bsFSingle
-    ParentColor = False
-  end
   object CSpinEdit1: TCSpinEdit
     Left = 56
     Top = 16
@@ -70,7 +61,17 @@ object RotateDlg: TRotateDlg
     Height = 22
     MaxValue = 90
     MinValue = -90
-    TabOrder = 3
+    TabOrder = 2
     OnChange = CSpinEdit1Change
+  end
+  object PhImage1: TPhImage
+    Left = 16
+    Top = 48
+    Width = 281
+    Height = 201
+    ThumbWidht = 128
+    ThumbHeight = 128
+    SlideShowInterval = 500
+    ParentColor = False
   end
 end

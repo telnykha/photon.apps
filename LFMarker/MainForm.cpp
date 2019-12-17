@@ -5,7 +5,6 @@
 #include <math.h>
 #include <typeinfo.h>
 
-
 #pragma hdrstop
 #include "MainForm.h"
 #include "AboutForm.h"
@@ -32,7 +31,8 @@
 #include "GaussFilterForm.h"
 #include "MedianFilterForm.h"
 #include "ResizeForm.h"
-
+#include "dictinaryEditor.h"
+#include "PhImageMarkTool.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -45,6 +45,11 @@
 
 #pragma link "awplflibb.lib"
 #pragma link "FImage41"
+#pragma link "PhImageTool"
+#pragma link "PhLenzTool"
+#pragma link "PhPaneTool"
+#pragma link "PhSelectRectTool"
+#pragma link "PhZoomToRectTool"
 #pragma resource "*.dfm"
 using namespace std;
 TForm1 *Form1;
@@ -110,10 +115,10 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
     {
         if (strExt != "")
         {
-            FImage1->Init(strFileName, NULL);
+            PhImage2->InitFile(strFileName);
 
             awpImage* tmp = NULL;
-            FImage1->Bitmap->GetAWPImage(&tmp);
+            PhImage2->GetAwpImage(&tmp);
             m_Descr.SetImage(tmp);
             awpReleaseImage(&tmp);
 
@@ -127,8 +132,7 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
     }
     catch(...)
     {
-        ShowMessage(FImage1->LastErrorMessage);
-        m_strFileName = "";
+        Memo1->Lines->Add("ERROR: cannot open image " + strFileName);
     }
 }
 
@@ -137,7 +141,7 @@ void __fastcall TForm1::FileListBox1Change(TObject *Sender)
 {
      m_strFileName = FileListBox1->FileName;
      if (m_strFileName != "")
-         this->InitImageFile(m_strFileName);
+         InitImageFile(m_strFileName);
 }
 //---------------------------------------------------------------------------
 
@@ -148,10 +152,10 @@ void __fastcall TForm1::FFaceEditor1AfterOpen(TObject *Sender)
     UpdateSatatusBar();
     this->m_objects->Clear();
     this->m_rois.Clear();
-    if (FImage1->Tool != NULL)
-    {
-        FImage1->Tool->Reset();
-    }
+ //   if (FImage1->Tool != NULL)
+//    {
+ //       FImage1->Tool->Reset();
+ //   }
 
      if( FileExists(ChangeFileExt( m_strFileName, ".xml" )))
      {
@@ -163,12 +167,6 @@ void __fastcall TForm1::FFaceEditor1AfterOpen(TObject *Sender)
         }
         FragmentForm->SDescriptor = &this->m_Descr;
      }
-     if( FileExists(ChangeFileExt( m_strFileName, ".ieye" )))
-     {
-        this->m_hasEyeModel = true;
-        AnsiString str = ChangeFileExt( m_strFileName, ".ieye" );
-        m_rois.LoadFromFile(str.c_str());
-     }
 
     Detect();
 }
@@ -176,14 +174,14 @@ void __fastcall TForm1::FFaceEditor1AfterOpen(TObject *Sender)
 
 void __fastcall TForm1::FormShow(TObject *Sender)
 {
-    FImage1->CurrentTool     = ftNone;
-    FImage1->CurrentTool     = ftPane;
+     PhImage2->SelectPhTool(PhPaneTool1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::CloseActionExecute(TObject *Sender)
 {
-    FImage1->Close();
+    PhImage2->Close();
+    PhImage2->Empty = true;
     Close();
 }
 //---------------------------------------------------------------------------
@@ -204,19 +202,17 @@ void __fastcall TForm1::BestFitActionExecute(TObject *Sender)
 
 void __fastcall TForm1::PaneActionExecute(TObject *Sender)
 {
-    FImage1->CurrentTool     = ftNone;
-    FImage1->CurrentTool     = ftPane;
+	PhImage2->SelectPhTool(PhPaneTool1);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ZoomToRectActionExecute(TObject *Sender)
 {
-    FImage1->CurrentTool     = ftNone;
-    FImage1->CurrentTool     = ftZoomToRect;
+	PhImage2->SelectPhTool(PhZoomToRectTool1);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ActualSizeActionExecute(TObject *Sender)
 {
-    FImage1->ActualSize();
+    PhImage2->ActualSize();
 }
 //---------------------------------------------------------------------------
 
@@ -232,18 +228,14 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 	ProgressBar1->Parent = StatusBar1;
 	ProgressBar1->Visible = false;
     UpdateSatatusBar();
+    TabSheet3->TabVisible = false;
+    TabSheet2->TabVisible = false;
     InitDbView();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DtDetectActionExecute(TObject *Sender)
 {
-	if (this->DetectInRect)
-	{
-		FImage1->CurrentTool     = ftNone;
-		FImage1->CurrentTool     = ftSelRect;
-	}
-	else
-		Detect();
+	Detect();
 }
 //---------------------------------------------------------------------------
 
@@ -272,8 +264,6 @@ void __fastcall TForm1::ModeActualSizeActionExecute(TObject *Sender)
       this->RepaintImage();
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::AboutActionExecute(TObject *Sender)
 {
         AboutBox->ShowModal();
@@ -314,22 +304,20 @@ void __fastcall TForm1::ImageDelImageActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageDelImageActionUpdate(TObject *Sender)
 {
-   ImageDelImageAction->Enabled = !FImage1->Bitmap->Empty && FileListBox1->FileName != "";
+   ImageDelImageAction->Enabled = !PhImage2->Empty && FileListBox1->FileName != "";
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModePaneActionUpdate(TObject *Sender)
 {
-		ModePaneAction->Checked = FImage1->CurrentTool == ftPane;
+	ModePaneAction->Checked = dynamic_cast< TPhPaneTool*>(PhImage2->PhTool) != NULL;
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::ModeZoomActionUpdate(TObject *Sender)
 {
-        ModeZoomAction->Checked = FImage1->CurrentTool == ftZoomToRect;
+        ModeZoomAction->Checked = dynamic_cast< TPhZoomToRectTool*>(PhImage2->PhTool) != NULL;;
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::ModeBestFitActionUpdate(TObject *Sender)
 {
         ModeBestFitAction->Checked = m_NeedBestFit;
@@ -349,7 +337,6 @@ void __fastcall TForm1::LoadIniFile()
      delete ini;
 }
 //---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
 void __fastcall TForm1::StatusBar1Resize(TObject *Sender)
 {
     RECT Rect;
@@ -361,8 +348,6 @@ void __fastcall TForm1::StatusBar1Resize(TObject *Sender)
 	m_ProgressBar1->Height = Rect.bottom - Rect.top - 4;
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::ApplicationEvents1Hint(TObject *Sender)
 {
    StatusBar1->Panels->Items[0]->Text =  GetLongHint(Application->Hint);
@@ -372,9 +357,9 @@ void __fastcall TForm1::UpdateSatatusBar()
 {
     AnsiString strStatusText = "";
     awpImage* pImage = NULL;
-    if (FImage1->Bitmap == NULL)
+    if (PhImage2->Empty)
         return;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
         strStatusText = IntToStr(pImage->sSizeX) + ":" + IntToStr(pImage->sSizeY) + ":" + IntToStr(pImage->bChannels);
@@ -385,11 +370,11 @@ void __fastcall TForm1::UpdateSatatusBar()
 
 void __fastcall TForm1::Set1Click(TObject *Sender)
 {
-    FImage1->CurrentTool     = ftNone;
-    FImage1->CurrentTool     = ftMarkRect;
-    TMarkRectTool* theTool =   (TMarkRectTool*)FImage1->Tool;
-    if (theTool != NULL)
-        theTool->SetAR(1,1);
+//    FImage1->CurrentTool     = ftNone;
+//    FImage1->CurrentTool     = ftMarkRect;
+//    TMarkRectTool* theTool =   (TMarkRectTool*)FImage1->Tool;
+//    if (theTool != NULL)
+//        theTool->SetAR(1,1);
 }
 //---------------------------------------------------------------------------
 
@@ -398,9 +383,9 @@ void __fastcall TForm1::FFaceEditor1MouseUp(TObject *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y)
 {
 
-    if (FImage1->Empty)
+    if (PhImage2->Empty)
         return;
-	//
+	/*
 	if (Button == mbLeft && FImage1->Tool != NULL && FImage1->CurrentTool == ftMarkRect)
 	{
 		//
@@ -444,42 +429,15 @@ void __fastcall TForm1::FFaceEditor1MouseUp(TObject *Sender,
 	}
 	if (Button == mbLeft && FImage1->Tool != NULL && FImage1->CurrentTool == ftSelRect)
 	{
-		//todo: run enginge on ROI
-        /*
- 		awpImage* img = NULL;
-		FImage1->Bitmap->GetAWPImage(&img);
-		if (img)
-		{
-			 m_ObjectEngine.SetSourceImage(img, false);
-			 awpReleaseImage(&img);
-		}
 
-	   TRect r = FImage1->GetSelRect();
-
-		awpRect rr;
-
-		rr.left = r.left;
-		rr.top  = r.top;
-		rr.right = r.right;
-		rr.bottom = r.bottom;
-
-		TLFRect rect;
-		rect.SetRect(rr);
-		 double nearlest = 0;
-		 ILFScanner* s = this->m_ObjectEngine.GetScanner(0);
-		 s->Scan(FImage1->Bitmap->Width, FImage1->Bitmap->Height);
-		 this->m_objects->Clear();
-		 m_current_rect = 0;
-		 Timer1->Enabled = true;
-         */
-	}
+	} */
 
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeMarkRectActionExecute(TObject *Sender)
 {
-    FImage1->CurrentTool     = ftNone;
+/*    FImage1->CurrentTool     = ftNone;
     FImage1->CurrentTool     = ftMarkRect;
     TMarkRectTool* theTool =   (TMarkRectTool*)FImage1->Tool;
     if (theTool != NULL)
@@ -488,15 +446,15 @@ void __fastcall TForm1::ModeMarkRectActionExecute(TObject *Sender)
             theTool->SetAR(m_pBaseObject->GetBW(),m_pBaseObject->GetBH());
 	}
 	m_ViewSemanticOutput = true;
-	DrawScene();
+	DrawScene();                */
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeMarkRectActionUpdate(TObject *Sender)
 {
     ModeMarkRectAction->Enabled = this->m_db.Dictionary->GetCount() > 0;
-    ModeMarkRectAction->Checked = FImage1->CurrentTool  == ftMarkRect;
-    RectToolForm->Visible = FImage1->CurrentTool  == ftMarkRect;
+//    ModeMarkRectAction->Checked = FImage1->CurrentTool  == ftMarkRect;
+//    RectToolForm->Visible = FImage1->CurrentTool  == ftMarkRect;
 }
 //---------------------------------------------------------------------------
 
@@ -551,7 +509,7 @@ void __fastcall TForm1::ViewTableActionUpdate(TObject *Sender)
 void __fastcall TForm1::FormKeyPress(TObject *Sender, char &Key)
 {
         if (Key == 'S' || Key == 's')
-                DbSaveMarkActionExecute(NULL);        
+                DbSaveMarkActionExecute(NULL);
 }
 //---------------------------------------------------------------------------
 bool __fastcall TForm1::RemoveMarkupHelper()
@@ -566,7 +524,8 @@ bool __fastcall TForm1::RemoveMarkupHelper()
                 DeleteFile(ChangeFileExt( FileListBox1->FileName, ".xml" ));
                 m_Descr.Clear();
                 TableForm->ListView1->Clear();
-                FImage1->Init(m_strFileName, NULL);
+                //todo:
+                //FImage1->Init(m_strFileName, NULL);
                 this->RepaintImage();
 //                FImage1->BestFit();
              }
@@ -575,37 +534,23 @@ bool __fastcall TForm1::RemoveMarkupHelper()
 }
 
 //---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::DbInfoActionExecute(TObject *Sender)
 {
-/*
-    for (int i = 0; i < m_scanner.GetParamsCount(); i++)
-    {
-        TLFParameter*  param = m_scanner.GetParameter(i);
-        if (param)
-        {
-              AnsiString str = param->GetPName();
-              str += "=";
-              str += param->GetValue();
-              PagesDlg->ValueListEditor1->Strings->Add(str);
-        }
-    }
-*/
+    TLFDBLabeledImages* db = m_db.Data;
 
-    DbInfoDialog->labelDatabase->Caption = m_database.GetPath().c_str();
-	DbInfoDialog->labelTotalImages->Caption = IntToStr(m_database.GetImagesCount());
-	DbInfoDialog->labelTotalXmlFiles->Caption = IntToStr(m_database.GetDescrFilesCount());
-	DbInfoDialog->labelClasses->Caption = IntToStr(m_database.GetClassesCount());
-	DbInfoDialog->labelTotalXmlItems->Caption = IntToStr(m_database.GetItemsCount());
-    TLFSemanticDictinary* d = m_database.GetDictinary();
+    DbInfoDialog->labelDatabase->Caption = db->GetPath().c_str();
+	DbInfoDialog->labelTotalImages->Caption = IntToStr(db->GetImagesCount());
+	DbInfoDialog->labelTotalXmlFiles->Caption = IntToStr(db->GetDescrFilesCount());
+	DbInfoDialog->labelClasses->Caption = IntToStr(db->GetClassesCount());
+	DbInfoDialog->labelTotalXmlItems->Caption = IntToStr(db->GetItemsCount());
+    TLFSemanticDictinary* d = m_db.Dictionary;
     DbInfoDialog->ValueListEditor1->Strings->Clear();
     for (int i = 0; i < d->GetCount(); i++)
     {
         TLFSemanticDictinaryItem* w = d->GetWordFromDictinary(i);
         AnsiString strPair = w->GetItemLabel();
         strPair += L"=";
-        strPair += IntToStr(m_database.GetLabelCount(w->GetItemLabel()));
+        strPair += IntToStr(db->GetLabelCount(w->GetItemLabel()));
         DbInfoDialog->ValueListEditor1->Strings->Add(strPair);
     }
 	DbInfoDialog->ShowModal();
@@ -614,7 +559,7 @@ void __fastcall TForm1::DbInfoActionExecute(TObject *Sender)
 
 void __fastcall TForm1::DbInfoActionUpdate(TObject *Sender)
 {
-    DbInfoAction->Enabled = m_database.GetImagesCount() > 0;
+    DbInfoAction->Enabled = m_db.NumImages > 0;
 }
 //---------------------------------------------------------------------------
 
@@ -787,10 +732,6 @@ void __fastcall TForm1::FileListBox1KeyUp(TObject *Sender, WORD &Key,
     }
 }
 //---------------------------------------------------------------------------
-
-
-
-
 void __fastcall TForm1::FileOpenDetectorActionExecute(TObject *Sender)
 {
 // open external detector
@@ -831,7 +772,6 @@ void __fastcall TForm1::BottomDocPanelDockOver(TObject *Sender,
   }
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::BottomDocPanelGetSiteInfo(TObject *Sender,
       TControl *DockClient, TRect &InfluenceRect, TPoint &MousePos,
       bool &CanDock)
@@ -867,15 +807,13 @@ void TForm1::ShowDockPanel(TPanel* APanel, bool MakeVisible, TControl* Client)
 
 void __fastcall TForm1::ModePaneActionExecute(TObject *Sender)
 {
-	FImage1->CurrentTool     = ftNone;
-	FImage1->CurrentTool     = ftPane;
+	PhImage2->SelectPhTool(PhPaneTool1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeZoomActionExecute(TObject *Sender)
 {
-	FImage1->CurrentTool     = ftNone;
-	FImage1->CurrentTool     = ftZoomToRect;
+	PhImage2->SelectPhTool(PhZoomToRectTool1);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ObjectDetectorHelper()
@@ -888,7 +826,7 @@ void __fastcall TForm1::ObjectDetectorHelper()
         //
         m_objects->Clear();
 		awpImage* img = NULL;
-		FImage1->Bitmap->GetAWPImage(&img);
+		PhImage2->GetAwpImage(&img);
 		if (img)
 		{
 			 m_ObjectEngine.SetSourceImage(img, true);
@@ -912,14 +850,11 @@ void __fastcall TForm1::ObjectDetectorHelper()
 	}
 }
 
-
-
-
 void __fastcall TForm1::DrawScene()
 {
-    FImage1->Paint();
+    PhImage2->Paint();
 
-    TCanvas* cnv = FImage1->Canvas;
+    TCanvas* cnv = PhImage2->Canvas;
     DrawObjects(cnv);
 
 	DrawSemantic(cnv);
@@ -962,10 +897,10 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
                 awpPoint re = r.p1;
                 TRect rect;
 				rect.init(le.X - 2, le.Y - 2, le.X + 2, le.Y + 2);
-                TRect Rect2 = FImage1->GetScreenRect(rect);
+                TRect Rect2 = PhImage2->GetScreenRect(rect); //FImage1->GetScreenRect(rect);
                 cnv->Rectangle(Rect2);
 				rect.init(re.X - 2, re.Y - 2, re.X + 2, re.Y + 2);
-                Rect2 = FImage1->GetScreenRect(rect);
+                Rect2 = PhImage2->GetScreenRect(rect);
                 cnv->Rectangle(Rect2);
           }
 
@@ -990,7 +925,7 @@ void __fastcall TForm1::DrawObjects(TCanvas* cnv)
 	{
 
 		TRect* rect = (TRect*)m_objects->Items[i];
-		TRect Rect2 = FImage1->GetScreenRect(*rect);
+		TRect Rect2 = PhImage2->GetScreenRect(*rect);
 		TLFDetectedItem* di = m_ObjectEngine.GetItem(i);
  /*		if (di != NULL)
 		{
@@ -1031,7 +966,7 @@ void __fastcall TForm1::DrawSemantic(TCanvas* cnv)
 		TLFRect* rr = di->GetBounds();
 		awpRect  r  = rr->GetRect();
 		TRect  rect(r.left, r.top, r.right, r.bottom);
-		TRect  Rect2 = FImage1->GetScreenRect(rect);
+		TRect  Rect2 = PhImage2->GetScreenRect(rect);
 		cnv->Pen->Width = 1;
 		if (i == this->SelectedIndex)
 		{
@@ -1060,7 +995,7 @@ void __fastcall TForm1::DrawFarthestOverlaps(TCanvas* cnv)
 		awpRect  r  = rr->GetRect();
 		TRect  rect(r.left, r.top, r.right, r.bottom);
 		float ar = (float)di->GetBH()/(float)di->GetBW();
-		m_scanner.Scan(FImage1->Bitmap->Width, FImage1->Bitmap->Height);
+		m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
 		 for (int j = 0; j < m_scanner.GetFragmentsCount(); j++)
 		 {
 			awpRect r1 = m_scanner.GetFragmentRect(j);
@@ -1071,15 +1006,13 @@ void __fastcall TForm1::DrawFarthestOverlaps(TCanvas* cnv)
 			{
 				  cnv->Pen->Color = clTeal;
 				  TRect  rect3(r1.left, r1.top, r1.right, r1.bottom);
-				  TRect  Rect4 = FImage1->GetScreenRect(rect3);
+				  TRect  Rect4 = PhImage2->GetScreenRect(rect3);
 				  cnv->Rectangle(Rect4);
 			}
 		 }
 	}
   }
 }
-
-
 void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
 {
     if (!m_DrawOverlaps)
@@ -1093,7 +1026,7 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
         awpRect  r  = rr->GetRect();
         TRect  rect(r.left, r.top, r.right, r.bottom);
        float ar = (float)di->GetBH()/(float)di->GetBW();
-       m_scanner.Scan(FImage1->Bitmap->Width, FImage1->Bitmap->Height);
+       m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
        if (!this->m_nearlest_overlap)
        {
          for (int j = 0; j < m_scanner.GetFragmentsCount(); j++)
@@ -1106,7 +1039,7 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
             {
                   cnv->Pen->Color = clYellow;
                   TRect  rect3(r1.left, r1.top, r1.right, r1.bottom);
-                  TRect  Rect4 = FImage1->GetScreenRect(rect3);
+                  TRect  Rect4 = PhImage2->GetScreenRect(rect3);
 
                   cnv->Rectangle(Rect4);
                   cnv->Pen->Color = clRed;
@@ -1127,7 +1060,7 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
             {
               nearlest = overlap;
               TRect  rect3(r1.left, r1.top, r1.right, r1.bottom);
-              nearlest_rect = FImage1->GetScreenRect(rect3);
+              nearlest_rect = PhImage2->GetScreenRect(rect3);
             }
          }
          // drawing
@@ -1233,9 +1166,6 @@ void __fastcall TForm1::Detect()
 
    DrawScene();
 }
-
-
-
 void __fastcall TForm1::DbCopyActionExecute(TObject *Sender)
 {
 	if (DbCopyDlg->ShowModal() == mrOk)
@@ -1244,8 +1174,6 @@ void __fastcall TForm1::DbCopyActionExecute(TObject *Sender)
 	   copy_options.strPathToCopy = DbCopyDlg->Edit1->Text;
 	   copy_options.copyImages    = DbCopyDlg->CheckBox1->Checked;
 	   copy_options.copySemantic  = DbCopyDlg->CheckBox2->Checked;
-	   copy_options.copyIeye      = DbCopyDlg->CheckBox3->Checked;
-	   copy_options.copyFace      = DbCopyDlg->CheckBox4->Checked;
 
 	   if (m_db.NumImages == 0)
 	   {
@@ -1260,8 +1188,7 @@ void __fastcall TForm1::DbCopyActionExecute(TObject *Sender)
 	   }
 
 	   if (!DbCopyDlg->CheckBox1->Checked && !DbCopyDlg->CheckBox2->Checked &&
-	   !DbCopyDlg->CheckBox3->Checked && !DbCopyDlg->CheckBox4->Checked &&
-	   !DbCopyDlg->CheckBox5->Checked)
+       	   !DbCopyDlg->CheckBox5->Checked)
 	   {
 		  ShowMessage("Nothing to do.");
 		  return;
@@ -1284,16 +1211,16 @@ void __fastcall TForm1::DbCopyActionUpdate(TObject *Sender)
 void __fastcall TForm1::RepaintImage()
 {
 	if (m_NeedBestFit)
-        FImage1->BestFit();
+        PhImage2->BestFit();
     else
-        FImage1->ActualSize();
+        PhImage2->ActualSize();
 }
 ILFDetectEngine*  __fastcall TForm1::GetEngine()
 {
     return &this->m_ObjectEngine;
 }
 // копирование изображение из одного каталога в другой, вместе со всеми
-// информационными файлами. 
+// информационными файлами.
 void __fastcall TForm1::ImageCopyImageActionExecute(TObject *Sender)
 {
 	if (GetDirNamePreview(m_strLastPath))
@@ -1307,7 +1234,7 @@ void __fastcall TForm1::ImageCopyImageActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageCopyImageActionUpdate(TObject *Sender)
 {
-    ImageCopyImageAction->Enabled = !FImage1->Bitmap->Empty && FileListBox1->FileName != "";
+    ImageCopyImageAction->Enabled = !PhImage2->Empty && FileListBox1->FileName != "";
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::SetSelectedIndex(int Value)
@@ -1322,7 +1249,7 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 	{
 	   m_current_rect++;
 
-	   TRect r = FImage1->GetSelRect();
+	   TRect r = PhImage2->GetSelRect();
 
 		awpRect rr;
 
@@ -1346,7 +1273,7 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 		TLFRect dr;
 		dr.SetRect(r1);
 		TRect  rect3(r1.left, r1.top, r1.right, r1.bottom);
-		TRect  rect4 = FImage1->GetScreenRect(rect3);
+		TRect  rect4 = PhImage2->GetScreenRect(rect3);
 		float overlap = rect.RectOverlap(dr);
 		if (overlap > 0.5)
 		{
@@ -1359,10 +1286,10 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 			  if (EngineViewForm->Visible)
 				EngineViewForm->DrawEngine(&r1);
 			  DrawScene();
-			  TColor oldColor = FImage1->Canvas->Pen->Color;
-			  FImage1->Canvas->Pen->Color = clSilver;
-			  FImage1->Canvas->Rectangle(rect4);
-			  FImage1->Canvas->Pen->Color = oldColor;
+			  TColor oldColor = PhImage2->Canvas->Pen->Color;
+			  PhImage2->Canvas->Pen->Color = clSilver;
+			  PhImage2->Canvas->Rectangle(rect4);
+			  PhImage2->Canvas->Pen->Color = oldColor;
 
 			  break;
 		}
@@ -1371,24 +1298,23 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::EditCopy1Execute(TObject *Sender)
 {
-	FImage1->SaveToClipBoard();
+	PhImage2->SaveToClipBoard();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::EditCopy1Update(TObject *Sender)
 {
-	EditCopy1->Enabled = !FImage1->Bitmap->Empty;
+	EditCopy1->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ModeLenzActionExecute(TObject *Sender)
 {
-	FImage1->CurrentTool     = ftNone;
-	FImage1->CurrentTool     = ftLenz;
+      PhImage2->SelectPhTool(PhLenzTool1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeLenzActionUpdate(TObject *Sender)
 {
-	ModeLenzAction->Checked = FImage1->CurrentTool == ftLenz;
+	ModeLenzAction->Checked = dynamic_cast< TPhLenzTool*>(PhImage2->PhTool) != NULL;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
@@ -1397,17 +1323,17 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 	AnsiString str = DirectoryListBox1->Directory;
 	m_db.Init(str);
 
-    if (!m_database.InitDB(str.c_str()))
+    if (!m_db.Init(str))
     {
     	Memo1->Lines->Add(L"ERROR: cannot open database " + str);
         TabSheet3->TabVisible = false;
-        N1->Visible = false;
+        //N1->Visible = false;
         DbView->Items->Clear();
     }
     else
     {
         TabSheet3->TabVisible = true;
-        N1->Visible = true;
+        //N1->Visible = true;
         // update visual table
         UpdateDbView();
     }
@@ -1421,18 +1347,13 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 
 void __fastcall TForm1::Panel1Resize(TObject *Sender)
 {
-	FImage2->BestFit();
+	PhImage2->BestFit();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::DbClearSelectionActionExecute(TObject *Sender)
 {
-	 TThumbSelectTool* tool = dynamic_cast<TThumbSelectTool*>(FImage1->Tool);
-	 if (tool)
-	 {
-		tool->Reset();
-	 }
-
+    // todo: clear selection
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DtInfoActionExecute(TObject *Sender)
@@ -1473,7 +1394,7 @@ awpRect __fastcall TForm1::FindnearestOverlap(awpRect rr)
 	TLFRect rect;
 	rect.SetRect(rr);
 	 double nearlest = 0;
-	 m_scanner.Scan(FImage1->Bitmap->Width, FImage1->Bitmap->Height);
+	 m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
 	 for (int j = 0; j < m_scanner.GetFragmentsCount(); j++)
 	 {
 		awpRect r1 = m_scanner.GetFragmentRect(j);
@@ -1571,21 +1492,19 @@ void __fastcall TForm1::DbSplitDatabaseExecute(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::FImage1MouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y)
 {
 	// отображение текущей информации о местоположении мыши внутри изображения.
-    if (FImage1->Bitmap == NULL)
+    if (PhImage2->Empty)
     	return;
-    int x = FImage1->GetImageX(X);
-    int y = FImage1->GetImageY(Y);
+    int x = PhImage2->GetImageX(X);
+    int y = PhImage2->GetImageY(Y);
     AnsiString strStatusText = "x=" + IntToStr(x) + ":y=" + IntToStr(y);
-    if (FImage1->HasSelection())
+    if (PhImage2->HasSelection())
     {
     	strStatusText += "roi: ";
-        TRect selRect = FImage1->GetSelRect();
+        TRect selRect = PhImage2->GetSelRect();
         strStatusText += IntToStr((int)selRect.left);
     	strStatusText += ":";
         strStatusText += IntToStr((int)selRect.top);
@@ -1600,8 +1519,7 @@ void __fastcall TForm1::FImage1MouseMove(TObject *Sender, TShiftState Shift, int
 // Select ROI tool enable-disable
 void __fastcall TForm1::ModeSelectRectActionExecute(TObject *Sender)
 {
-	FImage1->CurrentTool     = ftNone;
-	FImage1->CurrentTool     = ftSelRect;
+	PhImage2->SelectPhTool(PhSelRectTool1);
 }
 //---------------------------------------------------------------------------
 //
@@ -1614,9 +1532,9 @@ void __fastcall TForm1::ModeSelectRectActionUpdate(TObject *Sender)
 
 void __fastcall TForm1::ApplicationEvents1Idle(TObject *Sender, bool &Done)
 {
-   if (FImage1->CurrentTool != NULL)
+  if (PhImage2->PhTool != NULL)
    {
-	   StatusBar1->Panels->Items[1]->Text = FImage1->Tool->ToolName;
+	   StatusBar1->Panels->Items[1]->Text = PhImage2->PhTool->ToolName;
    }
    Panel2->Caption = L"Total: " + IntToStr(DbView->Items->Count) + L" selected: " + IntToStr(DbView->SelCount);
 }
@@ -1630,10 +1548,10 @@ void __fastcall TForm1::ImageCropActionExecute(TObject *Sender)
 
     //Crop Image
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
-      TRect r = FImage1->GetSelRect();
+      TRect r = PhImage2->GetSelRect();
 	  awpRect rect = TRect2awpRect(r);
       awpImage* fragment = NULL;
       if (awpCopyRect(pImage, &fragment, &rect) == AWP_OK)
@@ -1647,7 +1565,7 @@ void __fastcall TForm1::ImageCropActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageCropActionUpdate(TObject *Sender)
 {
-	ImageCropAction->Enabled = FImage1->Bitmap != NULL && FImage1->HasSelection();
+	ImageCropAction->Enabled = !PhImage2->Empty && PhImage2->HasSelection();
 }
 //---------------------------------------------------------------------------
 
@@ -1673,7 +1591,7 @@ void __fastcall TForm1::ImageProcessingHelper(awpImage* pImage)
             FileListBox1->Selected[ItemIndex] = true;
         }
 
-        FImage1->Init(m_strFileName, NULL);
+        PhImage2->InitFile(m_strFileName);
         this->RepaintImage();
       }
       else
@@ -1684,7 +1602,7 @@ void __fastcall TForm1::ImageInvertActionExecute(TObject *Sender)
 {
 	Memo1->Lines->Add("ACTION: invert image." + m_strFileName);
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       awpImage* white = NULL;
@@ -1704,7 +1622,7 @@ void __fastcall TForm1::ImageInvertActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageInvertActionUpdate(TObject *Sender)
 {
-	ImageInvertAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageInvertAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1713,7 +1631,7 @@ void __fastcall TForm1::ImageGrayscaleActionExecute(TObject *Sender)
 	Memo1->Lines->Add("ACTION: convert image to grayscale." + m_strFileName);
 
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       if (awpConvert(pImage, AWP_CONVERT_3TO1_BYTE) == AWP_OK)
@@ -1728,7 +1646,7 @@ void __fastcall TForm1::ImageGrayscaleActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageGrayscaleActionUpdate(TObject *Sender)
 {
-	ImageGrayscaleAction->Enabled =  !FImage1->Bitmap->Empty;
+	ImageGrayscaleAction->Enabled =  !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1738,7 +1656,7 @@ void __fastcall TForm1::ImageMirrorActionExecute(TObject *Sender)
              return;
 	Memo1->Lines->Add("ACTION: mirror image." + m_strFileName);
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       if (awpFlip(&pImage, AWP_FLIP_HRZT) == AWP_OK)
@@ -1752,7 +1670,7 @@ void __fastcall TForm1::ImageMirrorActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageMirrorActionUpdate(TObject *Sender)
 {
-	ImageMirrorAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageMirrorAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1762,7 +1680,7 @@ void __fastcall TForm1::ImageFlipActionExecute(TObject *Sender)
          return;
 	Memo1->Lines->Add("ACTION: flip vertical image." + m_strFileName);
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       if (awpFlip(&pImage, AWP_FLIP_VERT) == AWP_OK)
@@ -1776,7 +1694,7 @@ void __fastcall TForm1::ImageFlipActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageFlipActionUpdate(TObject *Sender)
 {
-	ImageFlipAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageFlipAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Flip1Click(TObject *Sender)
@@ -1786,7 +1704,7 @@ void __fastcall TForm1::Flip1Click(TObject *Sender)
 
         //FlipHelper
         awpImage* pImage = NULL;
-        FImage1->Bitmap->GetAWPImage(&pImage);
+        PhImage2->GetAwpImage(&pImage);
         if (pImage != NULL)
         {
           awpFlip(&pImage, AWP_FLIP_HRZT);
@@ -1805,7 +1723,7 @@ void __fastcall TForm1::Flip1Click(TObject *Sender)
                 FileListBox1->Items->Strings[FileListBox1->ItemIndex] = ExtractFileName(strFileName);
             }
 
-            FImage1->Init(m_strFileName, NULL);
+            PhImage2->InitFile(m_strFileName);
             this->RepaintImage();
           }
 
@@ -1818,7 +1736,7 @@ void __fastcall TForm1::FlipLeft1Click(TObject *Sender)
          return;
 	Memo1->Lines->Add("ACTION: flip left image." + m_strFileName);
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       if (awpFlip(&pImage, AWP_FLIP_LEFT) == AWP_OK)
@@ -1832,7 +1750,7 @@ void __fastcall TForm1::FlipLeft1Click(TObject *Sender)
 
 void __fastcall TForm1::ImageFlipLeftActionUpdate(TObject *Sender)
 {
-	ImageFlipLeftAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageFlipLeftAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1842,7 +1760,7 @@ void __fastcall TForm1::ImageFlipRightActionExecute(TObject *Sender)
          return;
 	Memo1->Lines->Add("ACTION: flip right image." + m_strFileName);
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       if (awpFlip(&pImage, AWP_FLIP_RGHT) == AWP_OK)
@@ -1856,7 +1774,7 @@ void __fastcall TForm1::ImageFlipRightActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageFlipRightActionUpdate(TObject *Sender)
 {
-	ImageFlipRightAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageFlipRightAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1871,7 +1789,7 @@ void __fastcall TForm1::ImageRotateActionExecute(TObject *Sender)
     int angle = RotateDlg->CSpinEdit1->Value;
 	Memo1->Lines->Add("ACTION: rotate image." + m_strFileName);
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       if (awpRotateBilinear(pImage, angle) == AWP_OK)
@@ -1885,7 +1803,7 @@ void __fastcall TForm1::ImageRotateActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageRotateActionUpdate(TObject *Sender)
 {
-	ImageRotateAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageRotateAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1893,7 +1811,7 @@ void __fastcall TForm1::ImageSobelActionExecute(TObject *Sender)
 {
 	Memo1->Lines->Add("ACTION: sobel filter." + m_strFileName);
     awpImage* pImage = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
+    PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
       awpImage* imgAmpl = NULL;
@@ -1924,7 +1842,7 @@ void __fastcall TForm1::ImageSobelActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageSobelActionUpdate(TObject *Sender)
 {
-	ImageSobelAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageSobelAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1937,8 +1855,8 @@ void __fastcall TForm1::ImageFilterActionExecute(TObject *Sender)
 	Memo1->Lines->Add("ACTION: linear image filtering." + m_strFileName);
     awpImage* pImage = NULL;
     awpImage* dst = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
-    FImage1->Bitmap->GetAWPImage(&dst);
+    PhImage2->GetAwpImage(&pImage);
+    PhImage2->GetAwpImage(&dst);
     if (pImage != NULL)
     {
       if (awpFilter(pImage, dst,  filterIndex) == AWP_OK)
@@ -1953,7 +1871,7 @@ void __fastcall TForm1::ImageFilterActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageFilterActionUpdate(TObject *Sender)
 {
-	ImageFilterAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageFilterAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1966,8 +1884,8 @@ void __fastcall TForm1::ImageGaussFilterActionExecute(TObject *Sender)
 	Memo1->Lines->Add("ACTION: gauss filter." + m_strFileName);
     awpImage* pImage = NULL;
     awpImage* dst = NULL;
-    FImage1->Bitmap->GetAWPImage(&pImage);
-    FImage1->Bitmap->GetAWPImage(&dst);
+    PhImage2->GetAwpImage(&pImage);
+    PhImage2->GetAwpImage(&dst);
     if (pImage != NULL)
     {
       if (awpGaussianBlur(pImage, dst,  sigma) == AWP_OK)
@@ -1982,7 +1900,7 @@ void __fastcall TForm1::ImageGaussFilterActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageGaussFilterActionUpdate(TObject *Sender)
 {
-	ImageGaussFilterAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageGaussFilterAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -1996,8 +1914,8 @@ void __fastcall TForm1::ImageMedianFilterActionExecute(TObject *Sender)
 	Memo1->Lines->Add("ACTION: median filter." + m_strFileName);
 	awpImage* pImage = NULL;
 	awpImage* dst = NULL;
-	FImage1->Bitmap->GetAWPImage(&pImage);
-	FImage1->Bitmap->GetAWPImage(&dst);
+	PhImage2->GetAwpImage(&pImage);
+	PhImage2->GetAwpImage(&dst);
 	if (pImage != NULL)
 	{
 	  if (awpMedian(pImage, dst,  radius) == AWP_OK)
@@ -2012,14 +1930,14 @@ void __fastcall TForm1::ImageMedianFilterActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageMedianFilterActionUpdate(TObject *Sender)
 {
-	ImageMedianFilterAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageMedianFilterAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ImageResizeActionExecute(TObject *Sender)
 {
-	ResizeDlg->CurrentWidth = FImage1->Bitmap->Width;
-	ResizeDlg->CurrentHeight = FImage1->Bitmap->Height;
+	ResizeDlg->CurrentWidth = PhImage2->Bitmap->Width;
+	ResizeDlg->CurrentHeight = PhImage2->Bitmap->Height;
 	if (!ResizeDlg->CheckBox2->Checked)
 	{
 		ResizeDlg->CheckBox1->Checked = true;
@@ -2034,7 +1952,7 @@ void __fastcall TForm1::ImageResizeActionExecute(TObject *Sender)
 	Memo1->Lines->Add("ACTION: image resize." + m_strFileName);
 	awpImage* pImage = NULL;
 	awpImage* dst = NULL;
-	FImage1->Bitmap->GetAWPImage(&pImage);
+	PhImage2->GetAwpImage(&pImage);
 	if (pImage != NULL)
 	{
 	  if (awpResizeBilinear(pImage, _width,  _height) == AWP_OK)
@@ -2050,7 +1968,7 @@ void __fastcall TForm1::ImageResizeActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ImageResizeActionUpdate(TObject *Sender)
 {
-	ImageResizeAction->Enabled = !FImage1->Bitmap->Empty;
+	ImageResizeAction->Enabled = !PhImage2->Empty;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::PageControl1Change(TObject *Sender)
@@ -2095,15 +2013,17 @@ void __fastcall TForm1::UpdateDbView()
 {
 	TListItem  *ListItem;
     DbView->Items->Clear();
-    for (int i = 0; i < m_database.GetImagesCount(); i++)
+    DbView->Columns->Items[0]->Width = 100;
+    for (int i = 0; i < m_db.NumImages; i++)
 	{
-        TLFDBSemanticDescriptor* d = m_database.GetDescriptor(i);
+        TLFDBSemanticDescriptor* d = m_db.Data->GetDescriptor(i);
         std::string str = LFGetFileName(d->GetImageFile());
         str += LFGetFileExt(d->GetImageFile());
         ListItem = DbView->Items->Add();
         ListItem->Caption = str.c_str();
         ListItem->SubItems->Add(d->GetCount());
     }
+    DbView->Columns->Items[0]->Width = -1;
 }
 
 void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool Selected)
@@ -2111,11 +2031,48 @@ void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool 
     assert(Item != NULL);
     if (!Selected)
         return;
-    UnicodeString str = m_database.GetPath().c_str();
+    UnicodeString str = m_db.Data->GetPath().c_str();
     str += Item->Caption;
     m_strFileName = str;
     if (m_strFileName != "")
          this->InitImageFile(m_strFileName);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PhImage2AfterOpen(TObject *Sender)
+{
+	UpdateSatatusBar();
+    PhImage2->BestFit();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::DbCreateActionExecute(TObject *Sender)
+{
+    if (dictinaryEditDlg->CreateDatabase())
+    {
+       UnicodeString _ustr = this->DirectoryListBox1->Directory;
+       _ustr += L"\\";
+       _ustr += c_lpDictFileName;
+       AnsiString _astr = _ustr;
+       std::string fileName = _astr.c_str();
+       if (dictinaryEditDlg->Dictionary->SaveXML(fileName.c_str()))
+       {
+            Memo1->Lines->Add(L"INFO: database was created in the " + _ustr);
+       }
+       else
+       {
+            Memo1->Lines->Add(L"ERROR: database was not created in the " + _ustr);
+       }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::DbCreateActionUpdate(TObject *Sender)
+{
+   UnicodeString _ustr = this->DirectoryListBox1->Directory;
+   _ustr += L"\\";
+   _ustr += c_lpDictFileName;
+   AnsiString _astr = _ustr;
+   std::string fileName = _astr.c_str();
+   DbCreateAction->Enabled = !LFFileExists(fileName);
 }
 //---------------------------------------------------------------------------
 
