@@ -22,32 +22,32 @@ object dictinaryEditDlg: TdictinaryEditDlg
     ModalResult = 1
     TabOrder = 0
   end
-  object Button1: TButton
+  object AddWordButton: TButton
     Left = 199
     Top = 8
     Width = 172
     Height = 25
     Caption = 'Add Class Label...'
     TabOrder = 1
-    OnClick = Button1Click
+    OnClick = AddWordButtonClick
   end
-  object Button2: TButton
+  object DeleteWordButton: TButton
     Left = 199
     Top = 43
     Width = 172
     Height = 25
     Caption = 'Delete Class Label...'
     TabOrder = 2
-    OnClick = Button2Click
+    OnClick = DeleteWordButtonClick
   end
-  object Button3: TButton
+  object EditWordButton: TButton
     Left = 199
     Top = 74
     Width = 172
     Height = 25
     Caption = 'Edit Class Label...'
     TabOrder = 3
-    OnClick = Button3Click
+    OnClick = EditWordButtonClick
   end
   object ListBox1: TListBox
     AlignWithMargins = True

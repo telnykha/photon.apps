@@ -131,7 +131,12 @@ void __fastcall TDbLabeledImages::Clear()
 //////////////////////////////////////////////////////////////////////////////////////
 bool __fastcall TDbLabeledImages::Init(AnsiString& strDbPath, ILFDetectEngine* engine)
 {
-     //Init dictionary
+	 //Init dictionary
+	m_NumImages = 0;
+    m_NumXmlFiles =0;
+    m_NumXmlItems =0;
+	m_engine = NULL;
+
      AnsiString strDictionaryName = strDbPath;
 	 strDictionaryName += "\\";
      strDictionaryName += c_lpDictFileName ;

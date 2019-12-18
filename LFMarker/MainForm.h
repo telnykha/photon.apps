@@ -412,9 +412,12 @@ private:	// User declarations
 	void __fastcall SetSelectedIndex(int Value);
 	awpRect __fastcall FindnearestOverlap(awpRect rr);
 
-    void __fastcall ImageProcessingHelper(awpImage* pImage);
-    void __fastcall InitDbView();
-    void __fastcall UpdateDbView();
+	void __fastcall ImageProcessingHelper(awpImage* pImage);
+	// DbView
+	void __fastcall InitDbView();
+	void __fastcall UpdateDbView();
+	// Database
+	void __fastcall OpenDatabase(const char* lpDbName);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 	__fastcall ~TForm1();

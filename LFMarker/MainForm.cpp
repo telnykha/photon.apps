@@ -139,9 +139,9 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FileListBox1Change(TObject *Sender)
 {
-     m_strFileName = FileListBox1->FileName;
-     if (m_strFileName != "")
-         InitImageFile(m_strFileName);
+	 m_strFileName = FileListBox1->FileName;
+	 if (m_strFileName != "")
+		 InitImageFile(m_strFileName);
 }
 //---------------------------------------------------------------------------
 
@@ -1321,24 +1321,10 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 {
 	ModePaneActionExecute(NULL);
 	AnsiString str = DirectoryListBox1->Directory;
-	m_db.Init(str);
+	// open database
+	OpenDatabase(str.c_str());
 
-    if (!m_db.Init(str))
-    {
-    	Memo1->Lines->Add(L"ERROR: cannot open database " + str);
-        TabSheet3->TabVisible = false;
-        //N1->Visible = false;
-        DbView->Items->Clear();
-    }
-    else
-    {
-        TabSheet3->TabVisible = true;
-        //N1->Visible = true;
-        // update visual table
-        UpdateDbView();
-    }
-
-    if (FragmentForm->Visible)
+	if (FragmentForm->Visible)
     {
     	FragmentForm->ChangeDictonary();
     }
@@ -1461,16 +1447,32 @@ void __fastcall TForm1::DtErrorsActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::dbDictionaryActionExecute(TObject *Sender)
 {
-	DictionaryDialog->Dictionary = this->m_db.Dictionary;
-	if (DictionaryDialog->ShowModal() == mrOk)
+	if (dictinaryEditDlg->EditDatabase())
 	{
-
+		// todo: update database with new dictioanry
+		AnsiString _astr = m_db.DbName;
+		_astr += "\\";
+		_astr += c_lpDictFileName;
+		if (dictinaryEditDlg->Dictionary->SaveXML(_astr.c_str()))
+		{
+		   Memo1->Lines->Add(L"INFO: start update database " + m_db.DbName);
+		}
+		else
+		{
+			Memo1->Lines->Add(L"ERROR: cannot update database " + m_db.DbName);
+		}
+		OpenDatabase(m_db.DbName.c_str());
 	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::dbDictionaryActionUpdate(TObject *Sender)
 {
-	dbDictionaryAction->Enabled = this->m_db.NumImages > 1;
+   UnicodeString _ustr = this->DirectoryListBox1->Directory;
+   _ustr += L"\\";
+   _ustr += c_lpDictFileName;
+   AnsiString _astr = _ustr;
+   std::string fileName = _astr.c_str();
+   dbDictionaryAction->Enabled = LFFileExists(fileName);
 }
 //---------------------------------------------------------------------------
 
@@ -2041,27 +2043,31 @@ void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool 
 void __fastcall TForm1::PhImage2AfterOpen(TObject *Sender)
 {
 	UpdateSatatusBar();
-    PhImage2->BestFit();
+	PhImage2->BestFit();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DbCreateActionExecute(TObject *Sender)
 {
-    if (dictinaryEditDlg->CreateDatabase())
-    {
-       UnicodeString _ustr = this->DirectoryListBox1->Directory;
-       _ustr += L"\\";
-       _ustr += c_lpDictFileName;
-       AnsiString _astr = _ustr;
-       std::string fileName = _astr.c_str();
-       if (dictinaryEditDlg->Dictionary->SaveXML(fileName.c_str()))
-       {
-            Memo1->Lines->Add(L"INFO: database was created in the " + _ustr);
-       }
-       else
-       {
-            Memo1->Lines->Add(L"ERROR: database was not created in the " + _ustr);
-       }
-    }
+	if (dictinaryEditDlg->CreateDatabase())
+	{
+	   UnicodeString _ustr = this->DirectoryListBox1->Directory;
+	   _ustr += L"\\";
+	   _ustr += c_lpDictFileName;
+	   AnsiString _astr = _ustr;
+	   std::string fileName = _astr.c_str();
+	   if (dictinaryEditDlg->Dictionary->SaveXML(fileName.c_str()))
+	   {
+			Memo1->Lines->Add(L"INFO: database was created in the " + _ustr);
+	   }
+	   else
+	   {
+			Memo1->Lines->Add(L"ERROR: database was not created in the " + _ustr);
+			return;
+	   }
+	   // try to open database
+	   _astr = DirectoryListBox1->Directory;
+	   OpenDatabase(_astr.c_str());
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -2075,4 +2081,23 @@ void __fastcall TForm1::DbCreateActionUpdate(TObject *Sender)
    DbCreateAction->Enabled = !LFFileExists(fileName);
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::OpenDatabase(const char* lpDbName)
+{
+	AnsiString str = lpDbName;
+	if (!m_db.Init(str))
+	{
+		Memo1->Lines->Add(L"ERROR: cannot open database... " + str);
+		TabSheet3->TabVisible = false;
+		//N1->Visible = false;
+		DbView->Items->Clear();
+	}
+	else
+	{
+		TabSheet3->TabVisible = true;
+		Memo1->Lines->Add(L"INFO: open database... " + str);
+		//N1->Visible = true;
+		// update visual table
+		UpdateDbView();
+	}
+}
 

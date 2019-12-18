@@ -19,22 +19,22 @@ class TdictinaryEditDlg : public TForm
 {
 __published:
 	TButton *OKBtn;
-	TButton *Button1;
-	TButton *Button2;
-	TButton *Button3;
+	TButton *AddWordButton;
+	TButton *DeleteWordButton;
+	TButton *EditWordButton;
 	TListBox *ListBox1;
 	TButton *Button4;
-	void __fastcall Button3Click(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall EditWordButtonClick(TObject *Sender);
+	void __fastcall AddWordButtonClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall DeleteWordButtonClick(TObject *Sender);
 private:
     TLFSemanticDictinary m_dictionary;
     TLFSemanticDictinary* __fastcall GetSemanticDictionary();
 public:
 	virtual __fastcall TdictinaryEditDlg(TComponent* AOwner);
     bool    __fastcall CreateDatabase();
-    bool    __fastcall EditDatabase(const char* lpFileName);
+    bool    __fastcall EditDatabase();
 
     __property TLFSemanticDictinary* Dictionary = {read = GetSemanticDictionary};
 };
