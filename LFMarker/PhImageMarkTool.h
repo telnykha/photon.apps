@@ -22,6 +22,7 @@ private:
 protected:
      TPopupMenu *PopupMenu;
      TLFSemanticDictinary* m_dictinary;
+     AnsiString m_strName;
      TLFSemanticImageDescriptor m_descriptor;
 
 	 double _2D_Dist(double x1,double y1,double x2,double y2);
@@ -39,8 +40,8 @@ protected:
     TPhDelFrameEvent    m_OnDelFrame;
     TPhExportProgressEvent m_OnProgress;
 protected:
-  //	TLFSemanticDictinary* MakeDictinary();
     TLFSemanticDictinaryItem* __fastcall GetClasses(int index);
+    void __fastcall SetDictionary(TLFSemanticDictinary* value);
 public:
 	__fastcall TPhImageMarkTool(TComponent* Owner);
    virtual __fastcall ~TPhImageMarkTool();
@@ -51,11 +52,8 @@ public:
 	virtual void MouseMove(int X, int Y, TShiftState Shift);
 	virtual void Reset();
 
-    // Default dictinary
-    void __fastcall CreateDefaultDictinary();
-
     // go to specific frame in the media source
-	void __fastcall  SetFrame(const char lpFileName);
+	void __fastcall  SetFrame(const char* lpFileName);
     // delete frame data from frames
 	void __fastcall  DeleteEntry(int index);
     //
@@ -71,7 +69,7 @@ public:
     void __fastcall ChangeLabel(String& src_label, String& dst_label);
 
 	//properties
-    __property TLFSemanticDictinary* dictinary = {read = m_dictinary};
+    __property TLFSemanticDictinary* dictinary = {read = m_dictinary, write = SetDictionary};
     __property TLFSemanticDictinaryItem* classes[int index] = {read = GetClasses};
 
 	__property TNotifyEvent OnChange= {read = m_OnChange, write = m_OnChange};
@@ -79,6 +77,7 @@ public:
 	__property TPhAddDataEvent     OnAddData = {read = m_OnAddData, write = m_OnAddData};
 	__property TPhDelFrameEvent    OnDelFrame = {read = m_OnDelFrame, write = m_OnDelFrame};
     __property TPhExportProgressEvent OnProgress = {read = m_OnProgress, write = m_OnProgress};
+    __property AnsiString DescrFile = {read = m_strName};
 };
 
 

@@ -77,7 +77,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	m_Selected = -1;
 	m_DrawOverlaps = false;
 	m_ViewSemanticOutput = false;
-	m_hasEyeModel = false;
 
 	m_objects = new TList();
 
@@ -94,6 +93,11 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	m_deltaWidth = 1;
 	m_set_nearest_overlap = false;
 	m_detect_in_rect = false;
+    m_markTool = NULL;
+
+	m_tableVisible = false;
+    m_fragmentsVisible = false;
+    m_markToolSelected = false;
 }
 
 __fastcall TForm1::~TForm1()
@@ -105,6 +109,8 @@ __fastcall TForm1::~TForm1()
    		m_objects->Clear();
 		delete m_objects;
    }
+   if (m_markTool != NULL)
+    delete m_markTool;
 }
 void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
 {
@@ -128,6 +134,12 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
             str += "]";
             Form1->Caption  = str;
             TableForm->UpdateTable();
+            TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+            if (tool != NULL)
+            {
+                AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+                tool->SetFrame(strFileName.c_str());
+            }
         }
     }
     catch(...)
@@ -152,11 +164,6 @@ void __fastcall TForm1::FFaceEditor1AfterOpen(TObject *Sender)
     UpdateSatatusBar();
     this->m_objects->Clear();
     this->m_rois.Clear();
- //   if (FImage1->Tool != NULL)
-//    {
- //       FImage1->Tool->Reset();
- //   }
-
      if( FileExists(ChangeFileExt( m_strFileName, ".xml" )))
      {
         AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
@@ -277,6 +284,11 @@ void __fastcall TForm1::DbSaveMarkActionExecute(TObject *Sender)
        AnsiString strFileName = ChangeFileExt(m_strFileName,".xml");
        if (!m_Descr.SaveXML(strFileName.c_str()))
             ShowMessage("Cannot save image description to " + strFileName);
+	  TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+      if (tool != NULL)
+      {
+        tool->SetFrame(strFileName.c_str());
+      }
     }
 }
 //---------------------------------------------------------------------------
@@ -367,94 +379,26 @@ void __fastcall TForm1::UpdateSatatusBar()
     }
      StatusBar1->Panels->Items[2]->Text = strStatusText;
 }
-
-void __fastcall TForm1::Set1Click(TObject *Sender)
-{
-//    FImage1->CurrentTool     = ftNone;
-//    FImage1->CurrentTool     = ftMarkRect;
-//    TMarkRectTool* theTool =   (TMarkRectTool*)FImage1->Tool;
-//    if (theTool != NULL)
-//        theTool->SetAR(1,1);
-}
-//---------------------------------------------------------------------------
-
-
-void __fastcall TForm1::FFaceEditor1MouseUp(TObject *Sender,
-      TMouseButton Button, TShiftState Shift, int X, int Y)
-{
-
-    if (PhImage2->Empty)
-        return;
-	/*
-	if (Button == mbLeft && FImage1->Tool != NULL && FImage1->CurrentTool == ftMarkRect)
-	{
-		//
-		TRect r = FImage1->GetSelRect();
-		if (r.Width() < m_pBaseObject->GetBW() || r.Height() < m_pBaseObject->GetBH())
-		{
-			FImage1->ClearSelection();
-			return;
-		}
-
-		 if (MessageDlg("Save this object?", mtConfirmation, TMsgDlgButtons() << mbOK << mbCancel, 0) == mrOk)
-		 {
-			// DONE: нарисовать прямоугольник на изображении, добавить его свойсва в
-			// список  объектов
-
-			awpRect rr;
-
-			rr.left = r.left;
-			rr.top  = r.top;
-			rr.right = r.right;
-			rr.bottom = r.bottom;
-
-			if (this->m_set_nearest_overlap)
-			{
-				rr =  this->FindnearestOverlap(rr);
-			}
-
-
-			//DONE: Добавление прямоугольника в список объектов.
-            UUID id;
-			LF_NULL_UUID_CREATE(id);
-			TLFDetectedItem* di = new TLFDetectedItem(&rr, 0, m_pBaseObject->GetType(),
-			 0, m_pBaseObject->GetRacurs(), m_pBaseObject->GetBW(),m_pBaseObject->GetBH(),
-			  "Human Marked", id);
-
-			m_Descr.AddDetectedItem(di);
-			TableForm->AddNewItem(di);
-			DbSaveMarkActionExecute(NULL);
-            this->DrawScene();
-		 }
-	}
-	if (Button == mbLeft && FImage1->Tool != NULL && FImage1->CurrentTool == ftSelRect)
-	{
-
-	} */
-
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TForm1::ModeMarkRectActionExecute(TObject *Sender)
 {
-/*    FImage1->CurrentTool     = ftNone;
-    FImage1->CurrentTool     = ftMarkRect;
-    TMarkRectTool* theTool =   (TMarkRectTool*)FImage1->Tool;
-    if (theTool != NULL)
-    {
-        if (m_pBaseObject != NULL)
-            theTool->SetAR(m_pBaseObject->GetBW(),m_pBaseObject->GetBH());
-	}
-	m_ViewSemanticOutput = true;
-	DrawScene();                */
+	if (m_markTool != NULL)
+		delete m_markTool;
+	m_markTool = new TPhImageMarkTool(NULL);
+	m_markTool->PhImage = PhImage2;
+    m_markTool->dictinary = m_db.Dictionary;
+    m_markTool->OnChange = ToolChange;
+    PhImage2->SelectPhTool(m_markTool);
+    AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+    std::string str = strFileName.c_str();
+    if (LFFileExists(str.c_str()))
+    	m_markTool->SetFrame(str.c_str());
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeMarkRectActionUpdate(TObject *Sender)
 {
-    ModeMarkRectAction->Enabled = this->m_db.Dictionary->GetCount() > 0;
-//    ModeMarkRectAction->Checked = FImage1->CurrentTool  == ftMarkRect;
-//    RectToolForm->Visible = FImage1->CurrentTool  == ftMarkRect;
+    ModeMarkRectAction->Enabled = this->PageControl1->ActivePageIndex == 2;
+	ModeMarkRectAction->Checked = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool) != NULL;
 }
 //---------------------------------------------------------------------------
 
@@ -502,6 +446,7 @@ void __fastcall TForm1::ViewTableActionExecute(TObject *Sender)
 
 void __fastcall TForm1::ViewTableActionUpdate(TObject *Sender)
 {
+   ViewTableAction->Enabled = PageControl1->ActivePageIndex == 2;
    ViewTableAction->Checked = TableForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -524,10 +469,7 @@ bool __fastcall TForm1::RemoveMarkupHelper()
                 DeleteFile(ChangeFileExt( FileListBox1->FileName, ".xml" ));
                 m_Descr.Clear();
                 TableForm->ListView1->Clear();
-                //todo:
-                //FImage1->Init(m_strFileName, NULL);
                 this->RepaintImage();
-//                FImage1->BestFit();
              }
         }
         return true;
@@ -550,7 +492,7 @@ void __fastcall TForm1::DbInfoActionExecute(TObject *Sender)
         TLFSemanticDictinaryItem* w = d->GetWordFromDictinary(i);
         AnsiString strPair = w->GetItemLabel();
         strPair += L"=";
-        strPair += IntToStr(db->GetLabelCount(w->GetItemLabel()));
+        strPair += IntToStr(db->GetLabelCount(w->GetId().c_str()));
         DbInfoDialog->ValueListEditor1->Strings->Add(strPair);
     }
 	DbInfoDialog->ShowModal();
@@ -808,12 +750,14 @@ void TForm1::ShowDockPanel(TPanel* APanel, bool MakeVisible, TControl* Client)
 void __fastcall TForm1::ModePaneActionExecute(TObject *Sender)
 {
 	PhImage2->SelectPhTool(PhPaneTool1);
+    PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeZoomActionExecute(TObject *Sender)
 {
 	PhImage2->SelectPhTool(PhZoomToRectTool1);
+    PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ObjectDetectorHelper()
@@ -1309,6 +1253,7 @@ void __fastcall TForm1::EditCopy1Update(TObject *Sender)
 void __fastcall TForm1::ModeLenzActionExecute(TObject *Sender)
 {
       PhImage2->SelectPhTool(PhLenzTool1);
+      PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 
@@ -1433,8 +1378,6 @@ void __fastcall TForm1::ViewSemanticEditorActionExecute(TObject *Sender)
        FragmentForm->DrawSelected();
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TForm1::DtErrorsActionExecute(TObject *Sender)
 {
 	EngineErrDlg->Edit1->Text = DirectoryListBox1->Directory;
@@ -1449,13 +1392,18 @@ void __fastcall TForm1::dbDictionaryActionExecute(TObject *Sender)
 {
 	if (dictinaryEditDlg->EditDatabase())
 	{
-		// todo: update database with new dictioanry
+		//update database with new dictioanry
 		AnsiString _astr = m_db.DbName;
 		_astr += "\\";
 		_astr += c_lpDictFileName;
 		if (dictinaryEditDlg->Dictionary->SaveXML(_astr.c_str()))
 		{
 		   Memo1->Lines->Add(L"INFO: start update database " + m_db.DbName);
+           m_db.Dictionary->LoadXML(_astr.c_str());
+           //
+           LongProcDlg->ProcType = ptUpdate;
+		   LongProcDlg->ShowModal();
+		   Memo1->Lines->Add(L"INFO: done. ");
 		}
 		else
 		{
@@ -1478,6 +1426,7 @@ void __fastcall TForm1::dbDictionaryActionUpdate(TObject *Sender)
 
 void __fastcall TForm1::ViewSemanticEditorActionUpdate(TObject *Sender)
 {
+   ViewSemanticEditorAction->Enabled = PageControl1->ActivePageIndex == 2;//
    ViewSemanticEditorAction->Checked = FragmentForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -1522,6 +1471,7 @@ void __fastcall TForm1::FImage1MouseMove(TObject *Sender, TShiftState Shift, int
 void __fastcall TForm1::ModeSelectRectActionExecute(TObject *Sender)
 {
 	PhImage2->SelectPhTool(PhSelRectTool1);
+    PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 //
@@ -1975,10 +1925,29 @@ void __fastcall TForm1::ImageResizeActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::PageControl1Change(TObject *Sender)
 {
-    if (this->PageControl1->TabIndex == 1)
-        this->ValueListEditor1->Visible = true;
+    if (PageControl1->TabIndex == 1)
+        ValueListEditor1->Visible = true;
     else
-        this->ValueListEditor1->Visible = false;
+        ValueListEditor1->Visible = false;
+
+    // control TableView
+    if (PageControl1->ActivePageIndex == 2)
+    {
+       TableForm->Visible = TableVisible;
+       FragmentForm->Visible = FragmentsVisible;
+       if (m_markToolSelected)
+       		ModeMarkRectActionExecute(NULL);
+    }
+    else
+    {
+       TableVisible = TableForm->Visible;
+       FragmentsVisible = FragmentForm->Visible;
+       m_markToolSelected = ModeMarkRectAction->Checked;
+       ModePaneActionExecute(NULL);
+
+       TableForm->Visible = false;
+       FragmentForm->Visible = false;
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -2037,13 +2006,31 @@ void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool 
     str += Item->Caption;
     m_strFileName = str;
     if (m_strFileName != "")
-         this->InitImageFile(m_strFileName);
+         InitImageFile(m_strFileName);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::PhImage2AfterOpen(TObject *Sender)
 {
 	UpdateSatatusBar();
 	PhImage2->BestFit();
+
+//---
+    m_Selected = -1;
+    this->m_objects->Clear();
+    this->m_rois.Clear();
+     if( FileExists(ChangeFileExt( m_strFileName, ".xml" )))
+     {
+        AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+        if (!this->m_Descr.LoadXML(strFileName.c_str()))
+        {
+            ShowMessage("Cannot load description " + strFileName);
+            return;
+        }
+        FragmentForm->SDescriptor = &this->m_Descr;
+     }
+
+    Detect();
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DbCreateActionExecute(TObject *Sender)
@@ -2070,7 +2057,6 @@ void __fastcall TForm1::DbCreateActionExecute(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TForm1::DbCreateActionUpdate(TObject *Sender)
 {
    UnicodeString _ustr = this->DirectoryListBox1->Directory;
@@ -2101,3 +2087,32 @@ void __fastcall TForm1::OpenDatabase(const char* lpDbName)
 	}
 }
 
+void __fastcall TForm1::DbClearActionExecute(TObject *Sender)
+{
+    String msg = L"Are you sure you want to delete all markup data from the database? This operation cannot be undone.";
+    if (Application->MessageBoxW(msg.c_str(), Application->Name.c_str(), MB_YESNO  | MB_ICONQUESTION) == IDNO)
+		return;
+
+       LongProcDlg->ProcType = ptClear;
+	   LongProcDlg->ShowModal();
+       DirectoryListBox1Change(NULL);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::DbClearActionUpdate(TObject *Sender)
+{
+   UnicodeString _ustr = m_db.DbName;
+   _ustr += L"\\";
+   _ustr += c_lpDictFileName;
+   AnsiString _astr = _ustr;
+   std::string fileName = _astr.c_str();
+   DbClearAction->Enabled = LFFileExists(fileName);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::ToolChange(TObject *Sender)
+{
+    TPhImageMarkTool* tool = (TPhImageMarkTool*)Sender;
+    m_Descr.LoadXML(tool->DescrFile.c_str());
+    TableForm->UpdateTable();
+    TListItem* li = DbView->Items->Item[DbView->ItemIndex];
+    li->SubItems->Strings[0] = IntToStr(m_Descr.GetCount());
+}

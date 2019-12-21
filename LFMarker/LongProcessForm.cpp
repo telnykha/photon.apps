@@ -21,6 +21,7 @@ void __fastcall TLongProcDlg::ProgressHandler(int Progress, AnsiString& aComment
 {
 	ProgressBar1->Position  = Progress;
 	Label1->Caption =  aComment;
+    Application->ProcessMessages();
 }
 void __fastcall TLongProcDlg::FormShow(TObject *Sender)
 {
@@ -57,6 +58,14 @@ void __fastcall TLongProcDlg::Timer1Timer(TObject *Sender)
 		Label2->Caption = "Analysis database...";
 		Form1->m_db.DoMarking(Form1->Engine);
 	  break;
+      case ptClear:
+        Label2->Caption = "Clear database...";
+        Form1->m_db.ClearDatabase();
+      break;
+      case ptUpdate:
+        Label2->Caption = "Update database...";
+        Form1->m_db.UpdateDatabase();
+      break;
 	}
 	Close();
 }

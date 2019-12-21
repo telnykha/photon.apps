@@ -19,7 +19,11 @@ awpRect TRect2awpRect(TRect& rect)
 TRect awpRect2TRect(awpRect r)
 {
     TRect result;
-    result.init(r.left, r.top, r.right, r.bottom);
+    //result.init(r.left, r.top, r.right, r.bottom);
+    result.Left = r.left;
+    result.top = r.top;
+    result.right = r.right;
+    result.bottom = r.bottom;
     return result;
 }
 

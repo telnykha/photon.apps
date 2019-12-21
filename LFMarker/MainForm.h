@@ -33,6 +33,7 @@
 #include "PhPaneTool.h"
 #include "PhSelectRectTool.h"
 #include "PhZoomToRectTool.h"
+#include "PhImageMarkTool.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -225,6 +226,8 @@ __published:	// IDE-managed Components
 	TPhLenzTool *PhLenzTool1;
 	TAction *DbCreateAction;
 	TMenuItem *CreateDatabase1;
+	TAction *DbClearAction;
+	TMenuItem *ClearDatabase1;
     void __fastcall FileListBox1Change(TObject *Sender);
     void __fastcall FFaceEditor1AfterOpen(TObject *Sender);
     void __fastcall FormShow(TObject *Sender);
@@ -250,9 +253,6 @@ __published:	// IDE-managed Components
         void __fastcall ModeActualSizeActionUpdate(TObject *Sender);
         void __fastcall StatusBar1Resize(TObject *Sender);
         void __fastcall ApplicationEvents1Hint(TObject *Sender);
-    void __fastcall Set1Click(TObject *Sender);
-    void __fastcall FFaceEditor1MouseUp(TObject *Sender,
-          TMouseButton Button, TShiftState Shift, int X, int Y);
     void __fastcall ModeMarkRectActionExecute(TObject *Sender);
     void __fastcall ModeMarkRectActionUpdate(TObject *Sender);
     void __fastcall ViewToolbarActionExecute(TObject *Sender);
@@ -356,22 +356,22 @@ __published:	// IDE-managed Components
 	void __fastcall PhImage2AfterOpen(TObject *Sender);
 	void __fastcall DbCreateActionExecute(TObject *Sender);
 	void __fastcall DbCreateActionUpdate(TObject *Sender);
-
-
-
-
-
-
+	void __fastcall DbClearActionExecute(TObject *Sender);
+	void __fastcall DbClearActionUpdate(TObject *Sender);
 private:	// User declarations
-    AnsiString 		m_strEngineName;
-	TLFDetectEngine m_ObjectEngine;
+    TPhImageMarkTool* m_markTool;
+    AnsiString 		  m_strEngineName;
+	TLFDetectEngine   m_ObjectEngine;
+
+    bool              m_tableVisible;
+    bool              m_fragmentsVisible;
+    bool              m_markToolSelected;
 	TList* m_objects;
 	bool   m_detect_in_rect;
 	int    m_current_rect;
 
     bool    m_NeedBestFit;
 	bool    m_ViewSemanticOutput;
-    bool    m_hasEyeModel;
 	// overlaps output
     double  m_overlaps_thr;
 	double  m_nearlest_overlap;
@@ -383,7 +383,7 @@ private:	// User declarations
 
 	TProgressBar*    m_ProgressBar1;          // индикатор выполнения.
 
-    String       	m_strEditCurrentDir;
+    String       	 m_strEditCurrentDir;
     TLFScanner       m_scanner;
 
 	TLFScanner* 		__fastcall GetScanner();
@@ -418,6 +418,8 @@ private:	// User declarations
 	void __fastcall UpdateDbView();
 	// Database
 	void __fastcall OpenDatabase(const char* lpDbName);
+
+    void __fastcall ToolChange(TObject *Sender);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 	__fastcall ~TForm1();
@@ -428,6 +430,9 @@ public:		// User declarations
 	__property   int           SelectedIndex = {read = m_Selected, write = SetSelectedIndex};
 	__property   bool 		   SetNearestOverlap = {read = m_set_nearest_overlap, write = m_set_nearest_overlap};
 	__property   bool 		   DetectInRect = {read = m_detect_in_rect, write = m_detect_in_rect};
+
+    __property bool TableVisible = {read = m_tableVisible, write = m_tableVisible};
+    __property bool FragmentsVisible = {read = m_fragmentsVisible, write = m_fragmentsVisible};
 
 
 	void __fastcall InitImageFile(AnsiString& strFileName);

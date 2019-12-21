@@ -10,7 +10,7 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-typedef enum {ptCopy, ptConvert, ptExport, ptSplit, ptAnalysis, ptNothing}EProcType;
+typedef enum {ptCopy, ptConvert, ptExport, ptSplit, ptAnalysis, ptClear, ptUpdate, ptNothing}EProcType;
 class TLongProcDlg : public TForm
 {
 __published:	// IDE-managed Components

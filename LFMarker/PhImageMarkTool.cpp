@@ -2,9 +2,12 @@
 #pragma hdrstop
 #include "PhImageMarkTool.h"
 #include "ImageUtils.h"
+#include "MainForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "tinyxml.lib"
+#define _IM_MIN_WIDTH_ 12
+#define _IM_MIN_HEIGHT_ 12
 //---------------------------------------------------------------------------
 __fastcall TPhImageMarkTool::TPhImageMarkTool(TComponent* Owner): TPhImageTool(Owner)
 {
@@ -18,13 +21,11 @@ __fastcall TPhImageMarkTool::TPhImageMarkTool(TComponent* Owner): TPhImageTool(O
 	m_edited = false;
     PopupMenu = NULL;
     m_selected = -1;
-    m_dictinary = new TLFSemanticDictinary();
+    m_dictinary = NULL;
 }
 //---------------------------------------------------------------------------
 __fastcall TPhImageMarkTool::~TPhImageMarkTool()
 {
-    delete m_dictinary;
-
 	if (m_newRect != NULL)
 		delete m_newRect;
 }
@@ -96,7 +97,7 @@ void __fastcall TPhImageMarkTool::SetVertex(int x, int y)
    TPoint p = m_pImage->GetImagePoint(x, y);
    if (item)
    {
-     TRect rect;
+     TRect rect = awpRect2TRect(item->GetBounds()->GetRect());
 	 if (m_sv == 0)
 	 {
 		rect.Left = p.x;
@@ -130,10 +131,9 @@ TColor TPhImageMarkTool::GetItemColor(TLFDetectedItem* itm)
     {
 	    TLFSemanticDictinaryItem* ci = (TLFSemanticDictinaryItem*)this->m_dictinary->Get(i);
 
-        if (strcmp(itm->GetType().c_str(), ci->GetItemLabel()) == 0)
+        if (strcmp(itm->GetType().c_str(), ci->GetId().c_str()) == 0)
         {
             int color = ci->GetColor();
-            // todo:
             return color;
         }
     }
@@ -160,15 +160,15 @@ void TPhImageMarkTool::Draw(TCanvas* Canvas)
 		TRect rect1 = this->m_pImage->GetScreenRect(rect);
     	Canvas->Brush->Color = color;
         if (i == m_selected)
-            Canvas->Pen->Width = 4;
+            Canvas->Pen->Width = 2;
         else
             Canvas->Pen->Width = 1;
 		Canvas->Pen->Color = color;
 
 		TPoint p1 = rect1.TopLeft();
 		TPoint p2 = rect1.BottomRight();
-
-        Canvas->TextOutW(p1.x + delta/2, p1.y + delta/2, item->GetType().c_str());
+        std::string str = m_dictinary->GetWordByUUID(item->GetType().c_str());
+        Canvas->TextOutW(p1.x + delta/2, p1.y + delta/2, str.c_str());
 
 
 		Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
@@ -255,7 +255,7 @@ void TPhImageMarkTool::MouseUp(int X, int Y, TMouseButton Button)
 		  m_newRect->right = p.x;
 		  m_newRect->bottom = p.y;
 
-          if (m_newRect->Width() > 24 && m_newRect->Height() > 24)
+          if (m_newRect->Width() > _IM_MIN_WIDTH_ && m_newRect->Height() > _IM_MIN_HEIGHT_)
 	          DoPopup(X, Y);
           else
           {
@@ -263,23 +263,13 @@ void TPhImageMarkTool::MouseUp(int X, int Y, TMouseButton Button)
              m_newRect = NULL;
              m_pImage->Paint();
           }
-/*
-		  TMarkItem* item = new TMarkItem();
-		  item->rect = *m_newRect;
-		  item->label = this->m_classes->Strings[this->m_selectedClass];
-		  item->frame = this->MediaSource->CurrentFrame;
-
-		  m_data.Add(item);
-
-		  delete m_newRect;
-		  m_newRect = NULL;
-		  if (this->m_OnChange != NULL)
-			m_OnChange(this);
-*/
 	  }
 	  else
 	  {
 		// process vertex
+        m_descriptor.SaveXML(m_strName.c_str());
+        if (this->m_OnChange != NULL)
+            m_OnChange(this);
 	  }
 	  m_pImage->Paint();
 	  m_down = false;
@@ -338,19 +328,6 @@ void __fastcall  TPhImageMarkTool::DeleteEntry(int index)
     this->SaveData();*/
 }
 //---------------------------------------------------------------------------
-/*TLFSemanticDictinary* TPhImageMarkTool::MakeDictinary()
-{
-	TLFSemanticDictinary*  dict = new TLFSemanticDictinary();
-	for (int i = 0; i < this->m_classes->Count; i++)
-	{
-        TMarkItem* mi = (TMarkItem*)m_classes->Items[i];
-		AnsiString str = mi->label;
-		TLFSemanticDictinaryItem* item = new TLFSemanticDictinaryItem(str.c_str());
-		dict->AddWordToDictinary(item);
-	}
-	return dict;
-} */
-
 void __fastcall TPhImageMarkTool::DoPopup(int X, int Y)
 {
     PopupMenu = new TPopupMenu(NULL);
@@ -371,10 +348,8 @@ void __fastcall TPhImageMarkTool::DoPopup(int X, int Y)
     item->OnClick = PopupClick;
     item->Tag = 0;
     PopupMenu->Items->Add(item);
-
-
     TPoint p = Application->MainForm->ClientOrigin;
-
+    p.X += Form1->Panel1->Width;
     PopupMenu->Popup(p.X + X, p.Y + Y);
 }
 
@@ -390,16 +365,18 @@ void __fastcall TPhImageMarkTool::PopupClick(TObject* sender)
         return;
     }
 
-/*todo:
-    TMarkItem* mitem = new TMarkItem();
-    TMarkItem* mi = (TMarkItem*)m_classes->Items[item->Tag - 1];
-
-    mitem->rect = *m_newRect;
-    mitem->label = mi->label;
-    mitem->frame = this->MediaSource->CurrentFrame;
-    mitem->color = mi->color;
-    m_data.Add(mitem);
-*/
+  	TLFDetectedItem* di = new TLFDetectedItem();
+  	awpRect bounds = TRect2awpRect(*m_newRect);
+  	di->SetBounds(bounds);
+    TLFSemanticDictinaryItem* dict_item = m_dictinary->GetWordFromDictinary(item->Tag - 1);
+    std::string uuid =  dict_item->GetId();
+    di->SetType(uuid.c_str());
+    ILFScanner* s = dict_item->GetScanner();
+    di->m_bh = s->GetBaseHeight();
+    di->m_bw = s->GetBaseWidth();
+    di->SetDetectorName("Human marked");
+    m_descriptor.Add(di);
+    m_descriptor.SaveXML(m_strName.c_str());
     delete m_newRect;
     m_newRect = NULL;
     if (this->m_OnChange != NULL)
@@ -517,4 +494,16 @@ void __fastcall TPhImageMarkTool::LabelStatistics(String label, int& numFrames, 
 TLFSemanticDictinaryItem* __fastcall TPhImageMarkTool::GetClasses(int index)
 {
     return (TLFSemanticDictinaryItem*)m_dictinary->Get(index);
+}
+
+void __fastcall TPhImageMarkTool::SetDictionary(TLFSemanticDictinary* value)
+{
+    this->m_dictinary = value;
+}
+
+void __fastcall  TPhImageMarkTool::SetFrame(const char* lpFileName)
+{
+      m_descriptor.LoadXML(lpFileName);
+      m_strName = lpFileName;
+      m_pImage->Paint();
 }

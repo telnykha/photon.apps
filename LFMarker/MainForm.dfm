@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 615
   Top = 173
   Caption = 'Image Marker'
-  ClientHeight = 612
-  ClientWidth = 800
+  ClientHeight = 542
+  ClientWidth = 784
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object Form1: TForm1
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 800
+    Width = 784
     Height = 34
     AutoSize = True
     ButtonHeight = 34
@@ -121,8 +121,8 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 593
-    Width = 800
+    Top = 523
+    Width = 784
     Height = 19
     Panels = <
       item
@@ -148,15 +148,15 @@ object Form1: TForm1
   object Panel5: TPanel
     Left = 0
     Top = 34
-    Width = 800
-    Height = 559
+    Width = 784
+    Height = 489
     Align = alClient
     Caption = 'Panel5'
     TabOrder = 2
     object Splitter4: TSplitter
       Left = 1
-      Top = 498
-      Width = 798
+      Top = 428
+      Width = 782
       Height = 3
       Cursor = crVSplit
       Align = alBottom
@@ -167,15 +167,16 @@ object Form1: TForm1
       Left = 345
       Top = 1
       Width = 4
-      Height = 497
+      Height = 427
       Beveled = True
       ExplicitLeft = 9
       ExplicitTop = 9
+      ExplicitHeight = 497
     end
     object Panel7: TPanel
       Left = 1
-      Top = 501
-      Width = 798
+      Top = 431
+      Width = 782
       Height = 57
       Align = alBottom
       Caption = 'Panel7'
@@ -183,7 +184,7 @@ object Form1: TForm1
       object Memo1: TMemo
         Left = 1
         Top = 1
-        Width = 796
+        Width = 780
         Height = 55
         Align = alClient
         TabOrder = 0
@@ -193,7 +194,7 @@ object Form1: TForm1
       Left = 1
       Top = 1
       Width = 344
-      Height = 497
+      Height = 427
       Align = alLeft
       TabOrder = 1
       OnResize = Panel1Resize
@@ -201,7 +202,7 @@ object Form1: TForm1
         Left = 1
         Top = 1
         Width = 342
-        Height = 495
+        Height = 425
         ActivePage = TabSheet1
         Align = alClient
         TabOrder = 0
@@ -224,7 +225,7 @@ object Form1: TForm1
             Left = 0
             Top = 237
             Width = 334
-            Height = 205
+            Height = 135
             ThumbWidht = 128
             ThumbHeight = 128
             SlideShowInterval = 500
@@ -244,7 +245,7 @@ object Form1: TForm1
           end
           object Panel9: TPanel
             Left = 0
-            Top = 442
+            Top = 372
             Width = 334
             Height = 27
             Align = alBottom
@@ -273,7 +274,7 @@ object Form1: TForm1
             Left = 0
             Top = 237
             Width = 334
-            Height = 205
+            Height = 135
             Align = alClient
             Mask = '*.jpg;*awp;*.png;*.bmp'
             MultiSelect = True
@@ -291,7 +292,7 @@ object Form1: TForm1
             Left = 0
             Top = 0
             Width = 334
-            Height = 469
+            Height = 399
             Align = alClient
             Indent = 19
             TabOrder = 0
@@ -455,7 +456,7 @@ object Form1: TForm1
             Left = 0
             Top = 33
             Width = 334
-            Height = 415
+            Height = 345
             Align = alClient
             Columns = <>
             GridLines = True
@@ -468,7 +469,7 @@ object Form1: TForm1
           end
           object Panel2: TPanel
             Left = 0
-            Top = 448
+            Top = 378
             Width = 334
             Height = 21
             Align = alBottom
@@ -481,22 +482,22 @@ object Form1: TForm1
     object Panel6: TPanel
       Left = 349
       Top = 1
-      Width = 450
-      Height = 497
+      Width = 434
+      Height = 427
       Align = alClient
       Caption = 'Panel2'
       TabOrder = 2
       object Panel11: TPanel
         Left = 1
         Top = 1
-        Width = 448
-        Height = 495
+        Width = 432
+        Height = 425
         Align = alClient
         TabOrder = 0
         object HSplitter: TSplitter
           Left = 1
-          Top = 486
-          Width = 446
+          Top = 416
+          Width = 430
           Height = 3
           Cursor = crVSplit
           Align = alBottom
@@ -504,17 +505,17 @@ object Form1: TForm1
           ExplicitWidth = 557
         end
         object Splitter7: TSplitter
-          Left = 439
+          Left = 423
           Top = 1
-          Height = 485
+          Height = 415
           Align = alRight
           ExplicitLeft = 550
           ExplicitHeight = 539
         end
         object BottomDocPanel: TPanel
           Left = 1
-          Top = 489
-          Width = 446
+          Top = 419
+          Width = 430
           Height = 5
           Align = alBottom
           DockSite = True
@@ -526,10 +527,10 @@ object Form1: TForm1
           OnUnDock = BottomDocPanelUnDock
         end
         object Panel13: TPanel
-          Left = 442
+          Left = 426
           Top = 1
           Width = 5
-          Height = 485
+          Height = 415
           Align = alRight
           Caption = 'Panel3'
           DockSite = True
@@ -539,20 +540,20 @@ object Form1: TForm1
         object ValueListEditor1: TValueListEditor
           Left = 1
           Top = 1
-          Width = 438
-          Height = 485
+          Width = 422
+          Height = 415
           Align = alClient
           TabOrder = 2
           Visible = False
           ColWidths = (
             150
-            282)
+            266)
         end
         object PhImage2: TPhImage
           Left = 1
           Top = 1
-          Width = 438
-          Height = 485
+          Width = 422
+          Height = 415
           ThumbWidht = 128
           ThumbHeight = 128
           SlideShowInterval = 500
@@ -714,11 +715,14 @@ object Form1: TForm1
       object Dictionary1: TMenuItem
         Action = dbDictionaryAction
       end
-      object N18: TMenuItem
-        Caption = '-'
-      end
       object CopyDatabase1: TMenuItem
         Action = DbCopyAction
+      end
+      object ClearDatabase1: TMenuItem
+        Action = DbClearAction
+      end
+      object N18: TMenuItem
+        Caption = '-'
       end
       object Exportimages1: TMenuItem
         Action = DbExportFragmentsAction
@@ -1049,7 +1053,7 @@ object Form1: TForm1
     end
     object dbDictionaryAction: TAction
       Category = 'Database'
-      Caption = 'Dictionary...'
+      Caption = 'Edit Dictionary...'
       OnExecute = dbDictionaryActionExecute
       OnUpdate = dbDictionaryActionUpdate
     end
@@ -1166,12 +1170,18 @@ object Form1: TForm1
       OnExecute = DbCreateActionExecute
       OnUpdate = DbCreateActionUpdate
     end
+    object DbClearAction: TAction
+      Category = 'Database'
+      Caption = 'Clear Database'
+      OnExecute = DbClearActionExecute
+      OnUpdate = DbClearActionUpdate
+    end
   end
   object ImageList1: TImageList
     Left = 704
     Top = 144
     Bitmap = {
-      494C010110001300380210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010110001300440210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

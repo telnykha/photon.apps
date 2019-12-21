@@ -20,18 +20,9 @@ __published:	// IDE-managed Components
 	TSpeedButton *SpeedButton1;
 	TSpeedButton *SpeedButton2;
 	TPanel *Panel2;
-	TLabel *Label1;
-	TLabel *Label2;
-	TCheckBox *CheckBox1;
 	TLabel *Label3;
 	TLabel *Label4;
-	TLabel *Label5;
-	TLabel *Label6;
-	TLabel *Label7;
 	TEdit *Edit1;
-	TEdit *Edit3;
-	TEdit *Edit4;
-	TEdit *Edit5;
 	TSpeedButton *SpeedButton3;
 	TSpeedButton *SpeedButton4;
 	TSpeedButton *SpeedButton5;
@@ -42,6 +33,8 @@ __published:	// IDE-managed Components
 	TLabel *Label8;
 	TSpeedButton *SpeedButton7;
 	TPhImage *PhImage1;
+	TEdit *Edit5;
+	TLabel *Label7;
 	void __fastcall SpeedButton1Click(TObject *Sender);
 	void __fastcall SpeedButton2Click(TObject *Sender);
 	void __fastcall CheckBox1Click(TObject *Sender);
@@ -55,8 +48,6 @@ __published:	// IDE-managed Components
 	void __fastcall ComboBox1Exit(TObject *Sender);
 	void __fastcall SpeedButton7Click(TObject *Sender);
 private:	// User declarations
-	void __fastcall DoDetectionFragment(awpImage* img);
-	void __fastcall DoDetectionImage(awpImage* img, awpRect& rect);
     TLFSemanticImageDescriptor* m_descr;
 public:		// User declarations
 	__fastcall TFragmentForm(TComponent* Owner);

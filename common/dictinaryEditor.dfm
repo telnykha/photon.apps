@@ -4,7 +4,7 @@ object dictinaryEditDlg: TdictinaryEditDlg
   BorderStyle = bsDialog
   Caption = 'Dictionary editor '
   ClientHeight = 202
-  ClientWidth = 379
+  ClientWidth = 330
   Color = clBtnFace
   ParentFont = True
   OldCreateOrder = True
@@ -15,9 +15,9 @@ object dictinaryEditDlg: TdictinaryEditDlg
   object OKBtn: TButton
     Left = 199
     Top = 167
-    Width = 172
+    Width = 122
     Height = 25
-    Caption = 'Close'
+    Caption = 'Ok'
     Default = True
     ModalResult = 1
     TabOrder = 0
@@ -25,7 +25,7 @@ object dictinaryEditDlg: TdictinaryEditDlg
   object AddWordButton: TButton
     Left = 199
     Top = 8
-    Width = 172
+    Width = 122
     Height = 25
     Caption = 'Add Class Label...'
     TabOrder = 1
@@ -33,8 +33,8 @@ object dictinaryEditDlg: TdictinaryEditDlg
   end
   object DeleteWordButton: TButton
     Left = 199
-    Top = 43
-    Width = 172
+    Top = 70
+    Width = 122
     Height = 25
     Caption = 'Delete Class Label...'
     TabOrder = 2
@@ -42,8 +42,8 @@ object dictinaryEditDlg: TdictinaryEditDlg
   end
   object EditWordButton: TButton
     Left = 199
-    Top = 74
-    Width = 172
+    Top = 39
+    Width = 122
     Height = 25
     Caption = 'Edit Class Label...'
     TabOrder = 3
@@ -56,17 +56,18 @@ object dictinaryEditDlg: TdictinaryEditDlg
     Width = 185
     Height = 196
     Align = alLeft
+    Columns = 2
     ItemHeight = 13
     TabOrder = 4
   end
-  object Button4: TButton
-    Left = 199
-    Top = 105
-    Width = 172
+  object Button1: TButton
+    Left = 200
+    Top = 136
+    Width = 122
     Height = 25
-    Caption = 'Save Dictionary...'
-    Enabled = False
+    Cancel = True
+    Caption = 'Cancel'
+    ModalResult = 2
     TabOrder = 5
-    Visible = False
   end
 end

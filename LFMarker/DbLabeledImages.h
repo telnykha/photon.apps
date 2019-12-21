@@ -12,27 +12,6 @@
 
 typedef void __fastcall (__closure *TDbProgressEvent)(int Progress, AnsiString& aComment);
 enum EExportFormat {awp, jpeg};
-enum EFaceExportOptions {
-eAll = 0,
-eAll_w_Glasses = 1,
-eAll_w_Breads = 2,
-eAll_w_Breads_a_Glasses = 3,
-eFront = 4,
-eFront_w_Glasses = 5,
-eFront_w_Breads = 6,
-eFront_w_Glasses_a_Breads = 7,
-eTurn = 8,
-eTurn_w_Glasses = 9,
-eTurn_w_Breads = 10,
-eTurn_w_Glasses_a_Breads = 11,
-eGlasses = 12,
-eGlasses_a_Front = 13,
-eGlasses_a_Turn = 14,
-eGlasses_a_Breads = 15,
-eBreads = 16,
-eBreads_a_Front = 17,
-eBreads_a_Turn = 18
-};
 
 ///////////////////////////////////////////////////////////////////////////////
 // export fragments options
@@ -102,8 +81,6 @@ public:
 	bool __fastcall Init(AnsiString& strDbPath, ILFDetectEngine* engine = NULL);
 	const char* __fastcall GetFileName(int index);
 
-    bool __fastcall CreateDatabase(const char* path);
-
 	//Export of image fragments to the specified directory
 	void __fastcall ExportFragments(SDbExportOptions& options);
 	void __fastcall ConvertDatabase(SDbConvertOptions& convert_options);
@@ -111,6 +88,8 @@ public:
 
 	// копирование всех изображений базы данных в соответствии со спецификацией   SDbCopyOptions
 	void __fastcall CopyDatabase(SDbCopyOptions& options);
+    void __fastcall ClearDatabase();
+    void __fastcall UpdateDatabase();
 
 	awpImage* __fastcall GetDbThumbinals(int thmbWidth = 128, int thmbHeight = 96);
 	awpImage* __fastcall MakeSemanticThumbinals(int thmbWidth = 64, int thmbHeight = 64);

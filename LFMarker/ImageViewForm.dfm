@@ -3,8 +3,8 @@ object FragmentForm: TFragmentForm
   Top = 459
   BorderStyle = bsSizeToolWin
   Caption = 'Semantic items editor'
-  ClientHeight = 253
-  ClientWidth = 421
+  ClientHeight = 160
+  ClientWidth = 396
   Color = clBtnFace
   DragKind = dkDock
   DragMode = dmAutomatic
@@ -22,10 +22,11 @@ object FragmentForm: TFragmentForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 421
+    Width = 396
     Height = 49
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 421
     object SpeedButton1: TSpeedButton
       Left = 1
       Top = 1
@@ -384,146 +385,89 @@ object FragmentForm: TFragmentForm
     Left = 0
     Top = 49
     Width = 185
-    Height = 204
+    Height = 111
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
-    object Label1: TLabel
-      Left = 8
-      Top = 29
-      Width = 80
-      Height = 13
-      Caption = 'Detection result: '
-    end
-    object Label2: TLabel
-      Left = 94
-      Top = 29
-      Width = 41
-      Height = 13
-      Caption = 'XXXXX'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
+    ExplicitHeight = 204
     object Label3: TLabel
-      Left = 8
-      Top = 51
+      Left = 5
+      Top = 8
       Width = 41
       Height = 13
       Caption = 'Detector'
     end
     object Label4: TLabel
-      Left = 8
-      Top = 75
-      Width = 26
+      Left = 5
+      Top = 34
+      Width = 54
       Height = 13
-      Caption = 'Label'
-    end
-    object Label5: TLabel
-      Left = 8
-      Top = 101
-      Width = 33
-      Height = 13
-      Caption = 'Raiting'
-    end
-    object Label6: TLabel
-      Left = 8
-      Top = 127
-      Width = 27
-      Height = 13
-      Caption = 'Angle'
-    end
-    object Label7: TLabel
-      Left = 8
-      Top = 153
-      Width = 34
-      Height = 13
-      Caption = 'Racurs'
+      Caption = 'Class Label'
     end
     object Label8: TLabel
-      Left = 7
-      Top = 178
+      Left = 5
+      Top = 88
       Width = 44
       Height = 13
       Caption = 'Comment'
     end
-    object CheckBox1: TCheckBox
-      Left = 8
-      Top = 6
-      Width = 97
-      Height = 17
-      Caption = 'Cut Fragment'
-      Checked = True
-      State = cbChecked
-      TabOrder = 0
-      OnClick = CheckBox1Click
+    object Label7: TLabel
+      Left = 5
+      Top = 64
+      Width = 34
+      Height = 13
+      Caption = 'Racurs'
     end
     object Edit1: TEdit
-      Left = 62
-      Top = 48
-      Width = 117
+      Left = 68
+      Top = 5
+      Width = 111
       Height = 21
       Enabled = False
-      TabOrder = 1
+      TabOrder = 0
       Text = 'Edit1'
     end
-    object Edit3: TEdit
-      Left = 62
-      Top = 98
-      Width = 117
-      Height = 21
-      Enabled = False
-      TabOrder = 2
-      Text = 'Edit3'
-    end
-    object Edit4: TEdit
-      Left = 62
-      Top = 124
-      Width = 117
-      Height = 21
-      Enabled = False
-      TabOrder = 3
-      Text = 'Edit4'
-    end
-    object Edit5: TEdit
-      Left = 62
-      Top = 148
-      Width = 117
-      Height = 21
-      Enabled = False
-      TabOrder = 4
-      Text = 'Edit5'
-    end
     object ComboBox1: TComboBox
-      Left = 63
-      Top = 72
-      Width = 115
+      Left = 70
+      Top = 31
+      Width = 109
       Height = 21
       Style = csDropDownList
-      TabOrder = 5
+      TabOrder = 1
       OnChange = ComboBox1Change
       OnExit = ComboBox1Exit
     end
     object Edit2: TEdit
-      Left = 62
-      Top = 175
-      Width = 117
+      Left = 70
+      Top = 85
+      Width = 109
       Height = 21
-      TabOrder = 6
+      TabOrder = 2
+    end
+    object Edit5: TEdit
+      Left = 70
+      Top = 58
+      Width = 109
+      Height = 21
+      Enabled = False
+      TabOrder = 3
+      Text = 'Edit5'
     end
   end
   object PhImage1: TPhImage
-    Left = 192
-    Top = 56
-    Width = 221
-    Height = 189
+    Left = 185
+    Top = 49
+    Width = 211
+    Height = 111
     ThumbWidht = 128
     ThumbHeight = 128
     SlideShowInterval = 500
+    Align = alClient
     ParentColor = False
+    ExplicitLeft = 192
+    ExplicitTop = 56
+    ExplicitWidth = 221
+    ExplicitHeight = 189
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle

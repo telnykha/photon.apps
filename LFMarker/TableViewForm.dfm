@@ -2,8 +2,8 @@ object TableForm: TTableForm
   Left = 1198
   Top = 186
   Caption = 'Image Description'
-  ClientHeight = 450
-  ClientWidth = 624
+  ClientHeight = 300
+  ClientWidth = 429
   Color = clBtnFace
   DragKind = dkDock
   DragMode = dmAutomatic
@@ -14,18 +14,18 @@ object TableForm: TTableForm
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
-  OnHide = FormHide
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 624
+    Width = 429
     Height = 41
     Align = alTop
     TabOrder = 0
-    object SpeedButton2: TSpeedButton
+    ExplicitWidth = 624
+    object sbDeleteRow: TSpeedButton
       Left = 6
       Top = 3
       Width = 53
@@ -55,9 +55,9 @@ object TableForm: TTableForm
       NumGlyphs = 2
       ParentFont = False
       Spacing = 0
-      OnClick = SpeedButton2Click
+      OnClick = sbDeleteRowClick
     end
-    object SpeedButton3: TSpeedButton
+    object sbClear: TSpeedButton
       Left = 59
       Top = 3
       Width = 53
@@ -87,48 +87,14 @@ object TableForm: TTableForm
       NumGlyphs = 2
       ParentFont = False
       Spacing = 0
-      OnClick = SpeedButton3Click
-    end
-    object SpeedButton6: TSpeedButton
-      Left = 112
-      Top = 3
-      Width = 53
-      Height = 34
-      Action = FragmentViewAction
-      AllowAllUp = True
-      GroupIndex = 1
-      Caption = 'View '
-      Flat = True
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -9
-      Font.Name = 'Small Fonts'
-      Font.Style = []
-      Glyph.Data = {
-        76010000424D7601000000000000760000002800000020000000100000000100
-        04000000000000010000120B0000120B00001000000000000000000000000000
-        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033BBBBBBBBBB
-        BB33337777777777777F33BB00BBBBBBBB33337F77333333F37F33BB0BBBBBB0
-        BB33337F73F33337FF7F33BBB0BBBB000B33337F37FF3377737F33BBB00BB00B
-        BB33337F377F3773337F33BBBB0B00BBBB33337F337F7733337F33BBBB000BBB
-        BB33337F33777F33337F33EEEE000EEEEE33337F3F777FFF337F33EE0E80000E
-        EE33337F73F77773337F33EEE0800EEEEE33337F37377F33337F33EEEE000EEE
-        EE33337F33777F33337F33EEEEE00EEEEE33337F33377FF3337F33EEEEEE00EE
-        EE33337F333377F3337F33EEEEEE00EEEE33337F33337733337F33EEEEEEEEEE
-        EE33337FFFFFFFFFFF7F33EEEEEEEEEEEE333377777777777773}
-      Layout = blGlyphTop
-      Margin = 3
-      NumGlyphs = 2
-      ParentFont = False
-      Spacing = 0
+      OnClick = sbClearClick
     end
   end
   object ListView1: TListView
     Left = 0
     Top = 41
-    Width = 624
-    Height = 409
+    Width = 429
+    Height = 259
     Align = alClient
     Columns = <>
     GridLines = True
@@ -138,10 +104,12 @@ object TableForm: TTableForm
     ViewStyle = vsReport
     OnChange = ListView1Change
     OnSelectItem = ListView1SelectItem
+    ExplicitWidth = 624
+    ExplicitHeight = 409
   end
   object ActionList1: TActionList
-    Left = 48
-    Top = 88
+    Left = 192
+    Top = 8
     object FragmentViewAction: TAction
       GroupIndex = 1
       OnExecute = FragmentViewActionExecute

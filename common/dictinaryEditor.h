@@ -23,7 +23,7 @@ __published:
 	TButton *DeleteWordButton;
 	TButton *EditWordButton;
 	TListBox *ListBox1;
-	TButton *Button4;
+	TButton *Button1;
 	void __fastcall EditWordButtonClick(TObject *Sender);
 	void __fastcall AddWordButtonClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);

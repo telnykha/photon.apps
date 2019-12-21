@@ -77,19 +77,21 @@ void __fastcall TdictinaryEditDlg::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TdictinaryEditDlg::DeleteWordButtonClick(TObject *Sender)
 {
-    if (this->ListBox1->ItemIndex < 0)
+    if (ListBox1->ItemIndex < 0)
     {
-        ShowMessage("Не выбран ярлык для удаления.");
+        ShowMessage("No class label selected for deletion.");
         return;
     }
     String del_label = this->ListBox1->Items->Strings[this->ListBox1->ItemIndex];
-    String msg = L"Вы уверены, что хотите удалить все данные связанные с ярлыком ";
+    String msg = L"Are you sure you want to delete all data associated with the class label ";
     msg += del_label;
     msg += L"? ";
 
     if (Application->MessageBoxW(msg.c_str(), Application->Name.c_str(), MB_YESNO  | MB_ICONQUESTION) == IDNO)
 		return;
-    this->ListBox1->Items->Delete(this->ListBox1->ItemIndex);
+    ListBox1->Items->Delete(this->ListBox1->ItemIndex);
+    AnsiString _astr = del_label;
+    this->m_dictionary.DelWordForomDictinary(_astr.c_str());
 }
 //---------------------------------------------------------------------------
 TLFSemanticDictinary* __fastcall TdictinaryEditDlg::GetSemanticDictionary()

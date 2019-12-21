@@ -109,10 +109,10 @@ object dictinaryItemDlg: TdictinaryItemDlg
     OnClick = ColorGrid1Click
   end
   object Panel1: TPanel
-    Left = 24
-    Top = 136
-    Width = 70
-    Height = 62
+    Left = 18
+    Top = 129
+    Width = 89
+    Height = 69
     Color = clRed
     ParentBackground = False
     ShowCaption = False

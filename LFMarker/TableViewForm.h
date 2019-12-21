@@ -20,19 +20,15 @@ class TTableForm : public TForm
 __published:	// IDE-managed Components
     TPanel *Panel1;
     TListView *ListView1;
-    TSpeedButton *SpeedButton2;
-    TSpeedButton *SpeedButton3;
-    TSpeedButton *SpeedButton6;
+	TSpeedButton *sbDeleteRow;
+	TSpeedButton *sbClear;
     TActionList *ActionList1;
     TAction *FragmentViewAction;
     void __fastcall FormShow(TObject *Sender);
-    void __fastcall SpeedButton2Click(TObject *Sender);
-    void __fastcall SpeedButton3Click(TObject *Sender);
-    void __fastcall SpeedButton4Click(TObject *Sender);
-    void __fastcall SpeedButton5Click(TObject *Sender);
+    void __fastcall sbDeleteRowClick(TObject *Sender);
+    void __fastcall sbClearClick(TObject *Sender);
     void __fastcall ListView1Change(TObject *Sender, TListItem *Item,
           TItemChange Change);
-    void __fastcall FormHide(TObject *Sender);
     void __fastcall FragmentViewActionExecute(TObject *Sender);
     void __fastcall FragmentViewActionUpdate(TObject *Sender);
 	void __fastcall ListView1SelectItem(TObject *Sender, TListItem *Item, bool Selected);

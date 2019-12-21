@@ -21,11 +21,8 @@ __fastcall TFragmentForm::TFragmentForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TFragmentForm::DrawSelected()
 {
-  if (!Visible)
-  	return;
-
-	Label2->Caption = "unknown";
-
+    if (!Visible)
+  		return;
 	TLFDetectedItem* di = Form1->m_Descr.GetDetectedItem(Form1->SelectedIndex);
     if (di == NULL)
     {
@@ -49,19 +46,17 @@ void __fastcall TFragmentForm::DrawSelected()
 
 	if (this->SpeedButton2->Down)
 	{
+        TLFScanner scanner;
+        TLFImage   lfimg;
+        scanner.SetBaseWidth(di->GetBW());
+        scanner.SetBaseHeight(di->GetBH());
+        lfimg.SetImage(pImage);
+        scanner.Scan(lfimg.GetImage()->sSizeX, lfimg.GetImage()->sSizeY);
 
-		  TLFScanner scanner;
-		  TLFImage   lfimg;
-
-		  scanner.SetBaseWidth(di->GetBW());
-		  scanner.SetBaseHeight(di->GetBH());
-
-		  lfimg.SetImage(pImage);
-		  scanner.Scan(lfimg.GetImage()->sSizeX, lfimg.GetImage()->sSizeY);
-
-		float maxOverlap = 0;
+ 		float maxOverlap = 0;
 		TLFRect maxRect;
 		TLFRect* bounds = di->GetBounds();
+
 		for (int j = 0; j < scanner.GetFragmentsCount(); j++)
 		{
 		  awpRect r = scanner.GetFragmentRect(j);
@@ -76,12 +71,6 @@ void __fastcall TFragmentForm::DrawSelected()
 		r = maxRect.GetRect();
 	}
 	awpCopyRect(pImage, &pFragment, &r);
-	if (this->CheckBox1->Checked)
-		DoDetectionFragment(pFragment);
-	else
-		DoDetectionImage(pImage, r);
-
-	//FImage1->Bitmap->SetAWPImage(pFragment);
     PhImage1->SetAwpImage(pFragment);
 	if (this->SpeedButton1->Down)
 		PhImage1->BestFit();
@@ -89,16 +78,17 @@ void __fastcall TFragmentForm::DrawSelected()
 		PhImage1->ActualSize();
 	awpReleaseImage(&pFragment);
 	awpReleaseImage(&pImage);
+
     ///////////////////////////////////////////////
     Edit1->Text = di->GetDetectorName();
-    int index = ComboBox1->Items->IndexOf(di->GetType().c_str());
+    TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
+    std::string str_uuid = di->GetType();
+    std::string str_label = dict->GetWordByUUID(str_uuid.c_str());
+    int index = ComboBox1->Items->IndexOf(str_label.c_str());
     if (index >= 0)
     {
      	ComboBox1->ItemIndex = index;
     }
-   // Edit2->Text = di->GetType().c_str();
-    Edit3->Text = FloatToStr(di->GetRaiting());
-    Edit4->Text = IntToStr(di->GetAngle());
 	Edit5->Text = IntToStr(di->GetRacurs());
 	Edit2->Text = di->GetComment().c_str();
 }
@@ -113,58 +103,11 @@ void __fastcall TFragmentForm::SpeedButton2Click(TObject *Sender)
 	DrawSelected();
 }
 //---------------------------------------------------------------------------
-void __fastcall TFragmentForm::DoDetectionFragment(awpImage* img)
-{
-
-   if (img == NULL)
-	return;
-   awpConvert(img, AWP_CONVERT_3TO1_BYTE);
-   TSCObjectDetector* d = (TSCObjectDetector*)Form1->Engine->GetDetector();
-   if (d != NULL)
-   {
-	  d->Init(img);
-	  double err[4];
-	  int v[4];
-	  awpRect r;
-	  r.left = 0;
-	  r.top = 0;
-	  r.right = img->sSizeX;
-	  r.bottom = img->sSizeY;
-	  d->ClassifyRect(r, err, v);
-	  if (v[0] <= 0)
-		 Label2->Caption = "false";
-	  else
-		 Label2->Caption = "true";
-   }
-}
-
-void __fastcall TFragmentForm::DoDetectionImage(awpImage* img, awpRect& rect)
-{
-   if (img == NULL)
-	return;
-   TSCObjectDetector* d = (TSCObjectDetector*)Form1->Engine->GetDetector();
-   if (d != NULL)
-   {
-	  d->Init(img);
-	  double err[4];
-	  int v[4];
-
-	  d->ClassifyRect(rect, err, v);
-	  if (v[0] <= 0)
-		 Label2->Caption = "false";
-	  else
-		 Label2->Caption = "true";
-   }
-}
-
-
 void __fastcall TFragmentForm::CheckBox1Click(TObject *Sender)
 {
 	DrawSelected();
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TFragmentForm::FormShow(TObject *Sender)
 {
 	ChangeDictonary();
@@ -174,12 +117,14 @@ void __fastcall TFragmentForm::FormShow(TObject *Sender)
 void __fastcall TFragmentForm::ComboBox1Change(TObject *Sender)
 {
 	AnsiString strLabel = ComboBox1->Text;
+    TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
+    TLFSemanticDictinaryItem* sdi = dict->GetWordFromDictinary(strLabel.c_str());
 	if (this->m_descr != NULL)
 	{
 		TLFDetectedItem* item = m_descr->GetDetectedItem(Form1->SelectedIndex);
 		if (item != NULL)
 		{
-			 item->SetType(strLabel.c_str());
+			 item->SetType(sdi->GetId().c_str());
 			 TableForm->ChangeItem(Form1->SelectedIndex, strLabel.c_str());
 		}
 	}
@@ -272,10 +217,14 @@ void __fastcall TFragmentForm::SpeedButton7Click(TObject *Sender)
 	TLFDetectedItem* di = Form1->m_Descr.GetDetectedItem(Form1->SelectedIndex);
     //
     AnsiString _ansi = ComboBox1->Text;
-	di->SetType(_ansi.c_str());
+    TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
+    TLFSemanticDictinaryItem* sdi = dict->GetWordFromDictinary(_ansi.c_str());
+
+	di->SetType(sdi->GetId().c_str());
 	_ansi = Edit2->Text;
 	di->SetComment(_ansi.c_str());
     Form1->DbSaveMarkActionExecute(NULL);
 }
 //---------------------------------------------------------------------------
+
 

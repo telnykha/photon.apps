@@ -9,6 +9,7 @@
 #include "_LF.h"
 #include "MainForm.h"
 #include "awpipl.h"
+#include "LongProcessForm.h"
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -73,7 +74,6 @@ static bool ClearDir(AnsiString& strDir)
   else
 	CreateDir(strDir);
   return true;
-
 }
 
 static bool ClearDirWithSubdirs(AnsiString& strDir, TStringList* subdirs)
@@ -109,11 +109,20 @@ static bool ClearDirWithSubdirs(AnsiString& strDir, TStringList* subdirs)
   }
   return true;
 }
+
+void _progress(const char* lpMessage, int progress)
+{
+    LongProcDlg->Label1->Caption = lpMessage;
+    LongProcDlg->ProgressBar1->Position = progress;
+    Application->ProcessMessages();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 TDbLabeledImages::TDbLabeledImages()
 {
 	Clear();
 	m_ProgressEvent = NULL;
+    m_db.SetProgress(&_progress);
 }
 /////////////////////////////////////
 TDbLabeledImages::~TDbLabeledImages()
@@ -1111,9 +1120,19 @@ int __fastcall TDbLabeledImages::GetNumLabels()
 {
     return Dictionary->GetCount();
 }
-
-bool __fastcall TDbLabeledImages::CreateDatabase(const char* path)
+// deletes all the markup data from the database and clears the dictionary
+void __fastcall TDbLabeledImages::ClearDatabase()
 {
-    return false;
+    m_db.SetProgress(_progress);
+    m_db.ClearDatabase();
+    m_db.SetProgress(NULL);
 }
+
+void __fastcall TDbLabeledImages::UpdateDatabase()
+{
+    m_db.SetProgress(_progress);
+    m_db.UpdateDatabase();
+    m_db.SetProgress(NULL);
+}
+
 
