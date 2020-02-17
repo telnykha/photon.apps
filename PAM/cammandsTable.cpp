@@ -305,7 +305,7 @@ UnicodeString TCommandsTable::GetScriptCommandName(int index)
         case 8:
             return L"TURNON_CAM_FLASH";
         default:
-            return L"TURN_OFF";
+			return L"TURN_OFF";
     }
 }
 
@@ -320,7 +320,12 @@ void __fastcall TCommandsTable::Save()
 **************************************************/
 UnicodeString __fastcall TCommandsTable::GetScript()
 {
-    assert(m_options != NULL);
+	assert(m_options != NULL);
+	expEvent f_event;
+	f_event.command   = 4;
+	f_event.pinStatus = 0;
+	f_event.pinDelay  = 1000;
+	f_event.imageName = L"";
 
 	UnicodeString str =
 	L"\
@@ -334,7 +339,7 @@ UnicodeString __fastcall TCommandsTable::GetScript()
 	#define TURNON460_ACT   8          \r\n\
 	#define TURNON_CAM_FLASH   9          \r\n\
 	const int progSize =";
-	str += IntToStr(m_list->Count);
+	str += IntToStr(m_list->Count + 1);
 	str += L";\r\n\
 	expEvent Events[progSize] = {\r\n";
 	for (int i = 0; i < m_list->Count; i++)
@@ -349,6 +354,18 @@ UnicodeString __fastcall TCommandsTable::GetScript()
 		str += IntToStr((int)e->pinDelay);
 		str += L"},\r\n";
 	}
+
+
+	str += L"{";
+	str += this->GetScriptCommandName(f_event.command);
+	str += L",";
+	str += IntToStr(f_event.pinStatus);
+	str += L",";
+	str += IntToStr((int)f_event.pinDelay);
+	str += L"},\r\n";
+
+
+
 	str += L"};";
 	str += L"\r\n\const unsigned long exposure = ";
 	str += IntToStr(m_options->Exposure);

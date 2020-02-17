@@ -575,7 +575,11 @@ void  __fastcall TmainPAM::CheckArduino()
 
 void __fastcall TmainPAM::editInsertActionExecute(TObject *Sender)
 {
-    if (editorDlg->ShowModal() == mrOk)
+	editorDlg->ComboBox1->ItemIndex = 0;
+	editorDlg->SpinEdit2->Value = 0;
+	editorDlg->SpinEdit1->Value = 100;
+	editorDlg->Edit1->Text = L"";
+	if (editorDlg->ShowModal() == mrOk)
     {
 		//todo: добавить новую команду
         m_table->AddRecord(editorDlg);
@@ -1128,10 +1132,13 @@ void __fastcall TmainPAM::Button2Click(TObject *Sender)
 
 void __fastcall TmainPAM::editAddActionExecute(TObject *Sender)
 {
-    if (editorDlg->ShowModal() == mrOk)
-    {
-		//todo: добавить новую команду
-        m_table->InsertRecord(StringGrid1->Row, editorDlg);
+	editorDlg->ComboBox1->ItemIndex = 0;
+	editorDlg->SpinEdit2->Value = 0;
+	editorDlg->SpinEdit1->Value = 100;
+	editorDlg->Edit1->Text = L"";
+	if (editorDlg->ShowModal() == mrOk)
+	{
+		m_table->InsertRecord(StringGrid1->Row, editorDlg);
     }
 }
 //---------------------------------------------------------------------------
