@@ -8,15 +8,24 @@ bool redPinOn  = false;
 bool bluePinOn = false;
 
 int  blueBright = 100;
-int  redBright = 100;
-
+int  redBright  = 100;
+/**
+Описание команды. 
+  int command    - код команды
+  int pinStatus  - яркость источника излучения 
+  unsigned long pinDelay;
+*/
 struct expEvent
 {
   int command;
   int pinStatus;
   unsigned long pinDelay;
 };
-
+/**
+Файл config.h - переменная часть микропрограммы. 
+Формироуется приложением PAM.exe и загружается в микроконтроллер 
+с использованием приложения arduino_debug 
+*/
 #include "config.h"
 
 void setup()
@@ -41,7 +50,12 @@ void microDelay(unsigned long t)
   {
   }
 }
-
+/**
+Интерпретатор команд. 
+int command - код команды. см. "описание команд" 
+int value - яркость источника излучения 
+unsigned long timeDelay - время выполнения команды. 
+*/
 void DoCommand(int cammand, int value, unsigned long timeDelay)
 {
   switch (cammand)
@@ -79,7 +93,6 @@ void DoCommand(int cammand, int value, unsigned long timeDelay)
       break;
       case TURNON_CAM_460_ACT:
         BlueFlashWithCameraAct(timeDelay, value);
-        //BlueFlashWithCamera(timeDelay, value);
       break;
       case TURNON460_ACT:
         BlueFlashAct(timeDelay, value);
@@ -89,7 +102,11 @@ void DoCommand(int cammand, int value, unsigned long timeDelay)
       break;
   }
 }
-
+/**
+ процесс выполнения последовательности команд, заданной пользователем. 
+ Последовательность команд находится в переменной Events, которая 
+ объявлена в заголовочном файле config.h
+*/
 void Porcess()
 {
   digitalWrite(redPin, LOW);
@@ -127,8 +144,7 @@ void BlueFlash(unsigned long aTime, int aBrightness)
       microDelay(1000 - t1);
     }
 }
-
-// Flash blue LED brightness aBrightness and time aTime
+//  Flash blue LED brightness aBrightness and time aTime
 // switch on camera 
 void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
 {
