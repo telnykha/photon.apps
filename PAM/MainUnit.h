@@ -162,6 +162,14 @@ __published:	// IDE-managed Components
 	TMenuItem *N27;
 	TMenuItem *N28;
 	TMenuItem *N29;
+	TAction *editCopyAction;
+	TAction *editPasteAction;
+	TMenuItem *N30;
+	TMenuItem *N31;
+	TMenuItem *N32;
+	TMenuItem *N33;
+	TMenuItem *N34;
+	TMenuItem *N35;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -215,6 +223,10 @@ __published:	// IDE-managed Components
 	void __fastcall editUpActionUpdate(TObject *Sender);
 	void __fastcall editDownActionUpdate(TObject *Sender);
 	void __fastcall editDownActionExecute(TObject *Sender);
+	void __fastcall editCopyActionExecute(TObject *Sender);
+	void __fastcall editCopyActionUpdate(TObject *Sender);
+	void __fastcall editPasteActionUpdate(TObject *Sender);
+	void __fastcall editPasteActionExecute(TObject *Sender);
 
 
 
@@ -229,7 +241,9 @@ private:	// User declarations
     TPAMOptions 	m_options;
     UnicodeString   m_currentArchive;
     TPAMArchive*    m_archive;
-    TCommandsTable* m_tableArchive; // таблица архива
+	TCommandsTable* m_tableArchive; // таблица архива
+
+    UINT            m_clipFormat;
 
     void   __fastcall AskSaveTable();
     void   __fastcall StartExperiment();

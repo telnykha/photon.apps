@@ -226,7 +226,8 @@ __fastcall TmainPAM::TmainPAM(TComponent* Owner)
     m_mode   = 0;
     m_currentArchive = m_options.ArchivePath;
     m_archive = NULL;
-    m_tableArchive = NULL;
+	m_tableArchive = NULL;
+	m_clipFormat = 0;
 }
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::N2Click(TObject *Sender)
@@ -268,8 +269,18 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
     TrackBar1->Position = m_options.exploshureValue;
     TrackBar5->Position = m_options.Gain;
     SpinEdit2->Value = m_options.Delay;
-    SpinEdit1->Value = m_options.Length;
-    m_options.freeze = false;
+	SpinEdit1->Value = m_options.Length;
+	m_options.freeze = false;
+
+
+	 m_clipFormat = RegisterClipboardFormat("PAMCOMMAND");
+	 if (m_clipFormat == 0)
+	 {
+		ShowMessage("Не могу зарегистрировать фомат данных для обмена через clipboard.");
+        Application->Terminate();
+	 }
+
+
 }
 //---------------------------------------------------------------------------
 void   __fastcall TmainPAM::StartExperiment()
@@ -607,14 +618,14 @@ void __fastcall TmainPAM::editDeleteActionUpdate(TObject *Sender)
 
 void __fastcall TmainPAM::editEditActionExecute(TObject *Sender)
 {
-    TList* list = m_table->list;
-    expEvent* e = (expEvent*)list->Items[StringGrid1->Row-1];
+	TList* list = m_table->list;
+	expEvent* e = (expEvent*)list->Items[StringGrid1->Row-1];
     assert(e != NULL);
 
-    editorDlg->ComboBox1->ItemIndex = e->command;
+	editorDlg->ComboBox1->ItemIndex = e->command;
 	editorDlg->SpinEdit2->Value = e->pinStatus;
-    editorDlg->SpinEdit1->Value = e->pinDelay;
-    editorDlg->Edit1->Text = StringGrid1->Cells[4][StringGrid1->Row];
+	editorDlg->SpinEdit1->Value = e->pinDelay;
+	editorDlg->Edit1->Text = StringGrid1->Cells[4][StringGrid1->Row];
 
 
     if (editorDlg->ShowModal() == mrOk)
@@ -1170,6 +1181,71 @@ void __fastcall TmainPAM::editDownActionUpdate(TObject *Sender)
 void __fastcall TmainPAM::editDownActionExecute(TObject *Sender)
 {
     m_table->Down(StringGrid1->Row);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editCopyActionExecute(TObject *Sender)
+{
+	if (!OpenClipboard(this->Handle))
+	{
+		ShowMessage(L"Не могу открыть буфер обмена.");
+		return;
+	}
+	EmptyClipboard();
+// 1. Get Command
+	TList* list = m_table->list;
+	expEvent* e = (expEvent*)list->Items[StringGrid1->Row-1];
+
+// 2. Copy commnad to global memory block
+	HGLOBAL hglbCopy;
+	hglbCopy = GlobalAlloc(GMEM_MOVEABLE,sizeof(expEvent));
+	if (hglbCopy == NULL)
+	{
+		CloseClipboard();
+		ShowMessage(L"Не могу скопировать в буфер обмена.");
+		return;
+	}
+	expEvent* copy = (expEvent*)GlobalLock(hglbCopy);
+	memcpy(copy, e, sizeof(expEvent));
+	GlobalUnlock(hglbCopy);
+// 3. Отправим данные в буфер обмена
+   SetClipboardData(m_clipFormat, hglbCopy);
+   CloseClipboard();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editCopyActionUpdate(TObject *Sender)
+{
+    editCopyAction->Enabled = StringGrid1->Row > 0;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editPasteActionUpdate(TObject *Sender)
+{
+	editPasteAction->Enabled = IsClipboardFormatAvailable(m_clipFormat);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::editPasteActionExecute(TObject *Sender)
+{
+	 HGLOBAL   hglb;
+	 if (!OpenClipboard(this->Handle))
+		return;
+	 hglb = GetClipboardData(m_clipFormat);
+	 if(hglb != NULL)
+	 {
+		expEvent* e =  (expEvent*)GlobalLock(hglb);
+		if (e != NULL)
+		{
+			editorDlg->ComboBox1->ItemIndex = e->command;
+			editorDlg->SpinEdit2->Value = e->pinStatus;
+			editorDlg->SpinEdit1->Value = e->pinDelay;
+			editorDlg->Edit1->Text = "";
+			GlobalUnlock(hglb);
+            m_table->InsertRecord(StringGrid1->Row, editorDlg);
+		}
+	 }
+	 CloseClipboard();
 }
 //---------------------------------------------------------------------------
 

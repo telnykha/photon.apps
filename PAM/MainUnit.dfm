@@ -35,7 +35,6 @@
     Height = 81
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 1030
     object SpeedButton1: TSpeedButton
       Left = 2
       Top = 3
@@ -277,7 +276,6 @@
       item
         Width = 50
       end>
-    ExplicitWidth = 1030
   end
   object Memo2: TMemo
     Left = 0
@@ -294,7 +292,6 @@
     ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 2
-    ExplicitWidth = 1030
   end
   object PageControl1: TPageControl
     Left = 220
@@ -305,10 +302,8 @@
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
-    ExplicitWidth = 810
     object TabSheet1: TTabSheet
       Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
-      ExplicitWidth = 802
       object StringGrid1: TStringGrid
         Left = 0
         Top = 41
@@ -323,7 +318,6 @@
         PopupMenu = PopupMenu1
         TabOrder = 0
         OnDblClick = StringGrid1DblClick
-        ExplicitWidth = 802
         ColWidths = (
           498
           108
@@ -340,7 +334,6 @@
         Align = alTop
         ParentBackground = False
         TabOrder = 1
-        ExplicitWidth = 802
         object SpeedButton10: TSpeedButton
           Left = 8
           Top = 3
@@ -413,7 +406,6 @@
     object TabSheet2: TTabSheet
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1082#1086#1076' Arduino'
       ImageIndex = 1
-      ExplicitWidth = 802
       object Memo1: TMemo
         Left = 0
         Top = 0
@@ -432,14 +424,12 @@
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitWidth = 802
       end
     end
     object TabSheet3: TTabSheet
       Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
       ImageIndex = 2
       OnShow = TabSheet3Show
-      ExplicitWidth = 802
       object PhImage1: TPhImage
         Left = 0
         Top = 0
@@ -451,7 +441,6 @@
         SlideShowInterval = 500
         Align = alClient
         ParentColor = False
-        ExplicitWidth = 802
       end
       object Panel3: TPanel
         Left = 0
@@ -460,7 +449,6 @@
         Height = 49
         Align = alBottom
         TabOrder = 1
-        ExplicitWidth = 802
         object Button1: TButton
           AlignWithMargins = True
           Left = 4
@@ -477,7 +465,6 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
-      ExplicitWidth = 802
       object Splitter3: TSplitter
         Left = 179
         Top = 0
@@ -543,7 +530,6 @@
         BevelOuter = bvNone
         Caption = 'Panel5'
         TabOrder = 1
-        ExplicitWidth = 620
         object Splitter2: TSplitter
           Left = 357
           Top = 0
@@ -564,7 +550,6 @@
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
-          ExplicitWidth = 356
         end
         object Panel7: TPanel
           Left = 361
@@ -574,7 +559,6 @@
           Align = alRight
           Caption = 'Panel7'
           TabOrder = 1
-          ExplicitLeft = 360
           object StringGrid2: TStringGrid
             Left = 1
             Top = 121
@@ -1003,6 +987,15 @@
       object N21: TMenuItem
         Action = editEditAction
       end
+      object N33: TMenuItem
+        Caption = '-'
+      end
+      object N34: TMenuItem
+        Action = editCopyAction
+      end
+      object N35: TMenuItem
+        Action = editPasteAction
+      end
     end
     object N8: TMenuItem
       Caption = #1059#1089#1090#1088#1086#1081#1089#1090#1074#1086
@@ -1169,6 +1162,20 @@
       OnExecute = editDownActionExecute
       OnUpdate = editDownActionUpdate
     end
+    object editCopyAction: TAction
+      Category = 'Edit'
+      Caption = #1057#1082#1086#1087#1080#1088#1086#1074#1072#1090#1100' '#1074' '#1073#1091#1092#1077#1088
+      ShortCut = 16451
+      OnExecute = editCopyActionExecute
+      OnUpdate = editCopyActionUpdate
+    end
+    object editPasteAction: TAction
+      Category = 'Edit'
+      Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1080#1079' '#1073#1091#1092#1077#1088#1072
+      ShortCut = 16470
+      OnExecute = editPasteActionExecute
+      OnUpdate = editPasteActionUpdate
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
@@ -1190,6 +1197,15 @@
     end
     object N24: TMenuItem
       Action = editEditAction
+    end
+    object N30: TMenuItem
+      Caption = '-'
+    end
+    object N31: TMenuItem
+      Action = editCopyAction
+    end
+    object N32: TMenuItem
+      Action = editPasteAction
     end
     object N27: TMenuItem
       Caption = '-'
