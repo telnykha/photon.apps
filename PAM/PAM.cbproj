@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{D8888B33-2751-4A50-B75A-2E0856D22F41}</ProjectGuid>
-        <ProjectVersion>18.2</ProjectVersion>
+        <ProjectVersion>18.8</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <AppType>Application</AppType>
         <MainSource>PAM.cpp</MainSource>
@@ -61,7 +61,7 @@
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>PAM</SanitizedProjectName>
         <IncludePath>..\..\photon.research\common\;..\common\;..\mt_common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;..\mt_common\;C:\_alt\_proj\photon\photon41\photon\lib;$(PHOTON)\common\MighTex;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;C:\_alt\_proj\photon\photon41\photon\lib;$(PHOTON)\common\MighTex;$(TINY)\lib;$(AWP)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -98,7 +98,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
         <LinkPackageImports>rtl.bpi;vcl.bpi;vclx.bpi;photon41.bpi;vclimg.bpi;VclSmp.bpi</LinkPackageImports>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Build>18</VerInfo_Build>
@@ -111,6 +110,7 @@ $(PreBuildEvent)]]></PreBuildEvent>
 mkdir .\$(Platform)\$(Config)\sketch_jul18b
 copy sketch_jul18b\*.* .\$(Platform)\$(Config)\sketch_jul18b
 $(PostBuildEvent)]]></PostBuildEvent>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -118,12 +118,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.0.55;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.0.57;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
-        <VerInfo_Build>55</VerInfo_Build>
+        <VerInfo_Build>57</VerInfo_Build>
         <Icon_MainIcon>PAM_Icon.ico</Icon_MainIcon>
         <PostBuildEvent><![CDATA[copy setupdll\*.* .\$(Platform)\$(Config)
 mkdir .\$(Platform)\$(Config)\sketch_jul18b
@@ -132,6 +131,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEvent><![CDATA[del /Q /S  .\$(Platform)\$(Config)\*.*
 rmdir .\$(Platform)\$(Config)\sketch_jul18b\
 $(PreBuildEvent)]]></PreBuildEvent>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
+        <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="ABOUT.cpp">
@@ -231,6 +232,10 @@ $(PreBuildEvent)]]></PreBuildEvent>
                 <Source>
                     <Source Name="MainSource">PAM.cpp</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>

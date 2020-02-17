@@ -6,9 +6,6 @@
         <Projects Include="..\..\awplflib\borland\awplflibb.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\photon4\src\photon4\photon\photon.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="LFMarker\ObjectsMarker.cbproj">
             <Dependencies/>
         </Projects>
@@ -37,15 +34,6 @@
     </Target>
     <Target Name="awplflibb:Make">
         <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="photon">
-        <MSBuild Projects="..\photon4\src\photon4\photon\photon.cbproj"/>
-    </Target>
-    <Target Name="photon:Clean">
-        <MSBuild Projects="..\photon4\src\photon4\photon\photon.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="photon:Make">
-        <MSBuild Projects="..\photon4\src\photon4\photon\photon.cbproj" Targets="Make"/>
     </Target>
     <Target Name="ObjectsMarker">
         <MSBuild Projects="LFMarker\ObjectsMarker.cbproj"/>
@@ -84,13 +72,13 @@
         <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="awplflibb;photon;ObjectsMarker;Video_Marker;PhotonDemo;photon41"/>
+        <CallTarget Targets="awplflibb;ObjectsMarker;Video_Marker;PhotonDemo;photon41"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awplflibb:Clean;photon:Clean;ObjectsMarker:Clean;Video_Marker:Clean;PhotonDemo:Clean;photon41:Clean"/>
+        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;Video_Marker:Clean;PhotonDemo:Clean;photon41:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awplflibb:Make;photon:Make;ObjectsMarker:Make;Video_Marker:Make;PhotonDemo:Make;photon41:Make"/>
+        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;Video_Marker:Make;PhotonDemo:Make;photon41:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -41,7 +41,7 @@ WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
     try
     {
-         Check();
+ //        Check();
         Application->Initialize();
         Application->CreateForm(__classid(TForm1), &Form1);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
