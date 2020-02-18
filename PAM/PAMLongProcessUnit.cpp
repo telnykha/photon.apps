@@ -32,7 +32,7 @@ void __fastcall TPAMLongProcessForm::Execute()
 }
 void __fastcall TPAMLongProcessForm::FormShow(TObject *Sender)
 {
-    m_success = mainPAM->StartProcess();
+	m_success = mainPAM->StartProcess();
     if (!m_success)
     {
 	    this->Gauge1->Visible = false;
@@ -64,9 +64,12 @@ void __fastcall TPAMLongProcessForm::Button1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TPAMLongProcessForm::OnTerminateHelper(TObject *Sender)
 {
-    Close();
+	Close();
     if (!m_cancel)
 	    mainPAM->FinishProcess();
-    else
+	else
+	{
         mainPAM->CancelProcess();
+	}
 }
+

@@ -28,7 +28,7 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
         MSG msg;
         if(GetMessage(&msg,NULL,NULL,NULL))
         {
-                TranslateMessage(&msg);
+				TranslateMessage(&msg);
                 DispatchMessage(&msg);
         }
         if (mainPAM->CameraMode == 1)
@@ -40,78 +40,85 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 
 int serial_params(HANDLE hSerial)
 {
-     DWORD testWrote = 0;
+	 DWORD testWrote = 0;
      DWORD testRead = 0;
      DCB dcbSerialParams = {0};
      COMMTIMEOUTS timeouts = {0};
 
      dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
 
-     if(!GetCommState(hSerial, &dcbSerialParams)) {
-           printf("\nError Getting Com Port State!\n\n");
-           return (-1);
-     }
+	 if(!GetCommState(hSerial, &dcbSerialParams))
+	 {
+		   mainPAM->Memo2->Lines->Add("\nError Getting Com Port State!\n\n");
+		   printf("\nError Getting Com Port State!\n\n");
+		   return (-1);
+	 }
 
-     dcbSerialParams.BaudRate = CBR_9600;
-     dcbSerialParams.ByteSize = 8;
-     dcbSerialParams.StopBits = ONESTOPBIT;
-     dcbSerialParams.Parity = FALSE;
+	 dcbSerialParams.BaudRate = CBR_9600;
+	 dcbSerialParams.ByteSize = 8;
+	 dcbSerialParams.StopBits = ONESTOPBIT;
+	 dcbSerialParams.Parity = FALSE;
 
-     if(!SetCommState(hSerial, &dcbSerialParams)) {
-           printf("\n\nError Setting Serial Port STATE!\n\n");
-           return(-1);
-     }
+	 if(!SetCommState(hSerial, &dcbSerialParams)) {
+		   printf("\n\nError Setting Serial Port STATE!\n\n");
+		   mainPAM->Memo2->Lines->Add("\n\nError Setting Serial Port STATE!\n\n");
+		   return(-1);
+	 }
 
-     // To Prevent Timing out the serial port Tell Windows not to wait up for us
-     timeouts.ReadIntervalTimeout = 50;
-     timeouts.ReadTotalTimeoutConstant = 50;
-     timeouts.ReadTotalTimeoutMultiplier = 10;
-     timeouts.WriteTotalTimeoutConstant = 50;
-     timeouts.WriteTotalTimeoutMultiplier = 10;
+	 // To Prevent Timing out the serial port Tell Windows not to wait up for us
+	 timeouts.ReadIntervalTimeout = 50;
+	 timeouts.ReadTotalTimeoutConstant = 50;
+	 timeouts.ReadTotalTimeoutMultiplier = 10;
+	 timeouts.WriteTotalTimeoutConstant = 50;
+	 timeouts.WriteTotalTimeoutMultiplier = 10;
 
-     if(!SetCommTimeouts(hSerial, &timeouts)){
-           printf("\n\n Serious Timeout error occured!!\n\n");
-           return(-1);
-     }
+	 if(!SetCommTimeouts(hSerial, &timeouts)){
+		   printf("\n\n Serious Timeout error occured!!\n\n");
+		   mainPAM->Memo2->Lines->Add("\n\n Serious Timeout error occured!!\n\n");
+		   return(-1);
+	 }
 
-     return 0;
+	 return 0;
 }
 
 int Wait_Ready(HANDLE hSerial)
 {
-     /* This function waits for the ready Status of the Arduino Board */
-     // TODO ERROR HANDLING FOR WRITE AND READFILE FUNCTIONS
+	 /* This function waits for the ready Status of the Arduino Board */
+	 // TODO ERROR HANDLING FOR WRITE AND READFILE FUNCTIONS
 
-           int Read_Timeout = 0;
-           DWORD testRead = 0;
-           DWORD testWrote = 0;
-           char readystatus[8] = {0};
+		   int Read_Timeout = 0;
+		   DWORD testRead = 0;
+		   DWORD testWrote = 0;
+		   char readystatus[8] = {0};
 
-           if (!WriteFile(hSerial, "9", sizeof(char), &testWrote, NULL))
-           {
-             printf("error write port: %i\n", GetLastError());
-             return 0;
-           }
+		   if (!WriteFile(hSerial, "9", sizeof(char), &testWrote, NULL))
+		   {
+			 printf("error write port: %i\n", GetLastError());
+			 mainPAM->Memo2->Lines->Add("Error write port.");
+			 return 0;
+		   }
 
-           if (!FlushFileBuffers(hSerial)) // flush buffers to tell Ardunio to bark it's data
-           {
-             printf("error flush port: %i\n", GetLastError());
-             return 0;
-           }
-           do
+		   if (!FlushFileBuffers(hSerial)) // flush buffers to tell Ardunio to bark it's data
+		   {
+			 printf("error flush port: %i\n", GetLastError());
+			 mainPAM->Memo2->Lines->Add("Error flush port.");
+			 return 0;
+		   }
+		   do
            {
                  if (!ReadFile(hSerial, readystatus, 1, &testRead, NULL))
-                 {
-                     printf("error read port: %i\n", GetLastError());
-                     return 0;
+				 {
+					 printf("error read port: %i\n", GetLastError());
+					 mainPAM->Memo2->Lines->Add("Error read port.");
+					 return 0;
                  }
                  Read_Timeout++;
            }while((testRead < 1) && (Read_Timeout <= 10));
 
          readystatus[1] = '\0';
-         if(readystatus[0] == 0x05)
+		 if(readystatus[0] == '5')
                return 1; // Board Detected
-         else
+		 else
                return 0; // Board not here
 }
 
@@ -123,7 +130,7 @@ static int find_arduino()
     int board = -1;
     for (int i = 1; i < 255; i++)
     {
-        sprintf(port_name, "\\\\.\\COM%i\0", i);
+		sprintf(port_name, "\\\\.\\COM%i\0", i);
         HANDLE comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
 		if(comPort != INVALID_HANDLE_VALUE)
         {
@@ -132,7 +139,7 @@ static int find_arduino()
 				if (!Wait_Ready(comPort))
 			        printf("COM%i\n", i);
                 else
-                {
+				{
                     printf("COM%i board detected.\n", i);
                     board = i;
                 }
@@ -141,44 +148,60 @@ static int find_arduino()
 	 	}
 
     }
-    return board;
+	return board;
 }
 
 void DoCommand(int board, char command)
 {
 	char port_name[32];
     sprintf(port_name, "\\\\.\\COM%i\0", board);
-    char readystatus[8] = {0};
+	char readystatus[8] = {0};
     DWORD testRead = 0;
-    DWORD testWrote = 0;
+	DWORD testWrote = 0;
+	DWORD st;
+	HANDLE comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
+	if(comPort != INVALID_HANDLE_VALUE)
+	{
+	   st = ::GetTickCount();
+	   if (command == '0')
+	   {
+		 UnicodeString t = IntToStr(__int64(::GetTickCount() - st));
+		 mainPAM->Memo2->Lines->Add(t + L" ожидание остановки микропрограммы.");
+	   }
+	   if (!WriteFile(comPort, &command, sizeof(char), &testWrote, NULL))
+	   {
+		 printf("error write port: %i\n", GetLastError());
+		 mainPAM->Memo2->Lines->Add("Error write port.");
+		 return;
+	   }
 
-    HANDLE comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
-    if(comPort != INVALID_HANDLE_VALUE)
-    {
-       if (!WriteFile(comPort, &command, sizeof(char), &testWrote, NULL))
-       {
-         printf("error write port: %i\n", GetLastError());
-         return;
-       }
-
-       if (!FlushFileBuffers(comPort)) // flush buffers to tell Ardunio to bark it's data
-       {
-         printf("error flush port: %i\n", GetLastError());
-         return;
-       }
-       do
-       {
-             if (!ReadFile(comPort, readystatus, 1, &testRead, NULL))
-             {
-                 printf("error read port: %i\n", GetLastError());
-                 break;
-             }
-             Application->ProcessMessages();
-             if (readystatus[0] == 0x05)
-                break;
-       }while(true);
-    }
-    CloseHandle(comPort);
+	   if (!FlushFileBuffers(comPort)) // flush buffers to tell Ardunio to bark it's data
+	   {
+		 printf("error flush port: %i\n", GetLastError());
+		 mainPAM->Memo2->Lines->Add("Error flush port.");
+		 return;
+	   }
+	   do
+	   {
+			 if (!ReadFile(comPort, readystatus, 1, &testRead, NULL))
+			 {
+				 printf("error read port: %i\n", GetLastError());
+				 mainPAM->Memo2->Lines->Add("Error flush port.");
+				 break;
+			 }
+			 Application->ProcessMessages();
+			 if (command == '0')
+			 {
+			    UnicodeString t = IntToStr(__int64(::GetTickCount() - st));
+				mainPAM->Memo2->Lines->Strings[mainPAM->Memo2->Lines->Count-1] = t + L" ms ожидание остановки микропрограммы.";
+			 }
+			 if (readystatus[0] == '5')
+				break;
+	   }while(true);
+	}
+	else
+	   mainPAM->Memo2->Lines->Add("Cannot create COM port for write data.");
+	CloseHandle(comPort);
 }
 void experiment(int board)
 {
@@ -189,7 +212,7 @@ void experiment(int board)
 
 void Turn460On(int board, unsigned char bright)
 {
-       unsigned char command = 0x04;
+	   unsigned char command = '4';
        unsigned char b = bright << 4;
        command = command | b;
        DoCommand(board, command);
@@ -198,13 +221,13 @@ void Turn460On(int board, unsigned char bright)
 
 void Turn460Off(int board)
 {
-       DoCommand(board, 0x05);
+	   DoCommand(board, '5');
        mainPAM->Memo2->Lines->Add(L"Прожектор 460 nm выключен. ");
 }
 
 void Turn660On(int board, unsigned char bright)
 {
-       unsigned char command = 0x02;
+	   unsigned char command = '2';
        unsigned char b = bright << 4;
        command = command | b;
 
@@ -214,7 +237,7 @@ void Turn660On(int board, unsigned char bright)
 
 void Turn660Off(int board)
 {
-       DoCommand(board, 0x03);
+	   DoCommand(board, '3');
        mainPAM->Memo2->Lines->Add(L"Прожектор 660 nm выключен. ");
 }
 //---------------------------------------------------------------------------
@@ -258,7 +281,7 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
     {
         Memo2->Lines->Add(L"Подключите видеокамеру.");
     }
-    else
+	else
     {
         m_camera = 1;
         BUFCCDUSB_AddDeviceToWorkingSet(m_camera);
@@ -318,7 +341,7 @@ static UnicodeString GetPathToPictures()
 }
 static bool CheckExtention(int index, UnicodeString str)
 {
-    UnicodeString strExt = ExtractFileExt(str);
+	UnicodeString strExt = ExtractFileExt(str);
     if (strExt == L"")
         return false;
     if (index == 1 && strExt == L".jpg")
@@ -378,7 +401,7 @@ void __fastcall TmainPAM::ApplicationEvents1Idle(TObject *Sender, bool &Done)
         str = L"P.A.M. [";
     str += m_table->fileName;
     str += L"]";
-    Caption = str;
+	Caption = str;
     Button2->Enabled = m_tableArchive != NULL && m_tableArchive->list->Count > 0;
 }
 //---------------------------------------------------------------------------
@@ -438,7 +461,7 @@ void __fastcall TmainPAM::fileSaveAsActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveAsActionUpdate(TObject *Sender)
 {
-    fileSaveAsAction->Enabled = StringGrid1->RowCount > 1;
+	fileSaveAsAction->Enabled = StringGrid1->RowCount > 1;
 }
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::deviceCheckActionExecute(TObject *Sender)
@@ -468,7 +491,7 @@ void __fastcall TmainPAM::device460nmActionExecute(TObject *Sender)
 
 void __fastcall TmainPAM::device460nmActionUpdate(TObject *Sender)
 {
-    this->BoardDetected(device460nmAction);
+	this->BoardDetected(device460nmAction);
     SpeedButton5->Down = device460nmAction->Checked;
 }
 //---------------------------------------------------------------------------
@@ -498,7 +521,7 @@ void __fastcall TmainPAM::deviceVideocamActionExecute(TObject *Sender)
 {
 	deviceVideocamAction->Checked = !deviceVideocamAction->Checked;
     if (deviceVideocamAction->Checked)
-    {
+	{
         PageControl1->TabIndex = 2;
         this->StartVideo();
     }
@@ -517,7 +540,7 @@ void __fastcall TmainPAM::deviceVideocamActionUpdate(TObject *Sender)
 
 void __fastcall TmainPAM::deviceExperimentActionExecute(TObject *Sender)
 {
-    PAMLongProcessForm->Execute();
+	PAMLongProcessForm->Execute();
 }
 //---------------------------------------------------------------------------
 
@@ -648,7 +671,7 @@ void __fastcall TmainPAM::StringGrid1DblClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void   __fastcall TmainPAM::AskSaveTable()
 {
-    if (m_table->changed)
+	if (m_table->changed)
     {
         if (Application->MessageBox(L"Описание эксперимента было изменено. Сохранить изменения?", L"P.A.M.",
         MB_YESNO | MB_ICONQUESTION) == IDYES)
@@ -678,7 +701,7 @@ void __fastcall TmainPAM::PageControl1Change(TObject *Sender)
     else if (PageControl1->TabIndex == 3)
     {
         StopVideo();
-        //
+		//
         if (m_tableArchive != NULL && m_tableArchive->fileName != L"default.pam")
         {
             Memo2->Lines->Add(m_tableArchive->fileName);
@@ -708,7 +731,7 @@ void   __fastcall TmainPAM::StartVideo()
      m_mode = 0;
      BUFCCDUSB_SetCameraWorkMode(m_camera, m_mode);
      BUFCCDUSB_SetFrameTime( m_camera, 2500);
-     BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+	 BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
  	 ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
 }
 
@@ -720,8 +743,6 @@ void   __fastcall TmainPAM::StopVideo()
 //запись в архив
 void __fastcall TmainPAM::SetFrame(int width, int height, unsigned char* data, int cameraID)
 {
-	Memo2->Lines->Add(L"TmainPAM::SetFrame");
-
     awpImage* img = NULL;
 	if (cameraID == 1)
     {
@@ -740,7 +761,7 @@ void __fastcall TmainPAM::SetFrame(int width, int height, unsigned char* data, i
 			   i++;
 		   }
 
-       }
+	   }
         if (m_archive != NULL)
         {
 			m_archive->SavePicture(img);
@@ -770,7 +791,7 @@ void __fastcall TmainPAM::PreviewFrame(int width, int height, unsigned char* dat
            {
                AWPWORD value = data[2*y + 2*x*height+ 1];
                AWPWORD v2 = data[2*y + 2*x*height];
-               v2 = v2 << 4;
+			   v2 = v2 << 4;
                value |= v2;
                dst[i] = 255*(float)value/4096.;
                i++;
@@ -800,7 +821,7 @@ With slower CCD frequency, the minimum achievable ET is increased proportionally
 double __fastcall TmainPAM::ExploshureTime(int index, int pos)
 {
     double exp_start = c_expLimit[index] / 100.;
-    double exp = exp_start*pos;
+	double exp = exp_start*pos;
     int exp_mks = floor(exp*1000 + 0.5);
     int exp_units = exp_mks / 50;
 	GroupBox1->Caption = L"Экспозиция " + IntToStr(exp_mks) + L" mks";
@@ -830,7 +851,7 @@ void __fastcall TmainPAM::ComboBox1Change(TObject *Sender)
 {
 	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
 	m_options.exploshureIndex = ComboBox1->ItemIndex;
-    if (m_table != NULL)
+	if (m_table != NULL)
         m_table->changed = true;
 }
 //---------------------------------------------------------------------------
@@ -860,7 +881,7 @@ void __fastcall TmainPAM::FileListBox1Change(TObject *Sender)
         awpConvert(img, AWP_CONVERT_TO_BYTE);
         PhImage2->SetAwpImage(img);
         awpReleaseImage(&img);
-    }
+	}
 
     AnsiString str = ExtractFileName(FileListBox1->FileName);
     for (int i = 0; i < m_tableArchive->list->Count; i++)
@@ -890,7 +911,7 @@ void __fastcall TmainPAM::DirectoryListBox1Change(TObject *Sender)
     Label15->Caption = "";//IntToStr(m_tableArchive->options->Length);
     UnicodeString str = DirectoryListBox1->Directory;
     str += L"\\config.pam";
-    if (FileExists(str, false))
+	if (FileExists(str, false))
     {
         AnsiString _ansi = str;
         m_tableArchive->LoadTable(_ansi.c_str());
@@ -950,7 +971,7 @@ void   __fastcall TmainPAM::CheckSketch()
     }
     UnicodeString codeName = path + L"config.h";
     if (!FileExists(codeName))
-    {
+	{
         // copy default config
         AnsiString _newFile = codeName;
         AnsiString _existsFile = ExtractFilePath(Application->ExeName) + L"\\sketch_jul18b\\config.h";
@@ -980,15 +1001,17 @@ bool __fastcall TmainPAM::StartProcess()
          m_mode = 1;
          BUFCCDUSB_SetCameraWorkMode(m_camera, m_mode);
          BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
-         ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
+		 ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
 
         UnicodeString strPath = GetSketchPath();
         strPath += L"\\config.h";
         Memo2->Lines->Add(strPath);
         Memo1->Lines->SaveToFile(strPath);
-        AnsiString strCommand = "arduino_debug.exe --upload ";
-        strCommand += GetSketchPath();
+		AnsiString strCommand = "arduino_debug.exe --upload ";
+		strCommand += "\"";
+		strCommand += GetSketchPath();
 		strCommand += "sketch_jul18b.ino";
+		strCommand += "\"";
 
 		Memo2->Lines->Add("Загрузка микропрограммы." );
 		Memo2->Lines->Add(strCommand);
@@ -1023,7 +1046,7 @@ void __fastcall TmainPAM::FinishProcess()
 
 void __fastcall TmainPAM::CancelProcess()
 {
-    DoCommand(m_board, '0');
+	DoCommand(m_board, '0');
     Memo2->Lines->Add("Эксперимент отменен.");
     m_archive->DeleteArchiveEntry();
     delete m_archive;
@@ -1038,7 +1061,7 @@ void __fastcall TmainPAM::TrackBar3Change(TObject *Sender)
         return;
     int v = TrackBar3->Position * 15 / 100;
     unsigned char c = v;
-    Turn460On(m_board, c);
+	Turn460On(m_board, c);
 }
 //---------------------------------------------------------------------------
 
@@ -1068,7 +1091,7 @@ void __fastcall TmainPAM::StringGrid2Click(TObject *Sender)
     if (e->imageName == "")
         return;
 
-    AnsiString str = DirectoryListBox1->Directory;
+	AnsiString str = DirectoryListBox1->Directory;
     str += "\\";
     str += e->imageName;
     awpImage* img = TPAMArchive::LoadPicture(str);
@@ -1128,7 +1151,7 @@ void __fastcall TmainPAM::Button2Click(TObject *Sender)
     {
 		expEvent* e = (expEvent*)m_tableArchive->list->Items[i];
         assert (e != NULL);
-        expEvent* ee = new expEvent();
+		expEvent* ee = new expEvent();
         ee->command = e->command;
         ee->pinStatus = e->pinStatus;
         ee->pinDelay = e->pinDelay;

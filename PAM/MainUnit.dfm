@@ -292,6 +292,7 @@
     ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 2
+    ExplicitTop = 564
   end
   object PageControl1: TPageControl
     Left = 220

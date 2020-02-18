@@ -1,7 +1,7 @@
 const int redPin  = 13;       /*номер порта для красного светодиода*/
 const int bluePin = 12;       /*номер порта для синего светодиода*/
 const int camPin  = 11;       /*номер порта для камеры*/
-unsigned char sketchStatus = 0x00;      /*Глобальная переменная. Статус программы. 0 - ожидание, 1 - эксперимент*/
+unsigned char sketchStatus = '0';      /*Глобальная переменная. Статус программы. 0 - ожидание, 1 - эксперимент*/
 int counter = 0;              /*Счетчик текущих событий эксперимента*/
 
 bool redPinOn  = false;
@@ -114,21 +114,23 @@ void Porcess()
   counter = 0;
   while (counter < progSize)
   {
-    if ( Serial.available())
+    if (Serial.available() > 0)
+    {
       sketchStatus = Serial.read();
-
-    if (sketchStatus == 0x00)
-      break;
-    unsigned char value = 0x04;
+      if (sketchStatus == '0')
+        break;
+    }
+    
+    unsigned char value = '4';
     Serial.write(&value, 1);
     DoCommand(Events[counter].command,
               Events[counter].pinStatus,
               1000 * Events[counter].pinDelay);
     counter++;
   }
-  unsigned char value = 0x05;
+  unsigned char value = '5';
   Serial.write(&value, 1);
-  sketchStatus = 0x00;
+  sketchStatus = '0';
 }
 
 //Flash blue LED brightness aBrightness and time aTime
@@ -287,7 +289,7 @@ void Lighting()
 
 void loop()
 {
-  if (sketchStatus == 0x00)
+  if (sketchStatus == '0')
   {
     int num = 0;
     do
@@ -308,12 +310,12 @@ void loop()
   }
   else
   {
-    if (sketchStatus != 0x01)
+    if (sketchStatus != '1')
     {
       unsigned char s_status = 0x0F & sketchStatus;
       unsigned char bright = sketchStatus >> 4; 
       
-      unsigned char value = 0x05;
+      char value = '5';
       Serial.write(&value,1);
 
       if (s_status == 0x02)
@@ -331,7 +333,7 @@ void loop()
       else if (s_status == 0x05)
         bluePinOn = false;
 
-      sketchStatus = 0x00;
+      sketchStatus = '0';
     }
     else
       Porcess();
