@@ -40,7 +40,6 @@ void __fastcall TPAMThread::Execute()
 	char command = '1';
 	char buffer[256];
 	m_count = 0;
-	mainPAM->Memo2->Lines->Add(L"TPAMThread::Execute() открыть порт");
 	m_comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
 	if(m_comPort != INVALID_HANDLE_VALUE)
 	{
@@ -48,7 +47,6 @@ void __fastcall TPAMThread::Execute()
 	   {
 		 sprintf(buffer, "Ошибка записи в порт: %i\n", GetLastError());
 		 mainPAM->Memo2->Lines->Add(buffer);
-	     mainPAM->Memo2->Lines->Add(L"TPAMThread::Execute() закрыть порт");
 		 CloseHandle(m_comPort);
 		 return;
 	   }
@@ -57,7 +55,6 @@ void __fastcall TPAMThread::Execute()
 	   {
 		 sprintf(buffer, "Ошибка очистки: %i\n", GetLastError());
 		 mainPAM->Memo2->Lines->Add(buffer);
-		 mainPAM->Memo2->Lines->Add(L"TPAMThread::Execute() закрыть порт");
 		 CloseHandle(m_comPort);
 		 return;
 	   }
@@ -75,7 +72,6 @@ void __fastcall TPAMThread::Execute()
 			 }
 			 if (testRead > 0 && readystatus == '5')
 			 {
-                mainPAM->Memo2->Lines->Add(L"TPAMThread::Execute() пришел статус завершения эксперимента.");
 				break;
 			 }
 			 if (testRead > 0)
@@ -90,7 +86,6 @@ void __fastcall TPAMThread::Execute()
 			 }
 	   }while(true);
 	}
-	mainPAM->Memo2->Lines->Add(L"TPAMThread::Execute() закрыть порт");
 	CloseHandle(m_comPort);
 }
 //---------------------------------------------------------------------------
