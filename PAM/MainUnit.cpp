@@ -166,7 +166,6 @@ void DoCommand(int board, char command)
 	DWORD testRead = 0;
 	DWORD testWrote = 0;
 	DWORD st;
-	mainPAM->Memo2->Lines->Add(L"DoCommand открыть порт");
 	HANDLE comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
 	if(comPort != INVALID_HANDLE_VALUE)
 	{
@@ -213,7 +212,6 @@ void DoCommand(int board, char command)
 	   sprintf(buffer, "Не могу открыть COM порт для записи данных. %i\n", GetLastError());
 	   mainPAM->Memo2->Lines->Add(buffer);
 	}
-	mainPAM->Memo2->Lines->Add(L"DoCommand закрыть порт");
 	CloseHandle(comPort);
 }
 void experiment(int board)
