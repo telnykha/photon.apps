@@ -120,10 +120,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.0.58;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.1.61;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
-        <VerInfo_Build>58</VerInfo_Build>
+        <VerInfo_Build>61</VerInfo_Build>
         <Icon_MainIcon>PAM_Icon.ico</Icon_MainIcon>
         <PostBuildEvent><![CDATA[copy setupdll\*.* .\$(Platform)\$(Config)
 mkdir .\$(Platform)\$(Config)\sketch_jul18b
@@ -134,6 +134,7 @@ rmdir .\$(Platform)\$(Config)\sketch_jul18b\
 $(PreBuildEvent)]]></PreBuildEvent>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
         <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_Release>1</VerInfo_Release>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="ABOUT.cpp">

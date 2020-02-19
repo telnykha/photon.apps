@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "P.A.M."
-#define MyAppVersion "1.0.0.25"
+#define MyAppVersion "1.0.1.61"
 #define MyAppPublisher "NNVideolab"
 #define MyAppURL ""
 #define MyAppExeName "PAM.exe"
@@ -25,7 +25,7 @@ UsedUserAreasWarning=no
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=pamsetup10034
+OutputBaseFilename=pamsetup10161
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -47,7 +47,7 @@ Source: "setupdll\BufferCCDCameraUsbLib.dll"; DestDir: "{app}"; Flags: ignorever
 Source: "sketch_jul18b\sketch_jul18b.ino"; DestDir: "{app}\sketch_jul18b\"; Flags: ignoreversion
 Source: "sketch_jul18b\config.h"; DestDir: "{app}\sketch_jul18b\"; Flags: ignoreversion
 Source: "setupdll\BORLNDMM.DLL"; DestDir: "{app}\"; Flags: ignoreversion
-Source: "setupdll\CC32250MT.DLL"; DestDir: "{app}\"; Flags: ignoreversion
+Source: "setupdll\cc32260mt.dll"; DestDir: "{app}\"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
