@@ -89,9 +89,10 @@ int Wait_Ready(HANDLE hSerial)
 		   int Read_Timeout = 0;
 		   DWORD testRead = 0;
 		   DWORD testWrote = 0;
-		   char readystatus[8] = {0};
+		   char readystatus;
+		   char command = '9';
 
-		   if (!WriteFile(hSerial, "9", sizeof(char), &testWrote, NULL))
+		   if (!WriteFile(hSerial, &command, sizeof(char), &testWrote, NULL))
 		   {
 			 printf("error write port: %i\n", GetLastError());
 			 mainPAM->Memo2->Lines->Add("Error write port.");
@@ -106,7 +107,7 @@ int Wait_Ready(HANDLE hSerial)
 		   }
 		   do
            {
-                 if (!ReadFile(hSerial, readystatus, 1, &testRead, NULL))
+				 if (!ReadFile(hSerial, &readystatus, 1, &testRead, NULL))
 				 {
 					 printf("error read port: %i\n", GetLastError());
 					 mainPAM->Memo2->Lines->Add("Error read port.");
@@ -115,8 +116,8 @@ int Wait_Ready(HANDLE hSerial)
                  Read_Timeout++;
            }while((testRead < 1) && (Read_Timeout <= 10));
 
-         readystatus[1] = '\0';
-		 if(readystatus[0] == '5')
+//         readystatus = '\0';
+		 if(readystatus == '5')
                return 1; // Board Detected
 		 else
                return 0; // Board not here
@@ -126,27 +127,33 @@ int Wait_Ready(HANDLE hSerial)
 static int find_arduino()
 {
     // вывод списка доступных на компьютере портов.
-    char port_name[32];
-    int board = -1;
-    for (int i = 1; i < 255; i++)
-    {
+	char port_name[32];
+	int board = -1;
+	char buffer[256];
+	for (int i = 1; i < 255; i++)
+	{
 		sprintf(port_name, "\\\\.\\COM%i\0", i);
-        HANDLE comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
+		HANDLE comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
 		if(comPort != INVALID_HANDLE_VALUE)
-        {
-            if (serial_params(comPort) == 0)
-            {
+		{
+			if (serial_params(comPort) == 0)
+			{
 				if (!Wait_Ready(comPort))
-			        printf("COM%i\n", i);
+				{
+					printf("COM%i\n", i);
+					sprintf(buffer, "Проверка порта %s false.\n", port_name);
+					mainPAM->Memo2->Lines->Add(buffer);
+				}
                 else
 				{
-                    printf("COM%i board detected.\n", i);
+					//printf("COM%i board detected.\n", i);
+					sprintf(buffer, "Устройство подключено к порту %s.\n", port_name);
+					mainPAM->Memo2->Lines->Add(buffer);
                     board = i;
                 }
             }
             CloseHandle(comPort);
-	 	}
-
+		}
     }
 	return board;
 }
@@ -154,11 +161,12 @@ static int find_arduino()
 void DoCommand(int board, char command)
 {
 	char port_name[32];
-    sprintf(port_name, "\\\\.\\COM%i\0", board);
+	sprintf(port_name, "\\\\.\\COM%i\0", board);
 	char readystatus[8] = {0};
-    DWORD testRead = 0;
+	DWORD testRead = 0;
 	DWORD testWrote = 0;
 	DWORD st;
+	mainPAM->Memo2->Lines->Add(L"DoCommand открыть порт");
 	HANDLE comPort = CreateFile( port_name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, 0);
 	if(comPort != INVALID_HANDLE_VALUE)
 	{
@@ -192,7 +200,7 @@ void DoCommand(int board, char command)
 			 Application->ProcessMessages();
 			 if (command == '0')
 			 {
-			    UnicodeString t = IntToStr(__int64(::GetTickCount() - st));
+				UnicodeString t = IntToStr(__int64(::GetTickCount() - st));
 				mainPAM->Memo2->Lines->Strings[mainPAM->Memo2->Lines->Count-1] = t + L" ms ожидание остановки микропрограммы.";
 			 }
 			 if (readystatus[0] == '5')
@@ -200,14 +208,19 @@ void DoCommand(int board, char command)
 	   }while(true);
 	}
 	else
-	   mainPAM->Memo2->Lines->Add("Cannot create COM port for write data.");
+	{
+	   char  buffer[256];
+	   sprintf(buffer, "Не могу открыть COM порт для записи данных. %i\n", GetLastError());
+	   mainPAM->Memo2->Lines->Add(buffer);
+	}
+	mainPAM->Memo2->Lines->Add(L"DoCommand закрыть порт");
 	CloseHandle(comPort);
 }
 void experiment(int board)
 {
-       mainPAM->Memo2->Lines->Add(L"Начало эксперимента.");
-       DoCommand(board, '1');
-       mainPAM->Memo2->Lines->Add(L"Эксперимент завершен.");
+	   mainPAM->Memo2->Lines->Add(L"Начало эксперимента.");
+	   DoCommand(board, '1');
+	   mainPAM->Memo2->Lines->Add(L"Эксперимент завершен.");
 }
 
 void Turn460On(int board, unsigned char bright)
@@ -601,8 +614,8 @@ void  __fastcall TmainPAM::CheckArduino()
         Memo2->Lines->Add(L"Подключите устройство к порту USB.");
     else
     {
-        UnicodeString message = L"Устройство подключено к порту COM" + IntToStr(board);
-        Memo2->Lines->Add(message);
+		UnicodeString message = L"Устройство подключено к порту COM" + IntToStr(board);
+		Memo2->Lines->Add(message);
     }
     m_board = board;
 }

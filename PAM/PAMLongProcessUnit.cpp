@@ -32,6 +32,8 @@ void __fastcall TPAMLongProcessForm::Execute()
 }
 void __fastcall TPAMLongProcessForm::FormShow(TObject *Sender)
 {
+   	Button1->Enabled = true;
+
 	m_success = mainPAM->StartProcess();
     if (!m_success)
     {
@@ -53,7 +55,8 @@ void __fastcall TPAMLongProcessForm::FormShow(TObject *Sender)
 void __fastcall TPAMLongProcessForm::Button1Click(TObject *Sender)
 {
 //
-    if (!m_success)
+	Button1->Enabled = false;
+	if (!m_success)
         Close();
     else
     {

@@ -141,9 +141,9 @@ void BlueFlash(unsigned long aTime, int aBrightness)
     while(micros() - t <= aTime)
     {
       digitalWrite(bluePin, HIGH);
-      microDelay(t1);
+      delayMicroseconds(t1);
       digitalWrite(bluePin, LOW);
-      microDelay(1000 - t1);
+      delayMicroseconds(1000 - t1);
     }
 }
 //  Flash blue LED brightness aBrightness and time aTime
@@ -151,9 +151,9 @@ void BlueFlash(unsigned long aTime, int aBrightness)
 void BlueFlashWithCamera(unsigned long aTime, int aBrightness)
 {
    digitalWrite(camPin, HIGH);
-   microDelay(flash_delay);
+   delayMicroseconds(flash_delay);
    digitalWrite(bluePin, HIGH);
-   microDelay(flash_lenght);
+   delayMicroseconds(flash_lenght);
    digitalWrite(bluePin, LOW);
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay);
@@ -174,9 +174,9 @@ void BlueFlashAct(unsigned long aTime, int aBrightness)
     while(micros() - t <= aTime)
     {
       digitalWrite(bluePin, HIGH);
-      microDelay(t1);
+      delayMicroseconds(t1);
       digitalWrite(bluePin, LOW);
-      microDelay(1000 - t1);
+      delayMicroseconds(1000 - t1);
     }
 }
 
@@ -187,9 +187,9 @@ void RedFlash(unsigned long aTime, int aBrightness)
     while(micros() - t <= aTime)
     {
       digitalWrite(redPin, HIGH);
-      microDelay(aBrightness*10);
+      delayMicroseconds(aBrightness*10);
       digitalWrite(redPin, LOW);
-      microDelay(1000 - aBrightness*10);
+      delayMicroseconds(1000 - aBrightness*10);
     }
 }
 
@@ -199,9 +199,9 @@ void RedFlashWithCamera(unsigned long aTime, int aBrightness)
 {
 
    digitalWrite(camPin, HIGH);
-   microDelay(flash_delay);
+   delayMicroseconds(flash_delay);
    digitalWrite(redPin, HIGH);
-   microDelay(flash_lenght);
+   delayMicroseconds(flash_lenght);
    digitalWrite(redPin, LOW);
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay); 
@@ -221,9 +221,9 @@ void RedFlashWithCamera(unsigned long aTime, int aBrightness)
 void BlueFlashWithCameraAct(unsigned long aTime, int aBrightness)
 {
    digitalWrite(camPin, HIGH);
-   microDelay(flash_delay);
+   delayMicroseconds(flash_delay);
    digitalWrite(bluePin, HIGH);
-   microDelay(flash_lenght);
+   delayMicroseconds(flash_lenght);
    digitalWrite(bluePin, LOW);
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay);
@@ -240,9 +240,9 @@ void BlueFlashWithCameraAct(unsigned long aTime, int aBrightness)
 void BlueFlashWithCameraDark(unsigned long aTime)
 {
    digitalWrite(camPin, HIGH);
-   microDelay(flash_delay);
+   delayMicroseconds(flash_delay);
    digitalWrite(bluePin, HIGH);
-   microDelay(flash_lenght);
+   delayMicroseconds(flash_lenght);
    digitalWrite(bluePin, LOW);
    digitalWrite(camPin, LOW);
    microDelay(exposure - flash_lenght - flash_delay);
@@ -260,25 +260,25 @@ void Lighting()
     int lDelay = tRed <= tBlue ? tBlue - mDelay:tRed - mDelay;
     int firstPin = tRed <= tBlue ? redPin:bluePin;
     int secondPin = firstPin == redPin?bluePin:redPin;
-    microDelay(mDelay);
+    delayMicroseconds(mDelay);
     digitalWrite(firstPin, LOW); 
-    microDelay(lDelay );
+    delayMicroseconds(lDelay );
     digitalWrite(secondPin, LOW); 
-    microDelay(1000 - mDelay - lDelay);
+    delayMicroseconds(1000 - mDelay - lDelay);
   }
   else if (bluePinOn && !redPinOn)
   {
     digitalWrite(bluePin, HIGH);
-    microDelay(blueBright*1000/100);
+    delayMicroseconds(blueBright*1000/100);
     digitalWrite(bluePin, LOW);
-    microDelay(1000 - blueBright*1000/100);
+    delayMicroseconds(1000 - blueBright*1000/100);
   }
   else if (redPinOn && !bluePinOn)
   {
     digitalWrite(redPin, HIGH); 
-    microDelay(redBright*1000/100);
+    delayMicroseconds(redBright*1000/100);
     digitalWrite(redPin, LOW);
-    microDelay(1000 - redBright*1000/100);
+    delayMicroseconds(1000 - redBright*1000/100);
   }
   else
   {
@@ -336,6 +336,9 @@ void loop()
       sketchStatus = '0';
     }
     else
+    {
       Porcess();
+      sketchStatus = '0';
+    }
   }
 }

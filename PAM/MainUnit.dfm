@@ -292,14 +292,13 @@
     ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 2
-    ExplicitTop = 564
   end
   object PageControl1: TPageControl
     Left = 220
     Top = 81
     Width = 811
     Height = 477
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change

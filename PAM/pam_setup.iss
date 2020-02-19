@@ -8,7 +8,7 @@ AppPublisher=NN-Videolab.net
 DefaultDirName={pf}\NNVideolab\
 DefaultGroupName=P.A.M.
 OutputDir=..\..\photon\setup
-OutputBaseFilename=pam_setup
+OutputBaseFilename=pam_setup_test
 SetupIconFile=PAM_Icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -28,8 +28,8 @@ Source: "Win32\Release\BUF_USBCCDCamera_SDK.dll"; DestDir: "{app}\PAM\"; Flags: 
 Source: "Win32\Release\BufferCCDCameraUsbLib.dll"; DestDir: "{app}\PAM\"; Flags: ignoreversion
 Source: "sketch_jul18b\sketch_jul18b.ino"; DestDir: "{app}\PAM\\sketch_jul18b\"; Flags: ignoreversion
 Source: "sketch_jul18b\config.h"; DestDir: "{app}\PAM\sketch_jul18b\"; Flags: ignoreversion
-Source: "c:\program files (x86)\embarcadero\studio\19.0\bin\BORLNDMM.DLL"; DestDir: "{app}\PAM\"; Flags: ignoreversion
-Source: "c:\program files (x86)\embarcadero\studio\19.0\bin\CC32250MT.DLL"; DestDir: "{app}\PAM\"; Flags: ignoreversion
+Source: "c:\program files (x86)\embarcadero\studio\20.0\bin\BORLNDMM.DLL"; DestDir: "{app}\PAM\"; Flags: ignoreversion
+Source: "c:\program files (x86)\embarcadero\studio\20.0\bin\CC32260MT.DLL"; DestDir: "{app}\PAM\"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

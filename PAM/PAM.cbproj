@@ -98,10 +98,9 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclx.bpi;photon41.bpi;vclimg.bpi;VclSmp.bpi</LinkPackageImports>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Build>18</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.18;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>20</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.20;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Icon_MainIcon>PAM_Icon1.ico</Icon_MainIcon>
         <PreBuildEvent><![CDATA[del /Q /S  .\$(Platform)\$(Config)\*.*
 rmdir .\$(Platform)\$(Config)\sketch_jul18b\
@@ -111,6 +110,8 @@ mkdir .\$(Platform)\$(Config)\sketch_jul18b
 copy sketch_jul18b\*.* .\$(Platform)\$(Config)\sketch_jul18b
 $(PostBuildEvent)]]></PostBuildEvent>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
+        <UsePackages>false</UsePackages>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -119,10 +120,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.0.57;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.0.58;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
-        <VerInfo_Build>57</VerInfo_Build>
+        <VerInfo_Build>58</VerInfo_Build>
         <Icon_MainIcon>PAM_Icon.ico</Icon_MainIcon>
         <PostBuildEvent><![CDATA[copy setupdll\*.* .\$(Platform)\$(Config)
 mkdir .\$(Platform)\$(Config)\sketch_jul18b
