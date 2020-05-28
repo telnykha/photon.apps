@@ -226,6 +226,7 @@ object Form1: TForm1
             Top = 237
             Width = 334
             Height = 135
+            AutoMosaic = True
             ThumbWidht = 128
             ThumbHeight = 128
             SlideShowInterval = 500
@@ -562,6 +563,7 @@ object Form1: TForm1
           Top = 1
           Width = 422
           Height = 415
+          AutoMosaic = True
           ThumbWidht = 128
           ThumbHeight = 128
           SlideShowInterval = 500
@@ -1189,7 +1191,7 @@ object Form1: TForm1
     Left = 704
     Top = 144
     Bitmap = {
-      494C010110001300480210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010110001300040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000005000000001002000000000000050
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
