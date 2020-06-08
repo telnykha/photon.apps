@@ -1,0 +1,96 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D57FE8BF-BCE0-4B2A-8011-D2870B01C1F5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PAM\PAM.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PRI\pri.cbproj">
+            <Dependencies>..\..\awpipl2\borland\awpipl2b.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="..\photon.research\mghtex3\mightex3.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\awpipl2\borland\awpipl2b.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PAM">
+        <MSBuild Projects="PAM\PAM.cbproj"/>
+    </Target>
+    <Target Name="PAM:Clean">
+        <MSBuild Projects="PAM\PAM.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PAM:Make">
+        <MSBuild Projects="PAM\PAM.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="pri" DependsOnTargets="awpipl2b">
+        <MSBuild Projects="PRI\pri.cbproj"/>
+    </Target>
+    <Target Name="pri:Clean" DependsOnTargets="awpipl2b:Clean">
+        <MSBuild Projects="PRI\pri.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pri:Make" DependsOnTargets="awpipl2b:Make">
+        <MSBuild Projects="PRI\pri.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="mightex3">
+        <MSBuild Projects="..\photon.research\mghtex3\mightex3.cbproj"/>
+    </Target>
+    <Target Name="mightex3:Clean">
+        <MSBuild Projects="..\photon.research\mghtex3\mightex3.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mightex3:Make">
+        <MSBuild Projects="..\photon.research\mghtex3\mightex3.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awpipl2b">
+        <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj"/>
+    </Target>
+    <Target Name="awpipl2b:Clean">
+        <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awpipl2b:Make">
+        <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PAM;pri;mightex3;awpipl2b;awplflibb;photon41"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PAM:Clean;pri:Clean;mightex3:Clean;awpipl2b:Clean;awplflibb:Clean;photon41:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PAM:Make;pri:Make;mightex3:Make;awpipl2b:Make;awplflibb:Make;photon41:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

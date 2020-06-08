@@ -5,7 +5,7 @@
 #include "PhImageTool.h"
 #include "_LF.h"
 //---------------------------------------------------------------------------
-typedef void __fastcall (__closure *TPhAddDataEvent)(System::TObject* Sender, TLFDetectedItem* item);
+	typedef void __fastcall (__closure *TPhAddDataEvent)(System::TObject* Sender, TLFDetectedItem* item);
 typedef void __fastcall (__closure *TPhDelFrameEvent)(System::TObject* Sender, TLFDetectedItem* item);
 typedef void __fastcall (__closure *TPhExportProgressEvent)(System::TObject* Sender, int progress, String& comment);
 class PACKAGE TPhImageMarkTool : public TPhImageTool

@@ -1,6 +1,8 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
 #include "cammandsTable.h"
+#define TIXML_USE_STL
+
 #include "tinyxml.h"
 #include "dialogs.hpp"
 

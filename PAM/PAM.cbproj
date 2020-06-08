@@ -61,7 +61,7 @@
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>PAM</SanitizedProjectName>
         <IncludePath>..\..\photon.research\common\;..\common\;..\mt_common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;C:\_alt\_proj\photon\photon41\photon\lib;$(PHOTON)\common\MighTex;$(TINY)\lib;$(AWP)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;$(PHOTON)\photon41\photon\lib;$(PHOTON)\common\MighTex;$(TINY)\lib;$(AWP)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
