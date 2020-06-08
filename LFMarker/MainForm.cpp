@@ -1221,7 +1221,7 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 		float overlap = rect.RectOverlap(dr);
 		if (overlap > 0.5)
 		{
-			  if (this->m_ObjectEngine.DetectInRect(&r1))
+			  //if (this->m_ObjectEngine.DetectInRect(&r1))
 			  {
 				awpRect rect = r1;
 				TRect*   r = new TRect(rect.left, rect.top, rect.right, rect.bottom);
