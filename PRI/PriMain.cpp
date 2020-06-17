@@ -14,6 +14,9 @@
 #include "PriCalibrationForm.h"
 #include "CaptureDataUnit.h"
 #include "SelectDirUnit.h"
+#include "ExportPriUnit.h"
+
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -1255,7 +1258,7 @@ void __fastcall TMainForm::Calculation()
 		_AWP_SAFE_RELEASE_(i531f)
 		_AWP_SAFE_RELEASE_(i570f)
 	}
-    Gauge1->Progress = 0;
+	Gauge1->Progress = 0;
 	// данные из результата переписываем в таблицу StringGrid1
 	for (int y = 0; y < result->sSizeY; y++)
 	{
@@ -1576,7 +1579,6 @@ void __fastcall TMainForm::fileExportDataActionExecute(TObject *Sender)
 	path += L"\\";
 	path += ListBox1->Items->Strings[ListBox1->ItemIndex];
 
-	ShowMessage("Src = " + path);
 	SelectDirDlg->DirectoryListBox1->Directory = path;
 	if (SelectDirDlg->ShowModal() == mrOk)
 	{
@@ -1589,19 +1591,149 @@ void __fastcall TMainForm::fileExportDataActionExecute(TObject *Sender)
 
 void __fastcall TMainForm::fileExportDataActionUpdate(TObject *Sender)
 {
-    fileExportDataAction->Enabled = ListBox2->Items->Count > 0;
+	fileExportDataAction->Enabled = ListBox2->Items->Count > 0;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TMainForm::fileExportPRIActionExecute(TObject *Sender)
 {
-//
+
+	UnicodeString path = m_arcive.path;
+	path += L"\\";
+	path += ListBox1->Items->Strings[ListBox1->ItemIndex];
+
+	ExportPriDlg->DirectoryListBox1->Directory = path;
+
+	if (ExportPriDlg->ShowModal() == mrOk)
+	{
+		UnicodeString dst = ExportPriDlg->DirectoryListBox1->Directory;
+		dst += L"\\";
+
+		if (ListBox2->Items->Count == 0)
+			return;
+
+		ListBox1->Enabled = false;
+		ListBox2->Enabled = false;
+		CheckListBox1->Enabled = false;
+		Panel1->Enabled = false;
+		Panel11->Enabled = false;
+		N1->Enabled = false;
+		N4->Enabled = false;
+		N15->Enabled = false;
+		N28->Enabled = false;
+		N3->Enabled = false;
+		N5->Enabled = false;
+		N6->Enabled = false;
+
+
+		// выполняем цикл по всем элементам ListBox2
+		for (int i = 0; i < ListBox2->Items->Count; i++)
+		{
+			// формирование имени файла
+			UnicodeString path = m_arcive.path;
+			path += L"\\";
+			path += ListBox1->Items->Strings[ListBox1->ItemIndex];
+			path += L"\\";
+			path += ListBox2->Items->Strings[i];
+			path += L"\\";
+			// загрузка изображений
+			awpImage* i531 = NULL;
+			awpImage* i570 = NULL;
+			awpImage* i531f = NULL;
+			awpImage* i570f = NULL;
+			if (!m_arcive.LoadImages(path, &i531, &i570, &i531f, &i570f))
+			{
+				_AWP_SAFE_RELEASE_(i531)
+				_AWP_SAFE_RELEASE_(i570)
+				_AWP_SAFE_RELEASE_(i531f)
+				_AWP_SAFE_RELEASE_(i570f)
+				ShowMessage(L"Не могу загрузить архив!");
+
+				ListBox1->Enabled = true;
+				ListBox2->Enabled = true;
+				CheckListBox1->Enabled = true;
+				Panel1->Enabled = true;
+				Panel11->Enabled = true;
+				N1->Enabled = true;
+				N4->Enabled = true;
+				N15->Enabled = true;
+				N28->Enabled = true;
+				N3->Enabled = true;
+				N5->Enabled = true;
+				N6->Enabled = true;
+
+				return;
+			}
+
+			// вычисление pri
+			m_processor.blurMode =  ExportPriDlg->GetPriBlurMode();
+			if (!m_processor.PriProcessImages(i531f, i570f, i531, i570 ))
+			{
+				_AWP_SAFE_RELEASE_(i531)
+				_AWP_SAFE_RELEASE_(i570)
+				_AWP_SAFE_RELEASE_(i531f)
+				_AWP_SAFE_RELEASE_(i570f)
+				ShowMessage("Ошибка алгоритма.");
+
+				ListBox1->Enabled = true;
+				ListBox2->Enabled = true;
+				CheckListBox1->Enabled = true;
+				Panel1->Enabled = true;
+				Panel11->Enabled = true;
+				N1->Enabled = true;
+				N4->Enabled = true;
+				N15->Enabled = true;
+				N28->Enabled = true;
+				N3->Enabled = true;
+				N5->Enabled = true;
+				N6->Enabled = true;
+
+				return;
+			}
+
+			awpImage* pri = m_processor.pri;
+			AnsiString out = dst;
+			out += ListBox2->Items->Strings[i];
+			out += "___pri";
+			m_arcive.SaveRAW(pri, out.c_str());
+
+			Application->ProcessMessages();
+			Gauge1->Progress =  100*(i+1) / ListBox2->Items->Count;
+
+			_AWP_SAFE_RELEASE_(i531)
+			_AWP_SAFE_RELEASE_(i570)
+			_AWP_SAFE_RELEASE_(i531f)
+			_AWP_SAFE_RELEASE_(i570f)
+		}
+		Gauge1->Progress = 0;
+		m_processor.blurMode = this->GetBlurMode();
+
+		ListBox1->Enabled = true;
+		ListBox2->Enabled = true;
+		CheckListBox1->Enabled = true;
+		Panel1->Enabled = true;
+		Panel11->Enabled = true;
+		N1->Enabled = true;
+		N4->Enabled = true;
+		N15->Enabled = true;
+		N28->Enabled = true;
+		N3->Enabled = true;
+		N5->Enabled = true;
+		N6->Enabled = true;
+
+		if (ExportPriDlg->CheckBox2->Checked)
+		{
+			AnsiString strCommand = "explorer.exe ";
+			strCommand += dst;
+			WinExec(strCommand.c_str(), SW_SHOWNORMAL);
+		}
+	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TMainForm::fileExportPRIActionUpdate(TObject *Sender)
 {
-//
+	fileExportPRIAction->Enabled = ListBox2->Items->Count > 0;
 }
 //---------------------------------------------------------------------------
 

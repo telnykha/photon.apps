@@ -4,6 +4,7 @@
 #define ArchiveUnitH
 #include <System.Classes.hpp>
 #include "awpipl.h"
+#include "PriProcessor.h"
 //---------------------------------------------------------------------------
 // forward
 class  TMainForm;
@@ -13,9 +14,7 @@ protected:
     UnicodeString m_strPath;
     UnicodeString m_currentPath;
     UnicodeString m_currentTime;
-    bool __fastcall SaveRAW(awpImage* img, const char* lpFileName);
-    bool __fastcall LoadRAW(awpImage** img, const char* lpFileName);
-    void __fastcall DoCurrentTime();
+	void __fastcall DoCurrentTime();
 
 public:
    TPRIArchive();
@@ -28,7 +27,11 @@ public:
 
    bool __fastcall LoadPRI(UnicodeString str);
 
+    bool __fastcall SaveRAW(awpImage* img, const char* lpFileName);
+    bool __fastcall LoadRAW(awpImage** img, const char* lpFileName);
+
    bool __fastcall ExportPRI(UnicodeString strDst, UnicodeString path);
+   bool __fastcall ExportPRIProc(UnicodeString strDst, UnicodeString path, TPriProcessor* processor);
    bool __fastcall ExportData(UnicodeString strDst, UnicodeString path);
 
    __property UnicodeString path = {read = m_strPath, write = m_strPath};

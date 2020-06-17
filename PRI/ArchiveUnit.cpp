@@ -178,66 +178,72 @@ bool __fastcall TPRIArchive::BeginSave(TMainForm* form)
     AnsiString _ansi = strPath;
     _ansi += "calibration.txt";
     FILE* f = fopen(_ansi.c_str(), "w+t");
-    fprintf(f, "%i\n", dx);
-    fprintf(f, "%i\n", dy);
-    fprintf(f, "%lf\n", scale);
-    fclose(f);
-    return true;
+	fprintf(f, "%i\n", dx);
+	fprintf(f, "%i\n", dy);
+	fprintf(f, "%lf\n", scale);
+	fclose(f);
+	return true;
 }
 
 bool __fastcall TPRIArchive::ExportPRI(UnicodeString strDst, UnicodeString path)
 {
-    if (!DirectoryExists(strDst))
-        CreateDir(strDst);
+	if (!DirectoryExists(strDst))
+		CreateDir(strDst);
 
-    TSearchRec serchmas;
-    UnicodeString S,str="";
-    UnicodeString strPath = path;
-    strPath +="\\*.*";
-    if (FindFirst(strPath, faDirectory, serchmas)==0)
-    {
-        do
-        {
-            if(serchmas.Name==str)break;//если каталог уже встречался -выходим
-            if((serchmas.Name==".")||(serchmas.Name==".."))continue;//пропускаем
-            if (serchmas.Attr==faDirectory)
-            {
-                UnicodeString strFileName = path;
-                strFileName += L"\\";
-                strFileName += serchmas.Name;
-                strFileName += "\\pri.raw";
+	TSearchRec serchmas;
+	UnicodeString S,str="";
+	UnicodeString strPath = path;
+	strPath +="\\*.*";
+	if (FindFirst(strPath, faDirectory, serchmas)==0)
+	{
+		do
+		{
+			if(serchmas.Name==str)break;//если каталог уже встречался -выходим
+			if((serchmas.Name==".")||(serchmas.Name==".."))continue;//пропускаем
+			if (serchmas.Attr==faDirectory)
+			{
+				UnicodeString strFileName = path;
+				strFileName += L"\\";
+				strFileName += serchmas.Name;
+				strFileName += "\\pri.raw";
 
-                UnicodeString strDstFileName = strDst;
-                strDstFileName += "\\";
-                strDstFileName += serchmas.Name;
-                strDstFileName += "_pri.raw";
-                CopyFile(strFileName.c_str(), strDstFileName.c_str(), true);
+				UnicodeString strDstFileName = strDst;
+				strDstFileName += "\\";
+				strDstFileName += serchmas.Name;
+				strDstFileName += "_pri.raw";
+				CopyFile(strFileName.c_str(), strDstFileName.c_str(), true);
 
-                strFileName = ChangeFileExt(strFileName, L".txt");
-                strDstFileName = ChangeFileExt(strDstFileName, L".txt");
-                CopyFile(strFileName.c_str(), strDstFileName.c_str(), true);
-            }
-            str=serchmas.Name;
-        }
-        while (FindNext(serchmas) != -1);//ищем в активной директории следующий каталог
-        FindClose(serchmas);//закрываем экземпляр класса, освобождаем ресурсы
-    }
+				strFileName = ChangeFileExt(strFileName, L".txt");
+				strDstFileName = ChangeFileExt(strDstFileName, L".txt");
+				CopyFile(strFileName.c_str(), strDstFileName.c_str(), true);
+			}
+			str=serchmas.Name;
+		}
+		while (FindNext(serchmas) != -1);//ищем в активной директории следующий каталог
+		FindClose(serchmas);//закрываем экземпляр класса, освобождаем ресурсы
+	}
 
-    ShowMessage("Экспорт завершен.");
+	ShowMessage("Экспорт завершен.");
 }
+
+bool __fastcall TPRIArchive::ExportPRIProc(UnicodeString strDst, UnicodeString path, TPriProcessor* processor)
+{
+   return true;
+}
+
 
 bool __fastcall TPRIArchive::ExportData(UnicodeString strDst, UnicodeString path)
 {
-    if (!DirectoryExists(strDst))
-        CreateDir(strDst);
+	if (!DirectoryExists(strDst))
+		CreateDir(strDst);
 
-    TSearchRec serchmas;
-    UnicodeString S,str="";
-    UnicodeString strPath = path;
-    strPath +="\\*.*";
-    if (FindFirst(strPath, faDirectory, serchmas)==0)
-    {
-        do
+	TSearchRec serchmas;
+	UnicodeString S,str="";
+	UnicodeString strPath = path;
+	strPath +="\\*.*";
+	if (FindFirst(strPath, faDirectory, serchmas)==0)
+	{
+		do
         {
             if(serchmas.Name==str)break;//если каталог уже встречался -выходим
             if((serchmas.Name==".")||(serchmas.Name==".."))continue;//пропускаем
