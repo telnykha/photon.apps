@@ -59,7 +59,7 @@ String TPriInitFile::GetIniFilePath()
         CreateDir(str);
     m_strPath = str;
 }
-
+#define MAX_NAME_SIZE 2048
 bool __fastcall TPriInitFile::Load()
 {
     AnsiString _ansi = m_strPath;
@@ -69,29 +69,35 @@ bool __fastcall TPriInitFile::Load()
     {
         return false;
     }
-    char bufer[256];
-    fscanf(f, "%s\n", &bufer);
-    m_strCOM = bufer;
-    fscanf(f, "%i\n", &m_dx);
+	char buffer[MAX_NAME_SIZE];
+	fscanf(f, "%s\n", &buffer);
+	m_strCOM = buffer;
+	fscanf(f, "%i\n", &m_dx);
     fscanf(f, "%i\n", &m_dy);
     fscanf(f, "%lf\n", &m_scale);
 
     fscanf(f, "%i\n", &m_borderSize);
     fscanf(f, "%i\n", &m_viewBorder);
-    fscanf(f, "%i\n", &m_inputData);
+	fscanf(f, "%i\n", &m_inputData);
     fscanf(f, "%i\n", &m_outData);
     fscanf(f, "%i\n", &m_viewPri);
     fscanf(f, "%i\n", &m_seriesInterval);
     fscanf(f, "%i\n", &m_seriesTotal);
     fscanf(f, "%i\n", &m_needSaveAll);
     fscanf(f, "%i\n", &m_exploshureIndex);
-    fscanf(f, "%i\n", &m_exploshureValue);
-    fscanf(f, "%s\n", &bufer);
-    m_strExport = bufer;
-    fscanf(f, "%s\n", &bufer);
-    m_strArchive = bufer;
+	fscanf(f, "%i\n", &m_exploshureValue);
+	fscanf(f, "%s\n", &buffer);
+	m_strExport = buffer;
 
-    fclose(f);
+	fgets(buffer, MAX_NAME_SIZE, f);
+	if (strlen(buffer) > 0 && (buffer[strlen(buffer)-1] == '\n')) {
+		 buffer[strlen (buffer) - 1] = '\0';
+	}
+
+	//fscanf(f, "%s\n", &bufer);
+	m_strArchive = buffer;
+
+	fclose(f);
     return true;
 }
 bool __fastcall TPriInitFile::Save()

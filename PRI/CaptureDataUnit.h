@@ -1,46 +1,33 @@
 //---------------------------------------------------------------------------
 
-#ifndef OptionsUnitH
-#define OptionsUnitH
+#ifndef CaptureDataUnitH
+#define CaptureDataUnitH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
-#include <Vcl.Samples.Spin.hpp>
+#include "cgauges.h"
+#include "FImage41.h"
 #include <Vcl.ExtCtrls.hpp>
-#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
-class TForm3 : public TForm
+class TCaptureForm : public TForm
 {
 __published:	// IDE-managed Components
-	TGroupBox *GroupBox1;
+	TBevel *Bevel1;
+	TPhImage *PhImage1;
+	TPhImage *PhImage3;
+	TCGauge *CGauge1;
 	TLabel *Label1;
-	TCheckBox *borderCB;
-	TSpinEdit *borderSizeSE;
-	TGroupBox *GroupBox2;
-	TLabel *Интервал;
-	TSpinEdit *seriesIntervalSE;
-	TLabel *Label2;
-	TSpinEdit *seriesTotalSE;
-	TRadioGroup *priRG;
-	TGroupBox *GroupBox3;
-	TLabel *Label3;
-	TComboBox *arduinoCombo;
 	TButton *Button1;
-	TButton *Button2;
-	TGroupBox *GroupBox4;
-	TEdit *Edit1;
-	TButton *Button3;
+	TLabel *Label2;
 	void __fastcall Button1Click(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
-	void __fastcall FormShow(TObject *Sender);
-	void __fastcall Button3Click(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm3(TComponent* Owner);
+	__fastcall TCaptureForm(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm3 *Form3;
+extern PACKAGE TCaptureForm *CaptureForm;
 //---------------------------------------------------------------------------
 #endif

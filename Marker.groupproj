@@ -15,6 +15,9 @@
         <Projects Include="..\photon41\photon41.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\TinyXML\borland\TinyXML.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
     <Target Name="photon41:Make">
         <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="TinyXML">
+        <MSBuild Projects="..\..\TinyXML\borland\TinyXML.cbproj"/>
+    </Target>
+    <Target Name="TinyXML:Clean">
+        <MSBuild Projects="..\..\TinyXML\borland\TinyXML.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TinyXML:Make">
+        <MSBuild Projects="..\..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41"/>
+        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41;TinyXML"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean"/>
+        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean;TinyXML:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make"/>
+        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make;TinyXML:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

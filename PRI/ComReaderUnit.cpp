@@ -158,7 +158,7 @@ void __fastcall ReadThread::Execute()
 void __fastcall ReadThread::Printing0()
 {
    	 memset(bufrd, 0, BUFSIZE);	        //очистить буфер (чтобы данные не накладывались друг на друга)
-	 MainForm->ProcessData();
+	 MainForm->SaveData();
 }
 //конструктор потока WriteThread, по умолчанию пустой
 __fastcall WriteThread::WriteThread(bool CreateSuspended) : TThread(CreateSuspended)

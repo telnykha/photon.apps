@@ -2,7 +2,7 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'PRI'
-  ClientHeight = 662
+  ClientHeight = 634
   ClientWidth = 886
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,6 +13,7 @@ object MainForm: TMainForm
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -20,7 +21,7 @@ object MainForm: TMainForm
     Left = 0
     Top = 0
     Width = 886
-    Height = 662
+    Height = 634
     Align = alClient
     Caption = 'Panel3'
     TabOrder = 0
@@ -28,12 +29,11 @@ object MainForm: TMainForm
       Left = 1
       Top = 1
       Width = 884
-      Height = 660
+      Height = 632
       ActivePage = TabSheet3
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 57
-      ExplicitTop = 2
+      OnChange = PageControl1Change
       object TabSheet2: TTabSheet
         Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
         ImageIndex = 1
@@ -41,7 +41,7 @@ object MainForm: TMainForm
           Left = 0
           Top = 0
           Width = 200
-          Height = 632
+          Height = 604
           Align = alLeft
           TabOrder = 0
           object GroupBox2: TGroupBox
@@ -127,6 +127,7 @@ object MainForm: TMainForm
               ItemIndex = 1
               TabOrder = 0
               Text = '10 ms'
+              OnChange = ComboBox1Change
               Items.Strings = (
                 '5 ms'
                 '10 ms'
@@ -144,6 +145,7 @@ object MainForm: TMainForm
               ShowSelRange = False
               TabOrder = 1
               TickMarks = tmBoth
+              OnChange = TrackBar1Change
             end
           end
           object CheckBox1: TCheckBox
@@ -153,23 +155,65 @@ object MainForm: TMainForm
             Height = 17
             Caption = #1042#1082#1083#1102#1095#1080#1090#1100' '#1089#1074#1077#1090#1086#1076#1080#1086#1076#1099
             TabOrder = 2
+            OnClick = CheckBox1Click
           end
         end
         object Panel8: TPanel
           Left = 200
           Top = 0
           Width = 676
-          Height = 632
+          Height = 604
           Align = alClient
           Caption = 'Panel8'
           TabOrder = 1
+          object PhImage1: TPhImage
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 668
+            Height = 449
+            AutoMosaic = True
+            ThumbWidht = 128
+            ThumbHeight = 128
+            SlideShowInterval = 500
+            Align = alClient
+            ParentColor = False
+          end
           object Panel9: TPanel
             Left = 1
-            Top = 1
+            Top = 456
             Width = 674
-            Height = 112
-            Align = alTop
-            TabOrder = 0
+            Height = 147
+            Align = alBottom
+            TabOrder = 1
+            object PhImage2: TPhImage
+              AlignWithMargins = True
+              Left = 186
+              Top = 4
+              Width = 176
+              Height = 139
+              AutoMosaic = True
+              ThumbWidht = 128
+              ThumbHeight = 128
+              SlideShowInterval = 500
+              Align = alLeft
+              ParentColor = False
+              OnMouseUp = PhImage2MouseUp
+            end
+            object PhImage3: TPhImage
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 176
+              Height = 139
+              AutoMosaic = True
+              ThumbWidht = 128
+              ThumbHeight = 128
+              SlideShowInterval = 500
+              Align = alLeft
+              ParentColor = False
+              OnMouseUp = PhImage3MouseUp
+            end
           end
         end
       end
@@ -180,7 +224,7 @@ object MainForm: TMainForm
         object Splitter2: TSplitter
           Left = 185
           Top = 0
-          Height = 632
+          Height = 604
           ExplicitLeft = 328
           ExplicitTop = 208
           ExplicitHeight = 100
@@ -189,7 +233,7 @@ object MainForm: TMainForm
           Left = 0
           Top = 0
           Width = 185
-          Height = 632
+          Height = 604
           Align = alLeft
           TabOrder = 0
           object Splitter1: TSplitter
@@ -243,7 +287,7 @@ object MainForm: TMainForm
             Left = 1
             Top = 396
             Width = 183
-            Height = 235
+            Height = 207
             Align = alClient
             TabOrder = 1
             object Label5: TLabel
@@ -261,7 +305,7 @@ object MainForm: TMainForm
               Left = 4
               Top = 17
               Width = 175
-              Height = 214
+              Height = 186
               Align = alClient
               ItemHeight = 13
               TabOrder = 0
@@ -273,12 +317,12 @@ object MainForm: TMainForm
           Left = 188
           Top = 0
           Width = 688
-          Height = 632
+          Height = 604
           Align = alClient
           TabOrder = 1
           object Splitter3: TSplitter
             Left = 1
-            Top = 321
+            Top = 293
             Width = 686
             Height = 3
             Cursor = crVSplit
@@ -290,13 +334,13 @@ object MainForm: TMainForm
             Left = 1
             Top = 1
             Width = 686
-            Height = 320
+            Height = 292
             Align = alClient
             TabOrder = 0
             object Splitter4: TSplitter
               Left = 497
               Top = 1
-              Height = 318
+              Height = 290
               Align = alRight
               ExplicitLeft = 40
               ExplicitTop = 152
@@ -306,7 +350,7 @@ object MainForm: TMainForm
               Left = 500
               Top = 1
               Width = 185
-              Height = 318
+              Height = 290
               Align = alRight
               TabOrder = 0
               object Label6: TLabel
@@ -332,7 +376,7 @@ object MainForm: TMainForm
                 Left = 4
                 Top = 28
                 Width = 177
-                Height = 94
+                Height = 66
                 Align = alClient
                 ItemHeight = 13
                 PopupMenu = PopupMenu1
@@ -342,7 +386,7 @@ object MainForm: TMainForm
               object Button1: TButton
                 AlignWithMargins = True
                 Left = 4
-                Top = 289
+                Top = 261
                 Width = 177
                 Height = 25
                 Action = roisCalcAction
@@ -352,7 +396,7 @@ object MainForm: TMainForm
               object Panel16: TPanel
                 AlignWithMargins = True
                 Left = 4
-                Top = 128
+                Top = 100
                 Width = 177
                 Height = 155
                 Align = alBottom
@@ -444,7 +488,7 @@ object MainForm: TMainForm
               Left = 1
               Top = 1
               Width = 496
-              Height = 318
+              Height = 290
               Align = alClient
               TabOrder = 1
               object Panel1: TPanel
@@ -453,7 +497,6 @@ object MainForm: TMainForm
                 Width = 494
                 Height = 42
                 Align = alTop
-                Enabled = False
                 TabOrder = 0
                 object SpeedButton1: TSpeedButton
                   Left = 36
@@ -739,7 +782,7 @@ object MainForm: TMainForm
                 Left = 1
                 Top = 43
                 Width = 494
-                Height = 255
+                Height = 227
                 AutoMosaic = True
                 ThumbWidht = 128
                 ThumbHeight = 128
@@ -748,11 +791,12 @@ object MainForm: TMainForm
                 ParentColor = False
                 OnMouseMove = PhImage4MouseMove
                 OnPaint = PhImage4Paint
+                OnScaleChange = PhImage4ScaleChange
                 OnToolChange = PhImage4ToolChange
               end
               object StatusBar1: TStatusBar
                 Left = 1
-                Top = 298
+                Top = 270
                 Width = 494
                 Height = 19
                 Panels = <
@@ -772,7 +816,7 @@ object MainForm: TMainForm
           end
           object Panel11: TPanel
             Left = 1
-            Top = 324
+            Top = 296
             Width = 686
             Height = 307
             Align = alBottom
@@ -857,6 +901,12 @@ object MainForm: TMainForm
       end
       object N14: TMenuItem
         Action = fileExportImageAction
+      end
+      object N41: TMenuItem
+        Action = fileExportDataAction
+      end
+      object PRI2: TMenuItem
+        Action = fileExportPRIAction
       end
       object N25: TMenuItem
         Caption = '-'
@@ -1180,6 +1230,18 @@ object MainForm: TMainForm
       OnExecute = deviceSpatialCalibrationExecute
       OnUpdate = deviceSpatialCalibrationUpdate
     end
+    object fileExportDataAction: TAction
+      Category = 'File'
+      Caption = #1069#1082#1089#1087#1086#1088#1090#1080#1088#1086#1074#1072#1090#1100' '#1076#1072#1085#1085#1099#1077'... '
+      OnExecute = fileExportDataActionExecute
+      OnUpdate = fileExportDataActionUpdate
+    end
+    object fileExportPRIAction: TAction
+      Category = 'File'
+      Caption = #1069#1082#1089#1087#1086#1088#1090#1080#1088#1086#1074#1072#1090#1100' PRI...'
+      OnExecute = fileExportPRIActionExecute
+      OnUpdate = fileExportPRIActionUpdate
+    end
   end
   object PhPaneTool1: TPhPaneTool
     PhImage = PhImage4
@@ -1225,5 +1287,11 @@ object MainForm: TMainForm
     Filter = #1060#1072#1081#1083#1099' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1081'|*.jpg'
     Left = 211
     Top = 195
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 267
+    Top = 147
   end
 end

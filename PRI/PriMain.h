@@ -54,7 +54,6 @@ __published:	// IDE-managed Components
 	TTrackBar *TrackBar1;
 	TCheckBox *CheckBox1;
 	TPanel *Panel8;
-	TPanel *Panel9;
 	TTabSheet *TabSheet3;
 	TPanel *Panel4;
 	TPanel *Panel5;
@@ -197,6 +196,15 @@ __published:	// IDE-managed Components
 	TMenuItem *N40;
 	TGauge *Gauge1;
 	TAction *deviceSpatialCalibration;
+	TPhImage *PhImage1;
+	TPanel *Panel9;
+	TPhImage *PhImage2;
+	TPhImage *PhImage3;
+	TTimer *Timer1;
+	TAction *fileExportDataAction;
+	TAction *fileExportPRIAction;
+	TMenuItem *N41;
+	TMenuItem *PRI2;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall CloseButtonClick(TObject *Sender);
 	void __fastcall fileCloseActionExecute(TObject *Sender);
@@ -265,6 +273,21 @@ __published:	// IDE-managed Components
 	void __fastcall roiViewStddevActionUpdate(TObject *Sender);
 	void __fastcall deviceSpatialCalibrationExecute(TObject *Sender);
 	void __fastcall deviceSpatialCalibrationUpdate(TObject *Sender);
+	void __fastcall CheckBox1Click(TObject *Sender);
+	void __fastcall PageControl1Change(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall ComboBox1Change(TObject *Sender);
+	void __fastcall TrackBar1Change(TObject *Sender);
+	void __fastcall PhImage3MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall PhImage2MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall Timer1Timer(TObject *Sender);
+	void __fastcall PhImage4ScaleChange(TObject *Sender);
+	void __fastcall fileExportDataActionExecute(TObject *Sender);
+	void __fastcall fileExportDataActionUpdate(TObject *Sender);
+	void __fastcall fileExportPRIActionExecute(TObject *Sender);
+	void __fastcall fileExportPRIActionUpdate(TObject *Sender);
 
 private:	// User declarations
 	int m_frameNum1;
@@ -290,14 +313,27 @@ private:	// User declarations
 	awpImage* __fastcall GetVisibleImage();
 	void __fastcall UpdateChart();
 	void __fastcall ClearTable();
+
+
+	void   __fastcall SwitchLightOn();
+	void   __fastcall SwitchLightOff();
+	double __fastcall ExploshureTime(int index, int pos);
+
+	void  __fastcall ReadArchive();
 public:		// User declarations
 	__fastcall TMainForm(TComponent* Owner);
 
 	void __fastcall SetFrame(int width, int height, unsigned char* data, int cameraID);
 	void __fastcall PreviewFrame(int width, int height, unsigned char* data, int cameraID);
 	void __fastcall ProcessData(bool saveArchive = true);
+	void __fastcall SaveData();
 	void   __fastcall NormAndSetPri();
 	void __fastcall UpdateCheckList();
+
+	void   __fastcall TakePicture();
+
+	void __fastcall StartVideoEngine();
+	void __fastcall StopVideoEngine();
 	awpImage* m_image1;
 	awpImage* m_image2;
 
@@ -307,7 +343,8 @@ public:		// User declarations
 	awpImage* m_pri;   // результат измерения
 
 	TPRIArchive    m_arcive;
-
+	int m_viewCamera;
+    int m_seriesCounter;
 	__property int CameraMode = {read = m_mode};
 	__property TPriInitFile* iniFile = {read = m_pInitFile};
 

@@ -5,10 +5,11 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("PriMain.cpp", MainForm);
+USEFORM("PriCalibrationForm.cpp", CalibrationDlg);
 USEFORM("SelectDirUnit.cpp", SelectDirDlg);
 USEFORM("ABOUT.cpp", AboutBox);
+USEFORM("CaptureDataUnit.cpp", CaptureForm);
 USEFORM("OptionsUnit.cpp", Form3);
-USEFORM("PriCalibrationForm.cpp", CalibrationDlg);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -21,6 +22,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->CreateForm(__classid(TForm3), &Form3);
 		Application->CreateForm(__classid(TCalibrationDlg), &CalibrationDlg);
+		Application->CreateForm(__classid(TCaptureForm), &CaptureForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

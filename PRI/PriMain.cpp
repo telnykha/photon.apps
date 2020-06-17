@@ -12,7 +12,8 @@
 #include "VCLTee.TeePrevi.hpp"
 #include "PriRoiEditor.h"
 #include "PriCalibrationForm.h"
-
+#include "CaptureDataUnit.h"
+#include "SelectDirUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -46,7 +47,7 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 		}
 		if (MainForm->CameraMode == 1)
 			MainForm->SetFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
-		else
+		else if (MainForm->CameraMode == 0)
 			MainForm->PreviewFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
 	 }
 }
@@ -61,17 +62,17 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 	m_pInitFile = NULL;
 	m_cameras = NULL;
 	m_numCameras = 0;
+	m_mode = 1;
 
 	m_roiTool = NULL;
 	m_roiTool = new TPhPriRoiEditor(NULL);
 	m_roiTool->PhImage = PhImage4;
+	m_seriesCounter = 0;
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SetFrame(int width, int height, unsigned char* data, int cameraID)
 {
 	int type = AWP_DOUBLE;
-	int size = sizeof(AWPDOUBLE);
-	awpImage* img = NULL;
 	if (cameraID == 1)
 	{
 		m_frameNum1++;
@@ -79,9 +80,6 @@ void __fastcall TMainForm::SetFrame(int width, int height, unsigned char* data, 
 		{
 			if (m_image1 == NULL)
 				awpCreateImage(&m_image1, width, height, 1, type);
-
-		   awpCreateImage(&img, width, height, 1, AWP_BYTE);
-		   AWPBYTE* dst = (AWPBYTE*)img->pPixels;
 		   AWPDOUBLE* d = (AWPDOUBLE*)m_image1->pPixels;
 		   int x,y, i=0;
 		   for (x = 0; x < width; x++)
@@ -92,21 +90,16 @@ void __fastcall TMainForm::SetFrame(int width, int height, unsigned char* data, 
 				   AWPWORD v2 = data[2*y + 2*x*height];
 				   v2 = v2 << 4;
 				   value |= v2;
-				   dst[i] = 255*(float)value/4096.;
 				   d[i] = (AWPDOUBLE)value;
 				   i++;
 			   }
 
 		   }
-			awpReleaseImage(&img);
-
 		}
 		else
 		{
 		   if (m_image11 == NULL)
 				awpCreateImage(&m_image11, width, height, 1, type);
-		   awpCreateImage(&img, width, height, 1, AWP_BYTE);
-		   AWPBYTE* dst = (AWPBYTE*)img->pPixels;
 		   AWPDOUBLE* d = (AWPDOUBLE*)m_image11->pPixels;
 		   int x,y, i=0;
 		   for (x = 0; x < width; x++)
@@ -117,13 +110,11 @@ void __fastcall TMainForm::SetFrame(int width, int height, unsigned char* data, 
 				   AWPWORD v2 = data[2*y + 2*x*height];
 				   v2 = v2 << 4;
 				   value |= v2;
-				   dst[i] = 255*(float)value/4096.;
 				   d[i] = value;
 				   i++;
 			   }
 
 		   }
-			awpReleaseImage(&img);
 		}
 	}
 	else
@@ -133,8 +124,6 @@ void __fastcall TMainForm::SetFrame(int width, int height, unsigned char* data, 
 	   {
 		   if (m_image2 == NULL)
 				awpCreateImage(&m_image2, width, height, 1, type);
-		   awpCreateImage(&img, width, height, 1, AWP_BYTE);
-		   AWPBYTE* dst = (AWPBYTE*)img->pPixels;
 		   AWPDOUBLE* d = (AWPDOUBLE*)m_image2->pPixels;
 		   int x,y, i=0;
 		   for (x = 0; x < width; x++)
@@ -145,22 +134,18 @@ void __fastcall TMainForm::SetFrame(int width, int height, unsigned char* data, 
 				   AWPWORD v2 = data[2*y + 2*x*height];
 				   v2 = v2 << 4;
 				   value |= v2;
-				   dst[i] = 255*(float)value/4096.;
 				   d[i] = value;
 				   i++;
 			   }
 
 		   }
 		   awpFlip(&m_image2, AWP_FLIP_HRZT);
-		   awpFlip(&img, AWP_FLIP_HRZT);
-		   awpReleaseImage(&img);
 	   }
 	   else
 	   {
 		   if (m_image22 == NULL)
 				awpCreateImage(&m_image22, width, height, 1, type);
-		   awpCreateImage(&img, width, height, 1, AWP_BYTE);
-		   AWPBYTE* dst = (AWPBYTE*)img->pPixels;
+
 		   AWPDOUBLE* d = (AWPDOUBLE*)m_image22->pPixels;
 		   int x,y, i=0;
 		   for (x = 0; x < width; x++)
@@ -171,15 +156,12 @@ void __fastcall TMainForm::SetFrame(int width, int height, unsigned char* data, 
 				   AWPWORD v2 = data[2*y + 2*x*height];
 				   v2 = v2 << 4;
 				   value |= v2;
-				   dst[i] = 255*(float)value/4096.;
 				   d[i] = value;
 				   i++;
 			   }
 
 		   }
 		   awpFlip(&m_image22, AWP_FLIP_HRZT);
-		   awpFlip(&img, AWP_FLIP_HRZT);
-		   awpReleaseImage(&img);
 	   }
 	}
 }
@@ -188,67 +170,42 @@ void __fastcall TMainForm::PreviewFrame(int width, int height, unsigned char* da
 	int type = AWP_DOUBLE;
 	int size = sizeof(AWPDOUBLE);
 	awpImage* img = NULL;
-    if (cameraID == 1)
-    {
-		   awpCreateImage(&img, width, height, 1, AWP_BYTE);
-		   AWPBYTE* dst = (AWPBYTE*)img->pPixels;
-		   int x,y, i=0;
-		   for (x = 0; x < width; x++)
-		   {
-			   for (y = 0; y < height; y++)
-			   {
-				   AWPWORD value = data[2*y + 2*x*height+ 1];
-				   AWPWORD v2 = data[2*y + 2*x*height];
-				   v2 = v2 << 4;
-				   value |= v2;
-				   dst[i] = 255*(float)value/4096.;
-				   i++;
-			   }
+	awpCreateImage(&img, width, height, 1, AWP_BYTE);
+	AWPBYTE* dst = (AWPBYTE*)img->pPixels;
+	memcpy(dst, data, width*height);
+	awpResize(img, width, height);
 
-		   }
-			//PhImage1->SetAwpImage(img);
-			awpReleaseImage(&img);
+	if (cameraID == 1)
+	{
+			PhImage3->SetAwpImage(img);
+			if(m_viewCamera == 0)
+				PhImage1->SetAwpImage(img);
 	}
 	else
 	{
-		   awpCreateImage(&img, width, height, 1, AWP_BYTE);
-		   AWPBYTE* dst = (AWPBYTE*)img->pPixels;
-		   int x,y, i=0;
-		   for (x = 0; x < width; x++)
-		   {
-			   for (y = 0; y < height; y++)
-			   {
-				   AWPWORD value = data[2*y + 2*x*height+ 1];
-				   AWPWORD v2 = data[2*y + 2*x*height];
-				   v2 = v2 << 4;
-				   value |= v2;
-				   dst[i] = 255*(float)value/4096.;
-				   i++;
-			   }
-
-		   }
 		   awpFlip(&img, AWP_FLIP_HRZT);
-		   //PhImage2->SetAwpImage(img);
-		   awpReleaseImage(&img);
+		   PhImage2->SetAwpImage(img);
+			if(m_viewCamera == 1)
+				PhImage1->SetAwpImage(img);
+
 	}
+	awpReleaseImage(&img);
+
 }
 void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
-    this->ClearTable();
-
+	this->ClearTable();
+	m_viewCamera = 0;
 	m_pInitFile = new TPriInitFile();
 	if (!COMOpen(m_pInitFile->strCom)) {
 	   //ShowMessage(L"Не могу найти плату Arduino.");
 	}
 	m_arcive.path = m_pInitFile->strArchive;
+
 	m_numCameras = BUFCCDUSB_InitDevice();
-#ifdef _DEBUG
-    //ShowMessage(L"Число полключенных камер - " + IntToStr(m_numCameras));
-#endif
 	if (m_numCameras == 0)
-    {
-	   //ShowMessage(L"Нет подключенных видеокамер.");
-   	   BUFCCDUSB_UnInitDevice();
+	{
+	   BUFCCDUSB_UnInitDevice();
 	   PageControl1->Pages[0]->TabVisible = false;
 	}
 	else
@@ -262,24 +219,37 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 		BUFCCDUSB_InstallFrameHooker( 0, CamHook );
 		int bits = this->m_pInitFile->inputData == 0 ? 8 : 12;
 		int ret = BUFCCDUSB_StartCameraEngine(this->Handle, bits);
-	#ifdef _DEBUG
-	 //   ShowMessage(IntToStr(ret));
-	#endif
 		for (int i = 0; i < m_numCameras; i++)
 		{
 			BUFCCDUSB_SetCameraWorkMode(m_cameras[i], m_mode);
+			BUFCCDUSB_SetFrameTime( m_cameras[i], 1000);
 		}
 		BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+		StopVideoEngine();
+
 		//
 		SpinEdit1->Value = m_pInitFile->dx;
 		SpinEdit2->Value = m_pInitFile->dy;
 		SpinEdit3->Value = (int)(m_pInitFile->scale * 1000);
 	}
-    SpeedButton8->Caption = L"";
+
+	SpeedButton8->Caption = L"";
 	SpeedButton9->Caption = L"";
 	SpeedButton10->Caption = L"";
 	SpeedButton11->Caption = L"";
 	SpeedButton12->Caption = L"";
+
+	TNotifyEvent e1 = TrackBar1->OnChange;
+	TNotifyEvent e2 = ComboBox1->OnChange;
+
+	TrackBar1->OnChange = NULL;
+	ComboBox1->OnChange = NULL;
+
+	TrackBar1->Position  = iniFile->exploshureValue;
+	ComboBox1->ItemIndex = iniFile->exploshureIndex;
+
+	TrackBar1->OnChange = e1;
+    ComboBox1->OnChange = e2;
 }
 EPriBlurMode __fastcall TMainForm::GetBlurMode()
 {
@@ -306,8 +276,8 @@ EPriBlurMode __fastcall TMainForm::GetBlurMode()
 void __fastcall TMainForm::ProcessData(bool saveArchive)
 {
 	if (m_image11 ==0) {
-        return;
-    }
+		return;
+	}
 
 	_AWP_SAFE_RELEASE_(m_pri)
 	m_processor.blurMode =  GetBlurMode();
@@ -316,23 +286,70 @@ void __fastcall TMainForm::ProcessData(bool saveArchive)
 		ShowMessage("Ошибка алгоритма.");
 	}
 
-    awpCopyImage(m_processor.pri, &m_pri);
+	awpCopyImage(m_processor.pri, &m_pri);
 
 
 
-    if (saveArchive)
+	if (saveArchive)
 		m_arcive.Save(this);
 
 	RenderImage();
 	UpdateChart();
 }
 
+void __fastcall TMainForm::SaveData()
+{
+	if (m_image11 ==0) {
+		return;
+	}
+
+
+	m_seriesCounter++;
+	CaptureForm->CGauge1->Progress = m_seriesCounter;
+	CaptureForm->Label1->Caption = L"Общее время записи " +
+	IntToStr(this->m_pInitFile->seriesInterval*this->m_pInitFile->seriesTotal) +
+	L" секунд. Осталось: " + IntToStr(m_pInitFile->seriesInterval*m_pInitFile->seriesTotal-m_seriesCounter*m_pInitFile->seriesInterval)+
+	L" секунд ";
+	CaptureForm->Label2->Caption = L"Измерение " + IntToStr(m_seriesCounter) + L" из " + IntToStr(this->m_pInitFile->seriesTotal);
+
+	awpImage* _531 = NULL;
+	awpImage* _570 = NULL;
+
+	awpCopyImage(m_image11, &_531);
+	awpCopyImage(m_image22, &_570);
+
+	awpConvert(_531, AWP_CONVERT_TO_BYTE_WITH_NORM);
+
+	CaptureForm->PhImage1->SetAwpImage(_531);
+
+	awpConvert(_570, AWP_CONVERT_TO_BYTE_WITH_NORM);
+
+	CaptureForm->PhImage3->SetAwpImage(_570);
+
+	awpReleaseImage(&_531);
+	awpReleaseImage(&_570);
+
+	m_arcive.Save(this);
+
+	ClearPictures();
+
+	if (m_seriesCounter >= m_pInitFile->seriesTotal)
+	{
+		CaptureForm->Button1Click(NULL);
+		TabSheet3Show(NULL);
+		ListBox1->ItemIndex = ListBox1->Items->Count - 1;
+        ReadArchive();
+	}
+
+}
+
+
 void   __fastcall TMainForm::NormAndSetPri()
 {
-    if (m_pri == NULL)
-        return;
+	if (m_pri == NULL)
+		return;
 
-    awpConvert(m_pri, AWP_CONVERT_TO_FLOAT);
+	awpConvert(m_pri, AWP_CONVERT_TO_FLOAT);
 
     awpImage* _pri_norm = NULL;
 	awpCreateImage(&_pri_norm, m_pri->sSizeX, m_pri->sSizeY, 1, AWP_BYTE);
@@ -341,7 +358,7 @@ void   __fastcall TMainForm::NormAndSetPri()
 
     for (int i = 0; i < m_pri->sSizeX*m_pri->sSizeY; i++) {
         _pri[i] = 127*(1+pri0[i]);
-    }
+	}
 
     PhImage4->SetAwpImage(_pri_norm);
 	_AWP_SAFE_RELEASE_(_pri_norm);
@@ -379,8 +396,59 @@ void __fastcall TMainForm::deviceCalibrationActionUpdate(TObject *Sender)
 
 void __fastcall TMainForm::deviceExperimentActionExecute(TObject *Sender)
 {
-// выполнение эксперимента.
+	this->StopVideoEngine();
+
+	m_seriesCounter = 0;
+	CaptureForm->CGauge1->MinValue = 0;
+
+	CaptureForm->CGauge1->MaxValue = this->iniFile->seriesTotal;
+	CaptureForm->CGauge1->Progress = 0;
+	Timer1->Interval= m_pInitFile->seriesInterval*1000;
+	CaptureForm->Button1->Caption = L"Начать запись";
+	CaptureForm->Label1->Caption  = L"Общее время записи:";
+	CaptureForm->Label2->Caption = L"Измерение:";
+	StartVideoEngine();
+	CaptureForm->ShowModal();
 }
+
+void __fastcall TMainForm::StartVideoEngine()
+{
+	m_mode = 1;
+	m_numCameras = BUFCCDUSB_InitDevice();
+	m_cameras = new int[m_numCameras];
+	for (int i = 0; i < m_numCameras; i++)
+	{
+		m_cameras[i] = i+1;
+		BUFCCDUSB_AddDeviceToWorkingSet(m_cameras[i]);
+	}
+	BUFCCDUSB_InstallFrameHooker( 0, CamHook );
+	int ret = BUFCCDUSB_StartCameraEngine(this->Handle, 12);
+	for (int i = 0; i < m_numCameras; i++)
+	{
+		BUFCCDUSB_SetCameraWorkMode(m_cameras[i], m_mode);
+		BUFCCDUSB_SetFrameTime( m_cameras[i], 1000);
+	}
+	BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+	ExploshureTime(ComboBox1->ItemIndex, TrackBar1->Position);
+}
+
+void __fastcall TMainForm::StopVideoEngine()
+{
+	if (m_cameras == NULL)
+		return;
+
+	BUFCCDUSB_StopFrameGrab();
+	BUFCCDUSB_StopCameraEngine();
+	for (int i = 0; i < m_numCameras; i++)
+	{
+		BUFCCDUSB_RemoveDeviceFromWorkingSet(m_cameras[i]);
+	}
+	BUFCCDUSB_UnInitDevice();
+	m_mode = 2;
+	delete m_cameras;
+	m_cameras = NULL;
+}
+
 //---------------------------------------------------------------------------
 
 void __fastcall TMainForm::deviceExperimentActionUpdate(TObject *Sender)
@@ -445,51 +513,7 @@ void __fastcall TMainForm::TabSheet3Show(TObject *Sender)
 // чтение эксперимертальных данных
 void __fastcall TMainForm::ListBox1Click(TObject *Sender)
 {
-	TSearchRec serchmas;//класс для хранения результата поиска
-	AnsiString S,str="";
-	ListBox2->Clear();
-	UnicodeString path = m_arcive.path;
-	path += L"\\";
-	path += ListBox1->Items->Strings[ListBox1->ItemIndex];
-	path += "\\*.*";
-	if (FindFirst(path, faDirectory, serchmas)==0)//ищем каталог(faDirectory)без маски('*')-то есть все какие есть
-	{
-		//do
-		while (FindNext(serchmas) != -1)
-		{
-			if(serchmas.Name==str)
-				break;//если каталог уже встречался -выходим
-			str=serchmas.Name;//запоминаем имя текущего каталога
-			if((serchmas.Name==".")||(serchmas.Name==".."))
-				continue;//пропускаем
-			if (serchmas.Attr & faDirectory)
-				ListBox2->Items->Add(serchmas.Name);
-
-		}
-		FindClose(serchmas);//закрываем экземпляр класса, освобождаем ресурсы
-	}
-	ClearPictures();
-	CheckListBox1->Clear();
-    m_roiTool->Reset();
-	if (m_roiTool->Load(m_arcive.path + L"\\" + ListBox1->Items->Strings[ListBox1->ItemIndex]))
-	{
-		UpdateCheckList();
-	}
-    this->ClearTable();
-	if (ListBox2->Items->Count > 0)
-	{
-		ListBox2->ItemIndex = 0;
-		ListBox2Click(NULL);
-	}
-	UpdateChart();
-	SpinEdit4->Value = 0;
-	SpinEdit5->Value = 0;
-	SpinEdit6->Value = 0;
-	if (CheckListBox1->Items->Count > 0)
-	{
-		CheckListBox1->ItemIndex = 0;
-		CheckListBox1Click(NULL);
-	}
+	ReadArchive();
 }
 //---------------------------------------------------------------------------
 // выбор измерения для отображения
@@ -550,7 +574,8 @@ void __fastcall TMainForm::ClearPictures()
 		_AWP_SAFE_RELEASE_(m_pri)
 		m_pri = NULL;
 	}
-	PhImage4->Empty = true;
+	m_frameNum1  = 0;
+	m_frameNum2 = 0;
 }
 
 void __fastcall TMainForm::viewPRIActionExecute(TObject *Sender)
@@ -791,7 +816,7 @@ void __fastcall TMainForm::viewActualSizeActionUpdate(TObject *Sender)
 
 void __fastcall TMainForm::viewActualSizeActionExecute(TObject *Sender)
 {
-    PhImage4->ActualSize();
+	PhImage4->ActualSize();
 }
 //---------------------------------------------------------------------------
 
@@ -1119,7 +1144,7 @@ void __fastcall TMainForm::PhImage4Paint(TObject *Sender)
 
 		if (m_roiTool->Selected >= 0)
 		{
-           c->Pen->Color = clRed;
+		   c->Pen->Color = clRed;
 		   TPriRoiItem* ri = m_roiTool->GetItem(m_roiTool->Selected);
 		   TRect rect =  m_roiTool->GetRoiRect(ri);
 		   c->Ellipse(rect);
@@ -1346,6 +1371,235 @@ void __fastcall TMainForm::deviceSpatialCalibrationExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 
 void __fastcall TMainForm::deviceSpatialCalibrationUpdate(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+void   __fastcall TMainForm::SwitchLightOn()
+{
+     memset(bufwr,0,BUFSIZE); //очистить программный передающий буфер, чтобы данные не накладывались друг на друга
+     PurgeComm(COMport, PURGE_TXCLEAR);             //очистить передающий буфер порта
+     strcpy(bufwr,"2");
+
+     writer = new WriteThread(false);               //создать и активировать поток записи данных в порт
+     writer->FreeOnTerminate = true;                //установить это свойство, чтобы поток автоматически уничтожался после завершения
+}
+
+void   __fastcall TMainForm::SwitchLightOff()
+{
+     memset(bufwr,0,BUFSIZE); //очистить программный передающий буфер, чтобы данные не накладывались друг на друга
+	 PurgeComm(COMport, PURGE_TXCLEAR);             //очистить передающий буфер порта
+     strcpy(bufwr,"3");
+
+     writer = new WriteThread(false);               //создать и активировать поток записи данных в порт
+     writer->FreeOnTerminate = true;                //установить это свойство, чтобы поток автоматически уничтожался после завершения
+}
+
+void __fastcall TMainForm::CheckBox1Click(TObject *Sender)
+{
+	if (CheckBox1->Checked)
+	{
+		SwitchLightOn();
+	}
+	else
+	{
+		SwitchLightOff();
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::PageControl1Change(TObject *Sender)
+{
+	   if (PageControl1->TabIndex == 0)
+	   {
+		 // camera on
+			m_numCameras = BUFCCDUSB_InitDevice();
+			m_cameras = new int[m_numCameras];
+			for (int i = 0; i < m_numCameras; i++)
+			{
+				m_cameras[i] = i+1;
+				BUFCCDUSB_AddDeviceToWorkingSet(m_cameras[i]);
+			}
+			BUFCCDUSB_InstallFrameHooker( 0, CamHook );
+			int ret = BUFCCDUSB_StartCameraEngine(this->Handle, 8);
+
+
+			m_mode = 0;
+			for (int i = 0; i < m_numCameras; i++)
+			{
+				BUFCCDUSB_SetCameraWorkMode(m_cameras[i], m_mode);
+				if (m_mode == 0)
+					BUFCCDUSB_SetFrameTime( m_cameras[i], 3000);
+			}
+			BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+			ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
+	   }
+	   else
+	   {
+			StopVideoEngine();
+			CheckBox1->Checked = false;
+	   }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
+{
+	this->SwitchLightOff();
+
+	this->StartVideoEngine();
+
+	ClearPictures();
+	COMClose();
+	if (m_pInitFile != NULL)
+		delete m_pInitFile;
+}
+//---------------------------------------------------------------------------
+const double c_expLimit[5] = {5, 10, 100, 200, 300};
+double __fastcall TMainForm::ExploshureTime(int index, int pos)
+{
+	m_pInitFile->exploshureIndex = index;
+	m_pInitFile->exploshureValue = pos;
+	double result = c_expLimit[index] / 10;
+	double delta = (c_expLimit[index] - result) / 100.;
+	result += pos*delta;
+	GroupBox1->Caption = L"Экспозиция " + FormatFloat("000.00 мс", result);
+	for (int i = 0; i < m_numCameras; i++)
+	{
+		BUFCCDUSB_SetExposureTime(m_cameras[i], result*1000/50);
+	}
+	return result;
+
+}
+void __fastcall TMainForm::ComboBox1Change(TObject *Sender)
+{
+	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::TrackBar1Change(TObject *Sender)
+{
+	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::PhImage3MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
+{
+     m_viewCamera = 1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::PhImage2MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y)
+{
+	m_viewCamera = 0;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::Timer1Timer(TObject *Sender)
+{
+	TakePicture();
+}
+//---------------------------------------------------------------------------
+void   __fastcall TMainForm::TakePicture()
+{
+     this->ClearPictures();
+	 memset(bufwr,0,BUFSIZE); //очистить программный передающий буфер, чтобы данные не накладывались друг на друга
+	 PurgeComm(COMport, PURGE_TXCLEAR);             //очистить передающий буфер порта
+     strcpy(bufwr,"1");
+
+     writer = new WriteThread(false);               //создать и активировать поток записи данных в порт
+     writer->FreeOnTerminate = true;                //установить это свойство, чтобы поток автоматически уничтожался после завершения
+}
+
+
+void __fastcall TMainForm::PhImage4ScaleChange(TObject *Sender)
+{
+	if (PhImage4->Bitmap != NULL)
+	{
+		StatusBar1->Panels->Items[1]->Text = FormatFloat("Zoom: ###.##", PhImage4->Scale);
+	}
+}
+//---------------------------------------------------------------------------
+void  __fastcall TMainForm::ReadArchive()
+{
+	TSearchRec serchmas;//класс для хранения результата поиска
+	AnsiString S,str="";
+	ListBox2->Clear();
+	UnicodeString path = m_arcive.path;
+	path += L"\\";
+	path += ListBox1->Items->Strings[ListBox1->ItemIndex];
+	path += "\\*.*";
+	if (FindFirst(path, faDirectory, serchmas)==0)//ищем каталог(faDirectory)без маски('*')-то есть все какие есть
+	{
+		//do
+		while (FindNext(serchmas) != -1)
+		{
+			if(serchmas.Name==str)
+				break;//если каталог уже встречался -выходим
+			str=serchmas.Name;//запоминаем имя текущего каталога
+			if((serchmas.Name==".")||(serchmas.Name==".."))
+				continue;//пропускаем
+			if (serchmas.Attr & faDirectory)
+				ListBox2->Items->Add(serchmas.Name);
+
+		}
+		FindClose(serchmas);//закрываем экземпляр класса, освобождаем ресурсы
+	}
+	ClearPictures();
+	CheckListBox1->Clear();
+	m_roiTool->Reset();
+	if (m_roiTool->Load(m_arcive.path + L"\\" + ListBox1->Items->Strings[ListBox1->ItemIndex]))
+	{
+		UpdateCheckList();
+	}
+	this->ClearTable();
+	if (ListBox2->Items->Count > 0)
+	{
+		ListBox2->ItemIndex = 0;
+		ListBox2Click(NULL);
+	}
+	UpdateChart();
+	SpinEdit4->Value = 0;
+	SpinEdit5->Value = 0;
+	SpinEdit6->Value = 0;
+	if (CheckListBox1->Items->Count > 0)
+	{
+		CheckListBox1->ItemIndex = 0;
+		CheckListBox1Click(NULL);
+	}
+}
+
+void __fastcall TMainForm::fileExportDataActionExecute(TObject *Sender)
+{
+	UnicodeString path = m_arcive.path;
+	path += L"\\";
+	path += ListBox1->Items->Strings[ListBox1->ItemIndex];
+
+	ShowMessage("Src = " + path);
+	SelectDirDlg->DirectoryListBox1->Directory = path;
+	if (SelectDirDlg->ShowModal() == mrOk)
+	{
+		UnicodeString dst = SelectDirDlg->DirectoryListBox1->Directory;
+		dst += L"\\";
+		m_arcive.ExportData(dst, path);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::fileExportDataActionUpdate(TObject *Sender)
+{
+    fileExportDataAction->Enabled = ListBox2->Items->Count > 0;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::fileExportPRIActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::fileExportPRIActionUpdate(TObject *Sender)
 {
 //
 }

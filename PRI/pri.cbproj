@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>PRI.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -44,24 +44,24 @@
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
-        <FinalOutputDir>.\$(Platform)\$(Config)</FinalOutputDir>
+        <FinalOutputDir>..\..\bin\</FinalOutputDir>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib;bcbsmp.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>pri</SanitizedProjectName>
-        <IncludePath>..\..\photon.research\common\;..\common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;..\common;$(IncludePath)</IncludePath>
+        <IncludePath>$(BDS)\ObjRepos\EN\Cpp\;..\..\photon.research\common\;..\common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;..\common;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=1.2.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
-        <ILINK_LibraryPath>..\common\;..\..\photon41\photon\;..\..\common\;$(PHOTON41)\lib;$(PHOTON)\common\MighTex;$(AWP)\lib;$(PHOTON)\photon41\photon\lib;$(TINY)\lib;$(LF)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDS)\ObjRepos\EN\Cpp\;..\common\;..\..\photon41\photon\;..\..\common\;$(PHOTON41)\lib;$(PHOTON)\common\MighTex;$(AWP)\lib;$(PHOTON)\photon41\photon\lib;$(TINY)\lib;$(LF)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
     </PropertyGroup>
@@ -99,7 +99,7 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib;bcbsmp.lib</LinkPackageStatics>
         <Debugger_DebugSourcePath>D:\_alt\_proj\awpipl2\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <ILINK_LibraryPath>D:\_alt\_proj\photon\photon41\Win32\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <UsePackages>false</UsePackages>
@@ -117,8 +117,8 @@
         <ILINK_LibraryPath>D:\_alt\_proj\photon\photon41\Win32\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
-        <VerInfo_Build>39</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.39;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Build>41</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.41;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
@@ -137,6 +137,12 @@
         <CppCompile Include="ArchiveUnit.cpp">
             <DependentOn>ArchiveUnit.h</DependentOn>
             <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="CaptureDataUnit.cpp">
+            <Form>CaptureForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>CaptureDataUnit.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
         </CppCompile>
         <CppCompile Include="ComReaderUnit.cpp">
             <DependentOn>ComReaderUnit.h</DependentOn>
@@ -192,10 +198,11 @@
         </CppCompile>
         <None Include="todo.txt"/>
         <FormResources Include="PriMain.dfm"/>
+        <FormResources Include="PriCalibrationForm.dfm"/>
         <FormResources Include="SelectDirUnit.dfm"/>
         <FormResources Include="ABOUT.dfm"/>
+        <FormResources Include="CaptureDataUnit.dfm"/>
         <FormResources Include="OptionsUnit.dfm"/>
-        <FormResources Include="PriCalibrationForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -222,10 +229,7 @@
                 <Source>
                     <Source Name="MainSource">PRI.cpp</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">
@@ -279,15 +283,21 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\PRI.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\bin\pri.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>PRI.exe</RemoteName>
+                        <RemoteName>pri.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="readme.txt" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\bin\pri.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>pri.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -72,7 +72,7 @@ bool __fastcall TPRIArchive::Save(TMainForm* form)
     }
     strFileName = _ansi;
     strFileName += "\\pri";
-    this->SaveRAW(form->pri, strFileName.c_str());
+	//this->SaveRAW(form->pri, strFileName.c_str());
 
     return true;
 }
