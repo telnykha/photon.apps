@@ -13,6 +13,8 @@
 #include <Winapi.Windows.hpp>
 #include <System.hpp>
 #include "FImage41.h"
+#include "ArchiveUnit.h"
+#include "PriCalibration.h"
 //----------------------------------------------------------------------------
 class TCalibrationDlg : public TForm
 {
@@ -21,10 +23,17 @@ __published:
 	TButton *CancelBtn;
 	TBevel *Bevel1;
 	TButton *Button1;
-	TButton *Button2;
 	TPhImage *PhImage1;
+	TSpeedButton *SpeedButton1;
+	TSpeedButton *SpeedButton2;
+	TSpeedButton *SpeedButton3;
+	TSpeedButton *SpeedButton4;
 	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall OKBtnClick(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:
+	TPriCalibration m_calibration;
+	void __fastcall UpdateUI();
 public:
 	virtual __fastcall TCalibrationDlg(TComponent* AOwner);
 };

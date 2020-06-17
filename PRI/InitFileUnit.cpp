@@ -22,7 +22,7 @@ TPriInitFile::TPriInitFile()
     m_inputData = 1;
     m_outData = 0;
     m_viewPri = 0;
-    m_seriesInterval = 1;
+    m_seriesInterval = 5;
     m_seriesTotal = 60;
 
     if (!Load())

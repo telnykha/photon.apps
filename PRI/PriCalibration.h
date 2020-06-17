@@ -11,9 +11,11 @@ class TPriCalibration
 private:
 	bool SaveSettings(UnicodeString path);
 	bool LoadSettings(UnicodeString path);
+
+	double AverageImage(awpImage* image);
 protected:
-	awpImage* m_531;
-	awpImage* m_531f;
+	awpImage* m_531;       // изображение 531 нм
+	awpImage* m_531f;      // изображение 531 нм
 	awpImage* m_531c;
 	awpImage* m_531cf;
 	awpImage* m_570;
@@ -28,6 +30,8 @@ protected:
 public:
 	TPriCalibration();
 	~TPriCalibration();
+	// создает калибровочную информацию по умолчанию
+	bool CreateCalibration();
 	// выпол€нет €ркостную калибровку изображений
 	// в процессоре PRI
 	bool DoCalibration(TPriProcessor* processor);

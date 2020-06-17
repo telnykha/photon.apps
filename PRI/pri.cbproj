@@ -117,8 +117,8 @@
         <ILINK_LibraryPath>D:\_alt\_proj\photon\photon41\Win32\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib;bcbsmp.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
-        <VerInfo_Build>42</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.42;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Build>44</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.44;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>

@@ -7,6 +7,10 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
+#define IMAGE_WIDTH 1280
+#define IMAGE_WIDTH 960
+
+
 
 TPriCalibration::TPriCalibration()
 {
@@ -20,10 +24,10 @@ TPriCalibration::TPriCalibration()
 	m_570cf = NULL;
 	// используются избражения размером 1280x960 пикселей.
 	// по умолчанию размер калибровочной зоны по 10% с каждой стороны.
-	m_zone.left = 128;
-	m_zone.top  = 96;
-	m_zone.right = 1152; // 1280 - 128
-	m_zone.bottom = 864; // 960 - 96
+	m_zone.left = IMAGE_WIDTH / 10;
+	m_zone.top  = IMAGE_WIDTH / 10;
+	m_zone.right = IMAGE_WIDTH - m_zone.left; // 1280 - 128
+	m_zone.bottom = IMAGE_HEIGHT - m_zone.top; // 960 - 96
 }
 TPriCalibration::~TPriCalibration()
 {
@@ -180,6 +184,11 @@ bool TPriCalibration::LoadArchive(UnicodeString path)
 //
 bool TPriCalibration::MakeCalibrationImages()
 {
+	_AWP_SAFE_RELEASE_(m_531c)
+	_AWP_SAFE_RELEASE_(m_531cf)
+	_AWP_SAFE_RELEASE_(m_570c)
+	_AWP_SAFE_RELEASE_(m_570cf)
+
 
 }
 
@@ -207,5 +216,49 @@ bool TPriCalibration::LoadSettings(UnicodeString path)
 
 	return true;
 }
+
+bool TPriCalibration::CreateCalibration()
+{
+	ClearData();
+
+
+	if (awpCreateImage(&m_531, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	if (awpCreateImage(&m_531f, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	if (awpCreateImage(&m_570, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	if (awpCreateImage(&m_570f, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	awpFill(m_531, 1);
+	awpFill(m_531f, 1);
+	awpFill(m_570, 1);
+	awpFill(m_570f, 1);
+
+	return MakeCalibrationImages();
+}
+
+double TPriCalibration::AverageImage(awpImage* image)
+{
+	AWPWDOUBLE* d = (AWPDOUBLE*)image->pPixels;
+	AWPDOUBLE result = 0;
+	AWPDOUBLE s = (m_zone.bottom - m_zone.top)*(m_zone.right - m_zone.left);
+
+	// вычислим сумму внутри ROI
+	for (int i = m_zone.top; i < m_zone.bottom; i++)
+	{
+		for (int j = m_zone.left; j < m_zone.right; j++)
+		{
+			result += d[i*image->sSizeX + j];
+		}
+	}
+	result /= s;
+	return result;
+}
+
 
 
