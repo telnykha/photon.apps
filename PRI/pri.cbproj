@@ -58,7 +58,7 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>pri</SanitizedProjectName>
-        <IncludePath>$(BDS)\ObjRepos\EN\Cpp\;..\..\photon.research\common\;..\common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;..\common;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\photon41\photon\;$(BDS)\ObjRepos\EN\Cpp\;..\..\photon.research\common\;..\common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;..\common;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=1.2.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <ILINK_LibraryPath>$(BDS)\ObjRepos\EN\Cpp\;..\common\;..\..\photon41\photon\;..\..\common\;$(PHOTON41)\lib;$(PHOTON)\common\MighTex;$(AWP)\lib;$(PHOTON)\photon41\photon\lib;$(TINY)\lib;$(LF)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -72,6 +72,9 @@
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>pri_Icon1.ico</Icon_MainIcon>
+        <UWP_CppLogo44>pri_logo.png</UWP_CppLogo44>
+        <UWP_CppLogo150>pri_logo.png</UWP_CppLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -117,11 +120,12 @@
         <ILINK_LibraryPath>D:\_alt\_proj\photon\photon41\Win32\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib;bcbsmp.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
-        <VerInfo_Build>44</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.44;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Build>49</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.49;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
+        <Icon_MainIcon>pri_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="..\common\VerInfoUnit.cpp">
@@ -293,6 +297,13 @@
                 <DeployFile LocalName="..\..\bin\pri.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>pri.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="pri_logo.png" Configuration="Release" Class="UWP_CppLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

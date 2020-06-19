@@ -1,16 +1,11 @@
 //---------------------------------------------------------------------------
-
 #pragma hdrstop
 
 #include "PriCalibration.h"
 #include "PriProcessor.h"
+#include "ArchiveUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-
-#define IMAGE_WIDTH 1280
-#define IMAGE_WIDTH 960
-
-
 
 TPriCalibration::TPriCalibration()
 {
@@ -31,7 +26,7 @@ TPriCalibration::TPriCalibration()
 }
 TPriCalibration::~TPriCalibration()
 {
-    ClearData();
+	ClearData();
 }
 
 void TPriCalibration::ClearData()
@@ -112,10 +107,10 @@ bool TPriCalibration::LoadCalibration(UnicodeString path)
 
 	// изображения с фильтром 570 nm
 	_fn = path+"\\570.awp";
-	_LOAD_IMAGE_(m_531)
+	_LOAD_IMAGE_(m_570)
 
 	_fn = path+"\\570f.awp";
-	_LOAD_IMAGE_(m_531f)
+	_LOAD_IMAGE_(m_570f)
 
 	_fn = path+"\\570c.awp";
 	_LOAD_IMAGE_(m_570c)
@@ -124,7 +119,7 @@ bool TPriCalibration::LoadCalibration(UnicodeString path)
 	_LOAD_IMAGE_(m_570cf)
 
 	// загрузка зоны калибровки
-
+    result = this->LoadSettings(path);
 cleanup:
 	return result;
 }
@@ -178,10 +173,32 @@ bool TPriCalibration::SaveCalibration(UnicodeString path)
 
 bool TPriCalibration::LoadArchive(UnicodeString path)
 {
-	//
-	return false;
+	TPRIArchive archive;
+	awpImage* m531 = NULL;
+	awpImage* m531f = NULL;
+	awpImage* m570 = NULL;
+	awpImage* m570f = NULL;
+	if (!archive.LoadImages(path, &m531, &m570, &m531f, &m570f))
+		return false;
+
+	awpConvert(m531, AWP_CONVERT_TO_DOUBLE);
+	awpConvert(m531f, AWP_CONVERT_TO_DOUBLE);
+	awpConvert(m570, AWP_CONVERT_TO_DOUBLE);
+	awpConvert(m570f, AWP_CONVERT_TO_DOUBLE);
+
+	ClearData();
+	if (awpCopyImage(m531, &m_531) != AWP_OK)
+		return false;
+	if (awpCopyImage(m531f, &m_531f) != AWP_OK)
+		return false;
+	if (awpCopyImage(m570, &m_570) != AWP_OK)
+		return false;
+	if (awpCopyImage(m570f, &m_570f) != AWP_OK)
+		return false;
+
+	return MakeCalibrationImages();
 }
-//
+// создает калибровочные изображеия m_531c  m_531cf m_570c  m_570cf
 bool TPriCalibration::MakeCalibrationImages()
 {
 	_AWP_SAFE_RELEASE_(m_531c)
@@ -190,6 +207,29 @@ bool TPriCalibration::MakeCalibrationImages()
 	_AWP_SAFE_RELEASE_(m_570cf)
 
 
+	if (awpCreateImage(&m_531c, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	if (awpCreateImage(&m_531cf, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	if (awpCreateImage(&m_570c, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	if (awpCreateImage(&m_570cf, IMAGE_WIDTH, IMAGE_HEIGHT, 1, AWP_DOUBLE) != AWP_OK)
+		return false;
+
+	awpFill(m_531c, 1);
+	awpFill(m_531cf, 1);
+	awpFill(m_570c, 1);
+	awpFill(m_570cf, 1);
+
+	MakeCalibration(m_531, m_531c);
+	MakeCalibration(m_531f, m_531cf);
+	MakeCalibration(m_570, m_570c);
+	MakeCalibration(m_570f, m_570cf);
+
+	return true;
 }
 
 bool TPriCalibration::SaveSettings(UnicodeString path)
@@ -199,7 +239,7 @@ bool TPriCalibration::SaveSettings(UnicodeString path)
 	FILE* f = fopen(_fn.c_str(), "w+t");
 	if (f == NULL)
 		return false;
-	fprintf(f, "%uh\t%uh\t%uh\t%uh\n", m_zone.left, m_zone.top, m_zone.right, m_zone.bottom);
+	fprintf(f, "%u\t%u\t%u\t%u\n", m_zone.left, m_zone.top, m_zone.right, m_zone.bottom);
 	fclose(f);
 	return true;
 }
@@ -208,11 +248,11 @@ bool TPriCalibration::LoadSettings(UnicodeString path)
 {
 	AnsiString _fn = path+"\\settings.txt";
 
-	FILE* f = fopen(_fn.c_str(), "w+t");
+	FILE* f = fopen(_fn.c_str(), "r+t");
 	if (f == NULL)
 		return false;
 
-	fscanf(f,"%uh\t%uh\t%uh\t%uh\n", &m_zone.left, &m_zone.top, &m_zone.right, &m_zone.bottom);
+	fscanf(f,"%i\t%i\t%i\t%i\n", &m_zone.left, &m_zone.top, &m_zone.right, &m_zone.bottom);
 
 	return true;
 }
@@ -244,7 +284,7 @@ bool TPriCalibration::CreateCalibration()
 
 double TPriCalibration::AverageImage(awpImage* image)
 {
-	AWPWDOUBLE* d = (AWPDOUBLE*)image->pPixels;
+	AWPDOUBLE* d = (AWPDOUBLE*)image->pPixels;
 	AWPDOUBLE result = 0;
 	AWPDOUBLE s = (m_zone.bottom - m_zone.top)*(m_zone.right - m_zone.left);
 
@@ -261,4 +301,26 @@ double TPriCalibration::AverageImage(awpImage* image)
 }
 
 
+void   TPriCalibration::MakeCalibration(awpImage* src, awpImage* dst)
+{
+	double a =  AverageImage(src);
+	AWPDOUBLE* d = (AWPDOUBLE*)dst->pPixels;
+	AWPDOUBLE* s = (AWPDOUBLE*)src->pPixels;
 
+	//
+	for (int i = m_zone.top; i < m_zone.bottom; i++)
+	{
+		for (int j = m_zone.left; j < m_zone.right; j++)
+		{
+			d[i*dst->sSizeX + j] = a / (1 + s[i*dst->sSizeX + j]);
+		}
+	}
+}
+
+void __fastcall TPriCalibration::SetZone(awpRect Value)
+{
+	if (Value.left < 0 || Value.top < 0 || Value.right >= IMAGE_WIDTH || Value.bottom >= IMAGE_HEIGHT)
+		return;
+	m_zone = Value;
+	MakeCalibrationImages();
+}

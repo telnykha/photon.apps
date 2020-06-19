@@ -76,7 +76,7 @@
       Width = 73
       Height = 22
       MaxValue = 300
-      MinValue = 5
+      MinValue = 2
       TabOrder = 0
       Value = 20
     end

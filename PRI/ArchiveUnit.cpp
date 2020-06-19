@@ -143,8 +143,9 @@ bool __fastcall TPRIArchive::LoadRAW(awpImage** img, const char* lpFileName)
     fread(d, _img.sSizeX*_img.sSizeY*sizeof(AWPFLOAT), 1, f);
     _img.pPixels = d;
     fclose(f);
-    awpCopyImage(&_img, img);
-    free(d);
+	awpCopyImage(&_img, img);
+	awpConvert(*img, AWP_CONVERT_TO_DOUBLE);
+	free(d);
     return true;
 }
 
@@ -241,6 +242,7 @@ bool __fastcall TPRIArchive::ExportData(UnicodeString strDst, UnicodeString path
 	UnicodeString S,str="";
 	UnicodeString strPath = path;
 	strPath +="\\*.*";
+	int i = 0;
 	if (FindFirst(strPath, faDirectory, serchmas)==0)
 	{
 		do
@@ -333,16 +335,19 @@ bool __fastcall TPRIArchive::ExportData(UnicodeString strDst, UnicodeString path
 
                 strFileName = ChangeFileExt(strFileName, L".txt");
                 strDstFileName = ChangeFileExt(strDstFileName, L".txt");
-                CopyFile(strFileName.c_str(), strDstFileName.c_str(), true);
+				CopyFile(strFileName.c_str(), strDstFileName.c_str(), true);
 
+				Application->ProcessMessages();
+				MainForm->Gauge1->Progress =  100*(i+1) / MainForm->ListBox2->Items->Count;
+				i++;
             }
             str=serchmas.Name;
         }
         while (FindNext(serchmas) != -1);//ищем в активной директории следующий каталог
         FindClose(serchmas);//закрываем экземпл€р класса, освобождаем ресурсы
     }
-
-    ShowMessage("Ёкспорт завершен.");
+    MainForm->Gauge1->Progress = 0;
+	ShowMessage("Ёкспорт завершен успешно.");
 }
 
 

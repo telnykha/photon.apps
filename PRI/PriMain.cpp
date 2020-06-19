@@ -291,8 +291,6 @@ void __fastcall TMainForm::ProcessData(bool saveArchive)
 
 	awpCopyImage(m_processor.pri, &m_pri);
 
-
-
 	if (saveArchive)
 		m_arcive.Save(this);
 
@@ -302,11 +300,6 @@ void __fastcall TMainForm::ProcessData(bool saveArchive)
 
 void __fastcall TMainForm::SaveData()
 {
-	if (m_image11 ==0) {
-		return;
-	}
-
-
 	m_seriesCounter++;
 	CaptureForm->CGauge1->Progress = m_seriesCounter;
 	CaptureForm->Label1->Caption = L"Общее время записи " +
@@ -334,7 +327,7 @@ void __fastcall TMainForm::SaveData()
 
 	m_arcive.Save(this);
 
-	ClearPictures();
+	//ClearPictures();
 
 	if (m_seriesCounter >= m_pInitFile->seriesTotal)
 	{
@@ -346,25 +339,176 @@ void __fastcall TMainForm::SaveData()
 
 }
 
+typedef struct _palEntry
+{
+	double r;
+	double g;
+	double b;
+} palEntry;
+
+const palEntry HeatmapPal[128] =
+{
+	{0.0,	0.0,	74.0},
+	{ 0.0,	0.0,	78.0 },
+	{ 0.0,	0.0,	78.0 },
+	{ 0.0,	0.0,	78.0 },
+	{ 0.0,	0.0,	82.0 },
+	{ 0.0,	0.0,	86.0 },
+	{ 0.0,	0.0,	90.0 },
+	{ 0.0,	0.0,	94.0 },
+	{ 0.0,	0.0,	98.0 },
+	{ 0.0,	0.0,	102.0 },
+	{ 0.0,	0.0,	106.0 },
+	{ 0.0,	0.0,	110.0 },
+	{ 0.0,	0.0,	114.0 },
+	{ 0.0,	0.0,	118.0 },
+	{ 0.0,	0.0,	122.0 },
+	{ 0.0,	0.0,	126.0 },
+	{ 0.0,	2.0,	128.0 },
+	{ 0.0,	6.0,	128.0 },
+	{ 0.0,	10.0,	128.0 },
+	{ 0.0,	14.0,	128.0 },
+	{ 0.0,	18.0,	128.0 },
+	{ 0.0,	22.0,	128.0 },
+	{ 0.0,	26.0,	128.0 },
+	{ 0.0,	30.0,	128.0 },
+	{ 0.0,	34.0,	128.0 },
+	{ 0.0,	38.0,	128.0 },
+	{ 0.0,	42.0,	128.0 },
+	{ 0.0,	46.0,	128.0 },
+	{ 0.0,	50.0,	128.0 },
+	{ 0.0,	54.0,	128.0 },
+	{ 0.0,	58.0,	128.0 },
+	{ 0.0,	62.0,	128.0 },
+	{ 0.0,	66.0,	128.0 },
+	{ 0.0,	70.0,	128.0 },
+	{ 0.0,	74.0,	128.0 },
+	{ 0.0,	78.0,	128.0 },
+	{ 0.0,	82.0,	128.0 },
+	{ 0.0,	86.0,	128.0 },
+	{ 0.0,	90.0,	128.0 },
+	{ 0.0,	94.0,	128.0 },
+	{ 0.0,	98.0,	128.0 },
+	{ 0.0,	102.0,	128.0 },
+	{ 0.0,	106.0,	128.0 },
+	{ 0.0,	110.0,	128.0 },
+	{ 0.0,	114.0,	128.0 },
+	{ 0.0,	118.0,	128.0 },
+	{ 0.0,	122.0,	128.0 },
+	{ 0.0,	126.0,	128.0 },
+	{ 2.0,	128.0,	126.0 },
+	{ 6.0,	128.0,	122.0 },
+	{ 10.0,	128.0,	118.0 },
+	{ 14.0,	128.0,	114.0 },
+	{ 18.0,	128.0,	110.0 },
+	{ 22.0,	128.0,	106.0 },
+	{ 26.0,	128.0,	102.0 },
+	{ 30.0,	128.0,	98.0 },
+	{ 34.0,	128.0,	94.0 },
+	{ 38.0,	128.0,	90.0 },
+	{ 42.0,	128.0,	86.0 },
+	{ 46.0,	128.0,	82.0 },
+	{ 50.0,	128.0,	78.0 },
+	{ 54.0,	128.0,	74.0 },
+	{ 58.0,	128.0,	70.0 },
+	{ 62.0,	128.0,	66.0 },
+	{ 66.0,	128.0,	62.0 },
+	{ 70.0,	128.0,	58.0 },
+	{ 74.0,	128.0,	54.0 },
+	{ 78.0,	128.0,	50.0 },
+	{ 82.0,	128.0,	46.0 },
+	{ 86.0,	128.0,	42.0 },
+	{ 90.0,	128.0,	38.0 },
+	{ 94.0,	128.0,	34.0 },
+	{ 98.0,	128.0,	30.0 },
+	{ 102.0,	128.0,	26.0 },
+	{ 106.0,	128.0,	22.0 },
+	{ 110.0,	128.0,	18.0 },
+	{ 114.0,	128.0,	14.0 },
+	{ 118.0,	128.0,	10.0 },
+	{ 122.0,	128.0,	6.0 },
+	{ 126.0,	128.0,	2.0 },
+	{ 128.0,	126.0,	0.0 },
+	{ 128.0,	122.0,	0.0 },
+	{ 128.0,	118.0,	0.0 },
+	{ 128.0,	114.0,	0.0 },
+	{ 128.0,	110.0,	0.0 },
+	{ 128.0,	106.0,	0.0 },
+	{ 128.0,	102.0,	0.0 },
+	{ 128.0,	98.0,	0.0 },
+	{ 128.0,	94.0,	0.0 },
+	{ 128.0,	90.0,	0.0 },
+	{ 128.0,	86.0,	0.0 },
+	{ 128.0,	82.0,	0.0 },
+	{ 128.0,	78.0,	0.0 },
+	{ 128.0,	74.0,	0.0 },
+	{ 128.0,	70.0,	0.0 },
+	{ 128.0,	66.0,	0.0 },
+	{ 128.0,	62.0,	0.0 },
+	{ 128.0,	58.0,	0.0 },
+	{ 128.0,	54.0,	0.0 },
+	{ 128.0,	50.0,	0.0 },
+	{ 128.0,	46.0,	0.0 },
+	{ 128.0,	42.0,	0.0 },
+	{ 128.0,	38.0,	0.0 },
+	{ 128.0,	34.0,	0.0 },
+	{ 128.0,	30.0,	0.0 },
+	{ 128.0,	26.0,	0.0 },
+	{ 128.0,	22.0,	0.0 },
+	{ 128.0,	18.0,	0.0 },
+	{ 128.0,	14.0,	0.0 },
+	{ 128.0,	10.0,	0.0 },
+	{ 128.0,	6.0,	0.0 },
+	{ 128.0,	2.0,	0.0 },
+	{ 126.0,	0.0,	0.0 },
+	{ 122.0,	0.0,	0.0 },
+	{ 118.0,	0.0,	0.0 },
+	{ 114.0,	0.0,	0.0 },
+	{ 110.0,	0.0,	0.0 },
+	{ 106.0,	0.0,	0.0 },
+	{ 102.0,	0.0,	0.0 },
+	{ 98.0,	0.0,	0.0 },
+	{ 94.0,	0.0,	0.0 },
+	{ 90.0,	0.0,	0.0 },
+	{ 86.0,	0.0,	0.0 },
+	{ 82.0,	0.0,	0.0 },
+	{ 78.0,	0.0,	0.0 },
+	{ 74.0,	0.0,	0.0 },
+	{ 70.0,	0.0,	0.0 },
+	{ 66.0,	0.0,	0.0 }
+};
+
 
 void   __fastcall TMainForm::NormAndSetPri()
 {
 	if (m_pri == NULL)
 		return;
 
-	awpConvert(m_pri, AWP_CONVERT_TO_FLOAT);
+   awpImage* pri = NULL;
 
-    awpImage* _pri_norm = NULL;
-	awpCreateImage(&_pri_norm, m_pri->sSizeX, m_pri->sSizeY, 1, AWP_BYTE);
-    AWPBYTE* _pri = (AWPBYTE*)_pri_norm->pPixels;
-    AWPFLOAT* pri0 = (AWPFLOAT*)m_pri->pPixels;
+   awpCopyImage(m_pri, &pri);
+   awpConvert(pri, AWP_CONVERT_TO_BYTE_WITH_NORM);
+   if (iniFile->viewPri == 1)
+   {
+		awpImage* color_pri = NULL;
+		awpCreateImage(&color_pri, pri->sSizeX, pri->sSizeY, 3, AWP_BYTE);
 
-    for (int i = 0; i < m_pri->sSizeX*m_pri->sSizeY; i++) {
-        _pri[i] = 127*(1+pri0[i]);
-	}
+		AWPBYTE* b = (AWPBYTE*)pri->pPixels;
+		AWPBYTE* b1 = (AWPBYTE*)color_pri->pPixels;
+		for (int i = 0; i < pri->sSizeX*pri->sSizeY; i++)
+		{
+			b1[3*i]   = HeatmapPal[b[i]/2].b;
+			b1[3*i+1] = HeatmapPal[b[i]/2].g;
+			b1[3*i+2] = HeatmapPal[b[i]/2].r;
+		}
 
-    PhImage4->SetAwpImage(_pri_norm);
-	_AWP_SAFE_RELEASE_(_pri_norm);
+
+		PhImage4->SetAwpImage(color_pri);
+	   _AWP_SAFE_RELEASE_(pri);
+   }
+   else
+	   PhImage4->SetAwpImage(pri);
+   _AWP_SAFE_RELEASE_(pri);
 }
 void __fastcall TMainForm::CloseButtonClick(TObject *Sender)
 {
@@ -374,7 +518,7 @@ void __fastcall TMainForm::CloseButtonClick(TObject *Sender)
 
 void __fastcall TMainForm::fileCloseActionExecute(TObject *Sender)
 {
-    Close();
+	Close();
 }
 //---------------------------------------------------------------------------
 
@@ -408,8 +552,12 @@ void __fastcall TMainForm::deviceExperimentActionExecute(TObject *Sender)
 	CaptureForm->CGauge1->Progress = 0;
 	Timer1->Interval= m_pInitFile->seriesInterval*1000;
 	CaptureForm->Button1->Caption = L"Начать запись";
-	CaptureForm->Label1->Caption  = L"Общее время записи:";
-	CaptureForm->Label2->Caption = L"Измерение:";
+	CaptureForm->Label1->Caption = L"Общее время записи " +
+	IntToStr(this->m_pInitFile->seriesInterval*this->m_pInitFile->seriesTotal) +
+	L" секунд. Осталось: " + IntToStr(m_pInitFile->seriesInterval*m_pInitFile->seriesTotal-m_seriesCounter*m_pInitFile->seriesInterval)+
+	L" секунд ";
+	CaptureForm->Label2->Caption = L"Измерение " + IntToStr(m_seriesCounter) + L" из " + IntToStr(this->m_pInitFile->seriesTotal);
+
 	StartVideoEngine();
 	CaptureForm->ShowModal();
 }
@@ -429,7 +577,7 @@ void __fastcall TMainForm::StartVideoEngine()
 	for (int i = 0; i < m_numCameras; i++)
 	{
 		BUFCCDUSB_SetCameraWorkMode(m_cameras[i], m_mode);
-		BUFCCDUSB_SetFrameTime( m_cameras[i], 1000);
+		BUFCCDUSB_SetFrameTime( m_cameras[i], 2500);
 	}
 	BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
 	ExploshureTime(ComboBox1->ItemIndex, TrackBar1->Position);
@@ -456,14 +604,15 @@ void __fastcall TMainForm::StopVideoEngine()
 
 void __fastcall TMainForm::deviceExperimentActionUpdate(TObject *Sender)
 {
-	deviceExperimentAction->Enabled = m_numCameras > 0;
+	deviceExperimentAction->Enabled = m_numCameras > 0 && m_cameras == NULL;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TMainForm::toolsOptionsActionExecute(TObject *Sender)
 {
 // Вызвать диалог настройки параметров программы.
-    Form3->ShowModal();
+	Form3->ShowModal();
+    this->RenderImage();
 }
 //---------------------------------------------------------------------------
 
@@ -695,14 +844,21 @@ void __fastcall TMainForm::NormAndSetImage(awpImage* img)
 
    // вырезаем фрагменты изображения в соответствии с параметрами калибровки.
    awpRect r;
-   r.left   = BORDER_SIZE;
-   r.top    = BORDER_SIZE;
-   r.right  = _display->sSizeX - BORDER_SIZE;
-   r.bottom = _display->sSizeY - BORDER_SIZE;
+   r.left   =  iniFile->borderSize;
+   r.top    = iniFile->borderSize;
+   r.right  = _display->sSizeX - iniFile->borderSize;
+   r.bottom = _display->sSizeY - iniFile->borderSize;
+	if (iniFile->viewBorder == 1)
+	{
+		awpDrawRect(_display, &r, 0,128,4);
+	}
+   r = CalibrationDlg->m_calibration.zone;
+   if (SpeedButton13->Down)
+   {
+        awpDrawRect(_display, &r, 0,255,4);
+   }
 
-   awpCopyRect(_display, &_display_cut, &r);
-
-	PhImage4->SetAwpImage(_display_cut);
+	PhImage4->SetAwpImage(_display);
 
 	_AWP_SAFE_RELEASE_(_display)
 	_AWP_SAFE_RELEASE_(_display_cut)
@@ -1050,6 +1206,8 @@ void __fastcall TMainForm::roisCalcActionExecute(TObject *Sender)
 	N3->Enabled = false;
 	N5->Enabled = false;
 	N6->Enabled = false;
+	PhImage4->Enabled = false;
+	PageControl1->Enabled = false;
 
 	Calculation();
 
@@ -1065,7 +1223,8 @@ void __fastcall TMainForm::roisCalcActionExecute(TObject *Sender)
 	N3->Enabled = true;
 	N5->Enabled = true;
 	N6->Enabled = true;
-
+	PhImage4->Enabled = true;
+	PageControl1->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
@@ -1217,6 +1376,14 @@ void __fastcall TMainForm::Calculation()
 			ShowMessage(L"Не могу загрузить архив!");
 			return;
 		}
+		// калибровка
+		if (SpeedButton13->Down)
+		{
+			awpCalcImage(CalibrationDlg->m_calibration.img531c, i531, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
+			awpCalcImage(CalibrationDlg->m_calibration.img531cf, i531f, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
+			awpCalcImage(CalibrationDlg->m_calibration.img570c, i570, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
+			awpCalcImage(CalibrationDlg->m_calibration.img570cf, i570f, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
+		}
 
 		// вычисление pri
 		m_processor.blurMode =  GetBlurMode();
@@ -1279,7 +1446,7 @@ void __fastcall TMainForm::PhImage4MouseMove(TObject *Sender, TShiftState Shift,
 
    if (m_pri != NULL)
    {
-		AWPFLOAT* d = (AWPFLOAT*)m_pri->pPixels;
+		AWPDOUBLE* d = (AWPDOUBLE*)m_pri->pPixels;
 		int x = PhImage4->GetImageX(X);
 		int y = PhImage4->GetImageY(Y);
 		if (x >= 0 && y >= 0)
@@ -1584,7 +1751,39 @@ void __fastcall TMainForm::fileExportDataActionExecute(TObject *Sender)
 	{
 		UnicodeString dst = SelectDirDlg->DirectoryListBox1->Directory;
 		dst += L"\\";
+
+ 		ListBox1->Enabled = false;
+		ListBox2->Enabled = false;
+		CheckListBox1->Enabled = false;
+		Panel1->Enabled = false;
+		Panel11->Enabled = false;
+		N1->Enabled = false;
+		N4->Enabled = false;
+		N15->Enabled = false;
+		N28->Enabled = false;
+		N3->Enabled = false;
+		N5->Enabled = false;
+		N6->Enabled = false;
+		PhImage4->Enabled = false;
+		PageControl1->Enabled = false;
+
 		m_arcive.ExportData(dst, path);
+
+		ListBox1->Enabled = true;
+		ListBox2->Enabled = true;
+		CheckListBox1->Enabled = true;
+		Panel1->Enabled = true;
+		Panel11->Enabled = true;
+		N1->Enabled = true;
+		N4->Enabled = true;
+		N15->Enabled = true;
+		N28->Enabled = true;
+		N3->Enabled = true;
+		N5->Enabled = true;
+		N6->Enabled = true;
+		PhImage4->Enabled = true;
+		Button1->Enabled = true;
+		PageControl1->Enabled = true;
 	}
 }
 //---------------------------------------------------------------------------
@@ -1624,6 +1823,8 @@ void __fastcall TMainForm::fileExportPRIActionExecute(TObject *Sender)
 		N3->Enabled = false;
 		N5->Enabled = false;
 		N6->Enabled = false;
+		PhImage4->Enabled = false;
+		PageControl1->Enabled = false;
 
 
 		// выполняем цикл по всем элементам ListBox2
@@ -1661,8 +1862,20 @@ void __fastcall TMainForm::fileExportPRIActionExecute(TObject *Sender)
 				N3->Enabled = true;
 				N5->Enabled = true;
 				N6->Enabled = true;
+				PhImage4->Enabled = true;
+				Button1->Enabled = true;
+				PageControl1->Enabled = true;
 
 				return;
+			}
+
+			// калибровка
+			if (ExportPriDlg->CheckBox1->Checked)
+			{
+				awpCalcImage(CalibrationDlg->m_calibration.img531c, i531, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
+				awpCalcImage(CalibrationDlg->m_calibration.img531cf, i531f, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
+				awpCalcImage(CalibrationDlg->m_calibration.img570c, i570, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
+				awpCalcImage(CalibrationDlg->m_calibration.img570cf, i570f, NULL, AWP_CALC_MLTIMAGES, AWP_CALC_INPLACE);
 			}
 
 			// вычисление pri
@@ -1687,6 +1900,9 @@ void __fastcall TMainForm::fileExportPRIActionExecute(TObject *Sender)
 				N3->Enabled = true;
 				N5->Enabled = true;
 				N6->Enabled = true;
+				Button1->Enabled = true;
+				PhImage4->Enabled = true;
+				PageControl1->Enabled = true;
 
 				return;
 			}
@@ -1720,6 +1936,10 @@ void __fastcall TMainForm::fileExportPRIActionExecute(TObject *Sender)
 		N3->Enabled = true;
 		N5->Enabled = true;
 		N6->Enabled = true;
+		PhImage4->Enabled = true;
+		Button1->Enabled = true;
+		PageControl1->Enabled = true;
+
 
 		if (ExportPriDlg->CheckBox2->Checked)
 		{
@@ -1734,6 +1954,13 @@ void __fastcall TMainForm::fileExportPRIActionExecute(TObject *Sender)
 void __fastcall TMainForm::fileExportPRIActionUpdate(TObject *Sender)
 {
 	fileExportPRIAction->Enabled = ListBox2->Items->Count > 0;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::SpeedButton13Click(TObject *Sender)
+{
+	ClearTable();
+    this->RenderImage();
 }
 //---------------------------------------------------------------------------
 

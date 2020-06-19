@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "PriProcessor.h"
+#include "PriCalibration.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 

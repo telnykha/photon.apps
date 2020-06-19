@@ -5,6 +5,9 @@
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include "_LF.h"
+
+#define IMAGE_WIDTH 1280
+#define IMAGE_HEIGHT 960
 class TPriProcessor;
 class TPriCalibration
 {
@@ -13,6 +16,7 @@ private:
 	bool LoadSettings(UnicodeString path);
 
 	double AverageImage(awpImage* image);
+	void   MakeCalibration(awpImage* src, awpImage* dst);
 protected:
 	awpImage* m_531;       // изображение 531 нм
 	awpImage* m_531f;      // изображение 531 нм
@@ -27,6 +31,8 @@ protected:
 	bool MakeCalibrationImages();
 	void ClearData();
 	awpRect   m_zone;
+
+	void __fastcall SetZone(awpRect Value);
 public:
 	TPriCalibration();
 	~TPriCalibration();
@@ -42,5 +48,16 @@ public:
 	// выполняет загрузку изображений из архива
 	// и создает изображения для калибровки  m_531c, m_531cf, m_570c, m_570cf
 	bool LoadArchive(UnicodeString path);
+
+	__property awpRect zone = {read = m_zone, write = SetZone};
+
+	__property awpImage* img531 = {read = m_531};
+	__property awpImage* img531f = {read = m_531f};
+	__property awpImage* img531c = {read = m_531c};
+	__property awpImage* img531cf = {read = m_531cf};
+	__property awpImage* img570 = {read = m_570};
+	__property awpImage* img570f = {read = m_570f};
+	__property awpImage* img570c = {read = m_570c};
+	__property awpImage* img570cf = {read = m_570cf};
 };
 #endif

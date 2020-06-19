@@ -53,6 +53,7 @@ object MainForm: TMainForm
             Align = alTop
             Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072
             TabOrder = 0
+            Visible = False
             object Label1: TLabel
               Left = 28
               Top = 106
@@ -149,13 +150,17 @@ object MainForm: TMainForm
             end
           end
           object CheckBox1: TCheckBox
-            Left = 8
+            AlignWithMargins = True
+            Left = 4
             Top = 279
-            Width = 169
+            Width = 192
             Height = 17
+            Align = alTop
             Caption = #1042#1082#1083#1102#1095#1080#1090#1100' '#1089#1074#1077#1090#1086#1076#1080#1086#1076#1099
             TabOrder = 2
             OnClick = CheckBox1Click
+            ExplicitLeft = 8
+            ExplicitWidth = 169
           end
         end
         object Panel8: TPanel
@@ -504,6 +509,7 @@ object MainForm: TMainForm
                   Width = 48
                   Height = 32
                   Action = viewPRI3x3Action
+                  AllowAllUp = True
                   GroupIndex = 1
                 end
                 object SpeedButton2: TSpeedButton
@@ -512,6 +518,7 @@ object MainForm: TMainForm
                   Width = 32
                   Height = 32
                   Action = view531Action
+                  AllowAllUp = True
                   GroupIndex = 1
                   Caption = '531'
                 end
@@ -521,6 +528,7 @@ object MainForm: TMainForm
                   Width = 32
                   Height = 32
                   Action = view570Action
+                  AllowAllUp = True
                   GroupIndex = 1
                   Caption = '570'
                 end
@@ -530,6 +538,7 @@ object MainForm: TMainForm
                   Width = 32
                   Height = 32
                   Action = view531fAction
+                  AllowAllUp = True
                   GroupIndex = 1
                   Caption = '531f'
                 end
@@ -539,6 +548,7 @@ object MainForm: TMainForm
                   Width = 32
                   Height = 32
                   Action = view570fAction
+                  AllowAllUp = True
                   GroupIndex = 1
                   Caption = '570f'
                 end
@@ -548,6 +558,7 @@ object MainForm: TMainForm
                   Width = 33
                   Height = 32
                   Action = viewPRIAction
+                  AllowAllUp = True
                   GroupIndex = 1
                   Down = True
                 end
@@ -557,6 +568,7 @@ object MainForm: TMainForm
                   Width = 48
                   Height = 32
                   Action = viewPRI5x5Action
+                  AllowAllUp = True
                   GroupIndex = 1
                 end
                 object SpeedButton8: TSpeedButton
@@ -772,10 +784,12 @@ object MainForm: TMainForm
                 object SpeedButton13: TSpeedButton
                   Left = 430
                   Top = 4
-                  Width = 48
+                  Width = 59
                   Height = 32
-                  GroupIndex = 1
+                  AllowAllUp = True
+                  GroupIndex = 8
                   Caption = #1050#1072#1083#1080#1073#1088'.'
+                  OnClick = SpeedButton13Click
                 end
               end
               object PhImage4: TPhImage

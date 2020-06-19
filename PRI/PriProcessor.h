@@ -5,32 +5,35 @@
 #include "_LF.h"
 #define BORDER_SIZE 30
 typedef enum {modeNone, modeBlur, modeBlurMore} EPriBlurMode;
+ class TPriCalibration;
 class TPriProcessor
 {
 protected:
-    // параметры алгоритма
-    int m_dx;
-    int m_dy;
+	// параметры алгоритма
+	int m_dx;
+	int m_dy;
 	double m_scale;
 	EPriBlurMode m_blurMode;
-    // результат работы алгоритма
-    TLFImage m_pri;
-    TLFImage m_570;
-    TLFImage m_531;
-    TLFImage m_570b;
-    TLFImage m_531b;
+	// результат работы алгоритма
+	TLFImage m_pri;
+	TLFImage m_570;
+	TLFImage m_531;
+	TLFImage m_570b;
+	TLFImage m_531b;
 
-    awpImage* GetPri();
-    awpImage* Get_570();
-    awpImage* Get_570b();
-    awpImage* Get_531();
-    awpImage* Get_531b();
+	awpImage* GetPri();
+	awpImage* Get_570();
+	awpImage* Get_570b();
+	awpImage* Get_531();
+	awpImage* Get_531b();
 	bool __fastcall FilterImage(awpImage* image);
 public:
 	TPriProcessor();
-    ~TPriProcessor();
-    // на вход поступают два изображения с вычтенным фоном.
-    bool __fastcall PriProcessImages(awpImage* img531, awpImage* img570, awpImage* img531b, awpImage* img570b);
+	~TPriProcessor();
+	// на вход поступают два изображения с вычтенным фоном.
+	bool __fastcall PriProcessImages(awpImage* img531, awpImage* img570, awpImage* img531b, awpImage* img570b);
+
+	TPriCalibration* m_calibr;
 
     // результат вычислений.
     __property awpImage* pri    = {read = GetPri};

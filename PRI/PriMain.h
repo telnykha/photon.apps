@@ -288,6 +288,7 @@ __published:	// IDE-managed Components
 	void __fastcall fileExportDataActionUpdate(TObject *Sender);
 	void __fastcall fileExportPRIActionExecute(TObject *Sender);
 	void __fastcall fileExportPRIActionUpdate(TObject *Sender);
+	void __fastcall SpeedButton13Click(TObject *Sender);
 
 private:	// User declarations
 	int m_frameNum1;

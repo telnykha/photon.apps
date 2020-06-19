@@ -3,8 +3,8 @@ object AboutBox: TAboutBox
   Top = 108
   BorderStyle = bsDialog
   Caption = #1054' '#1087#1088#1086#1075#1088#1072#1084#1084#1077
-  ClientHeight = 321
-  ClientWidth = 209
+  ClientHeight = 340
+  ClientWidth = 250
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,17 +18,19 @@ object AboutBox: TAboutBox
   object Panel1: TPanel
     Left = 8
     Top = 8
-    Width = 193
-    Height = 273
+    Width = 233
+    Height = 293
     BevelInner = bvRaised
     BevelOuter = bvLowered
     ParentColor = True
     TabOrder = 0
     object ProgramIcon: TImage
-      Left = 9
-      Top = 8
-      Width = 177
-      Height = 170
+      AlignWithMargins = True
+      Left = 25
+      Top = 4
+      Width = 180
+      Height = 180
+      AutoSize = True
       Picture.Data = {
         0954506E67496D61676589504E470D0A1A0A0000000D49484452000000B40000
         00B40802000000B2AF9165000000017352474200AECE1CE90000000467414D41
@@ -187,8 +189,8 @@ object AboutBox: TAboutBox
       IsControl = True
     end
     object ProductName: TLabel
-      Left = 72
-      Top = 184
+      Left = 73
+      Top = 190
       Width = 34
       Height = 13
       Caption = 'P.R.I.'
@@ -202,29 +204,27 @@ object AboutBox: TAboutBox
     end
     object Version: TLabel
       Left = 113
-      Top = 184
+      Top = 190
       Width = 35
       Height = 13
       Caption = 'Version'
       IsControl = True
     end
     object Copyright: TLabel
-      Left = 16
-      Top = 203
-      Width = 170
+      Left = 9
+      Top = 225
+      Width = 209
       Height = 28
-      Alignment = taCenter
       AutoSize = False
       Caption = 'Copyright (c) 2004-2020 NN-Videlab.Net'
       WordWrap = True
       IsControl = True
     end
     object Comments: TLabel
-      Left = 16
-      Top = 234
-      Width = 161
-      Height = 39
-      Alignment = taCenter
+      Left = 9
+      Top = 251
+      Width = 209
+      Height = 33
       AutoSize = False
       Caption = 'e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88'
       WordWrap = True
@@ -232,8 +232,8 @@ object AboutBox: TAboutBox
     end
   end
   object OKButton: TButton
-    Left = 65
-    Top = 287
+    Left = 81
+    Top = 307
     Width = 75
     Height = 25
     Caption = 'OK'
