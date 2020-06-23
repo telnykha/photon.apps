@@ -15,7 +15,7 @@
 #include "CaptureDataUnit.h"
 #include "SelectDirUnit.h"
 #include "ExportPriUnit.h"
-
+#include "PriSpatialCalibration.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -1961,6 +1961,22 @@ void __fastcall TMainForm::SpeedButton13Click(TObject *Sender)
 {
 	ClearTable();
     this->RenderImage();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::deviceSpatialCalibrationActionExecute(TObject *Sender)
+
+{
+	if(SpatialCalibrationDlg->ShowModal() == mrOk)
+	{
+        // сохраняем калибровку.
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::deviceSpatialCalibrationActionUpdate(TObject *Sender)
+{
+//
 }
 //---------------------------------------------------------------------------
 

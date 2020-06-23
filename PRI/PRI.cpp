@@ -11,6 +11,7 @@ USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("CaptureDataUnit.cpp", CaptureForm);
 USEFORM("OptionsUnit.cpp", Form3);
 USEFORM("ExportPriUnit.cpp", ExportPriDlg);
+USEFORM("PriSpatialCalibration.cpp", SpatialCalibrationDlg);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -25,6 +26,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TCalibrationDlg), &CalibrationDlg);
 		Application->CreateForm(__classid(TCaptureForm), &CaptureForm);
 		Application->CreateForm(__classid(TExportPriDlg), &ExportPriDlg);
+		Application->CreateForm(__classid(TSpatialCalibrationDlg), &SpatialCalibrationDlg);
 		Application->Run();
 	}
 	catch (Exception &exception)

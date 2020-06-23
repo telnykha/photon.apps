@@ -205,6 +205,8 @@ __published:	// IDE-managed Components
 	TAction *fileExportPRIAction;
 	TMenuItem *N41;
 	TMenuItem *PRI2;
+	TAction *deviceSpatialCalibrationAction;
+	TMenuItem *N42;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall CloseButtonClick(TObject *Sender);
 	void __fastcall fileCloseActionExecute(TObject *Sender);
@@ -289,6 +291,8 @@ __published:	// IDE-managed Components
 	void __fastcall fileExportPRIActionExecute(TObject *Sender);
 	void __fastcall fileExportPRIActionUpdate(TObject *Sender);
 	void __fastcall SpeedButton13Click(TObject *Sender);
+	void __fastcall deviceSpatialCalibrationActionExecute(TObject *Sender);
+	void __fastcall deviceSpatialCalibrationActionUpdate(TObject *Sender);
 
 private:	// User declarations
 	int m_frameNum1;

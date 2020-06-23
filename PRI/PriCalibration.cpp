@@ -196,6 +196,11 @@ bool TPriCalibration::LoadArchive(UnicodeString path)
 	if (awpCopyImage(m570f, &m_570f) != AWP_OK)
 		return false;
 
+	_AWP_SAFE_RELEASE_(m531)
+	_AWP_SAFE_RELEASE_(m531f)
+	_AWP_SAFE_RELEASE_(m570)
+	_AWP_SAFE_RELEASE_(m570f)
+
 	return MakeCalibrationImages();
 }
 // создает калибровочные изображеия m_531c  m_531cf m_570c  m_570cf

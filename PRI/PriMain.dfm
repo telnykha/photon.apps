@@ -1031,6 +1031,9 @@ object MainForm: TMainForm
       object N7: TMenuItem
         Action = deviceCalibrationAction
       end
+      object N42: TMenuItem
+        Action = deviceSpatialCalibrationAction
+      end
       object N8: TMenuItem
         Action = deviceExperimentAction
       end
@@ -1255,6 +1258,12 @@ object MainForm: TMainForm
       Caption = #1069#1082#1089#1087#1086#1088#1090#1080#1088#1086#1074#1072#1090#1100' PRI...'
       OnExecute = fileExportPRIActionExecute
       OnUpdate = fileExportPRIActionUpdate
+    end
+    object deviceSpatialCalibrationAction: TAction
+      Category = 'Device'
+      Caption = #1055#1088#1086#1089#1090#1088#1072#1085#1089#1090#1074#1077#1085#1085#1072#1103' '#1082#1072#1083#1080#1073#1088#1086#1074#1082#1072'...'
+      OnExecute = deviceSpatialCalibrationActionExecute
+      OnUpdate = deviceSpatialCalibrationActionUpdate
     end
   end
   object PhPaneTool1: TPhPaneTool
