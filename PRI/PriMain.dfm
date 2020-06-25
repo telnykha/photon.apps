@@ -159,8 +159,6 @@ object MainForm: TMainForm
             Caption = #1042#1082#1083#1102#1095#1080#1090#1100' '#1089#1074#1077#1090#1086#1076#1080#1086#1076#1099
             TabOrder = 2
             OnClick = CheckBox1Click
-            ExplicitLeft = 8
-            ExplicitWidth = 169
           end
         end
         object Panel8: TPanel
@@ -1001,6 +999,15 @@ object MainForm: TMainForm
       object ROI1: TMenuItem
         Action = viewEditRoiAction
       end
+      object N43: TMenuItem
+        Caption = '-'
+      end
+      object N44: TMenuItem
+        Action = viewBrightnessCalibrationAction
+      end
+      object N45: TMenuItem
+        Action = viewSpatialCalibrationAction
+      end
     end
     object N28: TMenuItem
       Caption = #1054#1073#1083#1072#1089#1090#1080
@@ -1264,6 +1271,18 @@ object MainForm: TMainForm
       Caption = #1055#1088#1086#1089#1090#1088#1072#1085#1089#1090#1074#1077#1085#1085#1072#1103' '#1082#1072#1083#1080#1073#1088#1086#1074#1082#1072'...'
       OnExecute = deviceSpatialCalibrationActionExecute
       OnUpdate = deviceSpatialCalibrationActionUpdate
+    end
+    object viewBrightnessCalibrationAction: TAction
+      Category = 'View'
+      Caption = #1071#1088#1082#1086#1089#1090#1085#1072#1103' '#1082#1072#1083#1080#1073#1088#1086#1074#1082#1072' '
+      OnExecute = viewBrightnessCalibrationActionExecute
+      OnUpdate = viewBrightnessCalibrationActionUpdate
+    end
+    object viewSpatialCalibrationAction: TAction
+      Category = 'View'
+      Caption = #1055#1088#1086#1089#1090#1088#1072#1085#1089#1090#1074#1077#1085#1085#1072#1103' '#1082#1072#1083#1080#1073#1088#1086#1074#1082#1072
+      OnExecute = viewSpatialCalibrationActionExecute
+      OnUpdate = viewSpatialCalibrationActionUpdate
     end
   end
   object PhPaneTool1: TPhPaneTool

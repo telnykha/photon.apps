@@ -43,7 +43,7 @@ void __fastcall TCalibrationDlg::OKBtnClick(TObject *Sender)
 	{
 		if (!m_calibration.SaveCalibration(archive.path))
 		{
-			ShowMessage(L"Не могу сохранить яркостную калибровку: " + SelectDirDlg->DirectoryListBox1->Directory);
+			ShowMessage(L"Не могу сохранить яркостную калибровку: " + archive.path);
 		}
 	}
 }

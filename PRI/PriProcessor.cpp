@@ -9,10 +9,8 @@
 
 TPriProcessor::TPriProcessor()
 {
-    m_dx = -4;
-    m_dy = -8;
-	m_scale = 1.023;
 	m_blurMode = modeBlurMore;
+	m_needCalibration = true;
 }
 
 TPriProcessor::~TPriProcessor()
@@ -57,83 +55,24 @@ bool __fastcall TPriProcessor::PriProcessImages(awpImage* img531, awpImage* img5
 {
    // проверка аргументов
    if (img531 == NULL || img570 == NULL)
-    return false;
-   // изображения должны иметь одинаковые параметры.
-   //if (img531->dwType != AWP_DOUBLE || img570->dwType != AWP_DOUBLE ||
-   //img531->sSizeX != img570->sSizeX || img531->sSizeY != img570->sSizeY ||
-   //img531->bChannels != img570->bChannels)
-   // return false;
-
-   // вырезаем фрагменты изображения в соответствии с параметрами калибровки.
-   awpRect r;
-   r.left   = BORDER_SIZE;
-   r.top    = BORDER_SIZE;
-   r.right  = img531->sSizeX - BORDER_SIZE;
-   r.bottom = img531->sSizeY - BORDER_SIZE;
-
-   awpImage* i531 = NULL;
-   awpImage* i570 = NULL;
-   awpImage* i531b = NULL;
-   awpImage* i570b = NULL;
+	return false;
 
    AWPRESULT res = AWP_OK;
+   awpImage* i531 = NULL;
+   awpImage* i531b = NULL;
+   awpImage* i570 = NULL;
+   awpImage* i570b = NULL;
 
-   res = awpCopyRect(img531, &i531, &r);
-   if (res != AWP_OK)
-    return false;
-
-   res = awpCopyRect(img531b, &i531b, &r);
-   if (res != AWP_OK)
-   {
-    _AWP_SAFE_RELEASE_(i531)
-    return false;
+   awpCopyImage(img531, &i531);
+   awpCopyImage(img531b, &i531b);
+   if (m_needCalibration) {
+	   i570 = m_calibration.invTransform(img570);
+	   i570b = m_calibration.invTransform(img570b);
    }
-
-
-   double rw = (double)(r.right  - r.left);
-   double rh = (double)(r.bottom - r.top);
-
-   r.left += m_dx;
-   r.top  += m_dy;
-
-   r.right   = r.left + (short)(m_scale*rw);
-   r.bottom  = r.top  + (short)(m_scale*rh);
-
-   res = awpCopyRect(img570, &i570, &r);
-   if (res != AWP_OK)
+   else
    {
-    _AWP_SAFE_RELEASE_(i531)
-    _AWP_SAFE_RELEASE_(i531b)
-    return false;
-   }
-
-   res = awpCopyRect(img570b, &i570b, &r);
-   if (res != AWP_OK)
-   {
-    _AWP_SAFE_RELEASE_(i531)
-    _AWP_SAFE_RELEASE_(i531b)
-    _AWP_SAFE_RELEASE_(i570)
-    return false;
-   }
-
-   res = awpResize(i570, i531->sSizeX, i531->sSizeY);
-   if (res != AWP_OK)
-   {
-    _AWP_SAFE_RELEASE_(i531)
-    _AWP_SAFE_RELEASE_(i531b)
-    _AWP_SAFE_RELEASE_(i570)
-	_AWP_SAFE_RELEASE_(i570b)
-    return false;
-   }
-
-   res = awpResize(i570b, i531->sSizeX, i531->sSizeY);
-   if (res != AWP_OK)
-   {
-    _AWP_SAFE_RELEASE_(i531)
-    _AWP_SAFE_RELEASE_(i531b)
-    _AWP_SAFE_RELEASE_(i570)
-    _AWP_SAFE_RELEASE_(i570b)
-    return false;
+	   awpCopyImage(img570, &i570);
+	   awpCopyImage(img570b, &i570b);
    }
 
    awpImage* sub570 = NULL;
@@ -152,11 +91,11 @@ bool __fastcall TPriProcessor::PriProcessImages(awpImage* img531, awpImage* img5
    awpCalcImage(i570, i570b, &sub570, AWP_CALC_SUBIMAGES, AWP_CALC_OUTPLACE);
    awpCalcImage(i531, i531b, &sub531, AWP_CALC_SUBIMAGES, AWP_CALC_OUTPLACE);
 
-    // вычитаем одно изображение из другого
-    res = awpCalcImage(sub531, sub570, &sub, AWP_CALC_SUBIMAGES, AWP_CALC_OUTPLACE);
-    if (res != AWP_OK)
-    {
-        _AWP_SAFE_RELEASE_(i531)
+	// вычитаем одно изображение из другого
+	res = awpCalcImage(sub531, sub570, &sub, AWP_CALC_SUBIMAGES, AWP_CALC_OUTPLACE);
+	if (res != AWP_OK)
+	{
+		_AWP_SAFE_RELEASE_(i531)
         _AWP_SAFE_RELEASE_(i531b)
         _AWP_SAFE_RELEASE_(i570)
         _AWP_SAFE_RELEASE_(i570b)
@@ -191,11 +130,6 @@ bool __fastcall TPriProcessor::PriProcessImages(awpImage* img531, awpImage* img5
         p[i] = p[i] < -1 ? -1 : p[i];
         p[i] = p[i] > 1 ? 1: p[i];
     }
-
-    awpConvert(i570, AWP_CONVERT_TO_FLOAT);
-    awpConvert(i570b, AWP_CONVERT_TO_FLOAT);
-    awpConvert(i531, AWP_CONVERT_TO_FLOAT);
-    awpConvert(i531b, AWP_CONVERT_TO_FLOAT);
 
     m_pri.SetImage(_pri);
     m_570.SetImage(i570);
@@ -237,6 +171,16 @@ awpImage* TPriProcessor::Get_531()
 
 awpImage* TPriProcessor::Get_531b()
 {
-    return m_531b.GetImage();
+	return m_531b.GetImage();
 }
 
+bool __fastcall TPriProcessor::InitCalibration(UnicodeString path)
+{
+	return m_calibration.LoadCalibration(path);
+}
+
+
+TPriSpatialCalibration* __fastcall TPriProcessor::GetCalibration()
+{
+	return    &m_calibration;
+}

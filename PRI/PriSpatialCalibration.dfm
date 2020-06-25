@@ -13,6 +13,7 @@ object SpatialCalibrationDlg: TSpatialCalibrationDlg
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -66,6 +67,7 @@ object SpatialCalibrationDlg: TSpatialCalibrationDlg
     Default = True
     ModalResult = 1
     TabOrder = 0
+    OnClick = Button1Click
   end
   object Button2: TButton
     Left = 658

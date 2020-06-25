@@ -5,6 +5,8 @@
 
 #include "PriSpatialCalibration.h"
 #include "SelectDirUnit.h"
+#include "ArchiveUnit.h"
+#include "PriMain.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -24,7 +26,8 @@ void __fastcall TSpatialCalibrationDlg::Button3Click(TObject *Sender)
 	if (SelectDirDlg->ShowModal() == mrOk)
 	{
 		// пытаемся открыть архив
-		if (m_calibration.LoadArchive(SelectDirDlg->DirectoryListBox1->Directory))
+		TPriSpatialCalibration* c = MainForm->processor->Calibration;
+		if (c->LoadArchive(SelectDirDlg->DirectoryListBox1->Directory))
 		{
 		  // Update IU
 		  UpdateUI();
@@ -36,18 +39,19 @@ void __fastcall TSpatialCalibrationDlg::Button3Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TSpatialCalibrationDlg::UpdateUI()
 {
-	if (m_calibration.image531f != NULL)
-		PhImage1->SetAwpImage(m_calibration.image531f);
-	if (m_calibration.image570f)
-		PhImage2->SetAwpImage(m_calibration.image570f);
+	TPriSpatialCalibration* c = MainForm->processor->Calibration;
+	if (c->image531f != NULL)
+		PhImage1->SetAwpImage(c->image531f);
+	if (c->image570f)
+		PhImage2->SetAwpImage(c->image570f);
 
 	awpImage* src = NULL;
-	awpCreateImage(&src, m_calibration.image531f->sSizeX, m_calibration.image531f->sSizeY, 3, AWP_BYTE);
+	awpCreateImage(&src, c->image531f->sSizeX, c->image531f->sSizeY, 3, AWP_BYTE);
 	awpImage* dst = NULL;
-	awpCreateImage(&dst, m_calibration.image531f->sSizeX, m_calibration.image531f->sSizeY, 3, AWP_BYTE);
+	awpCreateImage(&dst, c->image531f->sSizeX, c->image531f->sSizeY, 3, AWP_BYTE);
 
-	awp2DPoint* p531 = m_calibration.points531;
-	awp2DPoint* p570 = m_calibration.points570;
+	awp2DPoint* p531 = c->points531;
+	awp2DPoint* p570 = c->points570;
 	for (int i = 0; i < NUM_CHESS_POINTS; i++)
 	{
 		awpRect r;
@@ -64,7 +68,7 @@ void __fastcall TSpatialCalibrationDlg::UpdateUI()
 		r.bottom = r.top + 6;
 		awpDrawCCross(src, &r, 0,255,0, 1);
 
-		awp2DPoint p = m_calibration.Correct(p570[i]);
+		awp2DPoint p = c->Correct(p570[i]);
 
 		r.left = p.X - 3;
 		r.top  = p.Y - 3;
@@ -77,6 +81,21 @@ void __fastcall TSpatialCalibrationDlg::UpdateUI()
 	_AWP_SAFE_RELEASE_( src );
 	_AWP_SAFE_RELEASE_( dst );
 
-	Label5->Caption = L"Ошибка= " + FormatFloat("00.00", m_calibration.sourceError) + L" пикс";
-	Label6->Caption = L"Ошибка= " + FormatFloat("00.00", m_calibration.resultError) + L" пикс";
+	Label5->Caption = L"Ошибка= " + FormatFloat("00.00", c->sourceError) + L" пикс";
+	Label6->Caption = L"Ошибка= " + FormatFloat("00.00", c->resultError) + L" пикс";
 }
+void __fastcall TSpatialCalibrationDlg::Button1Click(TObject *Sender)
+{
+	TPRIArchive archive;
+	TPriSpatialCalibration* c = MainForm->processor->Calibration;
+	if (!c->SaveCalibration(archive.path))
+	{
+	  ShowMessage(L"Не могу сохранить пространственную калибровку: " + archive.path);
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TSpatialCalibrationDlg::FormShow(TObject *Sender)
+{
+	UpdateUI();
+}
+//---------------------------------------------------------------------------

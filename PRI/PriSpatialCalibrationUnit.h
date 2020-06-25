@@ -10,6 +10,7 @@ class TPriSpatialCalibration
 private:
 	double m_model[2][3];
 	bool MakeModel();
+	awpImage* GetInvModel();
 protected:
 	awpImage* m_531f;
 	awpImage* m_570f;
@@ -32,6 +33,13 @@ public:
 	bool LoadArchive(UnicodeString path);
 	awp2DPoint __fastcall Correct(awp2DPoint p);
 
+	bool SaveCalibration(UnicodeString path);
+	bool LoadCalibration(UnicodeString path);
+
+	// выполняет преобразование изображения src
+	// в соответствии с моделью пространственной калибровки.
+	awpImage* invTransform(awpImage* src);
+	awpImage* Transform(awpImage* src);
 
 	__property awpImage* image531f = {read = m_531f};
 	__property awpImage* image570f = {read = m_570f};

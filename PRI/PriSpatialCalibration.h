@@ -34,8 +34,10 @@ __published:	// IDE-managed Components
 	TPhPaneTool *PhPaneTool3;
 	TPhPaneTool *PhPaneTool4;
 	void __fastcall Button3Click(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
-	TPriSpatialCalibration m_calibration;
+   //	TPriSpatialCalibration m_calibration;
 	void __fastcall UpdateUI();
 public:		// User declarations
 	__fastcall TSpatialCalibrationDlg(TComponent* Owner);

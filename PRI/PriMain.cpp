@@ -203,6 +203,11 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 	if (!COMOpen(m_pInitFile->strCom)) {
 	   //ShowMessage(L"Не могу найти плату Arduino.");
 	}
+	if (!m_processor.InitCalibration(m_arcive.path))
+	{
+	   ShowMessage(L"Не могу найти пространственную калибровку.");
+	}
+
 	m_arcive.path = m_pInitFile->strArchive;
 
 	m_numCameras = BUFCCDUSB_InitDevice();
@@ -282,13 +287,38 @@ void __fastcall TMainForm::ProcessData(bool saveArchive)
 		return;
 	}
 
-	_AWP_SAFE_RELEASE_(m_pri)
+		awpImage* i531 = NULL;
+		awpImage* i570 = NULL;
+		awpImage* i531f = NULL;
+		awpImage* i570f = NULL;
+
+		// калибровка
+	if (SpeedButton13->Down)
+	{
+		awpCalcImage(CalibrationDlg->m_calibration.img531c, m_image1, &i531,  AWP_CALC_MLTIMAGES, AWP_CALC_OUTPLACE);
+		awpCalcImage(CalibrationDlg->m_calibration.img531cf, m_image11, &i531f, AWP_CALC_MLTIMAGES, AWP_CALC_OUTPLACE);
+		awpCalcImage(CalibrationDlg->m_calibration.img570c, m_image2, &i570,  AWP_CALC_MLTIMAGES, AWP_CALC_OUTPLACE);
+		awpCalcImage(CalibrationDlg->m_calibration.img570cf, m_image22, &i570f, AWP_CALC_MLTIMAGES, AWP_CALC_OUTPLACE);
+	}
+	else
+	{
+		awpCopyImage(m_image1, &i531);
+		awpCopyImage(m_image11, &i531f);
+		awpCopyImage(m_image2, &i570);
+		awpCopyImage(m_image22, &i570f);
+	}
+
+
 	m_processor.blurMode =  GetBlurMode();
-	if (!m_processor.PriProcessImages(m_image11, m_image22, m_image1, m_image2 ))
+	if (!m_processor.PriProcessImages(i531f, i570f, i531, i570 ))
 	{
 		ShowMessage("Ошибка алгоритма.");
 	}
-
+	_AWP_SAFE_RELEASE_(m_pri)
+	_AWP_SAFE_RELEASE_(i531)
+	_AWP_SAFE_RELEASE_(i531f)
+	_AWP_SAFE_RELEASE_(i570)
+	_AWP_SAFE_RELEASE_(i570f)
 	awpCopyImage(m_processor.pri, &m_pri);
 
 	if (saveArchive)
@@ -1977,6 +2007,41 @@ void __fastcall TMainForm::deviceSpatialCalibrationActionExecute(TObject *Sender
 void __fastcall TMainForm::deviceSpatialCalibrationActionUpdate(TObject *Sender)
 {
 //
+}
+//---------------------------------------------------------------------------
+TPriProcessor* __fastcall TMainForm::GetProcessor()
+{
+	return &m_processor;
+}
+void __fastcall TMainForm::viewBrightnessCalibrationActionExecute(TObject *Sender)
+
+{
+	SpeedButton13->Down = !SpeedButton13->Down;
+	ProcessData(false);
+	RenderImage();
+	ClearTable();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::viewBrightnessCalibrationActionUpdate(TObject *Sender)
+
+{
+	viewBrightnessCalibrationAction->Checked = this->SpeedButton13->Down;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::viewSpatialCalibrationActionExecute(TObject *Sender)
+{
+	m_processor.needCalibration = !m_processor.needCalibration;
+	ProcessData(false);
+	RenderImage();
+	ClearTable();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::viewSpatialCalibrationActionUpdate(TObject *Sender)
+{
+	viewSpatialCalibrationAction->Checked = m_processor.needCalibration;
 }
 //---------------------------------------------------------------------------
 

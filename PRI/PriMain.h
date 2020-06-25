@@ -207,6 +207,11 @@ __published:	// IDE-managed Components
 	TMenuItem *PRI2;
 	TAction *deviceSpatialCalibrationAction;
 	TMenuItem *N42;
+	TAction *viewBrightnessCalibrationAction;
+	TAction *viewSpatialCalibrationAction;
+	TMenuItem *N43;
+	TMenuItem *N44;
+	TMenuItem *N45;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall CloseButtonClick(TObject *Sender);
 	void __fastcall fileCloseActionExecute(TObject *Sender);
@@ -293,6 +298,10 @@ __published:	// IDE-managed Components
 	void __fastcall SpeedButton13Click(TObject *Sender);
 	void __fastcall deviceSpatialCalibrationActionExecute(TObject *Sender);
 	void __fastcall deviceSpatialCalibrationActionUpdate(TObject *Sender);
+	void __fastcall viewBrightnessCalibrationActionExecute(TObject *Sender);
+	void __fastcall viewBrightnessCalibrationActionUpdate(TObject *Sender);
+	void __fastcall viewSpatialCalibrationActionExecute(TObject *Sender);
+	void __fastcall viewSpatialCalibrationActionUpdate(TObject *Sender);
 
 private:	// User declarations
 	int m_frameNum1;
@@ -325,6 +334,7 @@ private:	// User declarations
 	double __fastcall ExploshureTime(int index, int pos);
 
 	void  __fastcall ReadArchive();
+	TPriProcessor* __fastcall GetProcessor();
 public:		// User declarations
 	__fastcall TMainForm(TComponent* Owner);
 
@@ -352,11 +362,12 @@ public:		// User declarations
     int m_seriesCounter;
 	__property int CameraMode = {read = m_mode};
 	__property TPriInitFile* iniFile = {read = m_pInitFile};
+	__property TPriProcessor* processor = {read = GetProcessor};
 
-    __property awpImage* image1 = {read = m_image1};
-    __property awpImage* image11 = {read = m_image11};
-    __property awpImage* image2 = {read = m_image2};
-    __property awpImage* image22 = {read = m_image22};
+	__property awpImage* image1 = {read = m_image1};
+	__property awpImage* image11 = {read = m_image11};
+	__property awpImage* image2 = {read = m_image2};
+	__property awpImage* image22 = {read = m_image22};
 	__property awpImage* pri = {read = m_pri};
 };
 //---------------------------------------------------------------------------
