@@ -1,0 +1,96 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{3DA0F89A-5CC2-491B-918E-BE657C5DE5FE}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Optoacustics.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\LFMarker\ObjectsMarker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon41\Demo\PhotonDemo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\awpipl2\borland\awpipl2b.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Optoacustics">
+        <MSBuild Projects="Optoacustics.cbproj"/>
+    </Target>
+    <Target Name="Optoacustics:Clean">
+        <MSBuild Projects="Optoacustics.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Optoacustics:Make">
+        <MSBuild Projects="Optoacustics.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ObjectsMarker">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PhotonDemo">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj"/>
+    </Target>
+    <Target Name="PhotonDemo:Clean">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PhotonDemo:Make">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awpipl2b">
+        <MSBuild Projects="..\..\..\awpipl2\borland\awpipl2b.cbproj"/>
+    </Target>
+    <Target Name="awpipl2b:Clean">
+        <MSBuild Projects="..\..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awpipl2b:Make">
+        <MSBuild Projects="..\..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Optoacustics;ObjectsMarker;photon41;PhotonDemo;awplflibb;awpipl2b"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Optoacustics:Clean;ObjectsMarker:Clean;photon41:Clean;PhotonDemo:Clean;awplflibb:Clean;awpipl2b:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Optoacustics:Make;ObjectsMarker:Make;photon41:Make;PhotonDemo:Make;awplflibb:Make;awpipl2b:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

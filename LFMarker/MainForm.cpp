@@ -2116,3 +2116,4 @@ void __fastcall TForm1::ToolChange(TObject *Sender)
     TListItem* li = DbView->Items->Item[DbView->ItemIndex];
     li->SubItems->Strings[0] = IntToStr(m_Descr.GetCount());
 }
+

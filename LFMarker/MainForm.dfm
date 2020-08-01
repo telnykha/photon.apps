@@ -289,10 +289,6 @@ object Form1: TForm1
         object TabSheet2: TTabSheet
           Caption = 'Project'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object TreeView1: TTreeView
             Left = 0
             Top = 0
@@ -326,10 +322,6 @@ object Form1: TForm1
         object TabSheet3: TTabSheet
           Caption = 'Database'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Panel3: TPanel
             Left = 0
             Top = 0
@@ -505,7 +497,7 @@ object Form1: TForm1
         TabOrder = 0
         object HSplitter: TSplitter
           Left = 1
-          Top = 416
+          Top = 421
           Width = 430
           Height = 3
           Cursor = crVSplit
@@ -516,16 +508,16 @@ object Form1: TForm1
         object Splitter7: TSplitter
           Left = 423
           Top = 1
-          Height = 415
+          Height = 412
           Align = alRight
           ExplicitLeft = 550
           ExplicitHeight = 539
         end
         object BottomDocPanel: TPanel
           Left = 1
-          Top = 419
+          Top = 413
           Width = 430
-          Height = 5
+          Height = 8
           Align = alBottom
           DockSite = True
           DragKind = dkDock
@@ -539,7 +531,7 @@ object Form1: TForm1
           Left = 426
           Top = 1
           Width = 5
-          Height = 415
+          Height = 412
           Align = alRight
           Caption = 'Panel3'
           DockSite = True
@@ -550,7 +542,7 @@ object Form1: TForm1
           Left = 1
           Top = 1
           Width = 422
-          Height = 415
+          Height = 412
           Align = alClient
           TabOrder = 2
           Visible = False
@@ -562,7 +554,7 @@ object Form1: TForm1
           Left = 1
           Top = 1
           Width = 422
-          Height = 415
+          Height = 412
           AutoMosaic = True
           ThumbWidht = 128
           ThumbHeight = 128

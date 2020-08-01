@@ -1,0 +1,36 @@
+object FormBinaryView: TFormBinaryView
+  Left = 0
+  Top = 0
+  BorderStyle = bsSizeToolWin
+  Caption = 'FormBinaryView'
+  ClientHeight = 392
+  ClientWidth = 426
+  Color = clBtnFace
+  DragKind = dkDock
+  DragMode = dmAutomatic
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnHide = FormHide
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PhImage1: TPhImage
+    Left = 0
+    Top = 0
+    Width = 426
+    Height = 392
+    AutoMosaic = True
+    ThumbWidht = 128
+    ThumbHeight = 128
+    SlideShowInterval = 500
+    Align = alClient
+    ParentColor = False
+    ExplicitLeft = 144
+    ExplicitTop = 184
+    ExplicitWidth = 100
+    ExplicitHeight = 100
+  end
+end
