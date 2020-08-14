@@ -122,6 +122,10 @@
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="..\common\Cube3D.cpp">
+            <DependentOn>..\common\Cube3D.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Form3DUnit.cpp">
             <Form>Form3DView</Form>
             <FormType>dfm</FormType>
@@ -139,6 +143,12 @@
             <FormType>dfm</FormType>
             <DependentOn>FormLongProcessUnit.h</DependentOn>
             <BuildOrder>9</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="FormParamsUnit.cpp">
+            <Form>ParamsDlg</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>FormParamsUnit.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="FormResultUnit.cpp">
             <Form>FormResultView</Form>
@@ -177,6 +187,7 @@
         <FormResources Include="FormLongProcessUnit.dfm"/>
         <FormResources Include="FormResultUnit.dfm"/>
         <FormResources Include="FormTableUnit.dfm"/>
+        <FormResources Include="FormParamsUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

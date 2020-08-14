@@ -14,6 +14,7 @@ object FormBinaryView: TFormBinaryView
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnHide = FormHide
   PixelsPerInch = 96
   TextHeight = 13
@@ -28,9 +29,5 @@ object FormBinaryView: TFormBinaryView
     SlideShowInterval = 500
     Align = alClient
     ParentColor = False
-    ExplicitLeft = 144
-    ExplicitTop = 184
-    ExplicitWidth = 100
-    ExplicitHeight = 100
   end
 end

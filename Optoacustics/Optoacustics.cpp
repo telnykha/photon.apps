@@ -10,6 +10,7 @@ USEFORM("FormBimaryUnit.cpp", FormBinaryView);
 USEFORM("FormLongProcessUnit.cpp", LongProcessForm);
 USEFORM("FormResultUnit.cpp", FormResultView);
 USEFORM("FormTableUnit.cpp", FormTableView);
+USEFORM("FormParamsUnit.cpp", ParamsDlg);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -23,6 +24,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TFormBinaryView), &FormBinaryView);
 		Application->CreateForm(__classid(TFormResultView), &FormResultView);
 		Application->CreateForm(__classid(TLongProcessForm), &LongProcessForm);
+		Application->CreateForm(__classid(TParamsDlg), &ParamsDlg);
 		Application->Run();
 	}
 	catch (Exception &exception)

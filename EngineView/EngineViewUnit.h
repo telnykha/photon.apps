@@ -47,8 +47,6 @@ __published:	// IDE-managed Components
 	void __fastcall CheckListBox2Click(TObject *Sender);
 	void __fastcall CheckListBox2ClickCheck(TObject *Sender);
 	void __fastcall RadioGroup1Click(TObject *Sender);
-	void __fastcall PaintBox1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          int X, int Y);
 	void __fastcall PaintBox1MouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);

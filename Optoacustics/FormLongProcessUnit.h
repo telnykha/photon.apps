@@ -17,11 +17,14 @@ __published:	// IDE-managed Components
 	TTimer *Timer1;
 	TLabel *Label1;
 	TCGauge *CGauge1;
+	TLabel *Label2;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TLongProcessForm(TComponent* Owner);
+
+    bool bProcessing;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TLongProcessForm *LongProcessForm;

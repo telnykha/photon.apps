@@ -41,7 +41,6 @@ object EngineViewForm: TEngineViewForm
       Align = alClient
       Color = clBlack
       ParentColor = False
-      OnMouseDown = PaintBox1MouseDown
       OnMouseMove = PaintBox1MouseMove
       OnMouseUp = PaintBox1MouseUp
       OnPaint = PaintBox1Paint

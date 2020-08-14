@@ -3,7 +3,7 @@ object LongProcessForm: TLongProcessForm
   Top = 0
   BorderStyle = bsNone
   Caption = 'LongProcessForm'
-  ClientHeight = 85
+  ClientHeight = 106
   ClientWidth = 529
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -28,6 +28,12 @@ object LongProcessForm: TLongProcessForm
     Top = 8
     Width = 505
     Height = 37
+  end
+  object Label2: TLabel
+    Left = 8
+    Top = 80
+    Width = 3
+    Height = 13
   end
   object Timer1: TTimer
     Enabled = False

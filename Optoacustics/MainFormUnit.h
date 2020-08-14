@@ -81,6 +81,8 @@ __published:	// IDE-managed Components
 	TToolButton *ToolButton4;
 	TToolButton *ToolButton5;
 	TToolButton *ToolButton6;
+	TAction *MakeClustersAction;
+	TMenuItem *MakeClusters1;
 	void __fastcall fileCloseActionExecute(TObject *Sender);
 	void __fastcall fileOpenActionExecute(TObject *Sender);
 	void __fastcall fileCloseImageActionExecute(TObject *Sender);
@@ -119,18 +121,29 @@ __published:	// IDE-managed Components
 	void __fastcall viewPlayActionUpdate(TObject *Sender);
 	void __fastcall PhImage1AfterOpen(TObject *Sender);
 	void __fastcall PhImage1FrameData(TObject *Sender, int w, int h, int c, BYTE *data);
+	void __fastcall PhImage1Paint(TObject *Sender);
+	void __fastcall PhImage1MouseWheel(TObject *Sender, TShiftState Shift, int WheelDelta,
+          const TPoint &MousePos, bool &Handled);
+	void __fastcall MakeClustersActionExecute(TObject *Sender);
+	void __fastcall MakeClustersActionUpdate(TObject *Sender);
 
 
 
 private:	// User declarations
     TIFF* tif;
 	bool OpenTIFFImage(const char* fileName);
-	TOAProcessor m_p;
+
 public:		// User declarations
+	TOAProcessor m_p;
+	TLFObjectList m_3DSource;
+    TLFImage      m_sumImage;
+
 	__fastcall TMainForm(TComponent* Owner);
 	void ShowLeftDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
 
 	bool DecodeTIFF();
+	void ProcessImages();
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TMainForm *MainForm;

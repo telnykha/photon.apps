@@ -10,6 +10,7 @@ TOAProcessor::TOAProcessor()
 {
 	m_radius = 1.5;
 	m_threshold = 0.5;
+	m_needContours = true;
 }
 
 void TOAProcessor::SetImage(awpImage* image)
@@ -26,6 +27,7 @@ void TOAProcessor::SetImage(awpImage* image)
 	awpCreateImage(&tmp, m_source.GetImage()->sSizeX, m_source.GetImage()->sSizeY, 1,  AWP_BYTE);
 	awpGaussianBlur(m_source.GetImage(), tmp, m_radius);
 	double t = 255*this->m_threshold;
+	m_source.SetImage(tmp);
 	awpMakeBinary(m_source.GetImage(),&tmp, t, AWP_BINARY, 0 , 255 , NULL);
 	m_result.SetImage(tmp);
 	if (m_needContours)
@@ -96,4 +98,21 @@ void TOAProcessor::SetNeedContours(bool value)
    m_needContours = value;
 }
 
+int TOAProcessor::GetNumContours()
+{
+	return m_contours.GetCount();
+}
+
+TLF2DContour* TOAProcessor::GetContour(int index)
+{
+	TLFZone* zone = m_contours.GetZone(index);
+	if (zone == NULL)
+		return NULL;
+	return zone->GetContour();
+}
+
+awpImage* TOAProcessor::GetSmoothedImage()
+{
+	return m_source.GetImage();
+}
 

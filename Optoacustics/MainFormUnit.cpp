@@ -9,6 +9,7 @@
 #include "FormBimaryUnit.h"
 #include "FormResultUnit.h"
 #include "FormLongProcessUnit.h"
+#include "FormParamsUnit.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -52,6 +53,7 @@ void __fastcall TMainForm::fileOpenActionExecute(TObject *Sender)
 			ShowMessage(L"Cannot open file:" + OpenDialog1->FileName);
 			return;
 		}
+		LongProcessForm->bProcessing = false;
 		LongProcessForm->ShowModal();
 	}
 }
@@ -324,7 +326,7 @@ void __fastcall TMainForm::viewPlayActionExecute(TObject *Sender)
 void __fastcall TMainForm::viewPlayActionUpdate(TObject *Sender)
 {
 	viewPlayAction->Enabled = PhImage1->Frames->Count > 0;
-    viewPlayAction->Checked = PhImage1->SlideShow;
+	viewPlayAction->Checked = PhImage1->SlideShow;
 }
 //---------------------------------------------------------------------------
 
@@ -338,15 +340,296 @@ void __fastcall TMainForm::PhImage1AfterOpen(TObject *Sender)
 void __fastcall TMainForm::PhImage1FrameData(TObject *Sender, int w, int h, int c,
           BYTE *data)
 {
-	//
+
 	awpImage* img = NULL;
 	awpCreateImage(&img, w,h, c, AWP_BYTE);
 	memcpy(img->pPixels, data, w*h*c*sizeof(AWPBYTE));
 
 	m_p.SetImage(img);
-	FormBinaryView->PhImage1->SetAwpImage(m_p.GetImage());
+
+	FormBinaryView->PhImage1->SetAwpImage(m_p.GetSmoothedImage());
 	FormBinaryView->PhImage1->BestFit();
 	awpReleaseImage(&img);
+	PhImage1Paint(NULL);
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TMainForm::PhImage1Paint(TObject *Sender)
+{
+	TCanvas* c = FormBinaryView->PhImage1->Canvas;
+
+	//
+	c->Pen->Color = clLime;
+	c->Pen->Width = 2;
+	for(int i = 0; i < m_p.GetNumContours(); i++)
+	{
+		TLF2DContour* cc = m_p.GetContour(i);
+		// draw contour
+		awp2DPoint _ap = cc->GetPoint(0);
+		TPoint pp;
+		pp.X = _ap.X;
+		pp.y = _ap.Y;
+
+		pp = FormBinaryView->PhImage1->GetScreenPoint(pp.x, pp.Y);
+		c->MoveTo(pp.x, pp.Y);
+		TPoint sp = pp;
+		for (int j = 0; j < cc->GetNumPoints(); j++)
+		{
+			_ap = cc->GetPoint(j);
+			TPoint pp;
+			pp.X = _ap.X;
+			pp.y = _ap.Y;
+			pp = FormBinaryView->PhImage1->GetScreenPoint(pp.x, pp.Y);
+			c->LineTo(pp.x, pp.Y);
+		}
+		c->LineTo(sp.x, sp.Y);
+	}
+
+	c->Pen->Color = clBlack;
+	c->Pen->Width = 1;
+
+	Form3DView->PaintBox1Paint(NULL);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::PhImage1MouseWheel(TObject *Sender, TShiftState Shift,
+		  int WheelDelta, const TPoint &MousePos, bool &Handled)
+{
+	PhImage1Paint(NULL);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::MakeClustersActionExecute(TObject *Sender)
+{
+	if (ParamsDlg->ShowModal() == mrOk)
+	{
+		// processing
+		m_p.SetThreshold(ParamsDlg->threshold);
+		m_p.SetRadius(ParamsDlg->radius);
+		LongProcessForm->bProcessing = true;
+		LongProcessForm->ShowModal();
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::MakeClustersActionUpdate(TObject *Sender)
+{
+	MakeClustersAction->Enabled =  PhImage1->Frames->Count > 0;
+}
+
+typedef struct _palEntry
+{
+	double r;
+	double g;
+	double b;
+} palEntry;
+
+const palEntry HeatmapPal[128] =
+{
+	{0.0,	0.0,	74.0},
+	{ 0.0,	0.0,	78.0 },
+	{ 0.0,	0.0,	78.0 },
+	{ 0.0,	0.0,	78.0 },
+	{ 0.0,	0.0,	82.0 },
+	{ 0.0,	0.0,	86.0 },
+	{ 0.0,	0.0,	90.0 },
+	{ 0.0,	0.0,	94.0 },
+	{ 0.0,	0.0,	98.0 },
+	{ 0.0,	0.0,	102.0 },
+	{ 0.0,	0.0,	106.0 },
+	{ 0.0,	0.0,	110.0 },
+	{ 0.0,	0.0,	114.0 },
+	{ 0.0,	0.0,	118.0 },
+	{ 0.0,	0.0,	122.0 },
+	{ 0.0,	0.0,	126.0 },
+	{ 0.0,	2.0,	128.0 },
+	{ 0.0,	6.0,	128.0 },
+	{ 0.0,	10.0,	128.0 },
+	{ 0.0,	14.0,	128.0 },
+	{ 0.0,	18.0,	128.0 },
+	{ 0.0,	22.0,	128.0 },
+	{ 0.0,	26.0,	128.0 },
+	{ 0.0,	30.0,	128.0 },
+	{ 0.0,	34.0,	128.0 },
+	{ 0.0,	38.0,	128.0 },
+	{ 0.0,	42.0,	128.0 },
+	{ 0.0,	46.0,	128.0 },
+	{ 0.0,	50.0,	128.0 },
+	{ 0.0,	54.0,	128.0 },
+	{ 0.0,	58.0,	128.0 },
+	{ 0.0,	62.0,	128.0 },
+	{ 0.0,	66.0,	128.0 },
+	{ 0.0,	70.0,	128.0 },
+	{ 0.0,	74.0,	128.0 },
+	{ 0.0,	78.0,	128.0 },
+	{ 0.0,	82.0,	128.0 },
+	{ 0.0,	86.0,	128.0 },
+	{ 0.0,	90.0,	128.0 },
+	{ 0.0,	94.0,	128.0 },
+	{ 0.0,	98.0,	128.0 },
+	{ 0.0,	102.0,	128.0 },
+	{ 0.0,	106.0,	128.0 },
+	{ 0.0,	110.0,	128.0 },
+	{ 0.0,	114.0,	128.0 },
+	{ 0.0,	118.0,	128.0 },
+	{ 0.0,	122.0,	128.0 },
+	{ 0.0,	126.0,	128.0 },
+	{ 2.0,	128.0,	126.0 },
+	{ 6.0,	128.0,	122.0 },
+	{ 10.0,	128.0,	118.0 },
+	{ 14.0,	128.0,	114.0 },
+	{ 18.0,	128.0,	110.0 },
+	{ 22.0,	128.0,	106.0 },
+	{ 26.0,	128.0,	102.0 },
+	{ 30.0,	128.0,	98.0 },
+	{ 34.0,	128.0,	94.0 },
+	{ 38.0,	128.0,	90.0 },
+	{ 42.0,	128.0,	86.0 },
+	{ 46.0,	128.0,	82.0 },
+	{ 50.0,	128.0,	78.0 },
+	{ 54.0,	128.0,	74.0 },
+	{ 58.0,	128.0,	70.0 },
+	{ 62.0,	128.0,	66.0 },
+	{ 66.0,	128.0,	62.0 },
+	{ 70.0,	128.0,	58.0 },
+	{ 74.0,	128.0,	54.0 },
+	{ 78.0,	128.0,	50.0 },
+	{ 82.0,	128.0,	46.0 },
+	{ 86.0,	128.0,	42.0 },
+	{ 90.0,	128.0,	38.0 },
+	{ 94.0,	128.0,	34.0 },
+	{ 98.0,	128.0,	30.0 },
+	{ 102.0,	128.0,	26.0 },
+	{ 106.0,	128.0,	22.0 },
+	{ 110.0,	128.0,	18.0 },
+	{ 114.0,	128.0,	14.0 },
+	{ 118.0,	128.0,	10.0 },
+	{ 122.0,	128.0,	6.0 },
+	{ 126.0,	128.0,	2.0 },
+	{ 128.0,	126.0,	0.0 },
+	{ 128.0,	122.0,	0.0 },
+	{ 128.0,	118.0,	0.0 },
+	{ 128.0,	114.0,	0.0 },
+	{ 128.0,	110.0,	0.0 },
+	{ 128.0,	106.0,	0.0 },
+	{ 128.0,	102.0,	0.0 },
+	{ 128.0,	98.0,	0.0 },
+	{ 128.0,	94.0,	0.0 },
+	{ 128.0,	90.0,	0.0 },
+	{ 128.0,	86.0,	0.0 },
+	{ 128.0,	82.0,	0.0 },
+	{ 128.0,	78.0,	0.0 },
+	{ 128.0,	74.0,	0.0 },
+	{ 128.0,	70.0,	0.0 },
+	{ 128.0,	66.0,	0.0 },
+	{ 128.0,	62.0,	0.0 },
+	{ 128.0,	58.0,	0.0 },
+	{ 128.0,	54.0,	0.0 },
+	{ 128.0,	50.0,	0.0 },
+	{ 128.0,	46.0,	0.0 },
+	{ 128.0,	42.0,	0.0 },
+	{ 128.0,	38.0,	0.0 },
+	{ 128.0,	34.0,	0.0 },
+	{ 128.0,	30.0,	0.0 },
+	{ 128.0,	26.0,	0.0 },
+	{ 128.0,	22.0,	0.0 },
+	{ 128.0,	18.0,	0.0 },
+	{ 128.0,	14.0,	0.0 },
+	{ 128.0,	10.0,	0.0 },
+	{ 128.0,	6.0,	0.0 },
+	{ 128.0,	2.0,	0.0 },
+	{ 126.0,	0.0,	0.0 },
+	{ 122.0,	0.0,	0.0 },
+	{ 118.0,	0.0,	0.0 },
+	{ 114.0,	0.0,	0.0 },
+	{ 110.0,	0.0,	0.0 },
+	{ 106.0,	0.0,	0.0 },
+	{ 102.0,	0.0,	0.0 },
+	{ 98.0,	0.0,	0.0 },
+	{ 94.0,	0.0,	0.0 },
+	{ 90.0,	0.0,	0.0 },
+	{ 86.0,	0.0,	0.0 },
+	{ 82.0,	0.0,	0.0 },
+	{ 78.0,	0.0,	0.0 },
+	{ 74.0,	0.0,	0.0 },
+	{ 70.0,	0.0,	0.0 },
+	{ 66.0,	0.0,	0.0 }
+};
+
+
+awpImage* Colorize(awpImage* src)
+{
+	awpImage* result = NULL;
+	awpCreateImage(&result, src->sSizeX, src->sSizeY, 3, AWP_BYTE);
+	AWPBYTE* b1 = (AWPBYTE*)result->pPixels;
+	AWPBYTE* b = (AWPBYTE*)src->pPixels;
+
+	for (int i = 0; i < src->sSizeX*src->sSizeY; i++)
+	{
+		b1[3*i]   = HeatmapPal[b[i]/2].b;
+		b1[3*i+1] = HeatmapPal[b[i]/2].g;
+		b1[3*i+2] = HeatmapPal[b[i]/2].r;
+	}
+
+	return result;
+}
+
+//---------------------------------------------------------------------------
+void TMainForm::ProcessImages()
+{
+	m_3DSource.Clear();
+
+	AnsiString outDir = "C:\\_alt\\test_tiff\\";
+	LongProcessForm->Label1->Caption = L"Processing data...";
+	LongProcessForm->CGauge1->MaxValue = TIFF_NUM_DIRS;
+	awpImage* img = NULL;
+	awpImage* sum = NULL;
+	awpImage* mask = NULL;
+	awpImage* img_dbl = NULL;
+	awpCreateImage(&sum, TIFF_WIDTH, TIFF_HEIGHT, 1, AWP_DOUBLE);
+	AWPDOUBLE* ss = (AWPDOUBLE*)sum->pPixels;
+	for (int i = 0; i < TIFF_NUM_DIRS; i++)
+	{
+		AnsiString s = outDir + IntToStr(i) + ".awp";
+		awpLoadImage(s.c_str(), &img);
+		Application->ProcessMessages();
+		awpCopyImage(img, &img_dbl);
+		awpConvert(img_dbl, AWP_CONVERT_TO_DOUBLE);
+		AWPBYTE* id = (AWPBYTE*)img->pPixels;
+
+		for(int k = 0; k < sum->sSizeX*sum->sSizeY; k++)
+			ss[k] += (TIFF_NUM_DIRS - i+1)*(AWPDOUBLE)id[k];
+
+		TLFZones* zones = new TLFZones();
+		if (img != NULL)
+		{
+			TOAProcessor p;
+			p.SetThreshold(ParamsDlg->threshold);
+			p.SetRadius(ParamsDlg->radius);
+			p.SetImage(img);
+
+
+			LongProcessForm->Label2->Caption = "Num contours = " + IntToStr(p.GetNumContours());
+			for (int j = 0; j < p.GetNumContours(); j++)
+			{
+				TLF2DContour* c = p.GetContour(j);
+				TLFZone* z = new TLFZone(*c);
+				zones->AddZone(z);
+			}
+		}
+		m_3DSource.Add(zones);
+		LongProcessForm->CGauge1->Progress = i;
+	}
+	awpConvert(sum, AWP_CONVERT_TO_BYTE_WITH_NORM);
+	awpImage* result =  Colorize(sum);
+	FormResultView->PhImage1->SetAwpImage(sum);
+
+	awpReleaseImage(&result);
+	awpReleaseImage(&sum);
+	awpReleaseImage(&mask);
+	awpReleaseImage(&img);
+	LongProcessForm->CGauge1->MaxValue = 100;
+	LongProcessForm->Close();
+    Form3DView->PaintBox1Paint(NULL);
+}
 

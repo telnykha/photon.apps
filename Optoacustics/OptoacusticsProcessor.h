@@ -19,6 +19,7 @@ public:
 
 	void SetImage(awpImage* image);
 	awpImage* GetImage();
+	awpImage* GetSmoothedImage();
 
 	double GetThreshold();
 	double GetRadius();
@@ -27,5 +28,8 @@ public:
 	void SetThreshold(double value);
 	void SetRadius(double value);
 	void SetNeedContours(bool value);
+
+	int GetNumContours();
+	TLF2DContour* GetContour(int index);
 };
 #endif

@@ -17,16 +17,16 @@ object MainForm: TMainForm
   TextHeight = 13
   object Splitter2: TSplitter
     Left = 5
-    Top = 52
-    Height = 479
+    Top = 58
+    Height = 473
     ExplicitLeft = 112
     ExplicitTop = 360
     ExplicitHeight = 100
   end
   object Splitter3: TSplitter
     Left = 677
-    Top = 52
-    Height = 479
+    Top = 58
+    Height = 473
     Align = alRight
     ExplicitLeft = 648
     ExplicitTop = 392
@@ -41,24 +41,27 @@ object MainForm: TMainForm
   end
   object PhImage1: TPhImage
     Left = 8
-    Top = 52
+    Top = 58
     Width = 669
-    Height = 479
+    Height = 473
     AutoMosaic = True
     ThumbWidht = 256
     ThumbHeight = 256
     SlideShowInterval = 500
     Align = alClient
     ParentColor = False
+    OnMouseWheel = PhImage1MouseWheel
+    OnPaint = PhImage1Paint
     AfterOpen = PhImage1AfterOpen
     OnProgress = PhImage1Progress
     OnFinish = PhImage1Finish
     OnFrameData = PhImage1FrameData
   end
   object ToolBar1: TToolBar
-    Left = 0
-    Top = 0
-    Width = 693
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 687
     Height = 52
     ButtonHeight = 48
     ButtonWidth = 64
@@ -101,9 +104,9 @@ object MainForm: TMainForm
   end
   object LeftDocPanel: TPanel
     Left = 0
-    Top = 52
+    Top = 58
     Width = 5
-    Height = 479
+    Height = 473
     Align = alLeft
     DockSite = True
     TabOrder = 3
@@ -113,9 +116,9 @@ object MainForm: TMainForm
   end
   object RightDocPanel: TPanel
     Left = 680
-    Top = 52
+    Top = 58
     Width = 13
-    Height = 479
+    Height = 473
     Align = alRight
     DockSite = True
     TabOrder = 4
@@ -185,6 +188,9 @@ object MainForm: TMainForm
     end
     object Run1: TMenuItem
       Caption = 'Run'
+      object MakeClusters1: TMenuItem
+        Action = MakeClustersAction
+      end
     end
     object Help1: TMenuItem
       Caption = 'Help'
@@ -267,6 +273,12 @@ object MainForm: TMainForm
       ImageIndex = 4
       OnExecute = viewPlayActionExecute
       OnUpdate = viewPlayActionUpdate
+    end
+    object MakeClustersAction: TAction
+      Category = 'Run'
+      Caption = 'Make Clusters...'
+      OnExecute = MakeClustersActionExecute
+      OnUpdate = MakeClustersActionUpdate
     end
   end
   object OpenDialog1: TOpenDialog

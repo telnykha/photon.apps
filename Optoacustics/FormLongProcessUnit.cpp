@@ -15,6 +15,7 @@ TLongProcessForm *LongProcessForm;
 __fastcall TLongProcessForm::TLongProcessForm(TComponent* Owner)
 	: TForm(Owner)
 {
+	bProcessing = false;
 }
 //---------------------------------------------------------------------------
 void __fastcall TLongProcessForm::FormShow(TObject *Sender)
@@ -26,7 +27,12 @@ void __fastcall TLongProcessForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TLongProcessForm::Timer1Timer(TObject *Sender)
 {
-    Timer1->Enabled = false;
-	MainForm->DecodeTIFF();
+	Timer1->Enabled = false;
+	if (!bProcessing)
+	{
+		MainForm->DecodeTIFF();
+	}
+	else
+        MainForm->ProcessImages();
 }
 //---------------------------------------------------------------------------

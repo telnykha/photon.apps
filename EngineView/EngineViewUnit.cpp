@@ -686,15 +686,6 @@ void __fastcall TEngineViewForm::RadioGroup1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TEngineViewForm::PaintBox1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          int X, int Y)
-{
-	this->m_mdown = true;
-	m_dx = X;
-	m_dy = Y;
-
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TEngineViewForm::PaintBox1MouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y)
