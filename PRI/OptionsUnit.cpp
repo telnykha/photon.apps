@@ -35,6 +35,8 @@ void __fastcall TForm3::Button2Click(TObject *Sender)
 	//ini->needSaveAll = CheckBox1->Checked;
     ini->strArchive = Edit1->Text;
 	MainForm->m_arcive.path =ini->strArchive;
+	MainForm->TabSheet3Show(NULL);
+    MainForm->ListBox2->Clear();
 
     Close();
 }
