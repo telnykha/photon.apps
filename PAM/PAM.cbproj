@@ -60,8 +60,8 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>PAM</SanitizedProjectName>
-        <IncludePath>..\..\photon.research\common\;..\common\;..\mt_common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;$(PHOTON)\photon41\photon\lib;$(PHOTON)\common\MighTex;$(TINY)\lib;$(AWP)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\photon.research\common\;..\common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);..\common\Mightex\Mightex;..\..\photon.apps\common\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;$(TINY)\lib;$(AWP)\lib;$(PHOTON41)\lib;$(JPEG)\lib;$(PHOTON41)\lib\lib;..\..\photon.apps\common\Mightex\Mightex;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -120,10 +120,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.1.61;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.A.M;FileVersion=1.0.1.63;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=P.A.M;ProductVersion=1.0.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
-        <VerInfo_Build>61</VerInfo_Build>
+        <VerInfo_Build>63</VerInfo_Build>
         <Icon_MainIcon>PAM_Icon.ico</Icon_MainIcon>
         <PostBuildEvent><![CDATA[copy setupdll\*.* .\$(Platform)\$(Config)
 mkdir .\$(Platform)\$(Config)\sketch_jul18b
@@ -135,6 +135,8 @@ $(PreBuildEvent)]]></PreBuildEvent>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_Release>1</VerInfo_Release>
+        <ILINK_LibraryPath>..\..\photon\photon41\photon\lib\lib\;..\..\photon\photon41\photon\lib\;..\..\awpipl2\lib;..\..\awplflib\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\awpipl2\include;..\..\awplflib\include;..\..\TinyXML\borland\Release_Build;..\..\photon\photon41\photon;..\..\photon41\photon\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="ABOUT.cpp">

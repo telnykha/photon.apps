@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>PRI.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -58,10 +58,10 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>pri</SanitizedProjectName>
-        <IncludePath>..\..\photon41\photon\;$(BDS)\ObjRepos\EN\Cpp\;..\..\photon.research\common\;..\common\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(PHOTON)\common\Mightex;..\common;$(AWP)\include\_include;$(IncludePath)</IncludePath>
+        <IncludePath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(AWP)\include\_include;..\..\photon.apps\common\mightex\mightex;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=1.2.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
-        <ILINK_LibraryPath>$(BDS)\ObjRepos\EN\Cpp\;..\common\;..\..\photon41\photon\;..\..\common\;$(PHOTON41)\lib;$(PHOTON)\common\MighTex;$(AWP)\lib;$(PHOTON)\photon41\photon\lib;$(TINY)\lib;$(LF)\lib;..\..\bin\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\lib;$(TINY)\lib;$(AWP)\lib;$(LF)\lib;$(JPEG)\lib;..\..\bin;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
     </PropertyGroup>
@@ -104,29 +104,33 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib;bcbsmp.lib</LinkPackageStatics>
         <Debugger_DebugSourcePath>D:\_alt\_proj\awpipl2\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
-        <ILINK_LibraryPath>D:\_alt\_proj\photon\photon41\Win32\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\photon.research\common\;$(PHOTON41)\lib\lib;..\..\photon.apps\common\Mightex\Mightex;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <UsePackages>false</UsePackages>
         <Icon_MainIcon>pri_Icon1.ico</Icon_MainIcon>
+        <IncludePath>C:\IPFRAN\awpipl2\include;C:\IPFRAN\awplflib\include;C:\IPFRAN\photon\photon41\photon\common\Mightex\Mightex;$(IncludePath)</IncludePath>
+        <FinalOutputDir>C:\IPFRAN\photon\photon.apps\PRI\Win32\Debug\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
+        <FinalOutputDir>C:\IPFRAN\photon\photon.apps\PRI\Win32\Release\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <BCC_UseClassicCompiler>true</BCC_UseClassicCompiler>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <ILINK_LibraryPath>D:\_alt\_proj\photon\photon41\Win32\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>C:\IPFRAN\photon\photon41\photon;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib;bcbsmp.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
-        <VerInfo_Build>53</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.53;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Build>54</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.54;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
         <Icon_MainIcon>pri_Icon.ico</Icon_MainIcon>
+        <IncludePath>C:\IPFRAN\photon\photon41\photon;C:\IPFRAN\awpipl2\include;C:\IPFRAN\awplflib\include;C:\IPFRAN\photon\photon41\photon\common\Mightex\Mightex;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="..\common\VerInfoUnit.cpp">
@@ -221,11 +225,11 @@
         <FormResources Include="PriMain.dfm"/>
         <FormResources Include="PriCalibrationForm.dfm"/>
         <FormResources Include="SelectDirUnit.dfm"/>
-        <FormResources Include="ABOUT.dfm"/>
+        <FormResources Include="PriSpatialCalibration.dfm"/>
         <FormResources Include="CaptureDataUnit.dfm"/>
+        <FormResources Include="ABOUT.dfm"/>
         <FormResources Include="OptionsUnit.dfm"/>
         <FormResources Include="ExportPriUnit.dfm"/>
-        <FormResources Include="PriSpatialCalibration.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -252,7 +256,10 @@
                 <Source>
                     <Source Name="MainSource">PRI.cpp</Source>
                 </Source>
-                <Excluded_Packages/>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">
@@ -319,6 +326,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="..\..\bin\pri.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>pri.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="readme.txt" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -344,12 +357,6 @@
                 <DeployFile LocalName="todo.txt" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\bin\pri.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>pri.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
