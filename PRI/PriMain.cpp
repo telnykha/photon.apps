@@ -975,7 +975,27 @@ void __fastcall TMainForm::editCopyChartActionUpdate(TObject *Sender)
 
 void __fastcall TMainForm::editCopyTableActionExecute(TObject *Sender)
 {
-//
+ String f;
+ String f_old;
+ int c;
+ int v;
+
+ c = StringGrid1->RowCount;
+ v = StringGrid1->ColCount;
+ for (int i = 0; i < c; i++)
+ {
+ f = f + "\n";
+	  for (int j = 0; j < v; j++)
+	  {
+
+		f_old = f;
+		f = f_old + StringGrid1->Cells[j][i] + "\t";
+	  }
+ }
+
+	 Clipboard()->AsText =  f;
+
+ //;
 }
 //---------------------------------------------------------------------------
 

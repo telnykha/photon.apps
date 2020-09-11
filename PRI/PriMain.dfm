@@ -37,10 +37,6 @@ object MainForm: TMainForm
       object TabSheet2: TTabSheet
         Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -228,10 +224,6 @@ object MainForm: TMainForm
         Caption = #1040#1088#1093#1080#1074
         ImageIndex = 2
         OnShow = TabSheet3Show
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Splitter2: TSplitter
           Left = 185
           Top = 0
@@ -267,11 +259,12 @@ object MainForm: TMainForm
             object Label4: TLabel
               Left = 1
               Top = 1
-              Width = 94
+              Width = 181
               Height = 13
               Align = alTop
               Alignment = taCenter
               Caption = #1069#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1099' PRI'
+              ExplicitWidth = 94
             end
             object ListBox1: TListBox
               AlignWithMargins = True
@@ -303,11 +296,12 @@ object MainForm: TMainForm
             object Label5: TLabel
               Left = 1
               Top = 1
-              Width = 92
+              Width = 181
               Height = 13
               Align = alTop
               Alignment = taCenter
               Caption = #1057#1087#1080#1089#1086#1082' '#1080#1079#1084#1077#1088#1077#1085#1080#1081
+              ExplicitWidth = 92
             end
             object ListBox2: TListBox
               AlignWithMargins = True
@@ -365,11 +359,12 @@ object MainForm: TMainForm
               object Label6: TLabel
                 Left = 1
                 Top = 1
-                Width = 132
+                Width = 183
                 Height = 13
                 Align = alTop
                 Alignment = taCenter
                 Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
+                ExplicitWidth = 132
               end
               object Panel14: TPanel
                 Left = 1
@@ -843,15 +838,11 @@ object MainForm: TMainForm
               Top = 1
               Width = 684
               Height = 305
-              ActivePage = TabSheet8
+              ActivePage = TabSheet9
               Align = alClient
               TabOrder = 0
               object TabSheet8: TTabSheet
                 Caption = #1043#1088#1072#1092#1080#1082
-                ExplicitLeft = 0
-                ExplicitTop = 0
-                ExplicitWidth = 0
-                ExplicitHeight = 0
                 object StatusBar2: TStatusBar
                   Left = 0
                   Top = 258
@@ -896,10 +887,6 @@ object MainForm: TMainForm
               object TabSheet9: TTabSheet
                 Caption = #1058#1072#1073#1083#1080#1094#1072
                 ImageIndex = 1
-                ExplicitLeft = 0
-                ExplicitTop = 0
-                ExplicitWidth = 0
-                ExplicitHeight = 0
                 object StringGrid1: TStringGrid
                   Left = 0
                   Top = 0
