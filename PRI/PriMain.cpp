@@ -1542,8 +1542,6 @@ void __fastcall TMainForm::UpdateChart()
 			int col = roiViewAverageAction->Checked ? 2*i : 2*i+1;
 			LineSeries[i]= new TLineSeries(Chart1);
 			Chart1->AddSeries(LineSeries[i]);
-			if(LineSeries[i]->Count()>1);
-			LineSeries[i]->Clear();
 			for(int j = 0; j < StringGrid1->RowCount; j++)
 				{
 				double v = StrToFloat(StringGrid1->Cells[col][j]);
@@ -1566,6 +1564,11 @@ void __fastcall TMainForm::UpdateChart()
 				}
 			else
 			Chart1->Title->Text->Add(L"Стандартное отклонение для: ");
+			if (i == CheckListBox1->ItemIndex)
+				{
+				LineSeries[i]->LinePen->Width = 5;
+				}
+
 			}
 		Series2->AddXY(ListBox2->ItemIndex, y_min_old);
 		Series2->AddXY(ListBox2->ItemIndex, y_max_old);
