@@ -302,6 +302,7 @@ __published:	// IDE-managed Components
 	void __fastcall viewBrightnessCalibrationActionUpdate(TObject *Sender);
 	void __fastcall viewSpatialCalibrationActionExecute(TObject *Sender);
 	void __fastcall viewSpatialCalibrationActionUpdate(TObject *Sender);
+	void __fastcall CheckListBox1ClickCheck(TObject *Sender);
 
 private:	// User declarations
 	int m_frameNum1;

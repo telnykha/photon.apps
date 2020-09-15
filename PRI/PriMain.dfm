@@ -380,6 +380,7 @@ object MainForm: TMainForm
                 Top = 28
                 Width = 177
                 Height = 66
+                OnClickCheck = CheckListBox1ClickCheck
                 Align = alClient
                 ItemHeight = 13
                 PopupMenu = PopupMenu1

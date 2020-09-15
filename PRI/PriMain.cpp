@@ -1572,11 +1572,13 @@ void __fastcall TMainForm::UpdateChart()
 				}
 
 			}
-		Series2->AddXY(ListBox2->ItemIndex, y_min_old);
-		Series2->AddXY(ListBox2->ItemIndex, y_max_old);
 		}
 
+		Series2->AddXY(ListBox2->ItemIndex, y_min_old);
+		Series2->AddXY(ListBox2->ItemIndex, y_max_old);
+		Chart1->AddSeries(Series2);
 	}
+
 }
 
 void __fastcall TMainForm::ClearTable()
@@ -2094,4 +2096,10 @@ void __fastcall TMainForm::viewSpatialCalibrationActionUpdate(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TMainForm::CheckListBox1ClickCheck(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
 
