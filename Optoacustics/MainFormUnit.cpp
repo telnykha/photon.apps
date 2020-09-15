@@ -198,8 +198,6 @@ void __fastcall TMainForm::RightDocPanelUnDock(TObject *Sender, TControl *Client
 // 2. Затем открывает папку с использованием PhImage
 
 #define TIFF_NUM_DIRS 281
-#define TIFF_WIDTH    500
-#define TIFF_HEIGHT   500
 
 bool TMainForm::OpenTIFFImage(const char* fileName)
 {
@@ -213,6 +211,10 @@ bool TMainForm::OpenTIFFImage(const char* fileName)
 	} while (TIFFReadDirectory(tif));
 	if (dircount != TIFF_NUM_DIRS)
 		return false;
+
+	TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &TIFF_HEIGHT);
+	TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &TIFF_WIDTH);
+
 	return true;
 }
 

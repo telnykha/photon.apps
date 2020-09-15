@@ -7,7 +7,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\LFMarker\ObjectsMarker.cbproj">
-            <Dependencies/>
+            <Dependencies>..\..\photon41\photon41.cbproj;..\..\..\awplflib\borland\awplflibb.cbproj;..\..\..\awpipl2\borland\awpipl2b.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\..\photon41\photon41.cbproj">
             <Dependencies/>
@@ -19,6 +19,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\..\awpipl2\borland\awpipl2b.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\TinyXML\borland\TinyXML.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -38,13 +41,13 @@
     <Target Name="Optoacustics:Make">
         <MSBuild Projects="Optoacustics.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ObjectsMarker">
+    <Target Name="ObjectsMarker" DependsOnTargets="photon41;awplflibb;awpipl2b">
         <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj"/>
     </Target>
-    <Target Name="ObjectsMarker:Clean">
+    <Target Name="ObjectsMarker:Clean" DependsOnTargets="photon41:Clean;awplflibb:Clean;awpipl2b:Clean">
         <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ObjectsMarker:Make">
+    <Target Name="ObjectsMarker:Make" DependsOnTargets="photon41:Make;awplflibb:Make;awpipl2b:Make">
         <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
     </Target>
     <Target Name="photon41">
@@ -83,14 +86,23 @@
     <Target Name="awpipl2b:Make">
         <MSBuild Projects="..\..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="TinyXML">
+        <MSBuild Projects="..\..\..\TinyXML\borland\TinyXML.cbproj"/>
+    </Target>
+    <Target Name="TinyXML:Clean">
+        <MSBuild Projects="..\..\..\TinyXML\borland\TinyXML.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TinyXML:Make">
+        <MSBuild Projects="..\..\..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Optoacustics;ObjectsMarker;photon41;PhotonDemo;awplflibb;awpipl2b"/>
+        <CallTarget Targets="Optoacustics;ObjectsMarker;photon41;PhotonDemo;awplflibb;awpipl2b;TinyXML"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Optoacustics:Clean;ObjectsMarker:Clean;photon41:Clean;PhotonDemo:Clean;awplflibb:Clean;awpipl2b:Clean"/>
+        <CallTarget Targets="Optoacustics:Clean;ObjectsMarker:Clean;photon41:Clean;PhotonDemo:Clean;awplflibb:Clean;awpipl2b:Clean;TinyXML:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Optoacustics:Make;ObjectsMarker:Make;photon41:Make;PhotonDemo:Make;awplflibb:Make;awpipl2b:Make"/>
+        <CallTarget Targets="Optoacustics:Make;ObjectsMarker:Make;photon41:Make;PhotonDemo:Make;awplflibb:Make;awpipl2b:Make;TinyXML:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -130,7 +130,10 @@ __published:	// IDE-managed Components
 
 
 private:	// User declarations
-    TIFF* tif;
+	TIFF* tif;
+
+	int TIFF_WIDTH;
+	int TIFF_HEIGHT;
 	bool OpenTIFFImage(const char* fileName);
 
 public:		// User declarations

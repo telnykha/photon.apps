@@ -27,9 +27,5 @@ object FormResultView: TFormResultView
     SlideShowInterval = 500
     Align = alClient
     ParentColor = False
-    ExplicitLeft = 264
-    ExplicitTop = 224
-    ExplicitWidth = 100
-    ExplicitHeight = 100
   end
 end
