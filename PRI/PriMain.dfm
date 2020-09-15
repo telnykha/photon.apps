@@ -37,10 +37,6 @@ object MainForm: TMainForm
       object TabSheet2: TTabSheet
         Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel2: TPanel
           Left = 0
           Top = 0
@@ -891,10 +887,6 @@ object MainForm: TMainForm
               object TabSheet9: TTabSheet
                 Caption = #1058#1072#1073#1083#1080#1094#1072
                 ImageIndex = 1
-                ExplicitLeft = 0
-                ExplicitTop = 0
-                ExplicitWidth = 0
-                ExplicitHeight = 0
                 object StringGrid1: TStringGrid
                   Left = 0
                   Top = 0

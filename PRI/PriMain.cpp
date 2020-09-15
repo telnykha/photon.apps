@@ -197,6 +197,8 @@ void __fastcall TMainForm::PreviewFrame(int width, int height, unsigned char* da
 }
 void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
+
+
 	this->ClearTable();
 	m_viewCamera = 0;
 	m_pInitFile = new TPriInitFile();
@@ -1533,26 +1535,26 @@ void __fastcall TMainForm::UpdateChart()
 		{
 		  CheckListBox1->ItemIndex = 0;
 		}
-	TLineSeries *LineSeries[100];
+	TLineSeries *LineSeries = NULL;
 	for (int i = 0; i < CheckListBox1->Count; i++)
 		{
 		Series2->Clear();
 		if (CheckListBox1->Checked[i])
 			{
 			int col = roiViewAverageAction->Checked ? 2*i : 2*i+1;
-			LineSeries[i]= new TLineSeries(Chart1);
-			Chart1->AddSeries(LineSeries[i]);
+			LineSeries= new TLineSeries(Chart1);
+			Chart1->AddSeries(LineSeries);
 			for(int j = 0; j < StringGrid1->RowCount; j++)
 				{
 				double v = StrToFloat(StringGrid1->Cells[col][j]);
-				LineSeries[i]->Add(v);
+				LineSeries->Add(v);
 				}
-			y_min = LineSeries[i]->MinYValue();
+			y_min = LineSeries->MinYValue();
 			if (y_min_old>=y_min)
 				{
 				y_min_old = y_min;
 				}
-			y_max = LineSeries[i]->MaxYValue();
+			y_max = LineSeries->MaxYValue();
 			if (y_min_old<=y_min)
 				{
 				y_min_old = y_min;
@@ -1566,7 +1568,7 @@ void __fastcall TMainForm::UpdateChart()
 			Chart1->Title->Text->Add(L"Стандартное отклонение для: ");
 			if (i == CheckListBox1->ItemIndex)
 				{
-				LineSeries[i]->LinePen->Width = 5;
+				LineSeries->LinePen->Width = 5;
 				}
 
 			}
