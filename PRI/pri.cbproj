@@ -61,7 +61,7 @@
         <IncludePath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(AWP)\include\_include;..\..\photon.apps\common\mightex\mightex;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=1.2.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
-        <ILINK_LibraryPath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\lib;$(TINY)\lib;$(AWP)\lib;$(LF)\lib;$(JPEG)\lib;..\..\bin;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\lib;$(TINY)\lib;$(AWP)\lib;$(LF)\lib;$(JPEG)\lib;..\..\bin;..\common\mightex\mightex;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
     </PropertyGroup>
@@ -131,6 +131,7 @@
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
         <Icon_MainIcon>pri_Icon.ico</Icon_MainIcon>
         <IncludePath>C:\IPFRAN\photon\photon41\photon;C:\IPFRAN\awpipl2\include;C:\IPFRAN\awplflib\include;C:\IPFRAN\photon\photon41\photon\common\Mightex\Mightex;$(IncludePath)</IncludePath>
+        <FinalOutputDir>..\..\bin\</FinalOutputDir>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="..\common\VerInfoUnit.cpp">
@@ -256,10 +257,7 @@
                 <Source>
                     <Source Name="MainSource">PRI.cpp</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">

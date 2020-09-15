@@ -11,6 +11,7 @@ protected:
 	double m_x;
 	double m_y;
 	double m_r;
+	bool   m_checked;
 public:
 	TPriRoiItem();
 	TPriRoiItem(double x, double y, double r);
@@ -26,9 +27,13 @@ public:
 	void SetX(double value);
 	void SetY(double value);
 	void SetR(double value);
+	void Draw(TPhImage* image);
 
 	bool LoadXML(TiXmlElement* parent);
 	bool SaveXML(TiXmlElement* parent);
+
+	void SetChecked(bool value);
+	bool GetChecked();
 };
 
 typedef void __fastcall (__closure *TPhAddRoiEvent)(System::TObject* Sender, TPriRoiItem* item);
@@ -68,6 +73,8 @@ public:
 	void __fastcall EditSelected(double x, double y, double r);
 
 	TRect GetRoiRect(TPriRoiItem* ri);
+
+	void SetChecked(int index, bool value);
 
 	__property int Selected = {read = m_selectedIndex, write = SetSelected};
 	__property TPhAddRoiEvent     OnAddRoi = {read = m_OnAddRoi, write = m_OnAddRoi};

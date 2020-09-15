@@ -10,18 +10,21 @@ TPriRoiItem::TPriRoiItem()
 	m_x = 0;
 	m_y = 0;
 	m_r = 0;
+	m_checked = false;
 }
 TPriRoiItem::TPriRoiItem(double x, double y, double r)
 {
 	m_x = x;
 	m_y = y;
 	m_r = r;
+	m_checked = false;
 }
 TPriRoiItem::TPriRoiItem(TPriRoiItem& item)
 {
 	m_x = item.m_x;
 	m_y = item.m_y;
 	m_r = item.m_r;
+	m_checked = item.m_checked;
 }
 
 TPriRoiItem::~TPriRoiItem()
@@ -87,6 +90,21 @@ bool TPriRoiItem::SaveXML(TiXmlElement* parent)
 	f->SetDoubleAttribute("r", m_r);
 	parent->LinkEndChild(f);
 	return true;
+}
+
+
+void TPriRoiItem::SetChecked(bool value)
+{
+	m_checked = value;
+}
+bool TPriRoiItem::GetChecked()
+{
+	return m_checked;
+}
+
+void TPriRoiItem::Draw(TPhImage* image)
+{
+	// здесь пускай рисуется.
 }
 
 
@@ -318,9 +336,21 @@ void __fastcall TPhPriRoiEditor::EditSelected(double x, double y, double r)
 	item->SetX(x);
 	item->SetY(y);
 	item->SetR(r);
-    m_pImage->Paint();
+	m_pImage->Paint();
   }
 }
+
+void TPhPriRoiEditor::SetChecked(int index, bool value)
+{
+	//
+	TPriRoiItem* ri = (TPriRoiItem*)m_rois.Get(index);
+	if (ri != NULL)
+	{
+		ri->SetChecked(value);
+	}
+
+}
+
 
 
 
