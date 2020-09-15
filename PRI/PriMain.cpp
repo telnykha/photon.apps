@@ -1521,32 +1521,56 @@ awpImage* __fastcall GetVisibleImage()
 void __fastcall TMainForm::UpdateChart()
 {
 	// Обновление графика.
-	Series1->Clear();
-	Series2->Clear();
 	Chart1->Title->Clear();
+	Chart1->SeriesList->Clear();
+	double y_min_old = 0;
+	double y_min = 0;
+	double y_max_old = 0;
+	double y_max = 0;
 	if (StringGrid1->RowCount > 1)
 	{
-		if (CheckListBox1->ItemIndex < 0) {
-          CheckListBox1->ItemIndex = 0;
-		}
-		int col = roiViewAverageAction->Checked ? 2*CheckListBox1->ItemIndex : 2*CheckListBox1->ItemIndex+1;
-		for(int i = 0; i < StringGrid1->RowCount; i++)
+	if (CheckListBox1->ItemIndex < 0)
 		{
-			double v = StrToFloat(StringGrid1->Cells[col][i]);
-			Series1->Add(v);
+		  CheckListBox1->ItemIndex = 0;
 		}
-		Chart1->Title->Clear();
-		if (roiViewAverageAction->Checked) {
-			Chart1->Title->Text->Add(L"Среднее значение для: ");
-		}
-		else
+	TLineSeries *LineSeries[100];
+	for (int i = 0; i < CheckListBox1->Count; i++)
+		{
+		Series2->Clear();
+		if (CheckListBox1->Checked[i])
+			{
+			int col = roiViewAverageAction->Checked ? 2*i : 2*i+1;
+			LineSeries[i]= new TLineSeries(Chart1);
+			Chart1->AddSeries(LineSeries[i]);
+			if(LineSeries[i]->Count()>1);
+			LineSeries[i]->Clear();
+			for(int j = 0; j < StringGrid1->RowCount; j++)
+				{
+				double v = StrToFloat(StringGrid1->Cells[col][j]);
+				LineSeries[i]->Add(v);
+				}
+			y_min = LineSeries[i]->MinYValue();
+			if (y_min_old>=y_min)
+				{
+				y_min_old = y_min;
+				}
+			y_max = LineSeries[i]->MaxYValue();
+			if (y_min_old<=y_min)
+				{
+				y_min_old = y_min;
+				}
+			Chart1->Title->Clear();
+			if (roiViewAverageAction->Checked)
+				{
+				Chart1->Title->Text->Add(L"Среднее значение для: ");
+				}
+			else
 			Chart1->Title->Text->Add(L"Стандартное отклонение для: ");
+			}
+		Series2->AddXY(ListBox2->ItemIndex, y_min_old);
+		Series2->AddXY(ListBox2->ItemIndex, y_max_old);
+		}
 
-		Chart1->Title->Text->Add(CheckListBox1->Items->Strings[CheckListBox1->ItemIndex]);
-		double y_min = Series1->MinYValue();
-		double y_max = Series1->MaxYValue();
-		Series2->AddXY(ListBox2->ItemIndex, y_min);
-		Series2->AddXY(ListBox2->ItemIndex, y_max);
 	}
 }
 
@@ -2064,4 +2088,5 @@ void __fastcall TMainForm::viewSpatialCalibrationActionUpdate(TObject *Sender)
 	viewSpatialCalibrationAction->Checked = m_processor.needCalibration;
 }
 //---------------------------------------------------------------------------
+
 
