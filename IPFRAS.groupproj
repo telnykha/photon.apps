@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8A986DFA-C99E-46DF-8C88-D1F2C2374669}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\test\Fluovisor2.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Optoacustics\Optoacustics.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Fluovisor2">
+        <MSBuild Projects="..\test\Fluovisor2.cbproj"/>
+    </Target>
+    <Target Name="Fluovisor2:Clean">
+        <MSBuild Projects="..\test\Fluovisor2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Fluovisor2:Make">
+        <MSBuild Projects="..\test\Fluovisor2.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Optoacustics">
+        <MSBuild Projects="Optoacustics\Optoacustics.cbproj"/>
+    </Target>
+    <Target Name="Optoacustics:Clean">
+        <MSBuild Projects="Optoacustics\Optoacustics.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Optoacustics:Make">
+        <MSBuild Projects="Optoacustics\Optoacustics.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Fluovisor2;Optoacustics;photon41"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Fluovisor2:Clean;Optoacustics:Clean;photon41:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Fluovisor2:Make;Optoacustics:Make;photon41:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

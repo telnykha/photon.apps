@@ -24,6 +24,12 @@
         <Projects Include="..\..\..\TinyXML\borland\TinyXML.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\OAConvert\OAConvert.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\test\Fluovisor2.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -95,14 +101,32 @@
     <Target Name="TinyXML:Make">
         <MSBuild Projects="..\..\..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="OAConvert">
+        <MSBuild Projects="..\OAConvert\OAConvert.cbproj"/>
+    </Target>
+    <Target Name="OAConvert:Clean">
+        <MSBuild Projects="..\OAConvert\OAConvert.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OAConvert:Make">
+        <MSBuild Projects="..\OAConvert\OAConvert.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Fluovisor2">
+        <MSBuild Projects="..\..\test\Fluovisor2.cbproj"/>
+    </Target>
+    <Target Name="Fluovisor2:Clean">
+        <MSBuild Projects="..\..\test\Fluovisor2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Fluovisor2:Make">
+        <MSBuild Projects="..\..\test\Fluovisor2.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Optoacustics;ObjectsMarker;photon41;PhotonDemo;awplflibb;awpipl2b;TinyXML"/>
+        <CallTarget Targets="Optoacustics;ObjectsMarker;photon41;PhotonDemo;awplflibb;awpipl2b;TinyXML;OAConvert;Fluovisor2"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Optoacustics:Clean;ObjectsMarker:Clean;photon41:Clean;PhotonDemo:Clean;awplflibb:Clean;awpipl2b:Clean;TinyXML:Clean"/>
+        <CallTarget Targets="Optoacustics:Clean;ObjectsMarker:Clean;photon41:Clean;PhotonDemo:Clean;awplflibb:Clean;awpipl2b:Clean;TinyXML:Clean;OAConvert:Clean;Fluovisor2:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Optoacustics:Make;ObjectsMarker:Make;photon41:Make;PhotonDemo:Make;awplflibb:Make;awpipl2b:Make;TinyXML:Make"/>
+        <CallTarget Targets="Optoacustics:Make;ObjectsMarker:Make;photon41:Make;PhotonDemo:Make;awplflibb:Make;awpipl2b:Make;TinyXML:Make;OAConvert:Make;Fluovisor2:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

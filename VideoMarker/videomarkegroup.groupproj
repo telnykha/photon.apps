@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{59585970-387B-4B0F-A26E-38CF1A927169}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Video.Marker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\TinyXML\borland\TinyXML.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Video_Marker">
+        <MSBuild Projects="Video.Marker.cbproj"/>
+    </Target>
+    <Target Name="Video_Marker:Clean">
+        <MSBuild Projects="Video.Marker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Video_Marker:Make">
+        <MSBuild Projects="Video.Marker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="TinyXML">
+        <MSBuild Projects="..\..\..\TinyXML\borland\TinyXML.cbproj"/>
+    </Target>
+    <Target Name="TinyXML:Clean">
+        <MSBuild Projects="..\..\..\TinyXML\borland\TinyXML.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TinyXML:Make">
+        <MSBuild Projects="..\..\..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Video_Marker;awplflibb;TinyXML"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Video_Marker:Clean;awplflibb:Clean;TinyXML:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Video_Marker:Make;awplflibb:Make;TinyXML:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -29,6 +29,8 @@ static bool _IsImageFile(UnicodeString& strFileName)
 		return true;
 	if (strExt == ".bmp")
 		return true;
+	if (strExt == ".tif")
+		return true;
 	return false;
 }
 /*
@@ -213,7 +215,7 @@ void __fastcall TDbLabeledImages::SaveFragment(awpImage* img, SDbExportOptions& 
       }
 
 
-      	awpSaveImage(strFileName.c_str(), pFragment);
+		awpSaveImage(strFileName.c_str(), pFragment);
 
 
       if (options.needFlip)
@@ -261,7 +263,7 @@ void __fastcall TDbLabeledImages::ExportFragments(SDbExportOptions& options)
 {
 	if (!ClearDirWithSubdirs(options.strPathToExport, options.ClassLabels))
 		return;
-   TLFDBLabeledImages db(options.strPathToExport.c_str());
+   TLFDBLabeledImages db(m_strDbName.c_str());
    TSearchRec sr;
    AnsiString strPath = m_strDbName;
    strPath += "\\*.xml";
@@ -335,10 +337,12 @@ void __fastcall TDbLabeledImages::ExportFragments(SDbExportOptions& options)
 				continue;
 			if (di->GetRacurs() != options.racurs)
 				continue;
-            UnicodeString strClassLabel = di->GetType().c_str();
-            if (options.ClassLabels->IndexOf(strClassLabel) < 0)
-            	continue;
-            AnsiString _ansi = strClassLabel;
+			UnicodeString strClassLabel;
+			std::string str1 = db.GetDictinary()->GetWordByUUID(di->GetType().c_str());
+			strClassLabel = str1.c_str();
+			if (options.ClassLabels->IndexOf(strClassLabel) < 0)
+				continue;
+			   AnsiString _ansi = strClassLabel;
 			TLFRect* bounds = di->GetBounds();
 			awpRect r = bounds->GetRect();
 			if (options.useScanner)
@@ -420,10 +424,10 @@ void __fastcall TDbLabeledImages::ExportFragments(SDbExportOptions& options)
 	  FindClose(sr);
 	}
 
-    if (options.copyBackground)
-    {
-    	this->SaveBackground(options);
-    }
+	if (options.copyBackground)
+	{
+		this->SaveBackground(options);
+	}
 }
 
 AnsiString  TDbLabeledImages::MakeExportFileName(SDbExportOptions& options, int num, bool fliped, const char* lpClassLabel)
@@ -473,11 +477,12 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 {
    TSearchRec sr;
    AnsiString strPath = m_strDbName;
-
+   TStringList* sl = new TStringList();
    strPath += "\\*.*";
    int iAttr =0;
    iAttr |= faAnyFile;
    int num = 0;
+
    if (FindFirst(strPath, iAttr, sr) == 0)
    {
 	  do
@@ -485,7 +490,101 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 		 if (_IsImageFile(sr.Name))
 		 {
 			num++;
-             Form1->PhImage1->Bitmap->LoadFromFile(sr.Name);
+			sl->Add(sr.Name);
+		 }
+
+	  }while(FindNext(sr) == 0);
+
+	  FindClose(sr);
+   }
+
+   for (int i = 0; i < sl->Count; i++)
+   {
+		AnsiString str = sl->Strings[i];
+		Form1->PhImage1->Bitmap->LoadFromFile(str);
+		awpImage* img = NULL;
+		Form1->PhImage1->GetAwpImage(&img);
+
+		if (img)
+		{
+		  TLFSemanticImageDescriptor* sd = NULL;
+		  AnsiString strXml = ChangeFileExt(str, ".xml");
+		  if (FileExists(ChangeFileExt(str, ".xml")))
+		  {
+			sd = new TLFSemanticImageDescriptor();
+			sd->LoadXML(strXml.c_str());
+		  }
+		  if (options.needResize)
+		  {
+			  // resize
+			  int width  = options.baseWidth;
+			  double factor = (double)width / (double)img->sSizeX;
+			  int height = floor(factor*img->sSizeY + 0.5);
+			  if (!options.interpolation)
+				awpResize(img, width, height);
+			  else
+				awpResizeBilinear(img, width, height);
+			  if (sd != NULL)
+			  {
+
+				sd->Resize(factor);
+				sd->SetImage(img);
+			  }
+		  }
+		  if (options.RenameToUUID)
+		  {
+			  //////////////////////
+			  UUID id;
+			  LF_UUID_CREATE(id);
+			  std::string strUUID = LFGUIDToString(&id);
+			  AnsiString strFileName = m_strDbName + "\\";
+			  strFileName += strUUID.c_str();
+			  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
+			  strFileName += strExt;
+			  awpSaveImage(strFileName.c_str(), img);
+			  strFileName = ChangeFileExt(strFileName, ".xml");
+			  if (sd != NULL)
+			  {
+				sd->SaveXML(strFileName.c_str());
+				DeleteFile(strXml);
+			  }
+			  DeleteFile(str);
+
+		  }
+		  else
+		  {
+			  if (sd != NULL)
+				sd->SaveXML(strXml.c_str());
+			  // make new filename
+			  AnsiString strFileName = m_strDbName + "\\" + str;
+			  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
+			  strFileName = ChangeFileExt(strFileName, strExt);
+			  if (strExt != ExtractFileExt(str))
+				DeleteFile(str);
+			  awpSaveImage(strFileName.c_str(), img);
+		  }
+		  awpReleaseImage(&img);
+
+		  if (m_ProgressEvent != NULL)
+		  {
+			AnsiString _ansi = sr.Name;
+			m_ProgressEvent(int(100 *num / this->m_NumImages),_ansi );
+		  }
+		}
+		Application->ProcessMessages();
+	 }
+
+	 Application->ProcessMessages();
+
+/*
+   if (FindFirst(strPath, iAttr, sr) == 0)
+   {
+	  do
+	  {
+		 if (_IsImageFile(sr.Name))
+		 {
+			num++;
+			Form1->PhImage1->Bitmap->LoadFromFile(sr.Name);
 			awpImage* img = NULL;
 			Form1->PhImage1->GetAwpImage(&img);
 			if (img)
@@ -516,36 +615,36 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 			  }
 			  if (options.RenameToUUID)
 			  {
-              	  //////////////////////
-                  UUID id;
-                  LF_UUID_CREATE(id);
-                  std::string strUUID = LFGUIDToString(&id);
-                  AnsiString strFileName = m_strDbName + "\\";
-                  strFileName += strUUID.c_str();
-                  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
-                  strFileName += strExt;
-                  awpSaveImage(strFileName.c_str(), img);
-                  strFileName = ChangeFileExt(strFileName, ".xml");
-                  if (sd != NULL)
-                  {
-                  	sd->SaveXML(strFileName.c_str());
-                    DeleteFile(strXml);
-                  }
-                  DeleteFile(sr.Name);
-
-              }
-              else
-              {
-                  if (sd != NULL)
-                    sd->SaveXML(strXml.c_str());
-                  // make new filename
-                  AnsiString strFileName = m_strDbName + "\\" + sr.Name;
+				  //////////////////////
+				  UUID id;
+				  LF_UUID_CREATE(id);
+				  std::string strUUID = LFGUIDToString(&id);
+				  AnsiString strFileName = m_strDbName + "\\";
+				  strFileName += strUUID.c_str();
 				  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
-                  strFileName = ChangeFileExt(strFileName, strExt);
+				  strFileName += strExt;
+				  awpSaveImage(strFileName.c_str(), img);
+				  strFileName = ChangeFileExt(strFileName, ".xml");
+				  if (sd != NULL)
+				  {
+					sd->SaveXML(strFileName.c_str());
+					DeleteFile(strXml);
+				  }
+				  DeleteFile(sr.Name);
+
+			  }
+			  else
+			  {
+				  if (sd != NULL)
+					sd->SaveXML(strXml.c_str());
+				  // make new filename
+				  AnsiString strFileName = m_strDbName + "\\" + sr.Name;
+				  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
+				  strFileName = ChangeFileExt(strFileName, strExt);
 				  if (strExt != ExtractFileExt(sr.Name))
-                    DeleteFile(sr.Name);
-                  awpSaveImage(strFileName.c_str(), img);
-              }
+					DeleteFile(sr.Name);
+				  awpSaveImage(strFileName.c_str(), img);
+			  }
 			  awpReleaseImage(&img);
 
 			  if (m_ProgressEvent != NULL)
@@ -559,8 +658,11 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 		 Application->ProcessMessages();
 
 	  }while(FindNext(sr) == 0);
+
 	  FindClose(sr);
    }
+*/
+   delete sl;
 }
 // копирование базы данных, в соответствии с опициями.
 void __fastcall TDbLabeledImages::CopyDatabase(SDbCopyOptions& options)

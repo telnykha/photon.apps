@@ -277,7 +277,7 @@ object Form1: TForm1
             Width = 334
             Height = 135
             Align = alClient
-            Mask = '*.jpg;*awp;*.png;*.bmp'
+            Mask = '*.jpg;*awp;*.png;*.bmp;*.tif;*.tiff'
             MultiSelect = True
             PopupMenu = PopupMenu1
             ShowGlyphs = True

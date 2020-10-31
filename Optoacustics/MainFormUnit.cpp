@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -581,7 +581,8 @@ void TMainForm::ProcessImages()
 {
 	m_3DSource.Clear();
 
-	AnsiString outDir = "C:\\_alt\\test_tiff\\";
+	AnsiString outDir    = "C:\\_alt\\test_tiff\\";
+	AnsiString resultDir = "C:\\_alt\\result_tiff\\";
 	LongProcessForm->Label1->Caption = L"Processing data...";
 	LongProcessForm->CGauge1->MaxValue = TIFF_NUM_DIRS;
 	awpImage* img = NULL;
@@ -590,7 +591,7 @@ void TMainForm::ProcessImages()
 	awpImage* img_dbl = NULL;
 	awpCreateImage(&sum, TIFF_WIDTH, TIFF_HEIGHT, 1, AWP_DOUBLE);
 	AWPDOUBLE* ss = (AWPDOUBLE*)sum->pPixels;
-	for (int i = 0; i < TIFF_NUM_DIRS; i++)
+	for (int i = TIFF_NUM_DIRS -1; i  >=0; i--)
 	{
 		AnsiString s = outDir + IntToStr(i) + ".awp";
 		awpLoadImage(s.c_str(), &img);
@@ -600,7 +601,21 @@ void TMainForm::ProcessImages()
 		AWPBYTE* id = (AWPBYTE*)img->pPixels;
 
 		for(int k = 0; k < sum->sSizeX*sum->sSizeY; k++)
-			ss[k] += (TIFF_NUM_DIRS - i+1)*(AWPDOUBLE)id[k];
+		{
+			ss[k] += (TIFF_NUM_DIRS-i)*(AWPDOUBLE)id[k];
+		}
+
+		if (true/* i < 201 && i % 10 == 0*/)
+		{
+			awpImage* result_image = NULL;
+			awpCopyImage(sum, &result_image);
+			awpConvert(result_image, AWP_CONVERT_TO_BYTE_WITH_NORM);
+			awpImage* to_save =  result_image;//Colorize(result_image);
+			AnsiString s = resultDir + IntToStr(TIFF_NUM_DIRS-i) + ".awp";
+			awpSaveImage(s.c_str(), to_save);
+			_AWP_SAFE_RELEASE_(to_save)
+			_AWP_SAFE_RELEASE_(result_image)
+		}
 
 		TLFZones* zones = new TLFZones();
 		if (img != NULL)
@@ -620,11 +635,11 @@ void TMainForm::ProcessImages()
 			}
 		}
 		m_3DSource.Add(zones);
-		LongProcessForm->CGauge1->Progress = i;
+		LongProcessForm->CGauge1->Progress = TIFF_NUM_DIRS -i;
 	}
 	awpConvert(sum, AWP_CONVERT_TO_BYTE_WITH_NORM);
 	awpImage* result =  Colorize(sum);
-	FormResultView->PhImage1->SetAwpImage(sum);
+	FormResultView->PhImage1->SetAwpImage(result);
 
 	awpReleaseImage(&result);
 	awpReleaseImage(&sum);
@@ -634,4 +649,16 @@ void TMainForm::ProcessImages()
 	LongProcessForm->Close();
     Form3DView->PaintBox1Paint(NULL);
 }
+
+void __fastcall TMainForm::viewMosaicActionExecute(TObject *Sender)
+{
+    PhImage1->Mosaic = !PhImage1->Mosaic;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::viewMosaicActionUpdate(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
 

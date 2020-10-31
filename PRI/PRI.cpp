@@ -13,6 +13,7 @@ USEFORM("OptionsUnit.cpp", Form3);
 USEFORM("ExportPriUnit.cpp", ExportPriDlg);
 USEFORM("PriSpatialCalibration.cpp", SpatialCalibrationDlg);
 //---------------------------------------------------------------------------
+int need_run = true;
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try

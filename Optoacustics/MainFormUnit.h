@@ -83,6 +83,8 @@ __published:	// IDE-managed Components
 	TToolButton *ToolButton6;
 	TAction *MakeClustersAction;
 	TMenuItem *MakeClusters1;
+	TAction *viewMosaicAction;
+	TMenuItem *viewMosaicAction1;
 	void __fastcall fileCloseActionExecute(TObject *Sender);
 	void __fastcall fileOpenActionExecute(TObject *Sender);
 	void __fastcall fileCloseImageActionExecute(TObject *Sender);
@@ -126,6 +128,8 @@ __published:	// IDE-managed Components
           const TPoint &MousePos, bool &Handled);
 	void __fastcall MakeClustersActionExecute(TObject *Sender);
 	void __fastcall MakeClustersActionUpdate(TObject *Sender);
+	void __fastcall viewMosaicActionExecute(TObject *Sender);
+	void __fastcall viewMosaicActionUpdate(TObject *Sender);
 
 
 
