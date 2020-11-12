@@ -7,6 +7,7 @@
 #include "PhVideo.h"
 #include "_LF.h"
 /*
+	Элемент разметки на видеофайле
 */
 class TMarkItem : public TLFObject
 {
@@ -15,7 +16,8 @@ protected:
 	String   m_label;
 	int      m_frame;
     TColor   m_color;
-    int      m_id;
+	int      m_id;
+	bool     m_isVector;
 public:
 	TMarkItem();
 	virtual ~TMarkItem();
@@ -25,6 +27,7 @@ public:
    __property int frame = {read = m_frame, write = m_frame};
    __property TColor color = {read = m_color, write = m_color};
    __property int id = {read = m_id, write = m_id};
+   __property bool isVector = {read = m_isVector, write = m_isVector};
 };
 /*
     Frame item - the collection of market items on specific frame

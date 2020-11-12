@@ -713,6 +713,9 @@ object mainForm: TmainForm
       object N13: TMenuItem
         Action = toolsSelectRectAction
       end
+      object N36: TMenuItem
+        Action = toolsRulerAction
+      end
       object N14: TMenuItem
         Caption = '-'
       end
@@ -882,6 +885,12 @@ object mainForm: TmainForm
       OnExecute = fileExportImagesActionExecute
       OnUpdate = fileExportImagesActionUpdate
     end
+    object toolsRulerAction: TAction
+      Category = 'Tools'
+      Caption = #1051#1080#1085#1077#1081#1082#1072
+      OnExecute = toolsRulerActionExecute
+      OnUpdate = toolsRulerActionUpdate
+    end
   end
   object OpenDialog1: TOpenDialog
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofFileMustExist, ofEnableSizing]
@@ -977,5 +986,10 @@ object mainForm: TmainForm
     OnTimer = Timer2Timer
     Left = 208
     Top = 80
+  end
+  object PhRulerTool1: TPhRulerTool
+    PhImage = PhImage1
+    Left = 176
+    Top = 136
   end
 end

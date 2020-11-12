@@ -131,11 +131,11 @@ TColor TPhImageMarkTool::GetItemColor(TLFDetectedItem* itm)
     {
 	    TLFSemanticDictinaryItem* ci = (TLFSemanticDictinaryItem*)this->m_dictinary->Get(i);
 
-        if (strcmp(itm->GetType().c_str(), ci->GetId().c_str()) == 0)
-        {
+		if (strcmp(itm->GetType().c_str(), ci->GetItemLabel()) == 0)
+		{
             int color = ci->GetColor();
             return color;
-        }
+		}
     }
     return clBlack;
 }
@@ -149,7 +149,7 @@ void TPhImageMarkTool::Draw(TCanvas* Canvas)
 	TColor oldColor =  Canvas->Pen->Color;
 	TBrushStyle oldStyle = Canvas->Brush->Style;
 
-	int delta = 5;
+	int delta = 4;
 
  	for (int i = 0; i < this->m_descriptor.GetCount(); i++)
 	{
@@ -167,8 +167,15 @@ void TPhImageMarkTool::Draw(TCanvas* Canvas)
 
 		TPoint p1 = rect1.TopLeft();
 		TPoint p2 = rect1.BottomRight();
-        std::string str = m_dictinary->GetWordByUUID(item->GetType().c_str());
-        Canvas->TextOutW(p1.x + delta/2, p1.y + delta/2, str.c_str());
+		AnsiString _tmp;
+		std::string str = item->GetType();//m_dictinary->GetWordByUUID(item->GetType().c_str());
+		str += " :";
+		_tmp = IntToStr(rect.Width());
+		str += _tmp.c_str();
+		str += ":";
+		_tmp = IntToStr(rect.Height());
+		str += _tmp.c_str();
+		Canvas->TextOutW(p1.x + delta/2, p1.y - 4*delta, str.c_str());
 
 
 		Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);

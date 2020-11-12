@@ -278,7 +278,6 @@ object Form1: TForm1
             Height = 135
             Align = alClient
             Mask = '*.jpg;*awp;*.png;*.bmp;*.tif;*.tiff'
-            MultiSelect = True
             PopupMenu = PopupMenu1
             ShowGlyphs = True
             TabOrder = 3
@@ -466,6 +465,7 @@ object Form1: TForm1
             RowSelect = True
             TabOrder = 1
             ViewStyle = vsReport
+            OnKeyUp = DbViewKeyUp
             OnSelectItem = DbViewSelectItem
           end
           object Panel2: TPanel

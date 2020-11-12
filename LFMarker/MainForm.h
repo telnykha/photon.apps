@@ -358,6 +358,7 @@ __published:	// IDE-managed Components
 	void __fastcall DbCreateActionUpdate(TObject *Sender);
 	void __fastcall DbClearActionExecute(TObject *Sender);
 	void __fastcall DbClearActionUpdate(TObject *Sender);
+	void __fastcall DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
 private:	// User declarations
     TPhImageMarkTool* m_markTool;
     AnsiString 		  m_strEngineName;
@@ -443,10 +444,10 @@ public:		// User declarations
     TDbLabeledImages			m_db;
 	TLFDetectedItem*            m_pBaseObject;
     // with this descriptor works TableViewForm and ImageViewForm
-    TLFSemanticImageDescriptor  m_Descr;
+	TLFSemanticImageDescriptor  m_Descr;
     TLFRoiImageDescriptor		m_rois;
 	bool                        m_DrawOverlaps;
-	AnsiString                  m_strFileName;
+	AnsiString    		        m_strFileName;
 	SDbCopyOptions 				copy_options;
 	SDbConvertOptions 			convert_options;
 	SDbExportOptions 			export_options;

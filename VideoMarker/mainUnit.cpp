@@ -24,6 +24,7 @@
 #pragma link "PhPaneTool"
 #pragma link "PhSelectRectTool"
 #pragma link "PhZoomToRectTool"
+#pragma link "PhRulerTool"
 #pragma resource "*.dfm"
 
 extern "C"
@@ -755,5 +756,18 @@ void __fastcall TmainForm::Timer2Timer(TObject *Sender)
     if (this->m_selIndex > t->frames->GetCount())
           m_selIndex = 0;
 }
+//---------------------------------------------------------------------------
+
+
+void __fastcall TmainForm::toolsRulerActionExecute(TObject *Sender)
+{
+	PhImage1->SelectPhTool(PhRulerTool1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainForm::toolsRulerActionUpdate(TObject *Sender)
+{
+	toolsRulerAction->Enabled = !PhImage1->Empty;
+	toolsRulerAction->Checked = dynamic_cast< TPhRulerTool*>(PhImage1->PhTool) != NULL;}
 //---------------------------------------------------------------------------
 

@@ -197,6 +197,10 @@
             <DependentOn>PhVideoMarkTool.h</DependentOn>
             <BuildOrder>8</BuildOrder>
         </CppCompile>
+        <CppCompile Include="PhZonesEditorTool.cpp">
+            <DependentOn>PhZonesEditorTool.h</DependentOn>
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
         <None Include="readme.txt"/>
         <None Include="todo.txt"/>
         <CppCompile Include="Video.Marker.cpp">
@@ -316,6 +320,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="todo.txt" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -343,7 +353,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Release\Video.Marker.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\bin\Video.Marker.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteDir>D:\_alt\test\</RemoteDir>
                         <RemoteName>Video_Marker.exe</RemoteName>
@@ -364,6 +374,12 @@
                     <Platform Name="Win32">
                         <RemoteDir>D:\_alt\test\</RemoteDir>
                         <RemoteName>opencv_ffmpeg300.dll</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="readme.txt" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

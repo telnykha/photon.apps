@@ -294,29 +294,53 @@ void __fastcall TForm1::DbSaveMarkActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ImageDelImageActionExecute(TObject *Sender)
 {
-	if (Application->MessageBox(L"Are you sure delete?", L"Warning", MB_YESNO) == IDNO)
-        return;
+	UnicodeString _unicode = m_strFileName;
+	if (Application->MessageBox(L"Are you sure delete? ", L"Warning", MB_YESNO) == IDNO)
+		return;
+// delete data
+	if (FileExists(m_strFileName))
+		DeleteFile(m_strFileName);
+	AnsiString strName = ChangeFileExt(m_strFileName, ".ieye");
+	if (FileExists(strName))
+		DeleteFile(strName);
 
-    int idx = FileListBox1->ItemIndex;
-    if (FileExists(FileListBox1->FileName))
-        DeleteFile(FileListBox1->FileName);
-    AnsiString strName = ChangeFileExt(FileListBox1->FileName, ".ieye");
-    if (FileExists(strName))
-        DeleteFile(strName);
+	strName = ChangeFileExt(m_strFileName, ".xml");
+	if (FileExists(strName))
+		DeleteFile(strName);
 
+	UnicodeString    strFileName = ExtractFileName(m_strFileName);
+	UnicodeString    strFilePath = ExtractFilePath(m_strFileName);
+	int idx = FileListBox1->Items->IndexOf(strFileName);
 
-    FileListBox1->Items->Delete(idx);
-    FileListBox1->ItemIndex = idx;
-    FileListBox1->Selected[idx] = true;
-    m_strFileName = FileListBox1->Items->Strings[idx];
+// update ui
+	if (TabSheet3->Visible)
+	{
+#ifdef _DEBUG
+		UnicodeString _message = L"Database view. Selected file: ";
+		_message += m_strFileName;
+		ShowMessage(_message);
+#endif
+		DbView->Items->Delete(idx);
+		DbView->ItemIndex = idx;
+        DbView->Selected = DbView->Items->Item[idx];
+	}
+	// update filelistview
+	if (idx >= 0)
+	{
+		FileListBox1->Items->Delete(idx);
+		FileListBox1->ItemIndex = idx;
+		FileListBox1->Selected[idx] = true;
+		m_strFileName = FileListBox1->Items->Strings[idx];
+	}
+	m_strFileName = strFilePath + L"\\" + FileListBox1->Items->Strings[idx];
 
-    this->InitImageFile(m_strFileName);
+	this->InitImageFile(m_strFileName);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ImageDelImageActionUpdate(TObject *Sender)
 {
-   ImageDelImageAction->Enabled = !PhImage2->Empty && FileListBox1->FileName != "";
+   ImageDelImageAction->Enabled = !PhImage2->Empty && m_strFileName != "";
 }
 //---------------------------------------------------------------------------
 
@@ -327,7 +351,7 @@ void __fastcall TForm1::ModePaneActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ModeZoomActionUpdate(TObject *Sender)
 {
-        ModeZoomAction->Checked = dynamic_cast< TPhZoomToRectTool*>(PhImage2->PhTool) != NULL;;
+		ModeZoomAction->Checked = dynamic_cast< TPhZoomToRectTool*>(PhImage2->PhTool) != NULL;;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ModeBestFitActionUpdate(TObject *Sender)
@@ -670,8 +694,8 @@ void __fastcall TForm1::FileListBox1KeyUp(TObject *Sender, WORD &Key,
 {
 	if (Key == VK_DELETE)
 	{
-        ImageDelImageActionExecute(NULL);
-    }
+		ImageDelImageActionExecute(NULL);
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FileOpenDetectorActionExecute(TObject *Sender)
@@ -1999,12 +2023,16 @@ void __fastcall TForm1::UpdateDbView()
 
 void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool Selected)
 {
-    assert(Item != NULL);
+	assert(Item != NULL);
     if (!Selected)
         return;
     UnicodeString str = m_db.Data->GetPath().c_str();
-    str += Item->Caption;
-    m_strFileName = str;
+	str += Item->Caption;
+	m_strFileName = str;
+	UnicodeString strFileName = ExtractFileName(Item->Caption);
+	int idx = FileListBox1->Items->IndexOf(strFileName);
+
+	FileListBox1->Selected[idx] = true;
     if (m_strFileName != "")
          InitImageFile(m_strFileName);
 }
@@ -2116,4 +2144,14 @@ void __fastcall TForm1::ToolChange(TObject *Sender)
     TListItem* li = DbView->Items->Item[DbView->ItemIndex];
     li->SubItems->Strings[0] = IntToStr(m_Descr.GetCount());
 }
+
+void __fastcall TForm1::DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
+
+{
+	if (Key == VK_DELETE)
+	{
+		ImageDelImageActionExecute(NULL);
+	}
+}
+//---------------------------------------------------------------------------
 

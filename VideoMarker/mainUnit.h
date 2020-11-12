@@ -22,6 +22,7 @@
 #include "PhSelectRectTool.h"
 #include "PhZoomToRectTool.h"
 #include "PhVideoMarkTool.h"
+#include "PhRulerTool.h"
 //---------------------------------------------------------------------------
 class TPhMediaSource;
 class TmainForm : public TForm
@@ -135,6 +136,9 @@ __published:	// IDE-managed Components
 	TAction *fileExportImagesAction;
 	TMenuItem *N35;
 	TTimer *Timer2;
+	TPhRulerTool *PhRulerTool1;
+	TAction *toolsRulerAction;
+	TMenuItem *N36;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall PhImage1AfterOpen(TObject *Sender);
 	void __fastcall fileOpenImageActionExecute(TObject *Sender);
@@ -200,6 +204,8 @@ __published:	// IDE-managed Components
 	void __fastcall fileExportImagesActionUpdate(TObject *Sender);
 	void __fastcall SpeedButton11Click(TObject *Sender);
 	void __fastcall Timer2Timer(TObject *Sender);
+	void __fastcall toolsRulerActionExecute(TObject *Sender);
+	void __fastcall toolsRulerActionUpdate(TObject *Sender);
 private:	// User declarations
 	TPhMediaSource* m_videoSource;
 	TPhVideoMarkTool* m_markTool;
