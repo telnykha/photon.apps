@@ -562,6 +562,7 @@ object Form1: TForm1
           Align = alClient
           ParentColor = False
           OnMouseMove = FImage1MouseMove
+          OnPaint = PhImage2Paint
           AfterOpen = PhImage2AfterOpen
         end
       end

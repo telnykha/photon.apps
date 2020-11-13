@@ -131,7 +131,7 @@ TColor TPhImageMarkTool::GetItemColor(TLFDetectedItem* itm)
     {
 	    TLFSemanticDictinaryItem* ci = (TLFSemanticDictinaryItem*)this->m_dictinary->Get(i);
 
-		if (strcmp(itm->GetType().c_str(), ci->GetItemLabel()) == 0)
+		if (strcmp(itm->GetType().c_str(), ci->GetId().c_str()) == 0)
 		{
             int color = ci->GetColor();
             return color;
@@ -168,7 +168,7 @@ void TPhImageMarkTool::Draw(TCanvas* Canvas)
 		TPoint p1 = rect1.TopLeft();
 		TPoint p2 = rect1.BottomRight();
 		AnsiString _tmp;
-		std::string str = item->GetType();//m_dictinary->GetWordByUUID(item->GetType().c_str());
+		std::string str = m_dictinary->GetWordByUUID(item->GetType().c_str());
 		str += " :";
 		_tmp = IntToStr(rect.Width());
 		str += _tmp.c_str();

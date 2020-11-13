@@ -359,6 +359,7 @@ __published:	// IDE-managed Components
 	void __fastcall DbClearActionExecute(TObject *Sender);
 	void __fastcall DbClearActionUpdate(TObject *Sender);
 	void __fastcall DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall PhImage2Paint(TObject *Sender);
 private:	// User declarations
     TPhImageMarkTool* m_markTool;
     AnsiString 		  m_strEngineName;

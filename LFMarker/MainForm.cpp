@@ -144,7 +144,7 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
     }
     catch(...)
     {
-        Memo1->Lines->Add("ERROR: cannot open image " + strFileName);
+		Memo1->Lines->Add("ERROR: cannot open image " + strFileName);
     }
 }
 
@@ -538,7 +538,8 @@ void __fastcall TForm1::ProgressHandler(int Progress, AnsiString& aComment)
 void __fastcall TForm1::ViewOlerlapsActionExecute(TObject *Sender)
 {
 	m_DrawOverlaps = !m_DrawOverlaps;
-    DrawScene();
+	//DrawScene();
+    PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ViewOlerlapsActionUpdate(TObject *Sender)
@@ -641,8 +642,8 @@ void __fastcall TForm1::DbExportFragmentsActionUpdate(TObject *Sender)
 
 void __fastcall TForm1::ViewSemanticOutputActionExecute(TObject *Sender)
 {
-    m_ViewSemanticOutput = !m_ViewSemanticOutput;
-    DrawScene();
+	m_ViewSemanticOutput = !m_ViewSemanticOutput;
+    PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ViewSemanticOutputActionUpdate(TObject *Sender)
@@ -740,7 +741,7 @@ void __fastcall TForm1::BottomDocPanelDockOver(TObject *Sender,
 //---------------------------------------------------------------------------
 void __fastcall TForm1::BottomDocPanelGetSiteInfo(TObject *Sender,
       TControl *DockClient, TRect &InfluenceRect, TPoint &MousePos,
-      bool &CanDock)
+	  bool &CanDock)
 {
 //
 }
@@ -820,15 +821,13 @@ void __fastcall TForm1::ObjectDetectorHelper()
 
 void __fastcall TForm1::DrawScene()
 {
-    PhImage2->Paint();
 
     TCanvas* cnv = PhImage2->Canvas;
-    DrawObjects(cnv);
-
+	DrawObjects(cnv);
 	DrawSemantic(cnv);
 	DrawFarthestOverlaps(cnv);
 	DrawOverlaps(cnv);
-    DrawRois(cnv);
+	DrawRois(cnv);
 }
 
 void __fastcall TForm1::FImage1Pane(TObject *Sender)
@@ -852,7 +851,8 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
     TBrushStyle bstyle = cnv->Brush->Style;
     cnv->Brush->Style = bsClear;
     TColor penColor = cnv->Pen->Color;
-    cnv->Pen->Color = clLime;
+	cnv->Pen->Color = clLime;
+	cnv->Pen->Width = 1;
 
 	for (int i = 0; i < m_rois.GetNumRois(); i++)
     {
@@ -954,6 +954,7 @@ void __fastcall TForm1::DrawSemantic(TCanvas* cnv)
 void __fastcall TForm1::DrawFarthestOverlaps(TCanvas* cnv)
 {
  cnv->Brush->Style = bsClear;
+ cnv->Pen->Width = 1;
  if (this->m_draw_farthest_overlaps)
  {
 	for (int i = 0; i < m_Descr.GetItemsCount(); i++)
@@ -987,15 +988,35 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
     	return;
 
 	cnv->Brush->Style = bsClear;
-    for (int i = 0; i < m_Descr.GetItemsCount(); i++)
-    {
-        TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
-        TLFRect* rr = di->GetBounds();
-        awpRect  r  = rr->GetRect();
-        TRect  rect(r.left, r.top, r.right, r.bottom);
-       float ar = (float)di->GetBH()/(float)di->GetBW();
-       m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
-       if (!this->m_nearlest_overlap)
+	cnv->Pen->Width = 1;
+	for (int i = 0; i < m_Descr.GetItemsCount(); i++)
+	{
+		TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
+		string uuid = di->GetType();
+		TLFRect* rr = di->GetBounds();
+		awpRect  r  = rr->GetRect();
+		TRect  rect(r.left, r.top, r.right, r.bottom);
+		TLFDBLabeledImages* db = m_db.Data;
+		if (db != NULL)
+		{
+			TLFSemanticDictinary* sd  = db->GetDictinary();
+			for (int k = 0; k < sd->GetCount(); k++)
+			{
+					TLFSemanticDictinaryItem* sid = sd->GetWordFromDictinary(k);
+					if (sid != NULL)
+					{
+						if (sid->GetId() == uuid)
+						{
+							//
+							//Memo1->Lines->Add("scanner settings:" + IntToStr(sid->GetScanner()->GetBaseHeight()));
+							m_scanner.SetBaseHeight(sid->GetScanner()->GetBaseHeight());
+							m_scanner.SetBaseWidth(sid->GetScanner()->GetBaseWidth());
+						}
+					}
+			}
+		}
+	   m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
+	   if (!this->m_nearlest_overlap)
        {
          for (int j = 0; j < m_scanner.GetFragmentsCount(); j++)
          {
@@ -1333,7 +1354,8 @@ void __fastcall TForm1::DtInfoActionUpdate(TObject *Sender)
 void __fastcall TForm1::ViewFarthestOverlapsActionExecute(TObject *Sender)
 {
 	m_draw_farthest_overlaps = !m_draw_farthest_overlaps;
-	this->DrawScene();
+	//this->DrawScene();
+	PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 
@@ -2140,9 +2162,12 @@ void __fastcall TForm1::ToolChange(TObject *Sender)
 {
     TPhImageMarkTool* tool = (TPhImageMarkTool*)Sender;
     m_Descr.LoadXML(tool->DescrFile.c_str());
-    TableForm->UpdateTable();
-    TListItem* li = DbView->Items->Item[DbView->ItemIndex];
-    li->SubItems->Strings[0] = IntToStr(m_Descr.GetCount());
+	TableForm->UpdateTable();
+	if (DbView->ItemIndex >= 0)
+	{
+		TListItem* li = DbView->Items->Item[DbView->ItemIndex];
+		li->SubItems->Strings[0] = IntToStr(m_Descr.GetCount());
+	}
 }
 
 void __fastcall TForm1::DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
@@ -2152,6 +2177,12 @@ void __fastcall TForm1::DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shif
 	{
 		ImageDelImageActionExecute(NULL);
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::PhImage2Paint(TObject *Sender)
+{
+    DrawScene();
 }
 //---------------------------------------------------------------------------
 
