@@ -3,7 +3,7 @@ object dictinaryItemDlg: TdictinaryItemDlg
   Top = 108
   BorderStyle = bsDialog
   Caption = 'Class label editor'
-  ClientHeight = 219
+  ClientHeight = 257
   ClientWidth = 319
   Color = clBtnFace
   ParentFont = True
@@ -15,7 +15,7 @@ object dictinaryItemDlg: TdictinaryItemDlg
     Left = 8
     Top = 8
     Width = 225
-    Height = 203
+    Height = 241
     Shape = bsFrame
   end
   object Label1: TLabel
@@ -27,24 +27,31 @@ object dictinaryItemDlg: TdictinaryItemDlg
   end
   object Label2: TLabel
     Left = 18
-    Top = 50
+    Top = 82
     Width = 74
     Height = 13
     Caption = 'Aperture Width'
   end
   object Label3: TLabel
     Left = 18
-    Top = 81
+    Top = 113
     Width = 77
     Height = 13
     Caption = 'Aperture Height'
   end
   object Label4: TLabel
     Left = 18
-    Top = 110
+    Top = 142
     Width = 53
     Height = 13
     Caption = 'Class Color'
+  end
+  object Label5: TLabel
+    Left = 18
+    Top = 50
+    Width = 60
+    Height = 13
+    Caption = 'Class shape '
   end
   object OKBtn: TButton
     Left = 239
@@ -76,7 +83,7 @@ object dictinaryItemDlg: TdictinaryItemDlg
   end
   object SpinEdit1: TSpinEdit
     Left = 155
-    Top = 46
+    Top = 78
     Width = 62
     Height = 22
     Increment = 2
@@ -87,7 +94,7 @@ object dictinaryItemDlg: TdictinaryItemDlg
   end
   object SpinEdit2: TSpinEdit
     Left = 155
-    Top = 78
+    Top = 110
     Width = 62
     Height = 22
     Increment = 2
@@ -98,7 +105,7 @@ object dictinaryItemDlg: TdictinaryItemDlg
   end
   object ColorGrid1: TColorGrid
     Left = 113
-    Top = 110
+    Top = 142
     Width = 104
     Height = 88
     ClickEnablesColor = True
@@ -110,12 +117,26 @@ object dictinaryItemDlg: TdictinaryItemDlg
   end
   object Panel1: TPanel
     Left = 18
-    Top = 129
+    Top = 161
     Width = 89
     Height = 69
     Color = clRed
     ParentBackground = False
     ShowCaption = False
     TabOrder = 6
+  end
+  object ComboBox1: TComboBox
+    Left = 96
+    Top = 48
+    Width = 121
+    Height = 21
+    Style = csDropDownList
+    ItemIndex = 0
+    TabOrder = 7
+    Text = 'Rectangle'
+    Items.Strings = (
+      'Rectangle'
+      'Vector '
+      'Polygon ')
   end
 end

@@ -5,7 +5,8 @@
 #include "PhImageTool.h"
 #include "_LF.h"
 //---------------------------------------------------------------------------
-	typedef void __fastcall (__closure *TPhAddDataEvent)(System::TObject* Sender, TLFDetectedItem* item);
+typedef enum {MTRect, MTVector, MTContour} TEMarkToolModes;
+typedef void __fastcall (__closure *TPhAddDataEvent)(System::TObject* Sender, TLFDetectedItem* item);
 typedef void __fastcall (__closure *TPhDelFrameEvent)(System::TObject* Sender, TLFDetectedItem* item);
 typedef void __fastcall (__closure *TPhExportProgressEvent)(System::TObject* Sender, int progress, String& comment);
 class PACKAGE TPhImageMarkTool : public TPhImageTool
@@ -16,9 +17,13 @@ private:
 	int  m_sv; // selectes vertex
     int  m_selected;
 	TRect* m_newRect;
+	TLFZone* m_newZone;
+
 	TPoint GetRectPoint(int index, TRect& rect);
 	void __fastcall SetVertex(int x, int y);
+	bool CheckZoneType(TLFSemanticDictinaryItem* sdi);
 	bool m_edited;
+	TEMarkToolModes m_mode;
 protected:
      TPopupMenu *PopupMenu;
      TLFSemanticDictinary* m_dictinary;
@@ -29,7 +34,8 @@ protected:
 	 bool   _is_near_vertex(int X, int Y, int& idx1, int& idx2);
 
 	 String _get_label();
-     TColor GetItemColor(TLFDetectedItem* itm);
+	 TColor GetItemColor(TLFDetectedItem* itm);
+	 TEZoneTypes GetItemZoneType(TLFDetectedItem* itm);
 
      void __fastcall DoPopup(int X, int Y);
      void __fastcall PopupClick(TObject* sender);
@@ -77,7 +83,8 @@ public:
 	__property TPhAddDataEvent     OnAddData = {read = m_OnAddData, write = m_OnAddData};
 	__property TPhDelFrameEvent    OnDelFrame = {read = m_OnDelFrame, write = m_OnDelFrame};
     __property TPhExportProgressEvent OnProgress = {read = m_OnProgress, write = m_OnProgress};
-    __property AnsiString DescrFile = {read = m_strName};
+	__property AnsiString DescrFile = {read = m_strName};
+	__property TEMarkToolModes Mode = {read = m_mode, write = m_mode};
 };
 
 

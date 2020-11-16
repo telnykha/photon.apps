@@ -65,11 +65,21 @@ object Form1: TForm1
       Left = 159
       Top = 0
       Action = ModeMarkRectAction
-      Caption = 'Mark'
+      Caption = 'Rectangle'
       Style = tbsCheck
     end
-    object ToolButton12: TToolButton
+    object ToolButton3: TToolButton
       Left = 212
+      Top = 0
+      Action = ModeMarkVectorAction
+    end
+    object ToolButton5: TToolButton
+      Left = 265
+      Top = 0
+      Action = ModeMarkPolygonAction
+    end
+    object ToolButton12: TToolButton
+      Left = 318
       Top = 0
       Width = 8
       Caption = 'ToolButton12'
@@ -77,7 +87,7 @@ object Form1: TForm1
       Style = tbsSeparator
     end
     object ToolButton11: TToolButton
-      Left = 220
+      Left = 326
       Top = 0
       Action = ModeBestFitAction
       Grouped = True
@@ -86,7 +96,7 @@ object Form1: TForm1
       Style = tbsCheck
     end
     object ToolButton9: TToolButton
-      Left = 273
+      Left = 379
       Top = 0
       Action = ModeActualSizeAction
       Caption = 'Actual Size'
@@ -96,7 +106,7 @@ object Form1: TForm1
       Style = tbsCheck
     end
     object ToolButton1: TToolButton
-      Left = 326
+      Left = 432
       Top = 0
       Action = ImageDelImageAction
       Caption = 'Delete'
@@ -104,7 +114,7 @@ object Form1: TForm1
       ShowHint = True
     end
     object ToolButton14: TToolButton
-      Left = 379
+      Left = 485
       Top = 0
       Width = 8
       Caption = 'ToolButton14'
@@ -112,7 +122,7 @@ object Form1: TForm1
       Style = tbsSeparator
     end
     object ToolButton8: TToolButton
-      Left = 387
+      Left = 493
       Top = 0
       Action = DtDetectAction
       Caption = 'Objects'
@@ -1178,6 +1188,18 @@ object Form1: TForm1
       Caption = 'Clear Database'
       OnExecute = DbClearActionExecute
       OnUpdate = DbClearActionUpdate
+    end
+    object ModeMarkVectorAction: TAction
+      Category = 'Mode'
+      Caption = 'Vector'
+      OnExecute = ModeMarkVectorActionExecute
+      OnUpdate = ModeMarkVectorActionUpdate
+    end
+    object ModeMarkPolygonAction: TAction
+      Category = 'Mode'
+      Caption = 'Polygon'
+      OnExecute = ModeMarkPolygonActionExecute
+      OnUpdate = ModeMarkPolygonActionUpdate
     end
   end
   object ImageList1: TImageList

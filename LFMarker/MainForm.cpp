@@ -409,20 +409,22 @@ void __fastcall TForm1::ModeMarkRectActionExecute(TObject *Sender)
 		delete m_markTool;
 	m_markTool = new TPhImageMarkTool(NULL);
 	m_markTool->PhImage = PhImage2;
-    m_markTool->dictinary = m_db.Dictionary;
-    m_markTool->OnChange = ToolChange;
-    PhImage2->SelectPhTool(m_markTool);
-    AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
-    std::string str = strFileName.c_str();
-    if (LFFileExists(str.c_str()))
-    	m_markTool->SetFrame(str.c_str());
+    m_markTool->Mode = MTRect;
+	m_markTool->dictinary = m_db.Dictionary;
+	m_markTool->OnChange = ToolChange;
+	PhImage2->SelectPhTool(m_markTool);
+	AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+	std::string str = strFileName.c_str();
+	if (LFFileExists(str.c_str()))
+		m_markTool->SetFrame(str.c_str());
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeMarkRectActionUpdate(TObject *Sender)
 {
-    ModeMarkRectAction->Enabled = this->PageControl1->ActivePageIndex == 2;
-	ModeMarkRectAction->Checked = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool) != NULL;
+	ModeMarkRectAction->Enabled = this->PageControl1->ActivePageIndex == 2;
+	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+	ModeMarkRectAction->Checked = tool != NULL && tool->Mode == MTRect;
 }
 //---------------------------------------------------------------------------
 
@@ -2182,7 +2184,58 @@ void __fastcall TForm1::DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shif
 
 void __fastcall TForm1::PhImage2Paint(TObject *Sender)
 {
-    DrawScene();
+	DrawScene();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::ModeMarkVectorActionExecute(TObject *Sender)
+{
+	if (m_markTool != NULL)
+		delete m_markTool;
+	m_markTool = new TPhImageMarkTool(NULL);
+	m_markTool->Mode = MTVector;
+	m_markTool->PhImage = PhImage2;
+	m_markTool->dictinary = m_db.Dictionary;
+	m_markTool->OnChange = ToolChange;
+	PhImage2->SelectPhTool(m_markTool);
+	AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+	std::string str = strFileName.c_str();
+	if (LFFileExists(str.c_str()))
+		m_markTool->SetFrame(str.c_str());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeMarkVectorActionUpdate(TObject *Sender)
+{
+	ModeMarkVectorAction->Enabled = this->PageControl1->ActivePageIndex == 2;
+	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+	ModeMarkVectorAction->Checked = tool != NULL && tool->Mode == MTVector;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeMarkPolygonActionExecute(TObject *Sender)
+{
+	if (m_markTool != NULL)
+		delete m_markTool;
+	m_markTool = new TPhImageMarkTool(NULL);
+	m_markTool->Mode = MTContour;
+	m_markTool->PhImage = PhImage2;
+	m_markTool->dictinary = m_db.Dictionary;
+	m_markTool->OnChange = ToolChange;
+	PhImage2->SelectPhTool(m_markTool);
+	AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+	std::string str = strFileName.c_str();
+	if (LFFileExists(str.c_str()))
+		m_markTool->SetFrame(str.c_str());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeMarkPolygonActionUpdate(TObject *Sender)
+{
+	ModeMarkPolygonAction->Enabled = this->PageControl1->ActivePageIndex == 2;
+	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+	ModeMarkPolygonAction->Checked = tool != NULL && tool->Mode == MTContour;
 }
 //---------------------------------------------------------------------------
 

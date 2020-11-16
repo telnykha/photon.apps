@@ -4,29 +4,29 @@
 //---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
-USEFORM("MedianFilterForm.cpp", MedianFilterDlg);
 USEFORM("MainForm.cpp", Form1);
+USEFORM("MedianFilterForm.cpp", MedianFilterDlg);
 USEFORM("GaussFilterForm.cpp", GaussFilterDlg);
-USEFORM("LongProcessForm.cpp", LongProcDlg);
 USEFORM("ImageViewForm.cpp", FragmentForm);
-USEFORM("SystemOptionsForm.cpp", PagesDlg);
+USEFORM("LongProcessForm.cpp", LongProcDlg);
 USEFORM("SelRectForm.cpp", RectToolForm);
+USEFORM("SystemOptionsForm.cpp", PagesDlg);
 USEFORM("TableViewForm.cpp", TableForm);
-USEFORM("RotateForm.cpp", RotateDlg);
 USEFORM("ResizeForm.cpp", ResizeDlg);
+USEFORM("RotateForm.cpp", RotateDlg);
 USEFORM("FilterForm.cpp", FilterDlg);
-USEFORM("DbConvertForm.cpp", DbConvertDlg);
 USEFORM("..\EngineView\EngineViewUnit.cpp", EngineViewForm);
+USEFORM("DbConvertForm.cpp", DbConvertDlg);
 USEFORM("..\common\AboutForm.cpp", AboutBox);
-USEFORM("DetectorInfoForm.cpp", DetectorForm);
-USEFORM("DbSplitForm.cpp", DbSplitDlg);
-USEFORM("EngineErrForm.cpp", EngineErrDlg);
-USEFORM("DictionaryForm.cpp", DictionaryDialog);
-USEFORM("DbExportForm.cpp", DbExportDialog);
-USEFORM("DbCopyForm.cpp", DbCopyDlg);
-USEFORM("DbInfoForm.cpp", DbInfoDialog);
 USEFORM("..\common\dictinaryEditor.cpp", dictinaryEditDlg);
 USEFORM("..\common\dictinaryItemEditor.cpp", dictinaryItemDlg);
+USEFORM("DbSplitForm.cpp", DbSplitDlg);
+USEFORM("DetectorInfoForm.cpp", DetectorForm);
+USEFORM("DictionaryForm.cpp", DictionaryDialog);
+USEFORM("EngineErrForm.cpp", EngineErrDlg);
+USEFORM("DbCopyForm.cpp", DbCopyDlg);
+USEFORM("DbExportForm.cpp", DbExportDialog);
+USEFORM("DbInfoForm.cpp", DbInfoDialog);
 //---------------------------------------------------------------------------
 HANDLE hm = 0;
 bool Check()
