@@ -32,6 +32,8 @@ __published:
 	TLabel *Label4;
 	TColorGrid *ColorGrid1;
 	TPanel *Panel1;
+	TLabel *Label5;
+	TComboBox *ComboBox1;
 	void __fastcall ColorGrid1Click(TObject *Sender);
 private:
 public:

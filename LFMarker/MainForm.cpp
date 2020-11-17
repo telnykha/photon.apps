@@ -144,7 +144,7 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
     }
     catch(...)
     {
-        Memo1->Lines->Add("ERROR: cannot open image " + strFileName);
+		Memo1->Lines->Add("ERROR: cannot open image " + strFileName);
     }
 }
 
@@ -294,29 +294,53 @@ void __fastcall TForm1::DbSaveMarkActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ImageDelImageActionExecute(TObject *Sender)
 {
-	if (Application->MessageBox(L"Are you sure delete?", L"Warning", MB_YESNO) == IDNO)
-        return;
+	UnicodeString _unicode = m_strFileName;
+	if (Application->MessageBox(L"Are you sure delete? ", L"Warning", MB_YESNO) == IDNO)
+		return;
+// delete data
+	if (FileExists(m_strFileName))
+		DeleteFile(m_strFileName);
+	AnsiString strName = ChangeFileExt(m_strFileName, ".ieye");
+	if (FileExists(strName))
+		DeleteFile(strName);
 
-    int idx = FileListBox1->ItemIndex;
-    if (FileExists(FileListBox1->FileName))
-        DeleteFile(FileListBox1->FileName);
-    AnsiString strName = ChangeFileExt(FileListBox1->FileName, ".ieye");
-    if (FileExists(strName))
-        DeleteFile(strName);
+	strName = ChangeFileExt(m_strFileName, ".xml");
+	if (FileExists(strName))
+		DeleteFile(strName);
 
+	UnicodeString    strFileName = ExtractFileName(m_strFileName);
+	UnicodeString    strFilePath = ExtractFilePath(m_strFileName);
+	int idx = FileListBox1->Items->IndexOf(strFileName);
 
-    FileListBox1->Items->Delete(idx);
-    FileListBox1->ItemIndex = idx;
-    FileListBox1->Selected[idx] = true;
-    m_strFileName = FileListBox1->Items->Strings[idx];
+// update ui
+	if (TabSheet3->Visible)
+	{
+#ifdef _DEBUG
+		UnicodeString _message = L"Database view. Selected file: ";
+		_message += m_strFileName;
+		ShowMessage(_message);
+#endif
+		DbView->Items->Delete(idx);
+		DbView->ItemIndex = idx;
+        DbView->Selected = DbView->Items->Item[idx];
+	}
+	// update filelistview
+	if (idx >= 0)
+	{
+		FileListBox1->Items->Delete(idx);
+		FileListBox1->ItemIndex = idx;
+		FileListBox1->Selected[idx] = true;
+		m_strFileName = FileListBox1->Items->Strings[idx];
+	}
+	m_strFileName = strFilePath + L"\\" + FileListBox1->Items->Strings[idx];
 
-    this->InitImageFile(m_strFileName);
+	this->InitImageFile(m_strFileName);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ImageDelImageActionUpdate(TObject *Sender)
 {
-   ImageDelImageAction->Enabled = !PhImage2->Empty && FileListBox1->FileName != "";
+   ImageDelImageAction->Enabled = !PhImage2->Empty && m_strFileName != "";
 }
 //---------------------------------------------------------------------------
 
@@ -327,7 +351,7 @@ void __fastcall TForm1::ModePaneActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ModeZoomActionUpdate(TObject *Sender)
 {
-        ModeZoomAction->Checked = dynamic_cast< TPhZoomToRectTool*>(PhImage2->PhTool) != NULL;;
+		ModeZoomAction->Checked = dynamic_cast< TPhZoomToRectTool*>(PhImage2->PhTool) != NULL;;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ModeBestFitActionUpdate(TObject *Sender)
@@ -385,20 +409,22 @@ void __fastcall TForm1::ModeMarkRectActionExecute(TObject *Sender)
 		delete m_markTool;
 	m_markTool = new TPhImageMarkTool(NULL);
 	m_markTool->PhImage = PhImage2;
-    m_markTool->dictinary = m_db.Dictionary;
-    m_markTool->OnChange = ToolChange;
-    PhImage2->SelectPhTool(m_markTool);
-    AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
-    std::string str = strFileName.c_str();
-    if (LFFileExists(str.c_str()))
-    	m_markTool->SetFrame(str.c_str());
+    m_markTool->Mode = MTRect;
+	m_markTool->dictinary = m_db.Dictionary;
+	m_markTool->OnChange = ToolChange;
+	PhImage2->SelectPhTool(m_markTool);
+	AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+	std::string str = strFileName.c_str();
+	if (LFFileExists(str.c_str()))
+		m_markTool->SetFrame(str.c_str());
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::ModeMarkRectActionUpdate(TObject *Sender)
 {
-    ModeMarkRectAction->Enabled = this->PageControl1->ActivePageIndex == 2;
-	ModeMarkRectAction->Checked = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool) != NULL;
+	ModeMarkRectAction->Enabled = this->PageControl1->ActivePageIndex == 2;
+	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+	ModeMarkRectAction->Checked = tool != NULL && tool->Mode == MTRect;
 }
 //---------------------------------------------------------------------------
 
@@ -514,7 +540,8 @@ void __fastcall TForm1::ProgressHandler(int Progress, AnsiString& aComment)
 void __fastcall TForm1::ViewOlerlapsActionExecute(TObject *Sender)
 {
 	m_DrawOverlaps = !m_DrawOverlaps;
-    DrawScene();
+	//DrawScene();
+    PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ViewOlerlapsActionUpdate(TObject *Sender)
@@ -617,8 +644,8 @@ void __fastcall TForm1::DbExportFragmentsActionUpdate(TObject *Sender)
 
 void __fastcall TForm1::ViewSemanticOutputActionExecute(TObject *Sender)
 {
-    m_ViewSemanticOutput = !m_ViewSemanticOutput;
-    DrawScene();
+	m_ViewSemanticOutput = !m_ViewSemanticOutput;
+    PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ViewSemanticOutputActionUpdate(TObject *Sender)
@@ -670,8 +697,8 @@ void __fastcall TForm1::FileListBox1KeyUp(TObject *Sender, WORD &Key,
 {
 	if (Key == VK_DELETE)
 	{
-        ImageDelImageActionExecute(NULL);
-    }
+		ImageDelImageActionExecute(NULL);
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FileOpenDetectorActionExecute(TObject *Sender)
@@ -716,7 +743,7 @@ void __fastcall TForm1::BottomDocPanelDockOver(TObject *Sender,
 //---------------------------------------------------------------------------
 void __fastcall TForm1::BottomDocPanelGetSiteInfo(TObject *Sender,
       TControl *DockClient, TRect &InfluenceRect, TPoint &MousePos,
-      bool &CanDock)
+	  bool &CanDock)
 {
 //
 }
@@ -796,15 +823,13 @@ void __fastcall TForm1::ObjectDetectorHelper()
 
 void __fastcall TForm1::DrawScene()
 {
-    PhImage2->Paint();
 
     TCanvas* cnv = PhImage2->Canvas;
-    DrawObjects(cnv);
-
+	DrawObjects(cnv);
 	DrawSemantic(cnv);
 	DrawFarthestOverlaps(cnv);
 	DrawOverlaps(cnv);
-    DrawRois(cnv);
+	DrawRois(cnv);
 }
 
 void __fastcall TForm1::FImage1Pane(TObject *Sender)
@@ -828,7 +853,8 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
     TBrushStyle bstyle = cnv->Brush->Style;
     cnv->Brush->Style = bsClear;
     TColor penColor = cnv->Pen->Color;
-    cnv->Pen->Color = clLime;
+	cnv->Pen->Color = clLime;
+	cnv->Pen->Width = 1;
 
 	for (int i = 0; i < m_rois.GetNumRois(); i++)
     {
@@ -930,6 +956,7 @@ void __fastcall TForm1::DrawSemantic(TCanvas* cnv)
 void __fastcall TForm1::DrawFarthestOverlaps(TCanvas* cnv)
 {
  cnv->Brush->Style = bsClear;
+ cnv->Pen->Width = 1;
  if (this->m_draw_farthest_overlaps)
  {
 	for (int i = 0; i < m_Descr.GetItemsCount(); i++)
@@ -963,15 +990,35 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
     	return;
 
 	cnv->Brush->Style = bsClear;
-    for (int i = 0; i < m_Descr.GetItemsCount(); i++)
-    {
-        TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
-        TLFRect* rr = di->GetBounds();
-        awpRect  r  = rr->GetRect();
-        TRect  rect(r.left, r.top, r.right, r.bottom);
-       float ar = (float)di->GetBH()/(float)di->GetBW();
-       m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
-       if (!this->m_nearlest_overlap)
+	cnv->Pen->Width = 1;
+	for (int i = 0; i < m_Descr.GetItemsCount(); i++)
+	{
+		TLFDetectedItem* di = m_Descr.GetDetectedItem(i);
+		string uuid = di->GetType();
+		TLFRect* rr = di->GetBounds();
+		awpRect  r  = rr->GetRect();
+		TRect  rect(r.left, r.top, r.right, r.bottom);
+		TLFDBLabeledImages* db = m_db.Data;
+		if (db != NULL)
+		{
+			TLFSemanticDictinary* sd  = db->GetDictinary();
+			for (int k = 0; k < sd->GetCount(); k++)
+			{
+					TLFSemanticDictinaryItem* sid = sd->GetWordFromDictinary(k);
+					if (sid != NULL)
+					{
+						if (sid->GetId() == uuid)
+						{
+							//
+							//Memo1->Lines->Add("scanner settings:" + IntToStr(sid->GetScanner()->GetBaseHeight()));
+							m_scanner.SetBaseHeight(sid->GetScanner()->GetBaseHeight());
+							m_scanner.SetBaseWidth(sid->GetScanner()->GetBaseWidth());
+						}
+					}
+			}
+		}
+	   m_scanner.Scan(PhImage2->Bitmap->Width, PhImage2->Bitmap->Height);
+	   if (!this->m_nearlest_overlap)
        {
          for (int j = 0; j < m_scanner.GetFragmentsCount(); j++)
          {
@@ -1309,7 +1356,8 @@ void __fastcall TForm1::DtInfoActionUpdate(TObject *Sender)
 void __fastcall TForm1::ViewFarthestOverlapsActionExecute(TObject *Sender)
 {
 	m_draw_farthest_overlaps = !m_draw_farthest_overlaps;
-	this->DrawScene();
+	//this->DrawScene();
+	PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 
@@ -1999,12 +2047,16 @@ void __fastcall TForm1::UpdateDbView()
 
 void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool Selected)
 {
-    assert(Item != NULL);
+	assert(Item != NULL);
     if (!Selected)
         return;
     UnicodeString str = m_db.Data->GetPath().c_str();
-    str += Item->Caption;
-    m_strFileName = str;
+	str += Item->Caption;
+	m_strFileName = str;
+	UnicodeString strFileName = ExtractFileName(Item->Caption);
+	int idx = FileListBox1->Items->IndexOf(strFileName);
+
+	FileListBox1->Selected[idx] = true;
     if (m_strFileName != "")
          InitImageFile(m_strFileName);
 }
@@ -2112,8 +2164,78 @@ void __fastcall TForm1::ToolChange(TObject *Sender)
 {
     TPhImageMarkTool* tool = (TPhImageMarkTool*)Sender;
     m_Descr.LoadXML(tool->DescrFile.c_str());
-    TableForm->UpdateTable();
-    TListItem* li = DbView->Items->Item[DbView->ItemIndex];
-    li->SubItems->Strings[0] = IntToStr(m_Descr.GetCount());
+	TableForm->UpdateTable();
+	if (DbView->ItemIndex >= 0)
+	{
+		TListItem* li = DbView->Items->Item[DbView->ItemIndex];
+		li->SubItems->Strings[0] = IntToStr(m_Descr.GetCount());
+	}
 }
+
+void __fastcall TForm1::DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
+
+{
+	if (Key == VK_DELETE)
+	{
+		ImageDelImageActionExecute(NULL);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::PhImage2Paint(TObject *Sender)
+{
+	DrawScene();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::ModeMarkVectorActionExecute(TObject *Sender)
+{
+	if (m_markTool != NULL)
+		delete m_markTool;
+	m_markTool = new TPhImageMarkTool(NULL);
+	m_markTool->Mode = MTVector;
+	m_markTool->PhImage = PhImage2;
+	m_markTool->dictinary = m_db.Dictionary;
+	m_markTool->OnChange = ToolChange;
+	PhImage2->SelectPhTool(m_markTool);
+	AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+	std::string str = strFileName.c_str();
+	if (LFFileExists(str.c_str()))
+		m_markTool->SetFrame(str.c_str());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeMarkVectorActionUpdate(TObject *Sender)
+{
+	ModeMarkVectorAction->Enabled = this->PageControl1->ActivePageIndex == 2;
+	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+	ModeMarkVectorAction->Checked = tool != NULL && tool->Mode == MTVector;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeMarkPolygonActionExecute(TObject *Sender)
+{
+	if (m_markTool != NULL)
+		delete m_markTool;
+	m_markTool = new TPhImageMarkTool(NULL);
+	m_markTool->Mode = MTContour;
+	m_markTool->PhImage = PhImage2;
+	m_markTool->dictinary = m_db.Dictionary;
+	m_markTool->OnChange = ToolChange;
+	PhImage2->SelectPhTool(m_markTool);
+	AnsiString strFileName = ChangeFileExt( m_strFileName, ".xml" );
+	std::string str = strFileName.c_str();
+	if (LFFileExists(str.c_str()))
+		m_markTool->SetFrame(str.c_str());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeMarkPolygonActionUpdate(TObject *Sender)
+{
+	ModeMarkPolygonAction->Enabled = this->PageControl1->ActivePageIndex == 2;
+	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(PhImage2->PhTool);
+	ModeMarkPolygonAction->Checked = tool != NULL && tool->Mode == MTContour;
+}
+//---------------------------------------------------------------------------
 

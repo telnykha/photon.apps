@@ -1,0 +1,96 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{575B2D2E-BCAD-407F-B9B7-1F268E7D63C4}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Video.Marker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon41\Demo\PhotonDemo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\awpipl2\borland\awpipl2b.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Foreground\foreground.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="photon41">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Video_Marker">
+        <MSBuild Projects="Video.Marker.cbproj"/>
+    </Target>
+    <Target Name="Video_Marker:Clean">
+        <MSBuild Projects="Video.Marker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Video_Marker:Make">
+        <MSBuild Projects="Video.Marker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PhotonDemo">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj"/>
+    </Target>
+    <Target Name="PhotonDemo:Clean">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PhotonDemo:Make">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awpipl2b">
+        <MSBuild Projects="..\..\..\awpipl2\borland\awpipl2b.cbproj"/>
+    </Target>
+    <Target Name="awpipl2b:Clean">
+        <MSBuild Projects="..\..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awpipl2b:Make">
+        <MSBuild Projects="..\..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="foreground">
+        <MSBuild Projects="..\Foreground\foreground.cbproj"/>
+    </Target>
+    <Target Name="foreground:Clean">
+        <MSBuild Projects="..\Foreground\foreground.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="foreground:Make">
+        <MSBuild Projects="..\Foreground\foreground.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="photon41;Video_Marker;PhotonDemo;awplflibb;awpipl2b;foreground"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="photon41:Clean;Video_Marker:Clean;PhotonDemo:Clean;awplflibb:Clean;awpipl2b:Clean;foreground:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="photon41:Make;Video_Marker:Make;PhotonDemo:Make;awplflibb:Make;awpipl2b:Make;foreground:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

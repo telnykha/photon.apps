@@ -228,6 +228,10 @@ __published:	// IDE-managed Components
 	TMenuItem *CreateDatabase1;
 	TAction *DbClearAction;
 	TMenuItem *ClearDatabase1;
+	TToolButton *ToolButton3;
+	TToolButton *ToolButton5;
+	TAction *ModeMarkVectorAction;
+	TAction *ModeMarkPolygonAction;
     void __fastcall FileListBox1Change(TObject *Sender);
     void __fastcall FFaceEditor1AfterOpen(TObject *Sender);
     void __fastcall FormShow(TObject *Sender);
@@ -358,6 +362,12 @@ __published:	// IDE-managed Components
 	void __fastcall DbCreateActionUpdate(TObject *Sender);
 	void __fastcall DbClearActionExecute(TObject *Sender);
 	void __fastcall DbClearActionUpdate(TObject *Sender);
+	void __fastcall DbViewKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall PhImage2Paint(TObject *Sender);
+	void __fastcall ModeMarkVectorActionExecute(TObject *Sender);
+	void __fastcall ModeMarkVectorActionUpdate(TObject *Sender);
+	void __fastcall ModeMarkPolygonActionExecute(TObject *Sender);
+	void __fastcall ModeMarkPolygonActionUpdate(TObject *Sender);
 private:	// User declarations
     TPhImageMarkTool* m_markTool;
     AnsiString 		  m_strEngineName;
@@ -443,10 +453,10 @@ public:		// User declarations
     TDbLabeledImages			m_db;
 	TLFDetectedItem*            m_pBaseObject;
     // with this descriptor works TableViewForm and ImageViewForm
-    TLFSemanticImageDescriptor  m_Descr;
+	TLFSemanticImageDescriptor  m_Descr;
     TLFRoiImageDescriptor		m_rois;
 	bool                        m_DrawOverlaps;
-	AnsiString                  m_strFileName;
+	AnsiString    		        m_strFileName;
 	SDbCopyOptions 				copy_options;
 	SDbConvertOptions 			convert_options;
 	SDbExportOptions 			export_options;

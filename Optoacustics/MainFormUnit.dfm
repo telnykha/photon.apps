@@ -185,6 +185,9 @@ object MainForm: TMainForm
       object Play1: TMenuItem
         Action = viewPlayAction
       end
+      object viewMosaicAction1: TMenuItem
+        Action = viewMosaicAction
+      end
     end
     object Run1: TMenuItem
       Caption = 'Run'
@@ -280,6 +283,12 @@ object MainForm: TMainForm
       OnExecute = MakeClustersActionExecute
       OnUpdate = MakeClustersActionUpdate
     end
+    object viewMosaicAction: TAction
+      Category = 'View'
+      Caption = 'viewMosaicAction'
+      OnExecute = viewMosaicActionExecute
+      OnUpdate = viewMosaicActionUpdate
+    end
   end
   object OpenDialog1: TOpenDialog
     Filter = 'TIFF files|*tiff;*tif'
@@ -292,8 +301,8 @@ object MainForm: TMainForm
     Top = 200
   end
   object ImageList1: TImageList
-    Left = 152
-    Top = 240
+    Left = 56
+    Top = 176
     Bitmap = {
       494C010105000800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020

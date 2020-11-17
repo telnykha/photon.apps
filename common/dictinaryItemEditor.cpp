@@ -12,6 +12,31 @@ __fastcall TdictinaryItemDlg::TdictinaryItemDlg(TComponent* AOwner)
 {
 }
 //---------------------------------------------------------------------
+static int ZoneTypeToComboIndex(TEZoneTypes z)
+{
+	switch(z)
+	{
+		case ZTContour:
+			return 2;
+		case ZTLineSegment:
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+static  TEZoneTypes ComboIndexToZoneType(int index)
+{
+	switch(index)
+	{
+		case 1:
+			return ZTLineSegment;
+		case 2:
+			return ZTContour;
+		default:
+			return ZTRect;
+	}
+}
 bool __fastcall TdictinaryItemDlg::EditItem(TLFSemanticDictinaryItem* item)
 {
     if (item == NULL )
@@ -26,12 +51,14 @@ bool __fastcall TdictinaryItemDlg::EditItem(TLFSemanticDictinaryItem* item)
 	ILFScanner* s = item->GetScanner();
 	SpinEdit1->Value = s->GetBaseWidth();
 	SpinEdit2->Value = s->GetBaseHeight();
-    if (ShowModal() == mrOk)
-    {
-        item->SetColor(ColorGrid1->ForegroundColor);
+	ComboBox1->ItemIndex = ZoneTypeToComboIndex(item->GetZoneType());
+	if (ShowModal() == mrOk)
+	{
+		item->SetColor(ColorGrid1->ForegroundColor);
 		UnicodeString str = item->GetItemLabel();
-        AnsiString _ansi = Edit1->Text;
+		AnsiString _ansi = Edit1->Text;
 		item->SetItemLabel(_ansi.c_str());
+		item->SetZoneType(ComboIndexToZoneType(ComboBox1->ItemIndex));
 		ILFScanner* s = item->GetScanner();
 		assert(s);
 
@@ -53,7 +80,7 @@ bool __fastcall TdictinaryItemDlg::AddItem(TLFSemanticDictinaryItem* item)
 		// setup scanner
 		ILFScanner* s = item->GetScanner();
 		assert(s);
-
+        item->SetZoneType(ComboIndexToZoneType(ComboBox1->ItemIndex));
 		s->SetBaseHeight(SpinEdit2->Value);
 		s->SetBaseWidth(SpinEdit1->Value);
         return true;

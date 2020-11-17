@@ -24,7 +24,8 @@ bool check_version()
 	TVersionInfo* info = new TVersionInfo(NULL);
 	String VersionApplication = info->FileVersion;
 	delete info;
-	bool c = download("https://71e94f04-aaa5-4d33-99e5-dd3139f3c17f.usrfiles.com/ugd/71e94f_dff5068d4f2d4f3da2a4573bfbb787a9.txt", "Updat.inf", result, VersionApplication);
+	bool c = download("http://www.67dzn.dounn.ru/sites/default/files/update%20iformation_3.txt", "Updat.inf", result, VersionApplication);
+	//bool c = download("https://71e94f04-aaa5-4d33-99e5-dd3139f3c17f.usrfiles.com/ugd/71e94f_dff5068d4f2d4f3da2a4573bfbb787a9.txt", "Updat.inf", result, VersionApplication);
 	return !c;
 }
 

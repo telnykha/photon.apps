@@ -18,6 +18,9 @@
         <Projects Include="..\..\TinyXML\borland\TinyXML.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="VideoMarker\Video.Marker.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -71,14 +74,23 @@
     <Target Name="TinyXML:Make">
         <MSBuild Projects="..\..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="Video_Marker">
+        <MSBuild Projects="VideoMarker\Video.Marker.cbproj"/>
+    </Target>
+    <Target Name="Video_Marker:Clean">
+        <MSBuild Projects="VideoMarker\Video.Marker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Video_Marker:Make">
+        <MSBuild Projects="VideoMarker\Video.Marker.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41;TinyXML"/>
+        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41;TinyXML;Video_Marker"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean;TinyXML:Clean"/>
+        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean;TinyXML:Clean;Video_Marker:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make;TinyXML:Make"/>
+        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make;TinyXML:Make;Video_Marker:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

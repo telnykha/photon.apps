@@ -110,3 +110,4 @@ bool    __fastcall TdictinaryEditDlg::EditDatabase()
 	return this->ShowModal() == mrOk;
 }
 
+
