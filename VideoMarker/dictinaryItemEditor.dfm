@@ -3,7 +3,7 @@ object dictinaryItemDlg: TdictinaryItemDlg
   Top = 108
   BorderStyle = bsDialog
   Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1103#1088#1083#1099#1082#1072
-  ClientHeight = 219
+  ClientHeight = 249
   ClientWidth = 319
   Color = clBtnFace
   ParentFont = True
@@ -15,7 +15,7 @@ object dictinaryItemDlg: TdictinaryItemDlg
     Left = 8
     Top = 8
     Width = 225
-    Height = 203
+    Height = 233
     Shape = bsFrame
   end
   object Label1: TLabel
@@ -27,24 +27,31 @@ object dictinaryItemDlg: TdictinaryItemDlg
   end
   object Label2: TLabel
     Left = 18
-    Top = 56
+    Top = 81
     Width = 93
     Height = 13
     Caption = #1064#1080#1088#1080#1085#1072' '#1072#1087#1077#1088#1090#1091#1088#1099
   end
   object Label3: TLabel
     Left = 18
-    Top = 88
+    Top = 120
     Width = 90
     Height = 13
     Caption = #1042#1099#1089#1086#1090#1072' '#1072#1087#1077#1088#1090#1091#1088#1099
   end
   object Label4: TLabel
     Left = 18
-    Top = 110
+    Top = 139
     Width = 67
     Height = 13
     Caption = #1062#1074#1077#1090' '#1103#1088#1083#1099#1082#1072
+  end
+  object Label5: TLabel
+    Left = 18
+    Top = 45
+    Width = 60
+    Height = 13
+    Caption = 'Class shape '
   end
   object OKBtn: TButton
     Left = 239
@@ -75,8 +82,8 @@ object dictinaryItemDlg: TdictinaryItemDlg
     Text = 'new item'
   end
   object SpinEdit1: TSpinEdit
-    Left = 155
-    Top = 46
+    Left = 149
+    Top = 78
     Width = 62
     Height = 22
     Enabled = False
@@ -87,8 +94,8 @@ object dictinaryItemDlg: TdictinaryItemDlg
     Value = 24
   end
   object SpinEdit2: TSpinEdit
-    Left = 155
-    Top = 78
+    Left = 149
+    Top = 110
     Width = 62
     Height = 22
     Enabled = False
@@ -99,8 +106,8 @@ object dictinaryItemDlg: TdictinaryItemDlg
     Value = 24
   end
   object ColorGrid1: TColorGrid
-    Left = 113
-    Top = 110
+    Left = 107
+    Top = 142
     Width = 104
     Height = 88
     ClickEnablesColor = True
@@ -111,13 +118,27 @@ object dictinaryItemDlg: TdictinaryItemDlg
     OnClick = ColorGrid1Click
   end
   object Panel1: TPanel
-    Left = 24
-    Top = 136
+    Left = 18
+    Top = 168
     Width = 70
     Height = 62
     Color = clRed
     ParentBackground = False
     ShowCaption = False
     TabOrder = 6
+  end
+  object ComboBox1: TComboBox
+    Left = 96
+    Top = 43
+    Width = 121
+    Height = 21
+    Style = csDropDownList
+    ItemIndex = 0
+    TabOrder = 7
+    Text = 'Rectangle'
+    Items.Strings = (
+      'Rectangle'
+      'Vector '
+      'Polygon ')
   end
 end

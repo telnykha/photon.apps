@@ -6,48 +6,78 @@
 //---------------------------------------------------------------------
 #pragma resource "*.dfm"
 TdictinaryItemDlg *dictinaryItemDlg;
+
+static int ZoneTypeToComboIndex(TEZoneTypes z)
+{
+	switch(z)
+	{
+		case ZTContour:
+			return 2;
+		case ZTLineSegment:
+			return 1;
+		default:
+			return 0;
+	}
+}
+
+static  TEZoneTypes ComboIndexToZoneType(int index)
+{
+	switch(index)
+	{
+		case 1:
+			return ZTLineSegment;
+		case 2:
+			return ZTContour;
+		default:
+			return ZTRect;
+	}
+}
+
 //--------------------------------------------------------------------- 
 __fastcall TdictinaryItemDlg::TdictinaryItemDlg(TComponent* AOwner)
 	: TForm(AOwner)
 {
 }
 //---------------------------------------------------------------------
-bool __fastcall TdictinaryItemDlg::EditItem(TMarkItem* item, TPhVideoMarkTool* tool)
+bool __fastcall TdictinaryItemDlg::EditItem(TLFSemanticDictinaryItem* item, TPhVideoMarkTool* tool)
 {
     if (item == NULL || tool == NULL)
     {
         return false;
     }
 
-    Edit1->Text = item->label;
-    int index = ColorGrid1->ColorToIndex(item->color);
+	Edit1->Text = item->GetItemLabel();
+	int index = ColorGrid1->ColorToIndex(item->GetColor());
     ColorGrid1->ForegroundIndex = index;
     Panel1->Color = ColorGrid1->ForegroundColor;
-
+	ComboBox1->ItemIndex = ZoneTypeToComboIndex(item->GetZoneType());
     if (ShowModal() == mrOk)
-    {
-        item->color = ColorGrid1->ForegroundColor;
-        if (item->label != Edit1->Text)
-        {
-    	    String src = item->label;
-            String dst = Edit1->Text;
-            tool->ChangeLabel(src,  dst);
-
-        }
-        return true;
+	{
+		item->SetColor(ColorGrid1->ForegroundColor);
+		UnicodeString str = item->GetItemLabel();
+		if (str != Edit1->Text)
+		{
+			AnsiString _ansi = Edit1->Text;
+			item->SetItemLabel(_ansi.c_str());
+			item->SetZoneType(ComboIndexToZoneType(ComboBox1->ItemIndex));
+		}
+		tool->SaveData();
+		return true;
     }
 
     return false;
 }
-bool __fastcall TdictinaryItemDlg::AddItem(TMarkItem* item, TPhVideoMarkTool* tool)
+bool __fastcall TdictinaryItemDlg::AddItem(TLFSemanticDictinaryItem* item, TPhVideoMarkTool* tool)
 {
-    if (ShowModal() == mrOk)
-    {
-        item->label = Edit1->Text;
-		item->color = ColorGrid1->ForegroundColor;
-		tool->classes->Add(item);
-        tool->SaveData();
-        return true;
+	if (ShowModal() == mrOk)
+	{
+		AnsiString _ansi = Edit1->Text;
+		item->SetItemLabel(_ansi.c_str());
+		item->SetColor(ColorGrid1->ForegroundColor);
+		item->SetZoneType(ComboIndexToZoneType(ComboBox1->ItemIndex));
+		tool->dictinary->AddWordToDictinary(item);
+		tool->SaveData();
+		return true;
     }
     return false;
 }

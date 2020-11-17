@@ -206,6 +206,9 @@ __published:	// IDE-managed Components
 	void __fastcall Timer2Timer(TObject *Sender);
 	void __fastcall toolsRulerActionExecute(TObject *Sender);
 	void __fastcall toolsRulerActionUpdate(TObject *Sender);
+	void __fastcall SpeedButton5Click(TObject *Sender);
+	void __fastcall SpeedButton6Click(TObject *Sender);
+	void __fastcall SpeedButton13Click(TObject *Sender);
 private:	// User declarations
 	TPhMediaSource* m_videoSource;
 	TPhVideoMarkTool* m_markTool;

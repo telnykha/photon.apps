@@ -6,29 +6,7 @@
 #include "PhImageTool.h"
 #include "PhVideo.h"
 #include "_LF.h"
-/*
-	Элемент разметки на видеофайле
-*/
-class TMarkItem : public TLFObject
-{
-protected:
-	TRect    m_rect;
-	String   m_label;
-	int      m_frame;
-    TColor   m_color;
-	int      m_id;
-	bool     m_isVector;
-public:
-	TMarkItem();
-	virtual ~TMarkItem();
 
-   __property String label = {read = m_label, write = m_label};
-   __property TRect  rect  = {read = m_rect, write = m_rect};
-   __property int frame = {read = m_frame, write = m_frame};
-   __property TColor color = {read = m_color, write = m_color};
-   __property int id = {read = m_id, write = m_id};
-   __property bool isVector = {read = m_isVector, write = m_isVector};
-};
 /*
     Frame item - the collection of market items on specific frame
 */
@@ -37,8 +15,9 @@ class TFrameItem : public TLFObjectList
 protected:
     /*frame number*/
 	int m_frame;
+    TLFSemanticImageDescriptor m_descriptor;
 public:
-   TFrameItem();
+   TFrameItem(){};
    virtual ~TFrameItem();
 
    TiXmlElement* SaveXML(int w, int h);
@@ -47,7 +26,7 @@ public:
 
    __property int FrameNum = {read = m_frame, write = m_frame};
 };
-
+typedef enum {MTRect, MTVector, MTContour} TEMarkToolModes;
 typedef void __fastcall (__closure *TPhAddDataEvent)(System::TObject* Sender, TFrameItem* item);
 typedef void __fastcall (__closure *TPhDelFrameEvent)(System::TObject* Sender, TFrameItem* item);
 typedef void __fastcall (__closure *TPhExportProgressEvent)(System::TObject* Sender, int progress, String& comment);
@@ -60,25 +39,27 @@ private:
 	int  m_sv; // selectes vertex
     int  m_selected;
 	TRect* m_newRect;
+	TLFZone* m_newZone;
 	TPoint GetRectPoint(int index, TRect& rect);
+    	bool CheckZoneType(TLFSemanticDictinaryItem* sdi);
 	void __fastcall SetVertex(int x, int y);
 	bool m_edited;
+	TEMarkToolModes m_mode;
 protected:
      TPopupMenu *PopupMenu;
      /*collection of frame items*/
 	 TLFObjectList m_frames;
      /*collection of items on the current frame*/
-	 TLFObjectList m_data;
+	 TLFSemanticImageDescriptor m_data;
      /*dictinary*/
-     TList*        m_classes;
-     TLFSemanticDictinary* m_dictinary;
+	 TLFSemanticDictinary* m_dictinary;
 
 	 double _2D_Dist(double x1,double y1,double x2,double y2);
 	 bool   _is_near_vertex(int X, int Y, int& idx1, int& idx2);
 
 	 String _get_label();
-     TColor GetItemColor(TMarkItem* itm);
-
+	 TColor GetItemColor(TLFDetectedItem* itm);
+	 TEZoneTypes GetItemZoneType(TLFDetectedItem* itm);
 	 TLFObjectList* __fastcall GetData();
 	 TLFObjectList* __fastcall GetFrames();
 
@@ -93,7 +74,6 @@ protected:
 protected:
 	TPhMediaSource* m_mediaSource;
 	virtual __fastcall SetMediaSource(TPhMediaSource* source);
-	TLFSemanticDictinary* MakeDictinary();
     TFrameItem* GetFrameItem(int index);
 public:
 	__fastcall TPhVideoMarkTool(TComponent* Owner);
@@ -139,8 +119,8 @@ public:
 	__property TPhMediaSource* MediaSource = {read = m_mediaSource, write = SetMediaSource};
 	__property TLFObjectList*  data = {read = GetData};
 	__property TLFObjectList*  frames = {read = GetFrames};
-	__property TList* classes = {read = m_classes};
-    __property TLFSemanticDictinary* dictinary = {read = m_dictinary};
+	__property TLFSemanticDictinary* dictinary = {read = m_dictinary};
+	__property TEMarkToolModes Mode = {read = m_mode, write = m_mode};
 
 	__property TNotifyEvent OnChange= {read = m_OnChange, write = m_OnChange};
 	__property TNotifyEvent OnLoad  = {read = m_OnLoad, write = m_OnLoad};

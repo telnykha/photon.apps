@@ -8,8 +8,8 @@ USEFORM("mainUnit.cpp", mainForm);
 USEFORM("LongProcessForm.cpp", LongProcDlg);
 USEFORM("..\..\common\AboutForm.cpp", AboutBox);
 USEFORM("exportImagesOptionsUnit.cpp", exportImagesDlg);
-USEFORM("dictinaryItemEditor.cpp", dictinaryItemDlg);
 USEFORM("dictinaryEditor.cpp", dictinaryEditDlg);
+USEFORM("dictinaryItemEditor.cpp", dictinaryItemDlg);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -19,10 +19,10 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
 		Application->CreateForm(__classid(TmainForm), &mainForm);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
-		Application->CreateForm(__classid(TdictinaryEditDlg), &dictinaryEditDlg);
-		Application->CreateForm(__classid(TdictinaryItemDlg), &dictinaryItemDlg);
 		Application->CreateForm(__classid(TLongProcDlg), &LongProcDlg);
 		Application->CreateForm(__classid(TexportImagesDlg), &exportImagesDlg);
+		Application->CreateForm(__classid(TdictinaryEditDlg), &dictinaryEditDlg);
+		Application->CreateForm(__classid(TdictinaryItemDlg), &dictinaryItemDlg);
 		Application->Run();
 	}
 	catch (Exception &exception)

@@ -23,6 +23,7 @@ __fastcall TPhImageMarkTool::TPhImageMarkTool(TComponent* Owner): TPhImageTool(O
 	m_selected = -1;
 	m_dictinary = NULL;
 	m_mode = MTRect;
+    m_newZone = NULL;
 }
 //---------------------------------------------------------------------------
 __fastcall TPhImageMarkTool::~TPhImageMarkTool()

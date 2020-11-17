@@ -59,24 +59,4 @@ object dictinaryEditDlg: TdictinaryEditDlg
     ItemHeight = 13
     TabOrder = 4
   end
-  object Button4: TButton
-    Left = 199
-    Top = 105
-    Width = 172
-    Height = 25
-    Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1089#1086#1083#1086#1074#1072#1088#1100'...'
-    Enabled = False
-    TabOrder = 5
-    Visible = False
-  end
-  object Button5: TButton
-    Left = 199
-    Top = 136
-    Width = 172
-    Height = 25
-    Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1089#1086#1083#1086#1074#1072#1088#1100'...'
-    Enabled = False
-    TabOrder = 6
-    Visible = False
-  end
 end

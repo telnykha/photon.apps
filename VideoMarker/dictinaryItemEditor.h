@@ -32,12 +32,14 @@ __published:
 	TLabel *Label4;
 	TColorGrid *ColorGrid1;
 	TPanel *Panel1;
+	TLabel *Label5;
+	TComboBox *ComboBox1;
 	void __fastcall ColorGrid1Click(TObject *Sender);
 private:
 public:
 	virtual __fastcall TdictinaryItemDlg(TComponent* AOwner);
-        bool __fastcall EditItem(TMarkItem* item, TPhVideoMarkTool* tool);
-        bool __fastcall AddItem(TMarkItem* item, TPhVideoMarkTool* tool);
+		bool __fastcall EditItem(TLFSemanticDictinaryItem* item, TPhVideoMarkTool* tool);
+        bool __fastcall AddItem(TLFSemanticDictinaryItem* item, TPhVideoMarkTool* tool);
 };
 //----------------------------------------------------------------------------
 extern PACKAGE TdictinaryItemDlg *dictinaryItemDlg;

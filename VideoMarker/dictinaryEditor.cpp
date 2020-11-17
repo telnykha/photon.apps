@@ -15,11 +15,11 @@ __fastcall TdictinaryEditDlg::TdictinaryEditDlg(TComponent* AOwner)
 //---------------------------------------------------------------------
 void __fastcall TdictinaryEditDlg::Button3Click(TObject *Sender)
 {
-    TMarkItem* item = NULL;
+	TLFSemanticDictinaryItem* item = NULL;
     if (ListBox1->ItemIndex >= 0)
     {
-       item = (TMarkItem*)m_tool->classes->Items[ListBox1->ItemIndex];
-       if (dictinaryItemDlg->EditItem(item, m_tool))
+	   item = (TLFSemanticDictinaryItem*)m_tool->dictinary->Get(ListBox1->ItemIndex);
+	   if (dictinaryItemDlg->EditItem(item, m_tool))
        {
             // edit item in the dictinary
             ListBox1->Items->Strings[ListBox1->ItemIndex] = dictinaryItemDlg->Edit1->Text;
@@ -30,23 +30,23 @@ void __fastcall TdictinaryEditDlg::Button3Click(TObject *Sender)
 
 void __fastcall TdictinaryEditDlg::Button1Click(TObject *Sender)
 {
-    TMarkItem* item = new TMarkItem();
+	TLFSemanticDictinaryItem* item = new TLFSemanticDictinaryItem();
     if (dictinaryItemDlg->AddItem(item, m_tool))
     {
         // add item to dictinary
-        ListBox1->Items->Add(item->label);
-    }
+		ListBox1->Items->Add(item->GetItemLabel());
+	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TdictinaryEditDlg::FormShow(TObject *Sender)
 {
-    //
+	//
     ListBox1->Clear();
-    for (int i = 0; i < m_tool->classes->Count; i++)
+	for (int i = 0; i < m_tool->dictinary->GetCount(); i++)
     {
-        TMarkItem* mi = (TMarkItem*)m_tool->classes->Items[i];
-        ListBox1->Items->Add(mi->label);
+		TLFSemanticDictinaryItem* mi = (TLFSemanticDictinaryItem*)m_tool->dictinary->Get(i);
+		ListBox1->Items->Add(mi->GetItemLabel());
     }
 }
 //---------------------------------------------------------------------------
@@ -63,7 +63,7 @@ bool    __fastcall TdictinaryEditDlg::Process(TPhVideoMarkTool* tool)
 void __fastcall TdictinaryEditDlg::Button2Click(TObject *Sender)
 {
     if (this->m_tool == NULL)
-        return;
+		return;
     if (this->ListBox1->ItemIndex < 0)
     {
         ShowMessage("Не выбран ярлык для удаления.");

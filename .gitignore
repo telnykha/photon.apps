@@ -29,4 +29,6 @@ PRI/Win32/Release
 PRI/Win32/Debug
 PRI/__recovery
 PRI/__history
-
+VideoMarker/Win32/debug/*.*
+VideoMarker/Win32/release/*.*
+VideoMarker/__history/*.*

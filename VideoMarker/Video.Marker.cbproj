@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>Video.Marker.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -62,8 +62,8 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>Video_Marker</SanitizedProjectName>
-        <IncludePath>..\..\common\;$(PHOTON41);$(AWP)\include;$(PHOTON)\common\cvvideo\module\awpcvvideo\;$(PHOTON41)\include\;$(LF)\include;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\common\;..\EngineView\;..\common\;$(BDS)\Bin;$(BDS)\lib;$(PHOTON)\lib\;$(AWP)\lib;$(LF)\lib;$(TINY)\lib;$(PHOTON41)\lib\;$(JPEG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\LFMarker\;..\common\;..\..\common\;$(PHOTON41);$(AWP)\include;$(PHOTON)\common\cvvideo\module\awpcvvideo\;$(PHOTON41)\include\;$(LF)\include;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\LFMarker\;..\..\common\;..\EngineView\;..\common\;$(BDS)\Bin;$(BDS)\lib;$(PHOTON)\lib\;$(AWP)\lib;$(LF)\lib;$(TINY)\lib;$(PHOTON41)\lib\;$(JPEG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Defines>TIXML_USE_STL;$(Defines)</Defines>
@@ -97,13 +97,14 @@
         <CLANG_UnwindTables>true</CLANG_UnwindTables>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
+        <UsePackages>false</UsePackages>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;photon41.bpi;VclSmp.bpi;vclx.bpi</LinkPackageImports>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <LinkPackageStatics>rtl.lib;vcl.lib;photon41.lib;VclSmp.lib;vclx.lib</LinkPackageStatics>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
+        <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -111,8 +112,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Build>85</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-VideoLab.net;FileDescription=Video.Marker ;FileVersion=1.0.0.85;InternalName=Locate Framework annotaion tool ;LegalCopyright=Copyright (c) 2004-2018 NN-VideoLab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Video.Marker ;ProductVersion=1.0.0.0;Comments=Annotation tool for Locate Framework. Beta </VerInfo_Keys>
+        <VerInfo_Build>86</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-VideoLab.net;FileDescription=Video.Marker ;FileVersion=1.0.0.86;InternalName=Locate Framework annotaion tool ;LegalCopyright=Copyright (c) 2004-2018 NN-VideoLab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=Video.Marker ;ProductVersion=1.0.0.0;Comments=Annotation tool for Locate Framework. Beta </VerInfo_Keys>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <LinkPackageStatics>rtl.lib;vcl.lib;photon41.lib;VclSmp.lib;vclx.lib</LinkPackageStatics>
@@ -147,17 +148,21 @@
             <DependentOn>..\..\common\VerInfoUnit.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\LFMarker\ImageUtils.cpp">
+            <DependentOn>..\LFMarker\ImageUtils.h</DependentOn>
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
         <CppCompile Include="dictinaryEditor.cpp">
             <Form>dictinaryEditDlg</Form>
             <FormType>dfm</FormType>
             <DependentOn>dictinaryEditor.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
+            <BuildOrder>19</BuildOrder>
         </CppCompile>
         <CppCompile Include="dictinaryItemEditor.cpp">
             <Form>dictinaryItemDlg</Form>
             <FormType>dfm</FormType>
             <DependentOn>dictinaryItemEditor.h</DependentOn>
-            <BuildOrder>10</BuildOrder>
+            <BuildOrder>20</BuildOrder>
         </CppCompile>
         <CppCompile Include="exportImagesOptionsUnit.cpp">
             <Form>exportImagesDlg</Form>
@@ -196,6 +201,10 @@
         <CppCompile Include="PhVideoMarkTool.cpp">
             <DependentOn>PhVideoMarkTool.h</DependentOn>
             <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="PhVideoMarkTool2.cpp">
+            <DependentOn>PhVideoMarkTool2.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
         </CppCompile>
         <CppCompile Include="PhZonesEditorTool.cpp">
             <DependentOn>PhZonesEditorTool.h</DependentOn>
@@ -268,6 +277,19 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="..\..\bin\Video.Marker.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>Video_Marker.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\bin\Video.Marker.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteDir>D:\_alt\test\</RemoteDir>
+                        <RemoteName>Video_Marker.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32260.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -294,12 +316,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\Video.Marker.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>Video_Marker.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="..\..\..\bin\awpcvvideo.dll" Configuration="Release" Class="File">
                     <Platform Name="Win32">
                         <RemoteDir>D:\_alt\test\</RemoteDir>
@@ -320,9 +336,21 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="todo.txt" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="todo.txt" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\bin\Video.Marker.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>Video_Marker.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -353,13 +381,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\bin\Video.Marker.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteDir>D:\_alt\test\</RemoteDir>
-                        <RemoteName>Video_Marker.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgstl.dylib" Class="DependencyModule">
                     <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
@@ -367,6 +388,12 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32260mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="readme.txt" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

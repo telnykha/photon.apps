@@ -232,6 +232,9 @@ void __fastcall TmainForm::fileOpenVideoActionExecute(TObject *Sender)
         }
         else
         {
+			if (m_markTool != NULL)
+				delete m_markTool;
+			toolsPaneActionExecute(NULL);
 			SetSource(videoSource);
 		}
     }
@@ -272,11 +275,11 @@ void __fastcall TmainForm::PhImage1FrameData(TObject *Sender, int w, int h, int 
 		 TLFObjectList* list = t->data;
 		 for (int i = 0; i < list->GetCount(); i++)
 		 {
-			TMarkItem* mi = (TMarkItem*)list->Get(i);
+			TLFDetectedItem* mi = (TLFDetectedItem*)list->Get(i);
 			TListItem* item = ListView2->Items->Add();
 			item->Caption = IntToStr(i+1);
-			item->SubItems->Add(mi->label);
-			item->SubItems->Add(RectToString(mi->rect));
+			item->SubItems->Add(mi->GetType().c_str());
+//			item->SubItems->Add(RectToString(mi->rect));
 		 }
 	}
 }
@@ -294,7 +297,7 @@ void __fastcall TmainForm::helpAboutActionExecute(TObject *Sender)
   AboutBox->ProductName->Caption = vi->ProductName;
   AboutBox->Version->Caption = vi->FileVersion;
   AboutBox->Copyright->Caption = vi->LegalCopyright;
-  AboutBox->Label1->Caption = vi->Comments;
+  //AboutBox->Label1->Caption = vi->Comments;
   String str = ExtractFilePath(Application->ExeName);
   AboutBox->Memo1->Lines->LoadFromFile(str + L"\\license_videomarker.txt");
   AboutBox->ShowModal();
@@ -306,7 +309,7 @@ void __fastcall TmainForm::helpAboutActionExecute(TObject *Sender)
 
 void __fastcall TmainForm::toolsPaneActionExecute(TObject *Sender)
 {
-      Timer2->Enabled = false;
+	  Timer2->Enabled = false;
       PhImage1->SelectPhTool(PhPaneTool1);
 }
 //---------------------------------------------------------------------------
@@ -411,24 +414,13 @@ void __fastcall TmainForm::viewActualSizeActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainForm::toolsMarkFrameActionExecute(TObject *Sender)
 {
-	if (m_markTool != NULL)
-		delete m_markTool;
-    const char* labels[4] = {"Free move", "Start pose", "Strike", "Finish pose"};
-    const TColor colors[4] = {clGreen, clBlue, clTeal, clYellow};
 	m_markTool = new TPhVideoMarkTool(NULL);
 	m_markTool->PhImage = PhImage1;
 	m_markTool->OnChange = ToolChange;
 	m_markTool->OnAddData = ToolAddData;
 	m_markTool->OnLoad = ToolLoad;
-    m_markTool->OnDelFrame = ToolDelFrame;
-	m_markTool->classes->Clear();
-	for (int i = 0; i < 4; i++)
-    {
-        TMarkItem* item = new TMarkItem();
-        item->label = labels[i];
-        item->color = colors[i];
-		m_markTool->classes->Add(item);
-    }
+	m_markTool->OnDelFrame = ToolDelFrame;
+
 	PhImage1->SelectPhTool(m_markTool);
 }
 //---------------------------------------------------------------------------
@@ -448,7 +440,21 @@ void __fastcall TmainForm::PhImage1ToolChange(TObject *Sender)
 		m_markTool->MediaSource = m_videoSource;
 
 		// fill frames list box
-        // режим отоборажения.
+		// режим отоборажения.
+		String strName = ChangeFileExt(m_videoSource->Source, L".mark");
+		if (FileExists(strName))
+		{
+			//ShowMessage("разметка присутствует!");
+			m_markTool->LoadData();
+		}
+		else
+		{
+			//ShowMessage("разметка отсутствует!");
+			TPhVideoMarkTool* t = dynamic_cast< TPhVideoMarkTool*>(PhImage1->PhTool);
+			if (!dictinaryEditDlg->Process(t))
+			  toolsPaneActionExecute(NULL);
+		}
+
 	}
 	else
 	{
@@ -478,12 +484,22 @@ void __fastcall TmainForm::ToolChange(TObject *Sender)
 		 TLFObjectList* list = t->data;
 		 for (int i = 0; i < list->GetCount(); i++)
 		 {
-			TMarkItem* mi = (TMarkItem*)list->Get(i);
+			TLFDetectedItem* mi = (TLFDetectedItem*)list->Get(i);
 			TListItem* item = ListView2->Items->Add();
 			item->Caption = IntToStr(i+1);
-			item->SubItems->Add(mi->label);
-			item->SubItems->Add(RectToString(mi->rect));
+			item->SubItems->Add(mi->GetType().c_str());
 		 }
+		 for (int i = 0; i < t->frames->GetCount(); i++)
+		 {
+			 TFrameItem* fi = (TFrameItem*)t->frames->Get(i);
+			 if (fi->FrameNum == m_videoSource->CurrentFrame)
+			 {
+				 TListItem* itm = ListView1->Items->Item[i];
+				 itm->SubItems->Strings[0] = IntToStr(list->GetCount());
+				 break;
+			 }
+		 }
+
 	}
 }
 
@@ -560,8 +576,8 @@ void __fastcall TmainForm::N31Click(TObject *Sender)
 
 void __fastcall TmainForm::Button4Click(TObject *Sender)
 {
- 	TPhVideoMarkTool* t = dynamic_cast< TPhVideoMarkTool*>(PhImage1->PhTool);
-    if (dictinaryEditDlg->Process(t))
+	TPhVideoMarkTool* t = dynamic_cast< TPhVideoMarkTool*>(PhImage1->PhTool);
+	if (dictinaryEditDlg->Process(t))
     {
         PhImage1->Paint();
     }
@@ -769,5 +785,25 @@ void __fastcall TmainForm::toolsRulerActionUpdate(TObject *Sender)
 {
 	toolsRulerAction->Enabled = !PhImage1->Empty;
 	toolsRulerAction->Checked = dynamic_cast< TPhRulerTool*>(PhImage1->PhTool) != NULL;}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TmainForm::SpeedButton5Click(TObject *Sender)
+{
+    m_markTool->Mode = MTRect;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainForm::SpeedButton6Click(TObject *Sender)
+{
+	m_markTool->Mode = MTVector;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainForm::SpeedButton13Click(TObject *Sender)
+{
+	m_markTool->Mode = MTContour;
+}
 //---------------------------------------------------------------------------
 
