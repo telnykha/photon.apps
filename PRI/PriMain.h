@@ -33,6 +33,9 @@
 #include <VCLTee.TeeProcs.hpp>
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.Samples.Gauges.hpp>
+#include "DownLoad.h"
+
+
 
 //---------------------------------------------------------------------------
 class TMainForm : public TForm

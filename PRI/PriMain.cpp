@@ -16,6 +16,7 @@
 #include "SelectDirUnit.h"
 #include "ExportPriUnit.h"
 #include "PriSpatialCalibration.h"
+#include "Down_Dial.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -31,6 +32,7 @@
 #pragma link "awplflibb.lib"
 #pragma link "JPEGLIB.lib"
 #pragma link "TinyXML.lib"
+#pragma link "Download.lib"
 
 TMainForm *MainForm;
 
@@ -197,8 +199,6 @@ void __fastcall TMainForm::PreviewFrame(int width, int height, unsigned char* da
 }
 void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
-
-
 	this->ClearTable();
 	m_viewCamera = 0;
 	m_pInitFile = new TPriInitFile();
@@ -656,7 +656,7 @@ void __fastcall TMainForm::helpAboutActionExecute(TObject *Sender)
     AboutBox->Version->Caption = info->FileVersion;
     AboutBox->Copyright->Caption = info->LegalCopyright;
 
-    AboutBox->ShowModal();
+	AboutBox->ShowModal();
 	delete info;
 }
 //---------------------------------------------------------------------------
@@ -1231,6 +1231,7 @@ void __fastcall TMainForm::roisClearActionExecute(TObject *Sender)
 	path += "\\";
 
 
+
 	m_roiTool->Save(path);
 	UpdateCheckList();
 	GroupBox3->Enabled = false;
@@ -1240,7 +1241,8 @@ void __fastcall TMainForm::roisClearActionExecute(TObject *Sender)
 
 void __fastcall TMainForm::roisClearActionUpdate(TObject *Sender)
 {
-    roisDeleteAction->Enabled = CheckListBox1->Count > 0;
+roisDeleteAction->Enabled = CheckListBox1->Count > 0;
+
 }
 //---------------------------------------------------------------------------
 
@@ -1260,6 +1262,9 @@ void __fastcall TMainForm::roisCalcActionExecute(TObject *Sender)
 	N6->Enabled = false;
 	PhImage4->Enabled = false;
 	PageControl1->Enabled = false;
+
+      	bool result = true;
+   
 
 	Calculation();
 
@@ -1573,10 +1578,11 @@ void __fastcall TMainForm::UpdateChart()
 
 			}
 		}
+		LineSeries= new TLineSeries(Chart1);
 
-		Series2->AddXY(ListBox2->ItemIndex, y_min_old);
-		Series2->AddXY(ListBox2->ItemIndex, y_max_old);
-		Chart1->AddSeries(Series2);
+		LineSeries->AddXY(ListBox2->ItemIndex, y_min_old);
+		LineSeries->AddXY(ListBox2->ItemIndex, y_max_old);
+		Chart1->AddSeries(LineSeries);
 	}
 
 }
@@ -2101,5 +2107,6 @@ void __fastcall TMainForm::CheckListBox1ClickCheck(TObject *Sender)
 {
 //
 }
+
 //---------------------------------------------------------------------------
 

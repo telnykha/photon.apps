@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>PRI.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -58,10 +58,10 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>pri</SanitizedProjectName>
-        <IncludePath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(AWP)\include\_include;..\..\photon.apps\common\mightex\mightex;$(IncludePath)</IncludePath>
+        <IncludePath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(AWP)\include\_include;..\..\photon.apps\common\mightex\mightex;$(DOWNLOAD);$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=1.2.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
-        <ILINK_LibraryPath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\lib;$(TINY)\lib;$(AWP)\lib;$(LF)\lib;$(JPEG)\lib;..\..\bin;..\common\mightex\mightex;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\lib;$(TINY)\lib;$(AWP)\lib;$(LF)\lib;$(JPEG)\lib;..\..\bin;..\common\mightex\mightex;$(DOWNLOAD);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
     </PropertyGroup>
@@ -107,7 +107,7 @@
         <ILINK_LibraryPath>..\..\photon.research\common\;$(PHOTON41)\lib\lib;..\..\photon.apps\common\Mightex\Mightex;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <UsePackages>false</UsePackages>
         <Icon_MainIcon>pri_Icon1.ico</Icon_MainIcon>
-        <IncludePath>C:\IPFRAN\awpipl2\include;C:\IPFRAN\awplflib\include;C:\IPFRAN\photon\photon41\photon\common\Mightex\Mightex;$(IncludePath)</IncludePath>
+        <IncludePath>C:\IPFRAN\awpipl2\include;C:\IPFRAN\awplflib\include;$(IncludePath)</IncludePath>
         <FinalOutputDir>C:\IPFRAN\photon\photon.apps\PRI\Win32\Debug\</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -124,14 +124,13 @@
         <ILINK_LibraryPath>C:\IPFRAN\photon\photon41\photon;C:\IPFRAN\photon\photon.apps\common\Mightex\Mightex;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <LinkPackageStatics>rtl.lib;vcl.lib;VclSmp.lib;vclx.lib;photon41.lib;Tee.lib;vclimg.lib;TeeUI.lib;bcbsmp.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
-        <VerInfo_Build>55</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.55;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
+        <VerInfo_Build>60</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=2.0.0.60;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
         <Icon_MainIcon>pri_Icon.ico</Icon_MainIcon>
-        <IncludePath>C:\IPFRAN\photon\photon41\photon;C:\IPFRAN\awpipl2\include;C:\IPFRAN\awplflib\include;C:\IPFRAN\photon\photon41\photon\common\Mightex\Mightex;$(IncludePath)</IncludePath>
-        <FinalOutputDir>..\..\bin\</FinalOutputDir>
+        <IncludePath>C:\IPFRAN\photon\photon41\photon;C:\IPFRAN\awpipl2\include;C:\IPFRAN\awplflib\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="..\common\VerInfoUnit.cpp">
@@ -157,6 +156,12 @@
         <CppCompile Include="ComReaderUnit.cpp">
             <DependentOn>ComReaderUnit.h</DependentOn>
             <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Down_dial.cpp">
+            <Form>Form1</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Down_dial.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
         </CppCompile>
         <CppCompile Include="ExportPriUnit.cpp">
             <Form>ExportPriDlg</Form>
@@ -231,6 +236,7 @@
         <FormResources Include="ABOUT.dfm"/>
         <FormResources Include="OptionsUnit.dfm"/>
         <FormResources Include="ExportPriUnit.dfm"/>
+        <FormResources Include="Down_dial.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -257,7 +263,10 @@
                 <Source>
                     <Source Name="MainSource">PRI.cpp</Source>
                 </Source>
-                <Excluded_Packages/>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">
@@ -311,12 +320,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\bin\pri.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>pri.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="pri_logo.png" Configuration="Release" Class="UWP_CppLogo44">
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
@@ -330,15 +333,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="readme.txt" Configuration="Release" Class="ProjectFile">
+                <DeployFile LocalName="Win32\Debug\pri.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
+                        <RemoteName>pri.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\bin\pri.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="readme.txt" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
-                        <RemoteName>pri.tds</RemoteName>
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -349,6 +352,12 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c260mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win32\Debug\pri.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>pri.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
