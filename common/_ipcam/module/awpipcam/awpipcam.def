@@ -1,0 +1,7 @@
+LIBRARY "awpipcam"
+EXPORTS
+       awpIpConnect @1
+	   awpIpDisconnect @2
+	   awpIpQueryImage @3
+	   awpIpFreeImage  @4
+
