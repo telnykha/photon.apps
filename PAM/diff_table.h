@@ -17,20 +17,14 @@
 #include "editorUnit.h"
 #include <System.Actions.hpp>
 #include <Vcl.ActnList.hpp>
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TDifficult_command : public TForm
 {
 __published:	// IDE-managed Components
 	TPageControl *PageControl1;
-	TSpeedButton *SpeedButton1;
-	TSpeedButton *SpeedButton2;
-	TSpeedButton *SpeedButton3;
-	TSpeedButton *SpeedButton4;
 	TStringGrid *StringGrid1;
-	TPanel *Panel1;
 	TPopupMenu *PopupMenu1;
-	TSpeedButton *SpeedButton5;
-	TSpeedButton *SpeedButton6;
 	TMenuItem *N1;
 	TMenuItem *N2;
 	TMenuItem *N3;
@@ -44,6 +38,10 @@ __published:	// IDE-managed Components
 	TActionList *ActionList1;
 	TAction *EditCopyAction;
 	TAction *EditPastAction;
+	TAction *EditCopyToFile;
+	TAction *FileSaveAsAction;
+	TSaveDialog *SaveDialog1;
+	TMenuItem *EditCopyToFile1;
 	void __fastcall Add_command(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall editAddAction2Excute(TObject *Sender);
@@ -55,6 +53,10 @@ __published:	// IDE-managed Components
 	void __fastcall EditCopyActionUpdate(TObject *Sender);
 	void __fastcall EditPastActionExecute(TObject *Sender);
 	void __fastcall EditPastActionUpdate(TObject *Sender);
+	void __fastcall EditCopyToFileExecute(TObject *Sender);
+	void __fastcall EditCopyToFileUpdate(TObject *Sender);
+	void __fastcall FileSaveAsActionExecute(TObject *Sender);
+	void __fastcall FileSaveAsActionUpdate(TObject *Sender);
 
 private:	// User declarations
 TCommandsTable* control_table;

@@ -147,8 +147,50 @@ TList* list = control_table->list;
 N6->Enabled = IsClipboardFormatAvailable(mm_clipFormat);
 if (list=NULL)
 	{
-        N6->Enabled = false;
+		N6->Enabled = false;
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDifficult_command::EditCopyToFileExecute(TObject *Sender)
+{
+	awpImage* img = NULL;
+
+
+   if (control_table->fileName == c_FileName)
+	  FileSaveAsActionExecute(NULL);
+   else
+	  control_table->Save();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDifficult_command::EditCopyToFileUpdate(TObject *Sender)
+{
+   TList* list = control_table->list;
+   if (list=NULL)
+	{
+		N6->Enabled = false;
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDifficult_command::FileSaveAsActionExecute(TObject *Sender)
+{
+    UnicodeString strFilter = L"װאיכû PAM|*.pam";
+	if (SaveDialog1->Execute())
+	{
+		UnicodeString ustr = SaveDialog1->FileName.c_str();
+		if(ExtractFileExt(ustr) != L".pam")
+			ustr += L".pam";
+		AnsiString str = ustr;
+		control_table->SaveTable(str.c_str());
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDifficult_command::FileSaveAsActionUpdate(TObject *Sender)
+{
+FileSaveAsAction->Enabled = StringGrid1->RowCount > 1;
 }
 //---------------------------------------------------------------------------
 

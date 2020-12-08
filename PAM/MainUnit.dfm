@@ -262,13 +262,6 @@
       Layout = blGlyphTop
       NumGlyphs = 2
     end
-    object SpeedButton13: TSpeedButton
-      Left = 670
-      Top = 3
-      Width = 72
-      Height = 72
-      OnClick = Add_diff_comm
-    end
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -985,6 +978,11 @@
       object N19: TMenuItem
         Action = editInsertAction
       end
+      object N37: TMenuItem
+        Action = AddDiffComm
+        Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1089#1083#1086#1078#1085#1091#1102' '#1082#1086#1084#1084#1072#1085#1076#1091
+        ShortCut = 32813
+      end
       object N25: TMenuItem
         Action = editAddAction
       end
@@ -1183,6 +1181,11 @@
       OnExecute = editPasteActionExecute
       OnUpdate = editPasteActionUpdate
     end
+    object AddDiffComm: TAction
+      Category = 'Edit'
+      Caption = 'AddDiffComm'
+      OnExecute = AddDiffCommExecute
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
@@ -1195,6 +1198,11 @@
     Top = 497
     object N22: TMenuItem
       Action = editInsertAction
+    end
+    object N36: TMenuItem
+      Action = AddDiffComm
+      Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1089#1083#1086#1078#1085#1091#1102' '#1082#1086#1084#1072#1085#1076#1091
+      ShortCut = 32813
     end
     object N26: TMenuItem
       Action = editAddAction

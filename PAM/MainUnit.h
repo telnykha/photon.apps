@@ -171,7 +171,9 @@ __published:	// IDE-managed Components
 	TMenuItem *N33;
 	TMenuItem *N34;
 	TMenuItem *N35;
-	TSpeedButton *SpeedButton13;
+	TMenuItem *N36;
+	TAction *AddDiffComm;
+	TMenuItem *N37;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -229,7 +231,7 @@ __published:	// IDE-managed Components
 	void __fastcall editCopyActionUpdate(TObject *Sender);
 	void __fastcall editPasteActionUpdate(TObject *Sender);
 	void __fastcall editPasteActionExecute(TObject *Sender);
-	void __fastcall Add_diff_comm(TObject *Sender);
+	void __fastcall AddDiffCommExecute(TObject *Sender);
 
 
 

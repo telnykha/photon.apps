@@ -23,9 +23,9 @@ object Difficult_command: TDifficult_command
   end
   object StringGrid1: TStringGrid
     Left = 0
-    Top = 58
+    Top = 0
     Width = 832
-    Height = 455
+    Height = 513
     Align = alClient
     ColCount = 6
     FixedCols = 0
@@ -33,67 +33,12 @@ object Difficult_command: TDifficult_command
     FixedRows = 0
     PopupMenu = PopupMenu1
     TabOrder = 0
-  end
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 832
-    Height = 58
-    Align = alTop
-    Caption = 'Panel1'
-    TabOrder = 2
-    object SpeedButton1: TSpeedButton
-      Left = 8
-      Top = 8
-      Width = 105
-      Height = 50
-      Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
-      OnClick = Add_command
-    end
-    object SpeedButton2: TSpeedButton
-      Left = 119
-      Top = 8
-      Width = 114
-      Height = 50
-      Caption = #1059#1076#1072#1083#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
-      OnClick = editDeleteAction2
-    end
-    object SpeedButton3: TSpeedButton
-      Left = 239
-      Top = 8
-      Width = 114
-      Height = 50
-      Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
-      OnClick = editAddAction2Excute
-    end
-    object SpeedButton4: TSpeedButton
-      Left = 359
-      Top = 8
-      Width = 146
-      Height = 50
-      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
-      OnClick = editEditActionExcute
-    end
-    object SpeedButton5: TSpeedButton
-      Left = 511
-      Top = 8
-      Width = 114
-      Height = 50
-      Action = EditCopyAction
-      Caption = #1057#1082#1086#1087#1080#1088#1086#1074#1072#1090#1100' '#1074' '#1073#1091#1092#1077#1088
-    end
-    object SpeedButton6: TSpeedButton
-      Left = 631
-      Top = 8
-      Width = 114
-      Height = 50
-      Action = EditPastAction
-      Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1080#1079' '#1073#1091#1092#1077#1088#1072
-    end
+    ExplicitTop = 58
+    ExplicitHeight = 455
   end
   object PopupMenu1: TPopupMenu
-    Left = 112
-    Top = 440
+    Left = 552
+    Top = 48
     object N1: TMenuItem
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
       OnClick = Add_command
@@ -112,6 +57,10 @@ object Difficult_command: TDifficult_command
     end
     object N9: TMenuItem
       Caption = '-'
+    end
+    object EditCopyToFile1: TMenuItem
+      Action = FileSaveAsAction
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1074' '#1092#1072#1081#1083
     end
     object N5: TMenuItem
       Action = EditCopyAction
@@ -134,8 +83,8 @@ object Difficult_command: TDifficult_command
     end
   end
   object ActionList1: TActionList
-    Left = 200
-    Top = 440
+    Left = 632
+    Top = 48
     object EditCopyAction: TAction
       Caption = 'Action1'
       OnExecute = EditCopyActionExecute
@@ -146,5 +95,20 @@ object Difficult_command: TDifficult_command
       OnExecute = EditPastActionExecute
       OnUpdate = EditPastActionUpdate
     end
+    object EditCopyToFile: TAction
+      Caption = 'EditCopyToFile'
+      OnExecute = EditCopyToFileExecute
+      OnUpdate = EditCopyToFileUpdate
+    end
+    object FileSaveAsAction: TAction
+      Caption = 'FileSaveAsAction'
+      OnExecute = FileSaveAsActionExecute
+      OnUpdate = FileSaveAsActionUpdate
+    end
+  end
+  object SaveDialog1: TSaveDialog
+    Filter = #1060#1072#1081#1083#1099' PAM|*.pam'
+    Left = 704
+    Top = 48
   end
 end

@@ -443,13 +443,13 @@ void __fastcall TmainPAM::fileOpenActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveActionExecute(TObject *Sender)
 {
-    awpImage* img = NULL;
+	awpImage* img = NULL;
 
 
    if (m_table->fileName == c_FileName)
-      fileSaveAsActionExecute(NULL);
+	  fileSaveAsActionExecute(NULL);
    else
-      m_table->Save();
+	  m_table->Save();
 }
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveActionUpdate(TObject *Sender)
@@ -459,15 +459,15 @@ void __fastcall TmainPAM::fileSaveActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveAsActionExecute(TObject *Sender)
 {
-    UnicodeString strFilter = L"װאיכû PAM|*.pam";
-    if (SaveDialog1->Execute())
-    {
-        UnicodeString ustr = SaveDialog1->FileName.c_str();
-        if(ExtractFileExt(ustr) != L".pam")
-            ustr += L".pam";
-        AnsiString str = ustr;
-        m_table->SaveTable(str.c_str());
-    }
+	UnicodeString strFilter = L"װאיכû PAM|*.pam";
+	if (SaveDialog1->Execute())
+	{
+		UnicodeString ustr = SaveDialog1->FileName.c_str();
+		if(ExtractFileExt(ustr) != L".pam")
+			ustr += L".pam";
+		AnsiString str = ustr;
+		m_table->SaveTable(str.c_str());
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveAsActionUpdate(TObject *Sender)
@@ -1283,9 +1283,11 @@ void __fastcall TmainPAM::editPasteActionExecute(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TmainPAM::Add_diff_comm(TObject *Sender)
+
+
+void __fastcall TmainPAM::AddDiffCommExecute(TObject *Sender)
 {
- Difficult_command->Show();
+	Difficult_command->Show();
 }
 //---------------------------------------------------------------------------
 
