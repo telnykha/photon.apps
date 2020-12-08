@@ -262,6 +262,13 @@
       Layout = blGlyphTop
       NumGlyphs = 2
     end
+    object SpeedButton13: TSpeedButton
+      Left = 670
+      Top = 3
+      Width = 72
+      Height = 72
+      OnClick = Add_diff_comm
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0

@@ -26,6 +26,7 @@
 #include "PhPaneTool.h"
 #include "PhRulerTool.h"
 #include <Vcl.Samples.Spin.hpp>
+#include "diff_table.h"
 
 //---------------------------------------------------------------------------
 class TmainPAM : public TForm
@@ -170,6 +171,7 @@ __published:	// IDE-managed Components
 	TMenuItem *N33;
 	TMenuItem *N34;
 	TMenuItem *N35;
+	TSpeedButton *SpeedButton13;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -227,23 +229,24 @@ __published:	// IDE-managed Components
 	void __fastcall editCopyActionUpdate(TObject *Sender);
 	void __fastcall editPasteActionUpdate(TObject *Sender);
 	void __fastcall editPasteActionExecute(TObject *Sender);
+	void __fastcall Add_diff_comm(TObject *Sender);
 
 
 
 
 
 private:	// User declarations
-    int    			m_board;
-    TCommandsTable* m_table; // таблица в окне для редактирования
+	int    			m_board;
+	TCommandsTable* m_table; // таблица в окне для редактирования
     int             m_camera;
     int				m_numCameras;
-    int 			m_mode;
-    TPAMOptions 	m_options;
-    UnicodeString   m_currentArchive;
+	int 			m_mode;
+	TPAMOptions 	m_options;
+	UnicodeString   m_currentArchive;
     TPAMArchive*    m_archive;
 	TCommandsTable* m_tableArchive; // таблица архива
 
-    UINT            m_clipFormat;
+	UINT            m_clipFormat;
 
     void   __fastcall AskSaveTable();
     void   __fastcall StartExperiment();
@@ -267,7 +270,8 @@ public:		// User declarations
 
 	__property int CameraMode 		 = {read = m_mode};
     __property int board 			 = {read = m_board};
-    __property TCommandsTable* table = {read = m_table};
+	__property TCommandsTable* table = {read = m_table};
+	__property UINT clipFormat = {read = m_clipFormat};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TmainPAM *mainPAM;

@@ -284,7 +284,7 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
     this->SpeedButton12->Caption = L"";
 
 	m_table = new TCommandsTable(StringGrid1, &m_options);
-    m_tableArchive = new TCommandsTable(this->StringGrid2, &m_options, false);
+	m_tableArchive = new TCommandsTable(this->StringGrid2, &m_options, false);
 
     m_numCameras = BUFCCDUSB_InitDevice();
     Memo2->Lines->Add(L"Обнаружено " + IntToStr(m_numCameras) + L" видеокамер.");
@@ -300,7 +300,7 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
         BUFCCDUSB_StartCameraEngine(this->Handle, 12);
     }
     ComboBox1->ItemIndex = m_options.exploshureIndex;
-    TrackBar1->Position = m_options.exploshureValue;
+	TrackBar1->Position = m_options.exploshureValue;
     TrackBar5->Position = m_options.Gain;
     SpinEdit2->Value = m_options.Delay;
 	SpinEdit1->Value = m_options.Length;
@@ -311,7 +311,7 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
 	 if (m_clipFormat == 0)
 	 {
 		ShowMessage("Не могу зарегистрировать фомат данных для обмена через clipboard.");
-        Application->Terminate();
+		Application->Terminate();
 	 }
 
 
@@ -627,7 +627,7 @@ void __fastcall TmainPAM::editInsertActionExecute(TObject *Sender)
 	if (editorDlg->ShowModal() == mrOk)
     {
 		//todo: добавить новую команду
-        m_table->AddRecord(editorDlg);
+		m_table->AddRecord(editorDlg);
     }
 }
 //---------------------------------------------------------------------------
@@ -640,7 +640,7 @@ void __fastcall TmainPAM::editInsertActionUpdate(TObject *Sender)
 
 void __fastcall TmainPAM::editDeleteActionExecute(TObject *Sender)
 {
-    m_table->DeleteRecord(StringGrid1->Row);
+	m_table->DeleteRecord(StringGrid1->Row);
 }
 //---------------------------------------------------------------------------
 
@@ -654,7 +654,7 @@ void __fastcall TmainPAM::editEditActionExecute(TObject *Sender)
 {
 	TList* list = m_table->list;
 	expEvent* e = (expEvent*)list->Items[StringGrid1->Row-1];
-    assert(e != NULL);
+	assert(e != NULL);
 
 	editorDlg->ComboBox1->ItemIndex = e->command;
 	editorDlg->SpinEdit2->Value = e->pinStatus;
@@ -662,11 +662,11 @@ void __fastcall TmainPAM::editEditActionExecute(TObject *Sender)
 	editorDlg->Edit1->Text = StringGrid1->Cells[4][StringGrid1->Row];
 
 
-    if (editorDlg->ShowModal() == mrOk)
-    {
-        //todo: добавить новую команду
-        m_table->EditRecord(StringGrid1->Row, editorDlg);
-    }
+	if (editorDlg->ShowModal() == mrOk)
+	{
+		//todo: добавить новую команду
+		m_table->EditRecord(StringGrid1->Row, editorDlg);
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -677,7 +677,7 @@ void __fastcall TmainPAM::editEditActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::StringGrid1DblClick(TObject *Sender)
 {
-    editEditActionExecute(NULL);
+	editEditActionExecute(NULL);
 }
 //---------------------------------------------------------------------------
 void   __fastcall TmainPAM::AskSaveTable()
@@ -1184,7 +1184,7 @@ void __fastcall TmainPAM::editAddActionExecute(TObject *Sender)
 	if (editorDlg->ShowModal() == mrOk)
 	{
 		m_table->InsertRecord(StringGrid1->Row, editorDlg);
-    }
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -1196,7 +1196,7 @@ void __fastcall TmainPAM::editAddActionUpdate(TObject *Sender)
 
 void __fastcall TmainPAM::editUpActionExecute(TObject *Sender)
 {
-    m_table->Up(StringGrid1->Row);
+	m_table->Up(StringGrid1->Row);
 }
 //---------------------------------------------------------------------------
 
@@ -1214,7 +1214,7 @@ void __fastcall TmainPAM::editDownActionUpdate(TObject *Sender)
 
 void __fastcall TmainPAM::editDownActionExecute(TObject *Sender)
 {
-    m_table->Down(StringGrid1->Row);
+	m_table->Down(StringGrid1->Row);
 }
 //---------------------------------------------------------------------------
 
@@ -1276,10 +1276,17 @@ void __fastcall TmainPAM::editPasteActionExecute(TObject *Sender)
 			editorDlg->SpinEdit1->Value = e->pinDelay;
 			editorDlg->Edit1->Text = "";
 			GlobalUnlock(hglb);
-            m_table->InsertRecord(StringGrid1->Row, editorDlg);
+			m_table->InsertRecord(StringGrid1->Row, editorDlg);
 		}
 	 }
 	 CloseClipboard();
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::Add_diff_comm(TObject *Sender)
+{
+ Difficult_command->Show();
+}
+//---------------------------------------------------------------------------
+
 
