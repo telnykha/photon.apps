@@ -31,28 +31,40 @@ object Difficult_command: TDifficult_command
     FixedCols = 0
     RowCount = 1
     FixedRows = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
+    ParentShowHint = False
     PopupMenu = PopupMenu1
+    ShowHint = True
     TabOrder = 0
-    ExplicitTop = 58
-    ExplicitHeight = 455
+    ColWidths = (
+      312
+      106
+      107
+      470
+      64
+      64)
   end
   object PopupMenu1: TPopupMenu
     Left = 552
     Top = 48
     object N1: TMenuItem
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
+      ShortCut = 8237
       OnClick = Add_command
     end
     object N3: TMenuItem
       Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
+      ShortCut = 16429
       OnClick = editAddAction2Excute
     end
     object N2: TMenuItem
       Caption = #1059#1076#1072#1083#1080#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
+      ShortCut = 16430
       OnClick = editDeleteAction2
     end
     object N4: TMenuItem
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1082#1086#1084#1072#1085#1076#1091
+      ShortCut = 8205
       OnClick = editEditActionExcute
     end
     object N9: TMenuItem
@@ -61,14 +73,17 @@ object Difficult_command: TDifficult_command
     object EditCopyToFile1: TMenuItem
       Action = FileSaveAsAction
       Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1074' '#1092#1072#1081#1083
+      ShortCut = 16467
     end
     object N5: TMenuItem
       Action = EditCopyAction
-      Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100' '#1074' '#1073#1091#1092#1077#1088#1072
+      Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100' '#1074' '#1073#1091#1092#1077#1088
+      ShortCut = 16451
     end
     object N6: TMenuItem
       Action = EditPastAction
       Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1080#1079' '#1073#1091#1092#1077#1088#1072
+      ShortCut = 16470
     end
     object N10: TMenuItem
       Caption = '-'

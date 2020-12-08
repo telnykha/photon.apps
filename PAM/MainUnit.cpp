@@ -454,7 +454,7 @@ void __fastcall TmainPAM::fileSaveActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveActionUpdate(TObject *Sender)
 {
-    fileSaveAction->Enabled = StringGrid1->RowCount > 1 && m_table->changed;
+	fileSaveAction->Enabled = StringGrid1->RowCount > 1 && m_table->changed;
 }
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::fileSaveAsActionExecute(TObject *Sender)
@@ -1250,7 +1250,7 @@ void __fastcall TmainPAM::editCopyActionExecute(TObject *Sender)
 
 void __fastcall TmainPAM::editCopyActionUpdate(TObject *Sender)
 {
-    editCopyAction->Enabled = StringGrid1->Row > 0;
+	editCopyAction->Enabled = StringGrid1->Row > 0;
 }
 //---------------------------------------------------------------------------
 
@@ -1290,5 +1290,6 @@ void __fastcall TmainPAM::AddDiffCommExecute(TObject *Sender)
 	Difficult_command->Show();
 }
 //---------------------------------------------------------------------------
+
 
 

@@ -143,12 +143,7 @@ void __fastcall TDifficult_command::EditPastActionExecute(TObject *Sender)
 
 void __fastcall TDifficult_command::EditPastActionUpdate(TObject *Sender)
 {
-TList* list = control_table->list;
-N6->Enabled = IsClipboardFormatAvailable(mm_clipFormat);
-if (list=NULL)
-	{
-		N6->Enabled = false;
-	}
+N6->Enabled = IsClipboardFormatAvailable(mainPAM->clipFormat);
 }
 //---------------------------------------------------------------------------
 
@@ -166,17 +161,13 @@ void __fastcall TDifficult_command::EditCopyToFileExecute(TObject *Sender)
 
 void __fastcall TDifficult_command::EditCopyToFileUpdate(TObject *Sender)
 {
-   TList* list = control_table->list;
-   if (list=NULL)
-	{
-		N6->Enabled = false;
-	}
+		N5->Enabled = StringGrid1->Row > 0;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TDifficult_command::FileSaveAsActionExecute(TObject *Sender)
 {
-    UnicodeString strFilter = L"װאיכû PAM|*.pam";
+	UnicodeString strFilter = L"װאיכû PAM|*.pam";
 	if (SaveDialog1->Execute())
 	{
 		UnicodeString ustr = SaveDialog1->FileName.c_str();
@@ -190,7 +181,8 @@ void __fastcall TDifficult_command::FileSaveAsActionExecute(TObject *Sender)
 
 void __fastcall TDifficult_command::FileSaveAsActionUpdate(TObject *Sender)
 {
-FileSaveAsAction->Enabled = StringGrid1->RowCount > 1;
+EditCopyToFile->Enabled = StringGrid1->RowCount > 1;
 }
 //---------------------------------------------------------------------------
+
 
