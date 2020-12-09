@@ -42,6 +42,9 @@ __published:	// IDE-managed Components
 	TAction *FileSaveAsAction;
 	TSaveDialog *SaveDialog1;
 	TMenuItem *EditCopyToFile1;
+	TAction *PastFromeFile;
+	TMenuItem *N11;
+	TOpenDialog *OpenDialog1;
 	void __fastcall Add_command(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall editAddAction2Excute(TObject *Sender);
@@ -57,6 +60,7 @@ __published:	// IDE-managed Components
 	void __fastcall EditCopyToFileUpdate(TObject *Sender);
 	void __fastcall FileSaveAsActionExecute(TObject *Sender);
 	void __fastcall FileSaveAsActionUpdate(TObject *Sender);
+	void __fastcall PastFromeFileExecute(TObject *Sender);
 
 private:	// User declarations
 TCommandsTable* control_table;

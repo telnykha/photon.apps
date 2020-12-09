@@ -85,6 +85,9 @@ object Difficult_command: TDifficult_command
       Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1080#1079' '#1073#1091#1092#1077#1088#1072
       ShortCut = 16470
     end
+    object N11: TMenuItem
+      Action = PastFromeFile
+    end
     object N10: TMenuItem
       Caption = '-'
     end
@@ -120,10 +123,19 @@ object Difficult_command: TDifficult_command
       OnExecute = FileSaveAsActionExecute
       OnUpdate = FileSaveAsActionUpdate
     end
+    object PastFromeFile: TAction
+      Caption = #1042#1089#1090#1072#1074#1080#1090#1100' '#1080#1079' '#1092#1072#1081#1083#1072
+      ShortCut = 49238
+      OnExecute = PastFromeFileExecute
+    end
   end
   object SaveDialog1: TSaveDialog
     Filter = #1060#1072#1081#1083#1099' PAM|*.pam'
     Left = 704
+    Top = 48
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 472
     Top = 48
   end
 end

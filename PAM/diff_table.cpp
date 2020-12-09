@@ -186,3 +186,15 @@ EditCopyToFile->Enabled = StringGrid1->RowCount > 1;
 //---------------------------------------------------------------------------
 
 
+void __fastcall TDifficult_command::PastFromeFileExecute(TObject *Sender)
+{
+   if (OpenDialog1->Execute())
+    {
+        AnsiString str = OpenDialog1->FileName.c_str();
+		control_table->LoadTable(str.c_str());
+        PageControl1->TabIndex = 0;
+	}
+}
+//---------------------------------------------------------------------------
+
+
