@@ -8,8 +8,8 @@ USEFORM("mainUnit.cpp", mainForm);
 USEFORM("LongProcessForm.cpp", LongProcDlg);
 USEFORM("..\..\common\AboutForm.cpp", AboutBox);
 USEFORM("exportImagesOptionsUnit.cpp", exportImagesDlg);
-USEFORM("dictinaryEditor.cpp", dictinaryEditDlg);
 USEFORM("dictinaryItemEditor.cpp", dictinaryItemDlg);
+USEFORM("dictinaryEditor.cpp", dictinaryEditDlg);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

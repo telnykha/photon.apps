@@ -81,6 +81,10 @@ __fastcall TPhVideoMarkTool::TPhVideoMarkTool(TComponent* Owner): TPhImageTool(O
     m_selected = -1;
 	m_dictinary = new TLFSemanticDictinary();
 	m_mode = MTRect;
+	m_X = 0;
+	m_Y = 0;
+	m_rdown = false;
+	m_startPoint = NULL;
 }
 //---------------------------------------------------------------------------
 __fastcall TPhVideoMarkTool::~TPhVideoMarkTool()
@@ -162,6 +166,24 @@ bool   TPhVideoMarkTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 						}
 
 					 res = false;
+				 }
+				 else if (z->GetZoneType() == ZTContour && m_mode == MTContour)
+				 {
+					TLF2DContour* contour = z->GetContour();
+					for (int j = 0; j < contour->GetNumPoints(); j++)
+					{
+						TPoint vertex;// = GetRectPoint(j, rect);
+						awp2DPoint _p = contour->GetPoint(j);
+						vertex.x = _p.X*m_pImage->Bitmap->Width / 100.;
+						vertex.y = _p.Y*m_pImage->Bitmap->Height / 100.;
+						if  (_2D_Dist(vertex.x, vertex.y, p.x, p.y) < 4)//
+						{
+						   res = true;
+						   idx1 = i;
+						   idx2 = j;
+						   break;
+						}
+					}
 				 }
 				 delete z;
 			}
@@ -269,6 +291,14 @@ void __fastcall TPhVideoMarkTool::SetVertex(int x, int y)
 			}
 			item->SetZone(z, m_pImage->Bitmap->Width, m_pImage->Bitmap->Height);
 	 }
+	 else if (z->GetZoneType() == ZTContour && m_mode == MTContour)
+	 {
+		   awp2DPoint p1;
+		   p1.X = 100.0*p.x /(double) m_pImage->Bitmap->Width;
+		   p1.Y = 100.0*p.y /(double) m_pImage->Bitmap->Height;
+		   z->GetContour()->SetPoint(m_sv, p1);
+		   item->SetZone(z, m_pImage->Bitmap->Width, m_pImage->Bitmap->Height);
+	 }
 	 delete z;
    }
 
@@ -340,9 +370,9 @@ void TPhVideoMarkTool::Draw(TCanvas* Canvas)
 		TRect rect1 = this->m_pImage->GetScreenRect(rect);
 		Canvas->Brush->Color = _color;
         if (i == m_selected)
-            Canvas->Pen->Width = 4;
+			Canvas->Pen->Width = 4;
 		else
-            Canvas->Pen->Width = 1;
+			Canvas->Pen->Width = 1;
 		Canvas->Pen->Color = _color;
 
 
@@ -409,14 +439,15 @@ void TPhVideoMarkTool::Draw(TCanvas* Canvas)
 
 			AnsiString _tmp;
 			std::string str = m_dictinary->GetWordByUUID(item->GetType().c_str());
-			//str += " :";
-			//_tmp = IntToStr(rect.Width());
-			//str += _tmp.c_str();
-			//str += ":";
-			//_tmp = IntToStr(rect.Height());
-			//str += _tmp.c_str();
 			Canvas->TextOutW(p2.x + delta/2, p2.y - 4*delta, str.c_str());
 
+		}
+		else if (zt == ZTContour)
+		{
+			AnsiString _tmp;
+			std::string str = m_dictinary->GetWordByUUID(item->GetType().c_str());
+
+			DrawContour(item->GetZone(), Canvas, _color, Canvas->Pen->Width, str.c_str());
 		}
 	}
 
@@ -452,11 +483,10 @@ void TPhVideoMarkTool::Draw(TCanvas* Canvas)
 
 	if (m_newZone != NULL)
 	{
+		Canvas->Pen->Color = clLime;
+		Canvas->Brush->Color = clLime;
 		if (m_newZone->IsLineSegment())
 		{
-			Canvas->Pen->Color = clLime;
-			Canvas->Brush->Color = clLime;
-
 			awp2DPoint s = m_newZone->GetLineSegmnet()->GetStart();
 			awp2DPoint f = m_newZone->GetLineSegmnet()->GetFinish();
 
@@ -481,9 +511,77 @@ void TPhVideoMarkTool::Draw(TCanvas* Canvas)
 			Canvas->Ellipse(p2.x-delta, p2.y - delta, p2.x + delta, p2.y + delta);
 
 		}
+		else
+		   DrawContour(m_newZone, Canvas, Canvas->Pen->Color, Canvas->Pen->Width);
 	}
 
 }
+
+void __fastcall TPhVideoMarkTool::DrawContour(TLFZone* z, TCanvas* Canvas, TColor cc, int width,const char* text)
+{
+	 if (z == NULL || Canvas == NULL || m_pImage == NULL || m_pImage->Bitmap->Empty)
+		return;
+	 TLF2DContour* c = z->GetContour();
+	 if (c == NULL || c->GetNumPoints() == 0)
+		return;
+
+	 int w, h;
+	 w = m_pImage->Bitmap->Width;
+	 h = m_pImage->Bitmap->Height;
+
+	 Canvas->Pen->Color = cc;
+	 Canvas->Brush->Style = bsClear;
+	 Canvas->Pen->Width = width;
+
+	 int X1, Y1;
+	 int m_radius = 4;
+	 TPoint p1;
+	 X1 = w*c->GetPoint(0).X / 100;
+	 Y1 = h*c->GetPoint(0).Y / 100;
+	 p1 = m_pImage->GetScreenPoint(X1, Y1);
+
+	 Canvas->MoveTo(p1.X, p1.Y);
+
+	 Canvas->Pen->Width = width;
+
+	 Canvas->Brush->Style = bsSolid;
+	 Canvas->Brush->Color = cc;
+	 Canvas->Ellipse(p1.X - m_radius, p1.Y - m_radius, p1.X + m_radius, p1.Y + m_radius);
+
+	 Canvas->Brush->Style = bsClear;
+	 Canvas->Pen->Width = width;
+	 int delta = 10;
+
+
+	 for (int i = 1; i < c->GetNumPoints(); i++)
+	 {
+		 TPoint p1;
+		 X1 = w*c->GetPoint(i).X / 100;
+		 Y1 = h*c->GetPoint(i).Y / 100;
+		 p1 = m_pImage->GetScreenPoint(X1, Y1);
+		 Canvas->LineTo(p1.X, p1.Y);
+
+		 Canvas->Brush->Style = bsSolid;
+		 Canvas->Brush->Color = cc;
+		 Canvas->Ellipse(p1.X - m_radius, p1.Y - m_radius, p1.X + m_radius, p1.Y + m_radius);
+
+		 Canvas->Brush->Style = bsClear;
+		 Canvas->Pen->Width = width;
+
+	 }
+	 X1 = w*c->GetPoint(0).X / 100;
+	 Y1 = h*c->GetPoint(0).Y / 100;
+	 p1 = m_pImage->GetScreenPoint(X1, Y1);
+
+	 Canvas->LineTo(p1.X, p1.Y);
+
+	 if (text != NULL)
+	 {
+		Canvas->Brush->Color = cc;
+			Canvas->TextOutW(p1.x + delta/2, p1.y - 4*delta, text);
+	 }
+}
+
 //---------------------------------------------------------------------------
 void TPhVideoMarkTool::MouseDown(int X, int Y, TMouseButton Button)
 {
@@ -517,10 +615,22 @@ void TPhVideoMarkTool::MouseDown(int X, int Y, TMouseButton Button)
 
 		  m_newZone->GetLineSegmnet()->SetStart(p2d);
 		}
+		else if (m_mode == MTContour)
+		{
+		  if (m_newZone == NULL)
+			  m_newZone = new TLFZone(ZTContour);
+
+		}
 
 	  }
 	  m_edited = true;
 	  m_down = true;
+   }
+   else
+   {
+		m_rdown = true;
+		m_X      = X;
+		m_Y      = Y;
    }
 }
 //---------------------------------------------------------------------------
@@ -560,17 +670,31 @@ void TPhVideoMarkTool::MouseUp(int X, int Y, TMouseButton Button)
 				m_newZone->GetLineSegmnet()->SetFihish(p2d);
 				DoPopup(X, Y);
 		 }
+		 else if (m_mode == MTContour)
+		 {
+			 ContourMouseUp(X, Y, Button);
+		 }
 
 	  }
 	  else
 	  {
 		// process vertex
 		//m_descriptor.SaveXML(m_strName.c_str());
-        if (this->m_OnChange != NULL)
-            m_OnChange(this);
+		if (this->m_OnChange != NULL)
+			m_OnChange(this);
 	  }
 	  m_pImage->Paint();
 	  m_down = false;
+   }
+   else
+   {
+		if (m_mode == MTContour &&  m_newZone != NULL)
+		{
+		   ContourMouseUp(X, Y, Button);
+		}
+		m_X = 0;
+		m_Y = 0;
+		m_rdown = false;
    }
 }
 //---------------------------------------------------------------------------
@@ -612,6 +736,14 @@ void TPhVideoMarkTool::MouseMove(int X, int Y, TShiftState Shift)
 			this->SetVertex(X,Y);
 	   }
 	   m_pImage->Paint();
+   }
+
+   if (m_rdown)
+   {
+	  m_pImage->MoveBy( m_X-X, m_Y-Y );
+
+	  m_X = X;
+  	  m_Y = Y;
    }
 }
 //---------------------------------------------------------------------------
@@ -815,7 +947,7 @@ void __fastcall  TPhVideoMarkTool::DeleteEntry(int index)
 	{
 		TFrameItem* itm = (TFrameItem*)m_frames.Get(i);
 		if (itm && itm->FrameNum == index)
-        {
+		{
             if (this->OnDelFrame)
                 this->OnDelFrame(this, itm);
             m_frames.Delete(i);
@@ -848,7 +980,7 @@ void __fastcall  TPhVideoMarkTool::ExportToLFDatabase(const char* path)
 	 {
 		TFrameItem* fi = (TFrameItem*)m_frames.Get(i);
 		TLFSemanticImageDescriptor* sd = fi->GetDescriptor(m_pImage->Bitmap->Width,
-        m_pImage->Bitmap->Height);
+		m_pImage->Bitmap->Height);
 		if (sd != NULL)
 		{
 			// save data
@@ -886,8 +1018,8 @@ void __fastcall TPhVideoMarkTool::DoPopup(int X, int Y)
 		item->Caption = mi->GetItemLabel();
 		item->OnClick = PopupClick;
         item->Tag = i+1;
-        PopupMenu->Items->Add(item);
-    }
+		PopupMenu->Items->Add(item);
+	}
 
     TMenuItem* item = new TMenuItem(PopupMenu);
     item->Caption = L"Отменить";
@@ -918,7 +1050,7 @@ void __fastcall TPhVideoMarkTool::PopupClick(TObject* sender)
 		}
 		m_pImage->Paint();
 		delete  PopupMenu;
-        return;
+		return;
     }
 
 
@@ -934,6 +1066,12 @@ void __fastcall TPhVideoMarkTool::PopupClick(TObject* sender)
 	else if (m_mode == MTVector)
 	{
 		di->SetZone(m_newZone, m_pImage->Bitmap->Width, m_pImage->Bitmap->Height);
+		delete m_newZone;
+		m_newZone = NULL;
+	}
+	else if (m_mode == MTContour)
+	{
+ 		di->SetZone(m_newZone, m_pImage->Bitmap->Width, m_pImage->Bitmap->Height);
 		delete m_newZone;
 		m_newZone = NULL;
 	}
@@ -966,7 +1104,7 @@ void __fastcall  TPhVideoMarkTool::DeleteObject(int index)
 {
     if (index >= 0 && index < m_data.GetCount())
     {
-        m_data.Delete(index);
+		m_data.Delete(index);
         TFrameItem* itm = GetFrameItem(m_mediaSource->CurrentFrame);
         if (itm != NULL)
         {
@@ -984,14 +1122,14 @@ void __fastcall  TPhVideoMarkTool::DeleteObject(int index)
 int frames_compare(void* item1, void* item2)
 {
     TFrameItem* a1 = (TFrameItem*)item1;
-    TFrameItem* a2 = (TFrameItem*)item2;
+	TFrameItem* a2 = (TFrameItem*)item2;
 
     if (a1->FrameNum == a2->FrameNum)
-        return 0;
+		return 0;
     if (a1->FrameNum > a2->FrameNum)
         return 1;
     else
-        return -1;
+		return -1;
 }
 void __fastcall TPhVideoMarkTool::SortData()
 {
@@ -1000,14 +1138,14 @@ void __fastcall TPhVideoMarkTool::SortData()
 
 TFrameItem* TPhVideoMarkTool::GetFrameItem(int index)
 {
-    for (int i = m_frames.GetCount()-1; i>=0; i--)
+	for (int i = m_frames.GetCount()-1; i>=0; i--)
     {
 		TFrameItem* itm = (TFrameItem*)m_frames.Get(i);
         if (itm->FrameNum == index)
         {
-            return itm;
+			return itm;
         }
-    }
+	}
    return NULL;
 }
 /*
@@ -1054,47 +1192,49 @@ void __fastcall TPhVideoMarkTool::ChangeLabel(String& src_label, String& dst_lab
 
 void __fastcall TPhVideoMarkTool::DeleteLabel(String label)
 {
+	AnsiString _ansi = label;
+	std::string uuid = m_dictinary->GetUUIDByWord(_ansi.c_str());
 
- /*   for (int i = m_frames.GetCount() - 1; i >=0 ; i--)
-    {
+	for (int i = m_frames.GetCount() - 1; i >=0 ; i--)
+	{
 		TFrameItem* fitem = (TFrameItem*)m_frames.Get(i);
-        for (int j = fitem->GetCount() -1; j >=0; j--)
-        {
-			TMarkItem* item = (TMarkItem*)fitem->Get(j);
-            if (item->label == label)
-                 fitem->Delete(j);
+		TLFSemanticImageDescriptor* sd = fitem->GetDescriptor(m_pImage->Bitmap->Width,
+		m_pImage->Bitmap->Height);
+
+		for (int j = sd->GetCount() -1; j >=0; j--)
+		{
+			TLFDetectedItem* di = sd->GetDetectedItem(j);
+			if (uuid == di->GetType())
+				 sd->Delete(j);
 		}
-        if(fitem->GetCount() == 0)
-            m_frames.Delete(i);
-    }
+		if(sd->GetCount() == 0)
+			m_frames.Delete(i);
+	}
 
-    for (int i = m_classes->Count - 1; i >= 0; i--)
-    {
-	    TMarkItem* ci = (TMarkItem*)this->m_classes->Items[i];
+    m_dictinary->DelWordForomDictinary(_ansi.c_str());
 
-        if (ci->label == label)
-        {
-            m_classes->Delete(i);
-        }
-    }
-	  */
-    SaveData();
+	SaveData();
 	if (m_OnLoad != NULL)
 		m_OnLoad(this);
 }
 
 void __fastcall TPhVideoMarkTool::LabelStatistics(String label, int& numFrames, int& numEntries)
 {
-/*    numFrames = 0;
+	numFrames = 0;
 	numEntries = 0;
+	AnsiString _ansi = label;
+	std::string uuid = m_dictinary->GetUUIDByWord(_ansi.c_str());
 	for (int i = m_frames.GetCount() - 1; i >=0 ; i--)
 	{
 		TFrameItem* fitem = (TFrameItem*)m_frames.Get(i);
 		bool f = false;
-		for (int j = fitem->GetCount() -1; j >=0; j--)
+		TLFSemanticImageDescriptor* sd = fitem->GetDescriptor(m_pImage->Bitmap->Width,
+		m_pImage->Bitmap->Height);
+
+		for (int j = sd->GetCount() -1; j >=0; j--)
 		{
-			TMarkItem* item = (TMarkItem*)fitem->Get(j);
-			if (item->label == label)
+			TLFDetectedItem* di = sd->GetDetectedItem(j);
+			if (uuid == di->GetType())
 			{
 				numEntries++;
 				f = true;
@@ -1102,6 +1242,60 @@ void __fastcall TPhVideoMarkTool::LabelStatistics(String label, int& numFrames, 
 		}
 		if (f)
 			numFrames++;
-	}*/
+	}
 }
+
+void __fastcall TPhVideoMarkTool::Commit()
+{
+
+   delete m_startPoint;
+   m_startPoint = NULL;
+}
+
+void __fastcall TPhVideoMarkTool::Rollback()
+{
+   delete m_startPoint;
+   m_startPoint = NULL;
+}
+
+void __fastcall TPhVideoMarkTool::ContourMouseUp(int x, int y, TMouseButton Button)
+{
+	if (m_pImage->Bitmap->Empty)
+		return;
+
+	int w, h , _x, _y;
+
+	w = m_pImage->Bitmap->Width;
+	h = m_pImage->Bitmap->Height;
+	_x = m_pImage->GetImageX(x);
+	_y = m_pImage->GetImageY(y);
+
+	if (_x < 0 || _y < 0)
+		return;
+
+
+	awp2DPoint p;
+	p.X = 100.*(double)_x/(double)w;
+	p.Y = 100.*(double)_y/(double)h;
+	TLF2DContour* c = m_newZone->GetContour();
+
+	if (m_startPoint == NULL)
+	{
+		m_startPoint = new TLF2DPoint(p);
+		c->AddPoint(p);
+	}
+	else
+	{
+		c->AddPoint(p);
+	}
+
+	if (Button == mbRight)
+	{
+		DoPopup(x,y);
+		Commit();
+		return;
+	}
+	m_pImage->Paint();
+}
+
 

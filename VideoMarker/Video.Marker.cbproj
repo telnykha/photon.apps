@@ -101,10 +101,11 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <LinkPackageStatics>rtl.lib;vcl.lib;photon41.lib;VclSmp.lib;vclx.lib</LinkPackageStatics>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
         <BT_BuildType>Debug</BT_BuildType>
+        <UsePackages>true</UsePackages>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;photon41.bpi;VclSmp.bpi;vclx.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -201,14 +202,6 @@
         <CppCompile Include="PhVideoMarkTool.cpp">
             <DependentOn>PhVideoMarkTool.h</DependentOn>
             <BuildOrder>8</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="PhVideoMarkTool2.cpp">
-            <DependentOn>PhVideoMarkTool2.h</DependentOn>
-            <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="PhZonesEditorTool.cpp">
-            <DependentOn>PhZonesEditorTool.h</DependentOn>
-            <BuildOrder>19</BuildOrder>
         </CppCompile>
         <None Include="readme.txt"/>
         <None Include="todo.txt"/>
@@ -316,17 +309,16 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="todo.txt" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\..\..\bin\awpcvvideo.dll" Configuration="Release" Class="File">
                     <Platform Name="Win32">
                         <RemoteDir>D:\_alt\test\</RemoteDir>
                         <RemoteName>awpcvvideo.dll</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\bin\msvcr120.dll" Configuration="Release" Class="File">
-                    <Platform Name="Win32">
-                        <RemoteDir>D:\_alt\test\</RemoteDir>
-                        <RemoteName>msvcr120.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -348,9 +340,10 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="todo.txt" Configuration="Release" Class="ProjectFile">
+                <DeployFile LocalName="..\..\bin\msvcr120.dll" Configuration="Release" Class="File">
                     <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
+                        <RemoteDir>D:\_alt\test\</RemoteDir>
+                        <RemoteName>msvcr120.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

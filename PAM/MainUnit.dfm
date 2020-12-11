@@ -298,7 +298,7 @@
     Top = 81
     Width = 811
     Height = 477
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
@@ -406,6 +406,10 @@
     object TabSheet2: TTabSheet
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1082#1086#1076' Arduino'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Memo1: TMemo
         Left = 0
         Top = 0
@@ -465,6 +469,10 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter3: TSplitter
         Left = 179
         Top = 0

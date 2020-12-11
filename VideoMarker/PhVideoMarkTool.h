@@ -35,18 +35,27 @@ class PACKAGE TPhVideoMarkTool : public TPhImageTool
 {
 private:
 	bool m_down;
+	bool m_rdown;
+	int  m_X;
+	int  m_Y;
 	int  m_si; // selected index
 	int  m_sv; // selectes vertex
     int  m_selected;
 	TRect* m_newRect;
 	TLFZone* m_newZone;
+	TEMarkToolModes m_mode;
+	TLF2DPoint* m_startPoint;
 	TPoint GetRectPoint(int index, TRect& rect);
-    	bool CheckZoneType(TLFSemanticDictinaryItem* sdi);
+		bool CheckZoneType(TLFSemanticDictinaryItem* sdi);
 	void __fastcall SetVertex(int x, int y);
 	bool m_edited;
-	TEMarkToolModes m_mode;
+
+
+	void __fastcall Commit();
+	void __fastcall Rollback();
+	void __fastcall ContourMouseUp(int x, int y, TMouseButton Button);
 protected:
-     TPopupMenu *PopupMenu;
+	 TPopupMenu *PopupMenu;
      /*collection of frame items*/
 	 TLFObjectList m_frames;
      /*collection of items on the current frame*/
@@ -64,12 +73,13 @@ protected:
 	 TLFObjectList* __fastcall GetFrames();
 
      void __fastcall DoPopup(int X, int Y);
-     void __fastcall PopupClick(TObject* sender);
+	 void __fastcall PopupClick(TObject* sender);
+	void __fastcall TPhVideoMarkTool::DrawContour(TLFZone* z, TCanvas* Canvas, TColor c, int width, const char* text = NULL);
 
 	TNotifyEvent 		m_OnChange;
 	TNotifyEvent 		m_OnLoad;
 	TPhAddDataEvent     m_OnAddData;
-    TPhDelFrameEvent    m_OnDelFrame;
+	TPhDelFrameEvent    m_OnDelFrame;
     TPhExportProgressEvent m_OnProgress;
 protected:
 	TPhMediaSource* m_mediaSource;

@@ -51,7 +51,7 @@ bool __fastcall TdictinaryItemDlg::EditItem(TLFSemanticDictinaryItem* item, TPhV
     ColorGrid1->ForegroundIndex = index;
     Panel1->Color = ColorGrid1->ForegroundColor;
 	ComboBox1->ItemIndex = ZoneTypeToComboIndex(item->GetZoneType());
-    if (ShowModal() == mrOk)
+	if (ShowModal() == mrOk)
 	{
 		item->SetColor(ColorGrid1->ForegroundColor);
 		UnicodeString str = item->GetItemLabel();

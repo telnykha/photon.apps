@@ -438,7 +438,7 @@ void __fastcall TmainForm::PhImage1ToolChange(TObject *Sender)
 	{
 		Panel1->Visible = true;
 		m_markTool->MediaSource = m_videoSource;
-
+		PhImage1->PopupMenu = NULL;
 		// fill frames list box
 		// режим отоборажения.
 		String strName = ChangeFileExt(m_videoSource->Source, L".mark");
@@ -459,6 +459,7 @@ void __fastcall TmainForm::PhImage1ToolChange(TObject *Sender)
 	else
 	{
 		Panel1->Visible = false;
+        PhImage1->PopupMenu = this->PopupMenu1;
 	}
 }
 //---------------------------------------------------------------------------
