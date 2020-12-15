@@ -206,6 +206,8 @@ __published:	// IDE-managed Components
 	TMenuItem *PastAction1;
 	TAction *ZoomToActualSize;
 	TMenuItem *Z1;
+	TPanel *Panel12;
+	TSplitter *Splitter6;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -274,6 +276,7 @@ __published:	// IDE-managed Components
 	void __fastcall PastActionUpdate(TObject *Sender);
 	void __fastcall ZoomToActualSizeExecute(TObject *Sender);
 	void __fastcall ZoomToActualSizeUpdate(TObject *Sender);
+
 
 
 
