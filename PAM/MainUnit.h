@@ -27,6 +27,9 @@
 #include "PhRulerTool.h"
 #include <Vcl.Samples.Spin.hpp>
 #include "diff_table.h"
+#include "PhSelectRectTool.h"
+#include "PhZoomToRectTool.h"
+#include <Vcl.CheckLst.hpp>
 
 //---------------------------------------------------------------------------
 class TmainPAM : public TForm
@@ -174,6 +177,35 @@ __published:	// IDE-managed Components
 	TMenuItem *N36;
 	TAction *AddDiffComm;
 	TMenuItem *N37;
+	TTabSheet *Сложные_команды;
+	TPhImage *PhImage3;
+	TPageControl *PageControl2;
+	TTabSheet *График;
+	TTabSheet *Таблица;
+	TCheckListBox *CheckListBox1;
+	TLabel *Label20;
+	TPhZoomToRectTool *PhZoomToRectTool1;
+	TPopupMenu *PopupPhDiffCom;
+	TMenuItem *zoomtoRect1;
+	TAction *ZoomToRect;
+	TPhSelRectTool *PhSelRectTool1;
+	TMenuItem *ModeSelectRect1;
+	TAction *SelectRect;
+	TSpeedButton *Рассчитать;
+	TSplitter *Splitter5;
+	TPanel *Panel9;
+	TPanel *Panel10;
+	TStringGrid *StringGrid3;
+	TPanel *Panel11;
+	TLabel *Label21;
+	TLabel *Label22;
+	TLabel *Label23;
+	TMenuItem *Copy1;
+	TAction *CopyAction;
+	TAction *PastAction;
+	TMenuItem *PastAction1;
+	TAction *ZoomToActualSize;
+	TMenuItem *Z1;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -232,6 +264,17 @@ __published:	// IDE-managed Components
 	void __fastcall editPasteActionUpdate(TObject *Sender);
 	void __fastcall editPasteActionExecute(TObject *Sender);
 	void __fastcall AddDiffCommExecute(TObject *Sender);
+	void __fastcall ZoomToRectExecute(TObject *Sender);
+	void __fastcall ZoomToRectUpdate(TObject *Sender);
+	void __fastcall SelectRectExecute(TObject *Sender);
+	void __fastcall SelectRectUpdate(TObject *Sender);
+	void __fastcall CopyActionExecute(TObject *Sender);
+	void __fastcall CopyActionUpdate(TObject *Sender);
+	void __fastcall PastActionExecute(TObject *Sender);
+	void __fastcall PastActionUpdate(TObject *Sender);
+	void __fastcall ZoomToActualSizeExecute(TObject *Sender);
+	void __fastcall ZoomToActualSizeUpdate(TObject *Sender);
+
 
 
 

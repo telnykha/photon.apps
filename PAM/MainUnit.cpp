@@ -10,6 +10,7 @@
 #include "PAMLongProcessUnit.h"
 #include "Buf_USBCCDCamera_SDK.h"
 #include "pam_common.h"
+#include <Clipbrd.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -18,6 +19,8 @@
 #pragma link "PhImageTool"
 #pragma link "PhPaneTool"
 #pragma link "PhRulerTool"
+#pragma link "PhSelectRectTool"
+#pragma link "PhZoomToRectTool"
 #pragma resource "*.dfm"
 TmainPAM *mainPAM;
 
@@ -1292,4 +1295,70 @@ void __fastcall TmainPAM::AddDiffCommExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+
+
+void __fastcall TmainPAM::ZoomToRectExecute(TObject *Sender)
+{
+PhImage3->SelectPhTool(PhZoomToRectTool1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ZoomToRectUpdate(TObject *Sender)
+{
+ZoomToRect->Enabled = !PhImage3->Bitmap->Empty;// && !Timer1->Enabled;
+ZoomToRect->Checked =  dynamic_cast< TPhZoomToRectTool*>(PhImage3->PhTool) != NULL;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::SelectRectExecute(TObject *Sender)
+{
+PhImage3->SelectPhTool(PhSelRectTool1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::SelectRectUpdate(TObject *Sender)
+{
+SelectRect->Enabled = !PhImage3->Bitmap->Empty;
+	SelectRect->Checked = dynamic_cast< TPhSelRectTool*>(PhImage3->PhTool) != NULL;;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::CopyActionExecute(TObject *Sender)
+{
+		  PhImage3->SaveToClipBoard();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::CopyActionUpdate(TObject *Sender)
+{
+Copy1->Enabled = !PhImage3->Bitmap->Empty;
+}
+
+
+
+void __fastcall TmainPAM::PastActionExecute(TObject *Sender)
+{
+   PhImage3->LoadFromClipboard();
+	PhImage3->BestFit();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::PastActionUpdate(TObject *Sender)
+{
+TClipboard *cb = Clipboard();
+PastAction->Enabled = cb->HasFormat(CF_BITMAP);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ZoomToActualSizeExecute(TObject *Sender)
+{
+PhImage3->BestFit();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ZoomToActualSizeUpdate(TObject *Sender)
+{
+ZoomToActualSize->Enabled = !PhImage3->Bitmap->Empty;
+}
+//---------------------------------------------------------------------------
 

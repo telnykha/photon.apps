@@ -298,7 +298,7 @@
     Top = 81
     Width = 811
     Height = 477
-    ActivePage = TabSheet3
+    ActivePage = Сложные_команды
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
@@ -406,10 +406,6 @@
     object TabSheet2: TTabSheet
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1082#1086#1076' Arduino'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Memo1: TMemo
         Left = 0
         Top = 0
@@ -469,10 +465,6 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter3: TSplitter
         Left = 179
         Top = 0
@@ -696,6 +688,131 @@
               OnClick = Button2Click
             end
           end
+        end
+      end
+    end
+    object Сложные_команды: TTabSheet
+      Caption = #1057#1083#1086#1078#1085#1099#1077' '#1082#1086#1084#1072#1085#1076#1099
+      ImageIndex = 4
+      object Label20: TLabel
+        Left = 3
+        Top = 279
+        Width = 132
+        Height = 13
+        Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
+      end
+      object PageControl2: TPageControl
+        Left = 0
+        Top = 330
+        Width = 803
+        Height = 119
+        ActivePage = Таблица
+        Align = alBottom
+        TabOrder = 0
+        object График: TTabSheet
+          Caption = #1043#1088#1072#1092#1080#1082
+        end
+        object Таблица: TTabSheet
+          Caption = #1058#1072#1073#1083#1080#1094#1072
+          ImageIndex = 1
+        end
+      end
+      object Panel9: TPanel
+        Left = 618
+        Top = 25
+        Width = 185
+        Height = 305
+        Align = alRight
+        Caption = 'Panel9'
+        TabOrder = 1
+        object Рассчитать: TSpeedButton
+          Left = 1
+          Top = 270
+          Width = 183
+          Height = 34
+          Align = alBottom
+          Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
+          ExplicitLeft = 150
+          ExplicitTop = 1
+          ExplicitWidth = 303
+        end
+        object CheckListBox1: TCheckListBox
+          AlignWithMargins = True
+          Left = 4
+          Top = 4
+          Width = 177
+          Height = 263
+          Align = alClient
+          ItemHeight = 13
+          TabOrder = 0
+        end
+      end
+      object Panel10: TPanel
+        Left = 0
+        Top = 25
+        Width = 618
+        Height = 305
+        Align = alClient
+        Caption = 'Panel10'
+        TabOrder = 2
+        object Splitter5: TSplitter
+          Left = 616
+          Top = 1
+          Width = 1
+          Height = 303
+          Align = alRight
+          ExplicitLeft = 615
+          ExplicitTop = 6
+        end
+        object PhImage3: TPhImage
+          Left = 1
+          Top = 1
+          Width = 289
+          Height = 303
+          AutoMosaic = True
+          ThumbWidht = 128
+          ThumbHeight = 128
+          SlideShowInterval = 500
+          Align = alClient
+          ParentColor = False
+          PopupMenu = PopupPhDiffCom
+        end
+        object StringGrid3: TStringGrid
+          Left = 290
+          Top = 1
+          Width = 326
+          Height = 303
+          Align = alRight
+          TabOrder = 1
+        end
+      end
+      object Panel11: TPanel
+        Left = 0
+        Top = 0
+        Width = 803
+        Height = 25
+        Align = alTop
+        TabOrder = 3
+        object Label21: TLabel
+          Left = 74
+          Top = 8
+          Width = 126
+          Height = 13
+          Caption = #1042#1099#1073#1088#1072#1085#1085#1086#1077' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077
+        end
+        object Label22: TLabel
+          Left = 368
+          Top = 8
+          Width = 138
+          Height = 13
+          Caption = #1058#1072#1073#1083#1080#1094#1072' '#1073#1072#1079#1086#1074#1099#1093' '#1079#1085#1072#1095#1077#1085#1080#1081
+        end
+        object Label23: TLabel
+          Left = 646
+          Top = 6
+          Width = 132
+          Height = 13
+          Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
         end
       end
     end
@@ -1194,6 +1311,31 @@
       Caption = 'AddDiffComm'
       OnExecute = AddDiffCommExecute
     end
+    object ZoomToRect: TAction
+      Caption = 'ZoomToRect'
+      OnExecute = ZoomToRectExecute
+      OnUpdate = ZoomToRectUpdate
+    end
+    object SelectRect: TAction
+      Caption = 'SelectRect'
+      OnExecute = SelectRectExecute
+      OnUpdate = SelectRectUpdate
+    end
+    object CopyAction: TAction
+      Caption = 'CopyAction'
+      OnExecute = CopyActionExecute
+      OnUpdate = CopyActionUpdate
+    end
+    object PastAction: TAction
+      Caption = 'PastAction'
+      OnExecute = PastActionExecute
+      OnUpdate = PastActionUpdate
+    end
+    object ZoomToActualSize: TAction
+      Caption = 'ZoomToActualSize'
+      OnExecute = ZoomToActualSizeExecute
+      OnUpdate = ZoomToActualSizeUpdate
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
@@ -1251,7 +1393,39 @@
   end
   object PhPaneTool1: TPhPaneTool
     PhImage = PhImage2
-    Left = 485
+    Left = 493
     Top = 497
+  end
+  object PhZoomToRectTool1: TPhZoomToRectTool
+    PhImage = PhImage3
+    Left = 784
+    Top = 504
+  end
+  object PopupPhDiffCom: TPopupMenu
+    Left = 672
+    Top = 504
+    object Copy1: TMenuItem
+      Action = CopyAction
+      Caption = 'Copy'
+    end
+    object PastAction1: TMenuItem
+      Action = PastAction
+      Caption = 'Past'
+    end
+    object Z1: TMenuItem
+      Action = ZoomToActualSize
+      Caption = 'ZoomToBestFit'
+    end
+    object zoomtoRect1: TMenuItem
+      Action = ZoomToRect
+    end
+    object ModeSelectRect1: TMenuItem
+      Action = SelectRect
+    end
+  end
+  object PhSelRectTool1: TPhSelRectTool
+    PhImage = PhImage3
+    Left = 880
+    Top = 504
   end
 end
