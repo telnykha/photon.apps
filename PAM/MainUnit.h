@@ -30,6 +30,10 @@
 #include "PhSelectRectTool.h"
 #include "PhZoomToRectTool.h"
 #include <Vcl.CheckLst.hpp>
+#include <VCLTee.Chart.hpp>
+#include <VclTee.TeeGDIPlus.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
 
 //---------------------------------------------------------------------------
 class TmainPAM : public TForm
@@ -208,6 +212,9 @@ __published:	// IDE-managed Components
 	TMenuItem *Z1;
 	TPanel *Panel12;
 	TSplitter *Splitter6;
+	TStringGrid *StringGrid4;
+	TChart *Chart1;
+	TSplitter *Splitter8;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
