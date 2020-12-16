@@ -317,6 +317,23 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
 		Application->Terminate();
 	 }
 
+		 ComboBox2->Text = "Выберете параметр для просмотра";
+	ComboBox2->Items->Add("F0");
+	ComboBox2->Items->Add("Fm");
+	ComboBox2->Items->Add("Ft'");
+	ComboBox2->Items->Add("Fm'");
+	ComboBox2->Items->Add("Fv");
+	ComboBox2->Items->Add("Fv'");
+	ComboBox2->Items->Add("Fq'");
+	ComboBox2->Items->Add("Fo'");
+	ComboBox2->Items->Add("Fv/Fm'");
+	ComboBox2->Items->Add("YII'");
+	ComboBox2->Items->Add("NPQ'");
+	ComboBox2->Items->Add("qN'");
+	ComboBox2->Items->Add("qP'");
+	ComboBox2->Items->Add("qL'");
+
+
 
 }
 //---------------------------------------------------------------------------
@@ -1362,4 +1379,39 @@ ZoomToActualSize->Enabled = !PhImage3->Bitmap->Empty;
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TmainPAM::ZoomToBestFitExecute(TObject *Sender)
+{
+PhImage3->BestFit();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ZoomToBestFitUpdate(TObject *Sender)
+{
+ZoomToBestFit->Enabled = !PhImage3->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ViewPanActionExecute(TObject *Sender)
+{
+PhImage3->SelectPhTool(PhPaneTool1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ViewPanActionUpdate(TObject *Sender)
+{
+ViewPanAction->Enabled = !PhImage3->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ViewZoomExecute(TObject *Sender)
+{
+PhImage3->SelectPhTool(PhZoomToRectTool1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ViewZoomUpdate(TObject *Sender)
+{
+ViewZoom->Enabled = !PhImage3->Empty;
+}
+//---------------------------------------------------------------------------
 

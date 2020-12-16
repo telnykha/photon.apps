@@ -53,7 +53,7 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <PackageImports>inet;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib;Tee.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib;Tee.lib;vclactnband.lib</AllPackageLibs>
         <_TCHARMapping>char</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -110,7 +110,7 @@ mkdir .\$(Platform)\$(Config)\sketch_jul18b
 copy sketch_jul18b\*.* .\$(Platform)\$(Config)\sketch_jul18b
 $(PostBuildEvent)]]></PostBuildEvent>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
-        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib;Tee.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;VclSmp.lib;Tee.lib;vclactnband.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
         <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>

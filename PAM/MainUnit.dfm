@@ -310,12 +310,8 @@
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
-    ExplicitLeft = 226
-    ExplicitTop = 8
     object TabSheet1: TTabSheet
       Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
-      ExplicitWidth = 803
-      ExplicitHeight = 449
       object StringGrid1: TStringGrid
         Left = 0
         Top = 41
@@ -330,8 +326,6 @@
         PopupMenu = PopupMenu1
         TabOrder = 0
         OnDblClick = StringGrid1DblClick
-        ExplicitWidth = 803
-        ExplicitHeight = 408
         ColWidths = (
           498
           108
@@ -348,7 +342,6 @@
         Align = alTop
         ParentBackground = False
         TabOrder = 1
-        ExplicitWidth = 803
         object SpeedButton10: TSpeedButton
           Left = 8
           Top = 3
@@ -421,8 +414,6 @@
     object TabSheet2: TTabSheet
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1082#1086#1076' Arduino'
       ImageIndex = 1
-      ExplicitWidth = 803
-      ExplicitHeight = 449
       object Memo1: TMemo
         Left = 0
         Top = 0
@@ -441,16 +432,12 @@
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitWidth = 803
-        ExplicitHeight = 449
       end
     end
     object TabSheet3: TTabSheet
       Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072
       ImageIndex = 2
       OnShow = TabSheet3Show
-      ExplicitWidth = 803
-      ExplicitHeight = 449
       object PhImage1: TPhImage
         Left = 0
         Top = 0
@@ -462,8 +449,6 @@
         SlideShowInterval = 500
         Align = alClient
         ParentColor = False
-        ExplicitWidth = 803
-        ExplicitHeight = 400
       end
       object Panel3: TPanel
         Left = 0
@@ -472,8 +457,6 @@
         Height = 49
         Align = alBottom
         TabOrder = 1
-        ExplicitTop = 400
-        ExplicitWidth = 803
         object Button1: TButton
           AlignWithMargins = True
           Left = 4
@@ -490,8 +473,6 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
-      ExplicitWidth = 803
-      ExplicitHeight = 449
       object Splitter3: TSplitter
         Left = 179
         Top = 0
@@ -507,7 +488,6 @@
         Height = 446
         Align = alLeft
         TabOrder = 0
-        ExplicitHeight = 449
         object Splitter1: TSplitter
           Left = 1
           Top = 193
@@ -538,7 +518,6 @@
           Mask = '*.raw'
           TabOrder = 1
           OnChange = FileListBox1Change
-          ExplicitHeight = 233
         end
         object DriveComboBox1: TDriveComboBox
           Left = 1
@@ -548,7 +527,6 @@
           Align = alBottom
           DirList = DirectoryListBox1
           TabOrder = 2
-          ExplicitTop = 429
         end
       end
       object Panel5: TPanel
@@ -560,8 +538,6 @@
         BevelOuter = bvNone
         Caption = 'Panel5'
         TabOrder = 1
-        ExplicitWidth = 621
-        ExplicitHeight = 449
         object Splitter2: TSplitter
           Left = 354
           Top = 0
@@ -583,8 +559,6 @@
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
-          ExplicitWidth = 357
-          ExplicitHeight = 449
         end
         object Panel7: TPanel
           Left = 358
@@ -594,8 +568,6 @@
           Align = alRight
           Caption = 'Panel7'
           TabOrder = 1
-          ExplicitLeft = 361
-          ExplicitHeight = 449
           object StringGrid2: TStringGrid
             Left = 1
             Top = 121
@@ -616,7 +588,6 @@
             ParentFont = False
             TabOrder = 0
             OnClick = StringGrid2Click
-            ExplicitHeight = 327
             ColWidths = (
               228
               47
@@ -732,155 +703,120 @@
     object Сложные_команды: TTabSheet
       Caption = #1057#1083#1086#1078#1085#1099#1077' '#1082#1086#1084#1072#1085#1076#1099
       ImageIndex = 4
-      ExplicitWidth = 803
-      ExplicitHeight = 449
       object Splitter6: TSplitter
-        Left = 537
+        Left = 143
         Top = 25
         Width = 4
-        Height = 207
+        Height = 421
         Align = alRight
-        ExplicitLeft = 538
-        ExplicitHeight = 305
+        ExplicitLeft = 145
+        ExplicitTop = 48
       end
       object Splitter5: TSplitter
-        Left = 210
+        Left = 473
         Top = 25
         Width = 5
-        Height = 207
+        Height = 421
         Align = alRight
         ExplicitLeft = 255
         ExplicitTop = 1
         ExplicitHeight = 303
       end
-      object PageControl2: TPageControl
-        Left = 0
-        Top = 232
-        Width = 800
-        Height = 214
-        ActivePage = Таблица
-        Align = alBottom
-        TabOrder = 0
-        object График: TTabSheet
-          Caption = #1043#1088#1072#1092#1080#1082
-          ExplicitWidth = 795
-          ExplicitHeight = 91
-          object Chart1: TChart
-            Left = 0
-            Top = 0
-            Width = 792
-            Height = 186
-            Title.Text.Strings = (
-              'TChart')
-            View3D = False
-            Align = alClient
-            TabOrder = 0
-            ExplicitLeft = 312
-            ExplicitTop = -159
-            ExplicitWidth = 400
-            ExplicitHeight = 250
-            DefaultCanvas = 'TGDIPlusCanvas'
-            ColorPaletteIndex = 13
-          end
-        end
-        object Таблица: TTabSheet
-          Caption = #1058#1072#1073#1083#1080#1094#1072
-          ImageIndex = 1
-          ExplicitWidth = 795
-          ExplicitHeight = 91
-          object StringGrid4: TStringGrid
-            Left = 0
-            Top = 0
-            Width = 792
-            Height = 186
-            Align = alClient
-            FixedCols = 0
-            RowCount = 1
-            FixedRows = 0
-            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 0
-            ExplicitLeft = 475
-            ExplicitTop = -29
-            ExplicitWidth = 320
-            ExplicitHeight = 120
-          end
-        end
-      end
       object Panel9: TPanel
-        Left = 541
+        Left = 147
         Top = 25
-        Width = 259
-        Height = 207
+        Width = 326
+        Height = 421
         Align = alRight
-        Caption = 'Panel9'
-        TabOrder = 1
-        ExplicitLeft = 544
-        ExplicitHeight = 305
-        object Рассчитать: TSpeedButton
-          Left = 1
-          Top = 172
-          Width = 257
-          Height = 34
-          Align = alBottom
-          Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
-          ExplicitLeft = 32
-          ExplicitTop = 270
-          ExplicitWidth = 254
-        end
+        TabOrder = 0
+        ExplicitLeft = 143
         object Label23: TLabel
           AlignWithMargins = True
           Left = 4
+          Top = 224
+          Width = 318
+          Height = 13
+          Align = alBottom
+          Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
+          ExplicitTop = 4
+          ExplicitWidth = 132
+        end
+        object Label22: TLabel
+          AlignWithMargins = True
+          Left = 4
           Top = 4
-          Width = 251
+          Width = 318
           Height = 13
           Align = alTop
-          Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
-          ExplicitLeft = 1
-          ExplicitTop = 1
-          ExplicitWidth = 132
+          Caption = #1058#1072#1073#1083#1080#1094#1072' '#1073#1072#1079#1086#1074#1099#1093' '#1079#1085#1072#1095#1077#1085#1080#1081
+          ExplicitWidth = 138
         end
         object CheckListBox1: TCheckListBox
           AlignWithMargins = True
           Left = 4
-          Top = 23
-          Width = 251
-          Height = 146
-          Align = alClient
+          Top = 243
+          Width = 318
+          Height = 153
+          Align = alBottom
           ItemHeight = 13
           TabOrder = 0
-          ExplicitTop = 17
-          ExplicitHeight = 250
+          ExplicitTop = 230
+          ExplicitWidth = 251
+        end
+        object StringGrid3: TStringGrid
+          Left = 1
+          Top = 20
+          Width = 324
+          Height = 201
+          Align = alClient
+          TabOrder = 1
+          ExplicitLeft = 40
+          ExplicitWidth = 295
+          ExplicitHeight = 188
+          RowHeights = (
+            24
+            24
+            24
+            24
+            24)
+        end
+        object ComboBox2: TComboBox
+          Left = 1
+          Top = 399
+          Width = 324
+          Height = 21
+          Align = alBottom
+          TabOrder = 2
+          Text = 'ComboBox2'
+          ExplicitLeft = 2
+          ExplicitTop = 404
         end
       end
       object Panel10: TPanel
         Left = 0
         Top = 25
-        Width = 210
-        Height = 207
+        Width = 143
+        Height = 421
         Align = alClient
         Caption = 'Panel10'
-        TabOrder = 2
-        ExplicitWidth = 275
-        ExplicitHeight = 305
+        TabOrder = 1
+        ExplicitWidth = 210
+        ExplicitHeight = 207
         object Label20: TLabel
           AlignWithMargins = True
           Left = 4
           Top = 4
-          Width = 202
+          Width = 135
           Height = 13
           Align = alTop
           Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
-          ExplicitLeft = 1
-          ExplicitTop = 1
           ExplicitWidth = 132
         end
         object PhImage3: TPhImage
-          Left = 1
+          Left = 36
           Top = 20
-          Width = 208
-          Height = 186
+          Width = 106
+          Height = 400
           AutoMosaic = True
           ThumbWidht = 128
           ThumbHeight = 128
@@ -888,9 +824,239 @@
           Align = alClient
           ParentColor = False
           PopupMenu = PopupPhDiffCom
-          ExplicitTop = 14
-          ExplicitWidth = 273
-          ExplicitHeight = 290
+          ExplicitLeft = 1
+          ExplicitWidth = 208
+          ExplicitHeight = 186
+        end
+        object Panel13: TPanel
+          Left = 1
+          Top = 20
+          Width = 35
+          Height = 400
+          Align = alLeft
+          TabOrder = 1
+          object SpeedButton13: TSpeedButton
+            Left = 1
+            Top = 16
+            Width = 31
+            Height = 31
+            Action = ZoomToBestFit
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000000000000000000000000000000000000FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000FFFF0000FFFF000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000000000000000000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000FFFF0000FFFF000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000FFFF00000000000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000FFFF0000FFFF000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000000000000000000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00848484008484
+              8400848484000000000000FFFF0000FFFF0000FFFF0000000000848484008484
+              8400848484008484840084848400848484008484840084848400000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              00000000000000000000000000000000000000000000000000000000000000FF
+              FF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FF
+              FF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF000000000000FF
+              FF000000000000FFFF0000FFFF0000FFFF000000000000FFFF0000FFFF0000FF
+              FF000000000000FFFF0000FFFF0000FFFF000000000000FFFF000000000000FF
+              FF000000000000FFFF000000000000FFFF000000000000FFFF000000000000FF
+              FF000000000000FFFF000000000000FFFF000000000000FFFF00000000000000
+              0000000000000000000000000000000000000000000000000000000000000000
+              0000000000000000000000000000000000000000000000000000FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000FFFF0000FFFF000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000000000000000000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000FFFF0000FFFF0000FFFF000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00000000000000000000000000000000000000000084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+          end
+          object SpeedButton14: TSpeedButton
+            Left = 1
+            Top = 53
+            Width = 31
+            Height = 31
+            Action = ZoomToActualSize
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000000000000000000000000000000000000FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF0000000000FFFFFF00FFFFFF0000000000FF00FF00FF00FF00FF00FF000000
+              0000FFFFFF00FFFFFF0000000000FF00FF00FF00FF00FF00FF00FF00FF000000
+              0000FFFFFF000000000000000000FFFFFF0000000000FF00FF0000000000FFFF
+              FF000000000000000000FFFFFF0000000000FF00FF00FF00FF00FF00FF000000
+              0000FFFFFF000000000000000000FFFFFF0000000000FF00FF0000000000FFFF
+              FF000000000000000000FFFFFF0000000000FF00FF00FF00FF00FF00FF000000
+              0000FFFFFF000000000000000000FFFFFF0000000000FF00FF0000000000FFFF
+              FF000000000000000000FFFFFF0000000000FF00FF00FF00FF00FF00FF000000
+              0000FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000FF00FF0000000000FFFF
+              FF00FFFFFF00FFFFFF00FFFFFF0000000000FF00FF00FF00FF00FF00FF00FF00
+              FF0000000000FFFFFF00FFFFFF0000000000FF00FF00FF00FF00FF00FF000000
+              0000FFFFFF00FFFFFF0000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000000
+              0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF0000000000FF00FF00FF00FF00FF00FF00FF00
+              FF0000000000000000000000000000000000FF00FF00FF00FF00FF00FF000000
+              0000000000000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+          end
+          object SpeedButton15: TSpeedButton
+            Left = 1
+            Top = 90
+            Width = 31
+            Height = 31
+            Action = ViewPanAction
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000000000000000000000000000000000000FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00848484008484840084848400848484008484
+              8400848484008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF008484840084848400848484008484
+              84008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF008484840084848400848484008484
+              84008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF008484840084848400848484008484
+              84008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00848484008484840084848400848484008484
+              8400848484008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF0084848400848484008484840084848400848484008484
+              8400848484008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF008484840084848400848484008484840084848400848484008484
+              840084848400848484008484840084848400FF00FF00FF00FF00FF00FF00FF00
+              FF00848484008484840084848400848484008484840084848400848484008484
+              840084848400848484008484840084848400FF00FF00FF00FF00FF00FF008484
+              84008484840084848400FF00FF00848484008484840084848400848484008484
+              840084848400848484008484840084848400FF00FF00FF00FF00FF00FF008484
+              840084848400FF00FF00FF00FF00848484008484840084848400848484008484
+              84008484840084848400848484008484840084848400FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00848484008484840084848400848484008484
+              84008484840084848400FF00FF008484840084848400FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF008484840084848400FF00FF008484840084848400FF00
+              FF008484840084848400FF00FF008484840084848400FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF008484840084848400FF00FF008484840084848400FF00
+              FF008484840084848400FF00FF00FF00FF0084848400FF00FF00FF00FF00FF00
+              FF00FF00FF008484840084848400FF00FF00FF00FF008484840084848400FF00
+              FF008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF008484840084848400FF00FF00FF00FF008484840084848400FF00
+              FF008484840084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF008484840084848400FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+          end
+          object SpeedButton16: TSpeedButton
+            Left = 1
+            Top = 127
+            Width = 31
+            Height = 31
+            Action = ViewZoom
+            Glyph.Data = {
+              36040000424D3604000000000000360000002800000010000000100000000100
+              2000000000000004000000000000000000000000000000000000FF00FF00FF00
+              FF00FF00FF00C6C6C600C6C6C600FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FFFFFF00FFFFFF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00C6C6C600C6C6C600FF00FF00FF00FF00FF00FF00FF00FF00FFFF
+              FF00848484000000000000000000C6C6C600FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00C6C6C600C6C6C600FF00FF00FF00FF00FF00FF00FFFFFF008484
+              840084848400C6C6C6008484840000000000FF00FF00FF00FF00FF00FF00FF00
+              FF00FFFFFF008484840084848400C6C6C600FFFFFF00FFFFFF00848484008484
+              8400C6C6C600C6C6C600C6C6C600C6C6C600FF00FF00FF00FF00FF00FF00C6C6
+              C600848484008484840084000000840000008484840084848400000000000000
+              0000C6C6C600C6C6C600C6C6C600FF00FF00FF00FF00FF00FF00C6C6C6008484
+              8400FF000000C6C6C600C6C6C600C6C6C600FFFFFF00FFFFFF00000000000000
+              000000000000C6C6C600FF00FF00FF00FF00FF00FF00FF00FF00848484008484
+              8400C6C6C600C6C6C600C6C6C600C6C6C600FFFFFF00FFFFFF00FFFFFF000000
+              000084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0000008400C6C6
+              C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6
+              C60084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00000084008400
+              8400C6C6C600C6C6C600C6C6C600840084000000FF000000FF000000FF000000
+              FF00000084000000FF000000FF000000FF000000FF000000FF0000008400C6C6
+              C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6
+              C60084848400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0084848400C6C6
+              C600C6C6C600C6C6C600C6C6C600C6C6C600FFFFFF00FFFFFF00C6C6C600C6C6
+              C600C6C6C600FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00C6C6C6008484
+              8400C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600C6C6C600FFFFFF008484
+              8400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00C6C6
+              C600FF000000C6C6C600C6C6C600C6C6C600FFFFFF00FFFFFF0084848400FFFF
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00C6C6C6008400000084000000840000008484840084848400FFFFFF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00C6C6C600C6C6C600FFFFFF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00C6C6C600C6C6C600FF00FF00FF00FF00FF00FF00FF00FF00FF00
+              FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+          end
+          object SpeedButton17: TSpeedButton
+            Left = 1
+            Top = 164
+            Width = 31
+            Height = 31
+            Glyph.Data = {
+              76030000424D7603000000000000360000002800000011000000100000000100
+              1800000000004003000000000000000000000000000000000000F800F8F800F8
+              F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800
+              F8000000F800F8F800F8F800F800F800F8000000000000F800F8000000000000
+              F800F8000000000000F800F8000000F800F8000000F8F8F8000000F800F8F800
+              F800F800F8000000000000F800F8000000000000F800F8000000000000F800F8
+              000000000000F8F8F8F8F8F8F8F8F8F800F8F800F800F800F8F800F8F800F8F8
+              00F8F800F8F800F8F800F8F800F8F800F8F800F8000000F8F8F8F8F8F8F8F8F8
+              000000F800F8F800F800F800F8000000000000F800F8F800F8F800F8F800F8F8
+              00F8F800F8F800F8000000F8F8F8F8F8F8000000F800F8F800F800000000F800
+              F8000000000000F800F8F800F8F800F8F800F8F800F8F800F8F800F800000000
+              0000000000000000000000F800F8F800F800F800F8F800F8F800F8F800F8F800
+              F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F8
+              00F8F800F800F800F8000000000000F800F8F800F8F800F8F800F8F800F8F800
+              F8F800F8F800F8F800F8F800F8000000000000F800F8F800F800F800F8000000
+              000000F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800
+              F8000000000000F800F8F800F800F800F8F800F8F800F8F800F8F800F8F800F8
+              F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800
+              F800F800F8000000000000F800F8F800F8F800F8F800F8F800F8F800F8F800F8
+              F800F8F800F8F800F8000000000000F800F8F800F800F800F8000000000000F8
+              00F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8000000
+              000000F800F8F800F800F800F8F800F8F800F8F800F8F800F8F800F8F800F8F8
+              00F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F800F800
+              F8000000000000F800F8000000000000F800F8000000000000F800F800000000
+              0000F800F8000000000000F800F8F800F800F800F8000000000000F800F80000
+              00000000F800F8000000000000F800F8000000000000F800F8000000000000F8
+              00F8F800F800F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800
+              F8F800F8F800F8F800F8F800F8F800F8F800F8F800F8F800F800}
+          end
+          object SpeedButton18: TSpeedButton
+            Left = 1
+            Top = 201
+            Width = 31
+            Height = 31
+            Caption = #1050
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Gotham Pro'
+            Font.Style = []
+            ParentFont = False
+          end
+          object SpeedButton19: TSpeedButton
+            Left = 1
+            Top = 238
+            Width = 31
+            Height = 31
+          end
         end
       end
       object Panel11: TPanel
@@ -899,8 +1065,7 @@
         Width = 800
         Height = 25
         Align = alTop
-        TabOrder = 3
-        ExplicitWidth = 803
+        TabOrder = 2
         object Label21: TLabel
           Left = 74
           Top = 8
@@ -910,35 +1075,104 @@
         end
       end
       object Panel12: TPanel
-        Left = 215
+        Left = 478
         Top = 25
         Width = 322
-        Height = 207
+        Height = 421
         Align = alRight
-        Caption = 'Panel12'
-        TabOrder = 4
-        ExplicitLeft = 218
-        ExplicitHeight = 305
-        object Label22: TLabel
+        TabOrder = 3
+        ExplicitLeft = 215
+        ExplicitHeight = 207
+        object Рассчитать: TSpeedButton
+          Left = 1
+          Top = 386
+          Width = 320
+          Height = 34
+          Align = alBottom
+          Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
+          ExplicitLeft = 6
+          ExplicitTop = 391
+        end
+        object Label24: TLabel
           AlignWithMargins = True
           Left = 4
           Top = 4
           Width = 314
           Height = 13
           Align = alTop
-          Caption = #1058#1072#1073#1083#1080#1094#1072' '#1073#1072#1079#1086#1074#1099#1093' '#1079#1085#1072#1095#1077#1085#1080#1081
-          ExplicitLeft = 1
-          ExplicitTop = 1
-          ExplicitWidth = 138
+          Caption = #1043#1088#1072#1092#1080#1082' '#1080' '#1090#1072#1073#1083#1080#1094#1072' '#1088#1072#1089#1089#1095#1077#1090#1086#1074
+          ExplicitWidth = 147
         end
-        object StringGrid3: TStringGrid
+        object Splitter7: TSplitter
+          Left = 1
+          Top = 221
+          Width = 320
+          Height = 3
+          Cursor = crVSplit
+          Align = alBottom
+          ExplicitTop = 20
+          ExplicitWidth = 204
+        end
+        object PageControl2: TPageControl
           Left = 1
           Top = 20
           Width = 320
-          Height = 186
+          Height = 201
+          ActivePage = График
           Align = alClient
           TabOrder = 0
-          ExplicitTop = 0
+          ExplicitLeft = 0
+          ExplicitTop = 232
+          ExplicitWidth = 800
+          ExplicitHeight = 214
+          object График: TTabSheet
+            Caption = #1043#1088#1072#1092#1080#1082
+            ExplicitHeight = 186
+          end
+          object Таблица: TTabSheet
+            Caption = #1058#1072#1073#1083#1080#1094#1072
+            ImageIndex = 1
+            ExplicitWidth = 792
+            ExplicitHeight = 186
+            object StringGrid4: TStringGrid
+              Left = 0
+              Top = 0
+              Width = 312
+              Height = 173
+              Align = alClient
+              FixedCols = 0
+              RowCount = 1
+              FixedRows = 0
+              Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 0
+              ExplicitWidth = 792
+              ExplicitHeight = 186
+            end
+          end
+        end
+        object StringGrid5: TStringGrid
+          Left = 1
+          Top = 224
+          Width = 320
+          Height = 162
+          Align = alBottom
+          TabOrder = 1
+        end
+        object Chart1: TChart
+          Left = 1
+          Top = 20
+          Width = 320
+          Height = 201
+          Title.Text.Strings = (
+            'TChart')
+          View3D = False
+          Align = alClient
+          TabOrder = 2
+          ExplicitHeight = 204
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
         end
       end
     end
@@ -950,7 +1184,6 @@
     Height = 474
     Align = alLeft
     TabOrder = 4
-    ExplicitHeight = 477
     object Label1: TLabel
       Left = 1
       Top = 335
@@ -1202,8 +1435,8 @@
     end
   end
   object MainMenu1: TMainMenu
-    Left = 240
-    Top = 496
+    Left = 232
+    Top = 600
     object N1: TMenuItem
       Caption = #1060#1072#1081#1083#1099
       object N3: TMenuItem
@@ -1296,7 +1529,7 @@
   end
   object ActionList1: TActionList
     Left = 280
-    Top = 496
+    Top = 600
     object FileExit1: TFileExit
       Category = 'File'
       Caption = #1042#1099#1093#1086#1076
@@ -1463,16 +1696,31 @@
       OnExecute = ZoomToActualSizeExecute
       OnUpdate = ZoomToActualSizeUpdate
     end
+    object ZoomToBestFit: TAction
+      Caption = 'ZoomToBestFit'
+      OnExecute = ZoomToBestFitExecute
+      OnUpdate = ZoomToBestFitUpdate
+    end
+    object ViewPanAction: TAction
+      Caption = 'ViewPanAction'
+      OnExecute = ViewPanActionExecute
+      OnUpdate = ViewPanActionUpdate
+    end
+    object ViewZoom: TAction
+      Caption = 'ViewZoom'
+      OnExecute = ViewZoomExecute
+      OnUpdate = ViewZoomUpdate
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     OnHint = ApplicationEvents1Hint
-    Left = 320
-    Top = 496
+    Left = 336
+    Top = 600
   end
   object PopupMenu1: TPopupMenu
-    Left = 444
-    Top = 497
+    Left = 484
+    Top = 601
     object N22: TMenuItem
       Action = editInsertAction
     end
@@ -1510,27 +1758,27 @@
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 360
-    Top = 496
+    Left = 392
+    Top = 600
   end
   object SaveDialog1: TSaveDialog
     Filter = #1060#1072#1081#1083#1099' PAM|*.pam'
-    Left = 400
-    Top = 496
+    Left = 440
+    Top = 600
   end
   object PhPaneTool1: TPhPaneTool
     PhImage = PhImage2
-    Left = 493
-    Top = 497
+    Left = 533
+    Top = 601
   end
   object PhZoomToRectTool1: TPhZoomToRectTool
     PhImage = PhImage3
-    Left = 784
-    Top = 504
+    Left = 760
+    Top = 600
   end
   object PopupPhDiffCom: TPopupMenu
     Left = 672
-    Top = 504
+    Top = 600
     object Copy1: TMenuItem
       Action = CopyAction
       Caption = 'Copy'
@@ -1539,9 +1787,11 @@
       Action = PastAction
       Caption = 'Past'
     end
-    object Z1: TMenuItem
+    object ZoomToActualSize1: TMenuItem
       Action = ZoomToActualSize
-      Caption = 'ZoomToBestFit'
+    end
+    object Z1: TMenuItem
+      Action = ZoomToBestFit
     end
     object zoomtoRect1: TMenuItem
       Action = ZoomToRect
@@ -1552,7 +1802,7 @@
   end
   object PhSelRectTool1: TPhSelRectTool
     PhImage = PhImage3
-    Left = 880
-    Top = 504
+    Left = 864
+    Top = 600
   end
 end

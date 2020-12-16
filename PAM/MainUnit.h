@@ -34,6 +34,9 @@
 #include <VclTee.TeeGDIPlus.hpp>
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
+#include <Vcl.ActnCtrls.hpp>
+#include <Vcl.ActnMan.hpp>
+#include <Vcl.ToolWin.hpp>
 
 //---------------------------------------------------------------------------
 class TmainPAM : public TForm
@@ -215,6 +218,22 @@ __published:	// IDE-managed Components
 	TStringGrid *StringGrid4;
 	TChart *Chart1;
 	TSplitter *Splitter8;
+	TComboBox *ComboBox2;
+	TStringGrid *StringGrid5;
+	TLabel *Label24;
+	TSplitter *Splitter7;
+	TPanel *Panel13;
+	TSpeedButton *SpeedButton13;
+	TSpeedButton *SpeedButton14;
+	TSpeedButton *SpeedButton15;
+	TSpeedButton *SpeedButton16;
+	TSpeedButton *SpeedButton17;
+	TSpeedButton *SpeedButton18;
+	TSpeedButton *SpeedButton19;
+	TAction *ZoomToBestFit;
+	TMenuItem *ZoomToActualSize1;
+	TAction *ViewPanAction;
+	TAction *ViewZoom;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -283,6 +302,12 @@ __published:	// IDE-managed Components
 	void __fastcall PastActionUpdate(TObject *Sender);
 	void __fastcall ZoomToActualSizeExecute(TObject *Sender);
 	void __fastcall ZoomToActualSizeUpdate(TObject *Sender);
+	void __fastcall ZoomToBestFitExecute(TObject *Sender);
+	void __fastcall ZoomToBestFitUpdate(TObject *Sender);
+	void __fastcall ViewPanActionExecute(TObject *Sender);
+	void __fastcall ViewPanActionUpdate(TObject *Sender);
+	void __fastcall ViewZoomExecute(TObject *Sender);
+	void __fastcall ViewZoomUpdate(TObject *Sender);
 
 
 
