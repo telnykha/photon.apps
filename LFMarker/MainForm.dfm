@@ -590,7 +590,7 @@ object Form1: TForm1
     object File1: TMenuItem
       Caption = 'Files'
       object NewProject1: TMenuItem
-        Action = FileNewProjectAction
+        Caption = 'New Project...'
       end
       object N11: TMenuItem
         Caption = '-'
@@ -725,6 +725,9 @@ object Form1: TForm1
       object CreateDatabase1: TMenuItem
         Action = DbCreateAction
       end
+      object Opendatabase1: TMenuItem
+        Action = DbOpenAction
+      end
       object Dictionary1: TMenuItem
         Action = dbDictionaryAction
       end
@@ -820,7 +823,7 @@ object Form1: TForm1
     Left = 704
     Top = 48
     object CloseAction: TAction
-      Category = 'File'
+      Category = 'newcategory'
       Caption = 'Exit'
       Hint = 'Exit from program'
       OnExecute = CloseActionExecute
@@ -1171,12 +1174,6 @@ object Form1: TForm1
       OnExecute = ImageResizeActionExecute
       OnUpdate = ImageResizeActionUpdate
     end
-    object FileNewProjectAction: TAction
-      Category = 'File'
-      Caption = 'New Project...'
-      OnExecute = FileNewProjectActionExecute
-      OnUpdate = FileNewProjectActionUpdate
-    end
     object DbCreateAction: TAction
       Category = 'Database'
       Caption = 'Create Database...'
@@ -1200,6 +1197,11 @@ object Form1: TForm1
       Caption = 'Polygon'
       OnExecute = ModeMarkPolygonActionExecute
       OnUpdate = ModeMarkPolygonActionUpdate
+    end
+    object DbOpenAction: TAction
+      Category = 'Database'
+      Caption = 'Open database...'
+      OnExecute = DbOpenActionExecute
     end
   end
   object ImageList1: TImageList

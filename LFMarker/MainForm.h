@@ -212,7 +212,6 @@ __published:	// IDE-managed Components
 	TTabSheet *TabSheet3;
 	TPanel *Panel3;
 	TValueListEditor *ValueListEditor1;
-	TAction *FileNewProjectAction;
 	TMenuItem *NewProject1;
 	TListView *DbView;
 	TPanel *Panel2;
@@ -232,6 +231,8 @@ __published:	// IDE-managed Components
 	TToolButton *ToolButton5;
 	TAction *ModeMarkVectorAction;
 	TAction *ModeMarkPolygonAction;
+	TAction *DbOpenAction;
+	TMenuItem *Opendatabase1;
     void __fastcall FileListBox1Change(TObject *Sender);
     void __fastcall FFaceEditor1AfterOpen(TObject *Sender);
     void __fastcall FormShow(TObject *Sender);
@@ -353,8 +354,6 @@ __published:	// IDE-managed Components
 	void __fastcall ImageResizeActionExecute(TObject *Sender);
 	void __fastcall ImageResizeActionUpdate(TObject *Sender);
 	void __fastcall PageControl1Change(TObject *Sender);
-	void __fastcall FileNewProjectActionExecute(TObject *Sender);
-	void __fastcall FileNewProjectActionUpdate(TObject *Sender);
 	void __fastcall DbViewClick(TObject *Sender);
 	void __fastcall DbViewSelectItem(TObject *Sender, TListItem *Item, bool Selected);
 	void __fastcall PhImage2AfterOpen(TObject *Sender);
@@ -368,6 +367,7 @@ __published:	// IDE-managed Components
 	void __fastcall ModeMarkVectorActionUpdate(TObject *Sender);
 	void __fastcall ModeMarkPolygonActionExecute(TObject *Sender);
 	void __fastcall ModeMarkPolygonActionUpdate(TObject *Sender);
+	void __fastcall DbOpenActionExecute(TObject *Sender);
 private:	// User declarations
     TPhImageMarkTool* m_markTool;
     AnsiString 		  m_strEngineName;

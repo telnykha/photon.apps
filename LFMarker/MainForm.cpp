@@ -1305,12 +1305,13 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 	ModePaneActionExecute(NULL);
 	AnsiString str = DirectoryListBox1->Directory;
 	// open database
+/*
 	OpenDatabase(str.c_str());
-
 	if (FragmentForm->Visible)
-    {
-    	FragmentForm->ChangeDictonary();
-    }
+	{
+		FragmentForm->ChangeDictonary();
+	}
+*/
 }
 //---------------------------------------------------------------------------
 
@@ -1989,18 +1990,6 @@ void __fastcall TForm1::PageControl1Change(TObject *Sender)
     }
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm1::FileNewProjectActionExecute(TObject *Sender)
-{
-//
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TForm1::FileNewProjectActionUpdate(TObject *Sender)
-{
-//
-}
-//---------------------------------------------------------------------------
 void __fastcall TForm1::InitDbView()
 {
     DbView->Columns->Clear();
@@ -2229,4 +2218,13 @@ void __fastcall TForm1::ModeMarkPolygonActionUpdate(TObject *Sender)
 	ModeMarkPolygonAction->Checked = tool != NULL && tool->Mode == MTContour;
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm1::DbOpenActionExecute(TObject *Sender)
+{
+	if (OpenDialog1->Execute())
+	{
+        // try to open database
+	}}
+//---------------------------------------------------------------------------
+
 
