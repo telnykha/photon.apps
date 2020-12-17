@@ -29,7 +29,7 @@
     ExplicitTop = 214
   end
   object Splitter8: TSplitter
-    Left = 220
+    Left = 229
     Top = 81
     Height = 474
     ExplicitLeft = 448
@@ -302,9 +302,9 @@
     TabOrder = 2
   end
   object PageControl1: TPageControl
-    Left = 223
+    Left = 232
     Top = 81
-    Width = 808
+    Width = 799
     Height = 474
     ActivePage = Сложные_команды
     Align = alClient
@@ -315,7 +315,7 @@
       object StringGrid1: TStringGrid
         Left = 0
         Top = 41
-        Width = 800
+        Width = 791
         Height = 405
         Align = alClient
         ColCount = 6
@@ -337,7 +337,7 @@
       object Panel4: TPanel
         Left = 0
         Top = 0
-        Width = 800
+        Width = 791
         Height = 41
         Align = alTop
         ParentBackground = False
@@ -417,7 +417,7 @@
       object Memo1: TMemo
         Left = 0
         Top = 0
-        Width = 800
+        Width = 791
         Height = 446
         Align = alClient
         Color = clNavy
@@ -441,7 +441,7 @@
       object PhImage1: TPhImage
         Left = 0
         Top = 0
-        Width = 800
+        Width = 791
         Height = 397
         AutoMosaic = True
         ThumbWidht = 128
@@ -453,7 +453,7 @@
       object Panel3: TPanel
         Left = 0
         Top = 397
-        Width = 800
+        Width = 791
         Height = 49
         Align = alBottom
         TabOrder = 1
@@ -532,14 +532,14 @@
       object Panel5: TPanel
         Left = 182
         Top = 0
-        Width = 618
+        Width = 609
         Height = 446
         Align = alClient
         BevelOuter = bvNone
         Caption = 'Panel5'
         TabOrder = 1
         object Splitter2: TSplitter
-          Left = 354
+          Left = 345
           Top = 0
           Width = 4
           Height = 446
@@ -551,7 +551,7 @@
         object PhImage2: TPhImage
           Left = 0
           Top = 0
-          Width = 354
+          Width = 345
           Height = 446
           AutoMosaic = True
           ThumbWidht = 128
@@ -561,7 +561,7 @@
           ParentColor = False
         end
         object Panel7: TPanel
-          Left = 358
+          Left = 349
           Top = 0
           Width = 260
           Height = 446
@@ -704,75 +704,72 @@
       Caption = #1057#1083#1086#1078#1085#1099#1077' '#1082#1086#1084#1072#1085#1076#1099
       ImageIndex = 4
       object Splitter6: TSplitter
-        Left = 143
-        Top = 25
+        Left = 128
+        Top = 0
         Width = 4
-        Height = 421
+        Height = 446
         Align = alRight
         ExplicitLeft = 145
         ExplicitTop = 48
+        ExplicitHeight = 421
       end
       object Splitter5: TSplitter
-        Left = 473
-        Top = 25
+        Left = 464
+        Top = 0
         Width = 5
-        Height = 421
+        Height = 446
         Align = alRight
         ExplicitLeft = 255
         ExplicitTop = 1
         ExplicitHeight = 303
       end
       object Panel9: TPanel
-        Left = 147
-        Top = 25
+        Left = 138
+        Top = 0
         Width = 326
-        Height = 421
+        Height = 446
         Align = alRight
+        BorderStyle = bsSingle
+        DragKind = dkDock
+        DragMode = dmAutomatic
         TabOrder = 0
-        ExplicitLeft = 143
         object Label23: TLabel
           AlignWithMargins = True
           Left = 4
-          Top = 224
-          Width = 318
+          Top = 245
+          Width = 314
           Height = 13
           Align = alBottom
           Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
-          ExplicitTop = 4
+          ExplicitTop = 249
           ExplicitWidth = 132
         end
         object Label22: TLabel
           AlignWithMargins = True
           Left = 4
           Top = 4
-          Width = 318
+          Width = 314
           Height = 13
           Align = alTop
           Caption = #1058#1072#1073#1083#1080#1094#1072' '#1073#1072#1079#1086#1074#1099#1093' '#1079#1085#1072#1095#1077#1085#1080#1081
-          ExplicitWidth = 138
         end
         object CheckListBox1: TCheckListBox
           AlignWithMargins = True
           Left = 4
-          Top = 243
-          Width = 318
+          Top = 264
+          Width = 314
           Height = 153
           Align = alBottom
           ItemHeight = 13
           TabOrder = 0
-          ExplicitTop = 230
-          ExplicitWidth = 251
         end
         object StringGrid3: TStringGrid
           Left = 1
           Top = 20
-          Width = 324
-          Height = 201
+          Width = 320
+          Height = 222
           Align = alClient
           TabOrder = 1
-          ExplicitLeft = 40
-          ExplicitWidth = 295
-          ExplicitHeight = 188
           RowHeights = (
             24
             24
@@ -782,41 +779,37 @@
         end
         object ComboBox2: TComboBox
           Left = 1
-          Top = 399
-          Width = 324
+          Top = 420
+          Width = 320
           Height = 21
           Align = alBottom
           TabOrder = 2
           Text = 'ComboBox2'
-          ExplicitLeft = 2
-          ExplicitTop = 404
         end
       end
       object Panel10: TPanel
         Left = 0
-        Top = 25
-        Width = 143
-        Height = 421
+        Top = 0
+        Width = 128
+        Height = 446
         Align = alClient
         Caption = 'Panel10'
         TabOrder = 1
-        ExplicitWidth = 210
-        ExplicitHeight = 207
-        object Label20: TLabel
-          AlignWithMargins = True
-          Left = 4
-          Top = 4
-          Width = 135
+        object Label21: TLabel
+          Left = 1
+          Top = 1
+          Width = 126
           Height = 13
           Align = alTop
-          Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
-          ExplicitWidth = 132
+          Caption = #1042#1099#1073#1088#1072#1085#1085#1086#1077' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077
+          ExplicitLeft = 11
+          ExplicitTop = 8
         end
         object PhImage3: TPhImage
           Left = 36
-          Top = 20
-          Width = 106
-          Height = 400
+          Top = 14
+          Width = 91
+          Height = 431
           AutoMosaic = True
           ThumbWidht = 128
           ThumbHeight = 128
@@ -824,15 +817,12 @@
           Align = alClient
           ParentColor = False
           PopupMenu = PopupPhDiffCom
-          ExplicitLeft = 1
-          ExplicitWidth = 208
-          ExplicitHeight = 186
         end
         object Panel13: TPanel
           Left = 1
-          Top = 20
+          Top = 14
           Width = 35
-          Height = 400
+          Height = 431
           Align = alLeft
           TabOrder = 1
           object SpeedButton13: TSpeedButton
@@ -1059,45 +1049,34 @@
           end
         end
       end
-      object Panel11: TPanel
-        Left = 0
-        Top = 0
-        Width = 800
-        Height = 25
-        Align = alTop
-        TabOrder = 2
-        object Label21: TLabel
-          Left = 74
-          Top = 8
-          Width = 126
-          Height = 13
-          Caption = #1042#1099#1073#1088#1072#1085#1085#1086#1077' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077
-        end
-      end
       object Panel12: TPanel
-        Left = 478
-        Top = 25
+        Left = 469
+        Top = 0
         Width = 322
-        Height = 421
+        Height = 446
         Align = alRight
-        TabOrder = 3
-        ExplicitLeft = 215
-        ExplicitHeight = 207
+        BorderStyle = bsSingle
+        DoubleBuffered = False
+        DragKind = dkDock
+        DragMode = dmAutomatic
+        ParentDoubleBuffered = False
+        TabOrder = 2
         object Рассчитать: TSpeedButton
           Left = 1
-          Top = 386
-          Width = 320
+          Top = 407
+          Width = 316
           Height = 34
           Align = alBottom
           Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
           ExplicitLeft = 6
           ExplicitTop = 391
+          ExplicitWidth = 320
         end
         object Label24: TLabel
           AlignWithMargins = True
           Left = 4
           Top = 4
-          Width = 314
+          Width = 310
           Height = 13
           Align = alTop
           Caption = #1043#1088#1072#1092#1080#1082' '#1080' '#1090#1072#1073#1083#1080#1094#1072' '#1088#1072#1089#1089#1095#1077#1090#1086#1074
@@ -1105,40 +1084,34 @@
         end
         object Splitter7: TSplitter
           Left = 1
-          Top = 221
-          Width = 320
+          Top = 242
+          Width = 316
           Height = 3
           Cursor = crVSplit
           Align = alBottom
-          ExplicitTop = 20
-          ExplicitWidth = 204
+          ExplicitLeft = 0
+          ExplicitTop = 184
+          ExplicitWidth = 320
         end
         object PageControl2: TPageControl
           Left = 1
           Top = 20
-          Width = 320
-          Height = 201
+          Width = 316
+          Height = 222
           ActivePage = График
           Align = alClient
           TabOrder = 0
-          ExplicitLeft = 0
-          ExplicitTop = 232
-          ExplicitWidth = 800
-          ExplicitHeight = 214
           object График: TTabSheet
             Caption = #1043#1088#1072#1092#1080#1082
-            ExplicitHeight = 186
           end
           object Таблица: TTabSheet
             Caption = #1058#1072#1073#1083#1080#1094#1072
             ImageIndex = 1
-            ExplicitWidth = 792
-            ExplicitHeight = 186
             object StringGrid4: TStringGrid
               Left = 0
               Top = 0
-              Width = 312
-              Height = 173
+              Width = 308
+              Height = 194
               Align = alClient
               FixedCols = 0
               RowCount = 1
@@ -1147,15 +1120,13 @@
               ParentShowHint = False
               ShowHint = True
               TabOrder = 0
-              ExplicitWidth = 792
-              ExplicitHeight = 186
             end
           end
         end
         object StringGrid5: TStringGrid
           Left = 1
-          Top = 224
-          Width = 320
+          Top = 245
+          Width = 316
           Height = 162
           Align = alBottom
           TabOrder = 1
@@ -1163,31 +1134,45 @@
         object Chart1: TChart
           Left = 1
           Top = 20
-          Width = 320
-          Height = 201
+          Width = 316
+          Height = 222
           Title.Text.Strings = (
             'TChart')
           View3D = False
           Align = alClient
           TabOrder = 2
-          ExplicitHeight = 204
           DefaultCanvas = 'TGDIPlusCanvas'
           ColorPaletteIndex = 13
         end
       end
+      object RightDocPanel: TPanel
+        Left = 132
+        Top = 0
+        Width = 6
+        Height = 446
+        Align = alRight
+        DockSite = True
+        TabOrder = 3
+        OnDockDrop = RightDocPanelDockDrop
+        OnDockOver = RightDocPanelDockOver
+        OnUnDock = RightDocPanelUnDock
+      end
     end
   end
   object Panel6: TPanel
-    Left = 0
+    Left = 9
     Top = 81
     Width = 220
     Height = 474
     Align = alLeft
+    BorderStyle = bsSingle
+    DragKind = dkDock
+    DragMode = dmAutomatic
     TabOrder = 4
     object Label1: TLabel
       Left = 1
-      Top = 335
-      Width = 218
+      Top = 338
+      Width = 214
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -1198,13 +1183,14 @@
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitTop = 335
       ExplicitWidth = 83
     end
     object Label2: TLabel
       Left = 1
       Top = 1
-      Width = 218
-      Height = 16
+      Width = 214
+      Height = 19
       Align = alTop
       Alignment = taCenter
       Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072' Mightex'
@@ -1214,12 +1200,13 @@
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitWidth = 145
+      Layout = tlBottom
+      ExplicitTop = 16
     end
     object Label3: TLabel
       Left = 1
-      Top = 201
-      Width = 218
+      Top = 204
+      Width = 214
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -1230,22 +1217,24 @@
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitTop = 201
       ExplicitWidth = 165
     end
     object GroupBox3: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 354
-      Width = 212
+      Top = 357
+      Width = 208
       Height = 71
       Align = alTop
       Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' 460 nm'
       TabOrder = 0
+      ExplicitTop = 354
       object TrackBar3: TTrackBar
         AlignWithMargins = True
         Left = 5
         Top = 18
-        Width = 202
+        Width = 198
         Height = 48
         Align = alClient
         Max = 100
@@ -1260,12 +1249,13 @@
     object GroupBox4: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 220
-      Width = 212
+      Top = 223
+      Width = 208
       Height = 53
       Align = alTop
       Caption = #1047#1072#1076#1077#1088#1078#1082#1072
       TabOrder = 1
+      ExplicitTop = 220
       object Label4: TLabel
         Left = 72
         Top = 24
@@ -1301,17 +1291,18 @@
     object GroupBox2: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 431
-      Width = 212
+      Top = 434
+      Width = 208
       Height = 74
       Align = alTop
       Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' 660 nm'
       TabOrder = 2
+      ExplicitTop = 431
       object TrackBar2: TTrackBar
         AlignWithMargins = True
         Left = 5
         Top = 20
-        Width = 202
+        Width = 198
         Height = 49
         Align = alBottom
         Max = 100
@@ -1326,17 +1317,18 @@
     object GroupBox1: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 20
-      Width = 212
+      Top = 23
+      Width = 208
       Height = 101
       Align = alTop
       Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103
       TabOrder = 3
+      ExplicitTop = 20
       object TrackBar1: TTrackBar
         AlignWithMargins = True
         Left = 5
         Top = 47
-        Width = 202
+        Width = 198
         Height = 49
         Align = alBottom
         Max = 100
@@ -1369,17 +1361,18 @@
     object GroupBox5: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 127
-      Width = 212
+      Top = 130
+      Width = 208
       Height = 71
       Align = alTop
       Caption = #1059#1089#1080#1083#1077#1085#1080#1077
       TabOrder = 4
+      ExplicitTop = 127
       object TrackBar5: TTrackBar
         AlignWithMargins = True
         Left = 5
         Top = 18
-        Width = 202
+        Width = 198
         Height = 48
         Align = alClient
         Max = 41
@@ -1395,12 +1388,13 @@
     object GroupBox6: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 279
-      Width = 212
+      Top = 282
+      Width = 208
       Height = 53
       Align = alTop
       Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (mks)'
       TabOrder = 5
+      ExplicitTop = 279
       object Label6: TLabel
         Left = 73
         Top = 24
@@ -1433,6 +1427,19 @@
         OnChange = SpinEdit1Change
       end
     end
+  end
+  object LeftDocPanel: TPanel
+    Left = 0
+    Top = 81
+    Width = 9
+    Height = 474
+    Align = alLeft
+    Caption = 'LeftDocPanel'
+    DockSite = True
+    TabOrder = 5
+    OnDockDrop = LeftDocPanelDockDrop
+    OnDockOver = LeftDocPanelDockOver
+    OnUnDock = LeftDocPanelUnDock
   end
   object MainMenu1: TMainMenu
     Left = 232
@@ -1515,6 +1522,18 @@
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
       object N14: TMenuItem
         Action = toolsOptionsAction
+      end
+      object N38: TMenuItem
+        Action = ShowPanelResult
+        Caption = #1055#1086#1082#1072#1079#1072#1090#1100' '#1087#1072#1085#1077#1083#1100' '#1088#1077#1079#1091#1083#1100#1090#1072#1090#1086#1074
+      end
+      object N39: TMenuItem
+        Action = ShowPanelParametrs
+        Caption = #1055#1086#1082#1072#1079#1072#1090#1100' '#1087#1072#1085#1077#1083#1100' '#1087#1072#1088#1072#1084#1077#1090#1088#1086#1074
+      end
+      object N40: TMenuItem
+        Action = ShowMightex
+        Caption = #1055#1086#1082#1072#1079#1072#1090#1077#1083#1100' '#1087#1072#1085#1077#1083#1100' Mightex'
       end
     end
     object N15: TMenuItem
@@ -1710,6 +1729,24 @@
       Caption = 'ViewZoom'
       OnExecute = ViewZoomExecute
       OnUpdate = ViewZoomUpdate
+    end
+    object ShowMightex: TAction
+      Category = 'Tools'
+      Caption = 'ShowMightex'
+      OnExecute = ShowMightexExecute
+      OnUpdate = ShowMightexUpdate
+    end
+    object ShowPanelResult: TAction
+      Category = 'Tools'
+      Caption = 'ShowPanelResult'
+      OnExecute = ShowPanelResultExecute
+      OnUpdate = ShowPanelResultUpdate
+    end
+    object ShowPanelParametrs: TAction
+      Category = 'Tools'
+      Caption = 'ShowPanelParametrs'
+      OnExecute = ShowPanelParametrsExecute
+      OnUpdate = ShowPanelParametrsUpdate
     end
   end
   object ApplicationEvents1: TApplicationEvents

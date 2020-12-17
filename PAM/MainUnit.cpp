@@ -1415,3 +1415,117 @@ ViewZoom->Enabled = !PhImage3->Empty;
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TmainPAM::RightDocPanelDockDrop(TObject *Sender, TDragDockObject *Source,
+          int X, int Y)
+{
+ShowLeftDockPanel(RightDocPanel, true, NULL);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::RightDocPanelUnDock(TObject *Sender, TControl *Client, TWinControl *NewTarget,
+          bool &Allow)
+{
+ShowLeftDockPanel(RightDocPanel, false, NULL);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::RightDocPanelDockOver(TObject *Sender, TDragDockObject *Source,
+          int X, int Y, TDragState State, bool &Accept)
+{
+   Accept = (Source->Control) != NULL;
+  if (Accept)
+  {
+	// Modify the DockRect to preview dock area.
+	Types::TPoint TopLeft = RightDocPanel->ClientToScreen(Point(0, 0));
+	Types::TPoint BottomRight = RightDocPanel->ClientToScreen(Point(PhImage1->Width / 3, RightDocPanel->Height));
+	Source->DockRect = Types::TRect(TopLeft, BottomRight);
+  }
+}
+
+void TmainPAM::ShowLeftDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
+{
+  if (APanel == NULL || (!MakeVisible && (APanel->VisibleDockClientCount > 1)))
+	return;
+  if (MakeVisible)
+  {
+	  APanel->Width = ClientWidth / 3;
+  }
+  else
+  {
+	  APanel->Width = 5;
+  }
+
+  if (MakeVisible && (Client != NULL))
+	Client->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::LeftDocPanelDockDrop(TObject *Sender, TDragDockObject *Source,
+          int X, int Y)
+{
+    ShowLeftDockPanel(LeftDocPanel, true, NULL);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source,
+          int X, int Y, TDragState State, bool &Accept)
+{
+    Accept = (Source->Control) != NULL;
+  if (Accept)
+  {
+	// Modify the DockRect to preview dock area.
+	Types::TPoint TopLeft = LeftDocPanel->ClientToScreen(Point(0, 0));
+	Types::TPoint BottomRight = LeftDocPanel->ClientToScreen(Point(PhImage1->Width / 3, LeftDocPanel->Height));
+	Source->DockRect = Types::TRect(TopLeft, BottomRight);
+  }
+}
+
+
+//---------------------------------------------------------------------------
+
+
+void __fastcall TmainPAM::LeftDocPanelUnDock(TObject *Sender, TControl *Client, TWinControl *NewTarget,
+          bool &Allow)
+{
+ ShowLeftDockPanel(LeftDocPanel, false, NULL);
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TmainPAM::ShowMightexExecute(TObject *Sender)
+{
+Panel6->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ShowMightexUpdate(TObject *Sender)
+{
+ShowMightex->Enabled = !Panel6->Showing;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ShowPanelResultExecute(TObject *Sender)
+{
+Panel12->Show() ;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ShowPanelResultUpdate(TObject *Sender)
+{
+ShowPanelResult->Enabled = !Panel12->Showing;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ShowPanelParametrsExecute(TObject *Sender)
+{
+Panel9->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmainPAM::ShowPanelParametrsUpdate(TObject *Sender)
+{
+ShowPanelParametrs->Enabled = !Panel9->Showing;
+}
+//---------------------------------------------------------------------------
+
+

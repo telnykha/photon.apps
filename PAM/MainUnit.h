@@ -190,7 +190,6 @@ __published:	// IDE-managed Components
 	TTabSheet *График;
 	TTabSheet *Таблица;
 	TCheckListBox *CheckListBox1;
-	TLabel *Label20;
 	TPhZoomToRectTool *PhZoomToRectTool1;
 	TPopupMenu *PopupPhDiffCom;
 	TMenuItem *zoomtoRect1;
@@ -203,7 +202,6 @@ __published:	// IDE-managed Components
 	TPanel *Panel9;
 	TPanel *Panel10;
 	TStringGrid *StringGrid3;
-	TPanel *Panel11;
 	TLabel *Label21;
 	TLabel *Label22;
 	TLabel *Label23;
@@ -234,6 +232,14 @@ __published:	// IDE-managed Components
 	TMenuItem *ZoomToActualSize1;
 	TAction *ViewPanAction;
 	TAction *ViewZoom;
+	TPanel *RightDocPanel;
+	TPanel *LeftDocPanel;
+	TMenuItem *N38;
+	TMenuItem *N39;
+	TMenuItem *N40;
+	TAction *ShowMightex;
+	TAction *ShowPanelResult;
+	TAction *ShowPanelParametrs;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -308,6 +314,24 @@ __published:	// IDE-managed Components
 	void __fastcall ViewPanActionUpdate(TObject *Sender);
 	void __fastcall ViewZoomExecute(TObject *Sender);
 	void __fastcall ViewZoomUpdate(TObject *Sender);
+	void __fastcall RightDocPanelDockDrop(TObject *Sender, TDragDockObject *Source,
+          int X, int Y);
+	void __fastcall RightDocPanelUnDock(TObject *Sender, TControl *Client, TWinControl *NewTarget,
+          bool &Allow);
+	void __fastcall RightDocPanelDockOver(TObject *Sender, TDragDockObject *Source,
+          int X, int Y, TDragState State, bool &Accept);
+	void __fastcall LeftDocPanelDockDrop(TObject *Sender, TDragDockObject *Source, int X,
+          int Y);
+	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
+          int Y, TDragState State, bool &Accept);
+	void __fastcall LeftDocPanelUnDock(TObject *Sender, TControl *Client, TWinControl *NewTarget,
+          bool &Allow);
+	void __fastcall ShowMightexExecute(TObject *Sender);
+	void __fastcall ShowMightexUpdate(TObject *Sender);
+	void __fastcall ShowPanelResultExecute(TObject *Sender);
+	void __fastcall ShowPanelResultUpdate(TObject *Sender);
+	void __fastcall ShowPanelParametrsExecute(TObject *Sender);
+	void __fastcall ShowPanelParametrsUpdate(TObject *Sender);
 
 
 
@@ -346,7 +370,9 @@ public:		// User declarations
     void __fastcall PreviewFrame(int width, int height, unsigned char* data, int cameraID);
     bool __fastcall StartProcess();
     void __fastcall FinishProcess();
-    void __fastcall CancelProcess();
+	void __fastcall CancelProcess();
+
+	void ShowLeftDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
 
 	__property int CameraMode 		 = {read = m_mode};
     __property int board 			 = {read = m_board};
