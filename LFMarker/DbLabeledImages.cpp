@@ -1149,15 +1149,31 @@ void __fastcall TDbLabeledImages::SplitDatabase(UnicodeString strPath, UnicodeSt
 	string g_path2       =  str.c_str();;
 	int g_proc = propValue;
 
-
 	if (!LFDirExist(g_path1.c_str()))
 		LFCreateDir(g_path1.c_str());
 	if (!LFDirExist(g_path2.c_str()))
 		LFCreateDir(g_path2.c_str());
+
 	AnsiString _ansi = g_path1.c_str();
 	ClearDir(_ansi);
 	_ansi = g_path2.c_str();
 	ClearDir(_ansi);
+
+	// copy dictionary
+	string str_dict_name = path;
+	str_dict_name += "\\dictionary.xml";
+	if (LFFileExists(str_dict_name))
+	{
+		string str_dst_dict_name = g_path1;
+		str_dst_dict_name += "\\dictionary.xml";
+		UnicodeString _unic1 = str_dict_name.c_str();
+		UnicodeString _unic2 = str_dst_dict_name.c_str();
+		CopyFile(_unic1.c_str(), _unic2.c_str(), true);
+		str_dst_dict_name = g_path2;
+		str_dst_dict_name += "\\dictionary.xml";
+		_unic2 = str_dst_dict_name.c_str();
+		CopyFile(_unic1.c_str(), _unic2.c_str(), true);
+	}
 
 	_finddata_t filesInfo;
 	int num_images = 0;

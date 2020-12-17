@@ -309,6 +309,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="..\..\bin\msvcr120.dll" Configuration="Release" Class="File">
+                    <Platform Name="Win32">
+                        <RemoteDir>D:\_alt\test\</RemoteDir>
+                        <RemoteName>msvcr120.dll</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="todo.txt" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -337,13 +344,6 @@
                 <DeployFile LocalName="todo.txt" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\bin\msvcr120.dll" Configuration="Release" Class="File">
-                    <Platform Name="Win32">
-                        <RemoteDir>D:\_alt\test\</RemoteDir>
-                        <RemoteName>msvcr120.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

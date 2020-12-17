@@ -883,7 +883,7 @@ void __fastcall TForm1::DrawRois(TCanvas* cnv)
 
 void __fastcall TForm1::DrawObjects(TCanvas* cnv)
 {
-    if (cnv == NULL)
+	if (cnv == NULL)
         return;
 
     TBrushStyle bstyle = cnv->Brush->Style;
@@ -897,23 +897,13 @@ void __fastcall TForm1::DrawObjects(TCanvas* cnv)
 		TRect* rect = (TRect*)m_objects->Items[i];
 		TRect Rect2 = PhImage2->GetScreenRect(*rect);
 		TLFDetectedItem* di = m_ObjectEngine.GetItem(i);
- /*		if (di != NULL)
-		{
- 			if (di->GetRacurs() == 0)
-				cnv->Pen->Color = clLime;
-			else if (di->GetRacurs() == 4)
-				cnv->Pen->Color = clGreen;
-			else
-				cnv->Pen->Color = clTeal;
-		 }
-		 else*/
-			cnv->Pen->Color = clLime;
-
+		cnv->Pen->Color = clLime;
 		cnv->Rectangle(Rect2);
 	}
+	cnv->Font->Color = clLime;
+    cnv->TextOutW(10,10, "Min size = ");
 
-
-    cnv->Brush->Style = bstyle;
+	cnv->Brush->Style = bstyle;
     cnv->Pen->Color = penColor;
 
 }
@@ -1133,6 +1123,7 @@ void __fastcall TForm1::Options1Click(TObject *Sender)
 		   //this->m_ObjectEngine.GetDetector()->SetUseTilt(PagesDlg->CheckBox4->Checked);
 		   this->m_ObjectEngine.SetNeedCluster(PagesDlg->CheckBox2->Checked);
 		   this->m_ObjectEngine.SetResize(PagesDlg->CheckBox3->Checked);
+		   this->m_ObjectEngine.SetBaseImageWidth(StrToInt(PagesDlg->Edit4->Text));
 		   this->DetectInRect = PagesDlg->CheckBox5->Checked;
         }
 

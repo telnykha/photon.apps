@@ -164,16 +164,5 @@ void __fastcall TPagesDlg::ValueListEditor2Validate(TObject *Sender,
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TPagesDlg::Button1Click(TObject *Sender)
-{
-    Series1->Clear();
-}
-//---------------------------------------------------------------------------
 
-void __fastcall TPagesDlg::Button2Click(TObject *Sender)
-{
-    for(int i = 0; i < 20; i++)
-        Series1->Add(i);
-}
-//---------------------------------------------------------------------------
 

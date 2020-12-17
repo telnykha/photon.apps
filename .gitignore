@@ -36,3 +36,5 @@ common/cvvideo/module/awpcvvideo/release/
 common/cvvideo/module/awpcvvideo/debug/
 *.suo
 *.sdf
+Optoacustics/Win32/debug/*.*
+Optoacustics/Win32/release/*.*

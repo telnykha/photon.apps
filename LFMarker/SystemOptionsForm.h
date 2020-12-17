@@ -69,11 +69,6 @@ __published:
 	TLabeledEdit *LabeledEdit2;
 	TGroupBox *GroupBox8;
 	TCheckBox *CheckBox5;
-	TTabSheet *TabSheet3;
-	TButton *Button1;
-	TButton *Button2;
-	TChart *Chart1;
-	TBarSeries *Series1;
     void __fastcall ScannerShow(TObject *Sender);
     void __fastcall ValueListEditor1Validate(TObject *Sender, int ACol,
           int ARow, const AnsiString KeyName, const AnsiString KeyValue);
@@ -85,8 +80,6 @@ __published:
     void __fastcall Edit4Exit(TObject *Sender);
     void __fastcall ValueListEditor2Validate(TObject *Sender, int ACol,
           int ARow, const AnsiString KeyName, const AnsiString KeyValue);
-	void __fastcall Button1Click(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
 private:
     void __fastcall CalcFragmentsCount();
     void __fastcall CalcDetectorFragmentsCount();
