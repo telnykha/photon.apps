@@ -63,6 +63,14 @@ object editorDlg: TeditorDlg
     Height = 13
     Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1082#1086#1084#1072#1085#1076#1099
   end
+  object SettingsLight: TSpeedButton
+    Left = 300
+    Top = 72
+    Width = 76
+    Height = 25
+    Action = ShowSettingsLight
+    Caption = 'SettingsLight'
+  end
   object OKBtn: TButton
     Left = 300
     Top = 8
@@ -132,5 +140,13 @@ object editorDlg: TeditorDlg
     TabOrder = 5
     Value = 10
     OnChange = SpinEdit2Change
+  end
+  object ActionList1: TActionList
+    Left = 328
+    Top = 304
+    object ShowSettingsLight: TAction
+      Caption = 'ShowSettingsLight'
+      OnExecute = ShowSettingsLightExecute
+    end
   end
 end

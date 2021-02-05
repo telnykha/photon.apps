@@ -13,6 +13,8 @@
 #include <Winapi.Windows.hpp>
 #include <System.hpp>
 #include <Vcl.Samples.Spin.hpp>
+#include <System.Actions.hpp>
+#include <Vcl.ActnList.hpp>
 //----------------------------------------------------------------------------
 class TeditorDlg : public TForm
 {
@@ -30,9 +32,13 @@ __published:
 	TSpinEdit *SpinEdit2;
 	TLabel *Label5;
 	TLabel *Label6;
+	TSpeedButton *SettingsLight;
+	TActionList *ActionList1;
+	TAction *ShowSettingsLight;
 	void __fastcall ComboBox1Change(TObject *Sender);
 	void __fastcall SpinEdit2Change(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall ShowSettingsLightExecute(TObject *Sender);
 private:
     void __fastcall SetupControls();
 public:

@@ -270,6 +270,13 @@
       Layout = blGlyphTop
       NumGlyphs = 2
     end
+    object SpeedButton20: TSpeedButton
+      Left = 680
+      Top = 16
+      Width = 47
+      Height = 38
+      OnClick = SpeedButton20Click
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -306,7 +313,7 @@
     Top = 81
     Width = 799
     Height = 474
-    ActivePage = Сложные_команды
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
@@ -741,7 +748,6 @@
           Height = 13
           Align = alBottom
           Caption = #1042#1099#1073#1088#1072#1085#1085#1099#1077' '#1086#1073#1083#1072#1089#1090#1080' (ROI)'
-          ExplicitTop = 249
           ExplicitWidth = 132
         end
         object Label22: TLabel
@@ -752,6 +758,7 @@
           Height = 13
           Align = alTop
           Caption = #1058#1072#1073#1083#1080#1094#1072' '#1073#1072#1079#1086#1074#1099#1093' '#1079#1085#1072#1095#1077#1085#1080#1081
+          ExplicitWidth = 138
         end
         object CheckListBox1: TCheckListBox
           AlignWithMargins = True
@@ -784,7 +791,22 @@
           Height = 21
           Align = alBottom
           TabOrder = 2
-          Text = 'ComboBox2'
+          Text = #1042#1099#1073#1077#1088#1077#1090#1077' '#1087#1072#1088#1072#1084#1077#1090#1088' '#1076#1083#1103' '#1087#1088#1086#1089#1084#1086#1090#1088#1072
+          Items.Strings = (
+            'F0'
+            'Fm'
+            'Ft'#39
+            'Fm'#39
+            'Fv'
+            'Fv'#39
+            'Fq'#39
+            'Fo'#39
+            'Fv/Fm'#39
+            'YII'#39
+            'NPQ'#39
+            'qN'#39
+            'qP'#39
+            'qL'#39)
         end
       end
       object Panel10: TPanel
@@ -1171,7 +1193,7 @@
     TabOrder = 4
     object Label1: TLabel
       Left = 1
-      Top = 338
+      Top = 335
       Width = 214
       Height = 16
       Align = alTop
@@ -1183,14 +1205,13 @@
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = 335
       ExplicitWidth = 83
     end
     object Label2: TLabel
       Left = 1
       Top = 1
       Width = 214
-      Height = 19
+      Height = 16
       Align = alTop
       Alignment = taCenter
       Caption = #1042#1080#1076#1077#1086#1082#1072#1084#1077#1088#1072' Mightex'
@@ -1201,11 +1222,11 @@
       Font.Style = [fsBold]
       ParentFont = False
       Layout = tlBottom
-      ExplicitTop = 16
+      ExplicitWidth = 145
     end
     object Label3: TLabel
       Left = 1
-      Top = 204
+      Top = 201
       Width = 214
       Height = 16
       Align = alTop
@@ -1217,19 +1238,17 @@
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = 201
       ExplicitWidth = 165
     end
     object GroupBox3: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 357
+      Top = 354
       Width = 208
       Height = 71
       Align = alTop
       Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' 460 nm'
       TabOrder = 0
-      ExplicitTop = 354
       object TrackBar3: TTrackBar
         AlignWithMargins = True
         Left = 5
@@ -1249,13 +1268,12 @@
     object GroupBox4: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 223
+      Top = 279
       Width = 208
       Height = 53
       Align = alTop
       Caption = #1047#1072#1076#1077#1088#1078#1082#1072
       TabOrder = 1
-      ExplicitTop = 220
       object Label4: TLabel
         Left = 72
         Top = 24
@@ -1291,13 +1309,12 @@
     object GroupBox2: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 434
+      Top = 431
       Width = 208
       Height = 74
       Align = alTop
       Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' 660 nm'
       TabOrder = 2
-      ExplicitTop = 431
       object TrackBar2: TTrackBar
         AlignWithMargins = True
         Left = 5
@@ -1317,13 +1334,12 @@
     object GroupBox1: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 23
+      Top = 20
       Width = 208
       Height = 101
       Align = alTop
       Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103
       TabOrder = 3
-      ExplicitTop = 20
       object TrackBar1: TTrackBar
         AlignWithMargins = True
         Left = 5
@@ -1361,13 +1377,12 @@
     object GroupBox5: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 130
+      Top = 127
       Width = 208
       Height = 71
       Align = alTop
       Caption = #1059#1089#1080#1083#1077#1085#1080#1077
       TabOrder = 4
-      ExplicitTop = 127
       object TrackBar5: TTrackBar
         AlignWithMargins = True
         Left = 5
@@ -1378,7 +1393,7 @@
         Max = 41
         Min = 6
         Frequency = 2
-        Position = 25
+        Position = 6
         ShowSelRange = False
         TabOrder = 0
         TickMarks = tmBoth
@@ -1388,13 +1403,12 @@
     object GroupBox6: TGroupBox
       AlignWithMargins = True
       Left = 4
-      Top = 282
+      Top = 220
       Width = 208
       Height = 53
       Align = alTop
       Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (mks)'
       TabOrder = 5
-      ExplicitTop = 279
       object Label6: TLabel
         Left = 73
         Top = 24

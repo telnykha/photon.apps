@@ -10,6 +10,7 @@
 #include "PAMLongProcessUnit.h"
 #include "Buf_USBCCDCamera_SDK.h"
 #include "pam_common.h"
+#include "Parametrs_light.h"
 #include <Clipbrd.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -302,7 +303,7 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
         BUFCCDUSB_InstallFrameHooker( 0, CamHook );
         BUFCCDUSB_StartCameraEngine(this->Handle, 12);
     }
-    ComboBox1->ItemIndex = m_options.exploshureIndex;
+	ComboBox1->ItemIndex = m_options.exploshureIndex;
 	TrackBar1->Position = m_options.exploshureValue;
     TrackBar5->Position = m_options.Gain;
     SpinEdit2->Value = m_options.Delay;
@@ -316,25 +317,6 @@ void __fastcall TmainPAM::FormCreate(TObject *Sender)
 		ShowMessage("Не могу зарегистрировать фомат данных для обмена через clipboard.");
 		Application->Terminate();
 	 }
-
-		 ComboBox2->Text = "Выберете параметр для просмотра";
-	ComboBox2->Items->Add("F0");
-	ComboBox2->Items->Add("Fm");
-	ComboBox2->Items->Add("Ft'");
-	ComboBox2->Items->Add("Fm'");
-	ComboBox2->Items->Add("Fv");
-	ComboBox2->Items->Add("Fv'");
-	ComboBox2->Items->Add("Fq'");
-	ComboBox2->Items->Add("Fo'");
-	ComboBox2->Items->Add("Fv/Fm'");
-	ComboBox2->Items->Add("YII'");
-	ComboBox2->Items->Add("NPQ'");
-	ComboBox2->Items->Add("qN'");
-	ComboBox2->Items->Add("qP'");
-	ComboBox2->Items->Add("qL'");
-
-
-
 }
 //---------------------------------------------------------------------------
 void   __fastcall TmainPAM::StartExperiment()
@@ -401,7 +383,7 @@ static UnicodeString SetExtention(int index, UnicodeString str)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::Button1Click(TObject *Sender)
 {
-    //
+	//
 	UnicodeString strFilter = L"Jpeg images|*.jpg|Awp imges|*.awp|PNG images|*.png|TIFF images |*.tif";
     awpImage* img = NULL;
     PhImage1->GetAwpImage(&img);
@@ -431,7 +413,7 @@ void __fastcall TmainPAM::ApplicationEvents1Idle(TObject *Sender, bool &Done)
     else
         str = L"P.A.M. [";
     str += m_table->fileName;
-    str += L"]";
+	str += L"]";
 	Caption = str;
     Button2->Enabled = m_tableArchive != NULL && m_tableArchive->list->Count > 0;
 }
@@ -851,23 +833,23 @@ With slower CCD frequency, the minimum achievable ET is increased proportionally
 */
 double __fastcall TmainPAM::ExploshureTime(int index, int pos)
 {
-    double exp_start = c_expLimit[index] / 100.;
+	double exp_start = c_expLimit[index] / 100.;
 	double exp = exp_start*pos;
-    int exp_mks = floor(exp*1000 + 0.5);
-    int exp_units = exp_mks / 50;
+	int exp_mks = floor(exp*1000 + 0.5);
+	int exp_units = exp_mks / 50;
 	GroupBox1->Caption = L"Экспозиция " + IntToStr(exp_mks) + L" mks";
 
     m_options.exploshureIndex = index;
     m_options.exploshureValue = pos;
 
-    int delay = 500 / exp_mks;
+	int delay = 500 / exp_mks;
 
-    SpinEdit2->MinValue = delay + 1;
-    if (SpinEdit2->Value < SpinEdit2->MinValue)
-        SpinEdit2->Value = SpinEdit2->MinValue;
+	SpinEdit2->MinValue = delay + 1;
+	if (SpinEdit2->Value < SpinEdit2->MinValue)
+		SpinEdit2->Value = SpinEdit2->MinValue;
 
-    SpinEdit1Change(NULL);
-    SpinEdit2Change(NULL);
+	SpinEdit1Change(NULL);
+	SpinEdit2Change(NULL);
 
     if (BUFCCDUSB_SetExposureTime(m_camera, exp_units) == -1)
 		Memo2->Lines->Add(L"Не могу установить экспозицю. Подключите видеокамеру Mightex.");
@@ -875,7 +857,7 @@ double __fastcall TmainPAM::ExploshureTime(int index, int pos)
     {
         Memo2->Lines->Add("Exposure time = " + IntToStr(exp_mks) + " mks. Units = " + IntToStr(exp_units));
     }
-    return exp;
+	return exp;
 }
 
 void __fastcall TmainPAM::ComboBox1Change(TObject *Sender)
@@ -1099,8 +1081,8 @@ void __fastcall TmainPAM::TrackBar3Change(TObject *Sender)
 void __fastcall TmainPAM::TrackBar1Change(TObject *Sender)
 {
 	ExploshureTime(ComboBox1->ItemIndex,  TrackBar1->Position);
-    m_options.exploshureValue = TrackBar1->Position;
-    if (m_table != NULL)
+	m_options.exploshureValue = TrackBar1->Position;
+	if (m_table != NULL)
         m_table->changed = true;
 }
 //---------------------------------------------------------------------------
@@ -1138,10 +1120,10 @@ void __fastcall TmainPAM::StringGrid2Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::TrackBar5Change(TObject *Sender)
 {
-    int v = TrackBar5->Position;
-    GroupBox5->Caption = L"Усиление " + IntToStr(v) + L" dB";
-    m_options.Gain = v;
-    if (m_table != NULL)
+	int v = TrackBar5->Position;
+	GroupBox5->Caption = L"Усиление " + IntToStr(v) + L" dB";
+	m_options.Gain = v;
+	if (m_table != NULL)
         m_table->changed = true;
 
     if (BUFCCDUSB_SetGains(m_camera, v , v, v) == -1)
@@ -1154,10 +1136,10 @@ void __fastcall TmainPAM::TrackBar5Change(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::SpinEdit2Change(TObject *Sender)
 {
-    int exp = m_options.Exposure;
-    int value = exp*SpinEdit2->Value / 100;
-    Label5->Caption = IntToStr(value) + L" mks";
-    m_options.Delay = SpinEdit2->Value;
+	int exp = m_options.Exposure;
+	int value = exp*SpinEdit2->Value / 100;
+	Label5->Caption = IntToStr(value) + L" mks";
+	m_options.Delay = SpinEdit2->Value;
     if (m_table != NULL)
         m_table->changed = true;
 
@@ -1165,9 +1147,9 @@ void __fastcall TmainPAM::SpinEdit2Change(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TmainPAM::SpinEdit1Change(TObject *Sender)
 {
-    int exp = m_options.Exposure;
-    int value = exp*SpinEdit1->Value / 100;
-    Label7->Caption = IntToStr(value) + L" mks";
+	int exp = m_options.Exposure;
+	int value = exp*SpinEdit1->Value / 100;
+	Label7->Caption = IntToStr(value) + L" mks";
     m_options.Length = SpinEdit1->Value;
     if (m_table != NULL)
         m_table->changed = true;
@@ -1528,4 +1510,10 @@ ShowPanelParametrs->Enabled = !Panel9->Showing;
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TmainPAM::SpeedButton20Click(TObject *Sender)
+{
+FormLight->Show();
+}
+//---------------------------------------------------------------------------
 
