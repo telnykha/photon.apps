@@ -78,6 +78,16 @@ __published:	// IDE-managed Components
 	void __fastcall SpinEdit3Change(TObject *Sender);
 	void __fastcall TrackBar4Change(TObject *Sender);
 	void __fastcall ComboBox1Change(TObject *Sender);
+	void __fastcall TrackBar7Change(TObject *Sender);
+	void __fastcall SpinEdit6Change(TObject *Sender);
+	void __fastcall TrackBar6Change(TObject *Sender);
+	void __fastcall SpinEdit7Change(TObject *Sender);
+	void __fastcall TrackBar2Change(TObject *Sender);
+	void __fastcall SpinEdit2Change(TObject *Sender);
+	void __fastcall TrackBar1Change(TObject *Sender);
+	void __fastcall SpinEdit1Change(TObject *Sender);
+	void __fastcall TrackBar5Change(TObject *Sender);
+	void __fastcall SpinEdit5Change(TObject *Sender);
 private:	// User declarations
 TCommandsTable* m_table;
 TPAMOptions 	m_light_options;

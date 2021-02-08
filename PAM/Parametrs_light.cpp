@@ -109,3 +109,66 @@ void __fastcall TFormLight::ComboBox1Change(TObject *Sender)
 
 
 
+
+
+
+void __fastcall TFormLight::TrackBar7Change(TObject *Sender)
+{
+ SpinEdit6->Value = -TrackBar7->Position;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit6Change(TObject *Sender)
+{
+ TrackBar7->Position = -SpinEdit6->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::TrackBar6Change(TObject *Sender)
+{
+ SpinEdit7->Value = -TrackBar6->Position;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit7Change(TObject *Sender)
+{
+ TrackBar6->Position = -SpinEdit7->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::TrackBar2Change(TObject *Sender)
+{
+SpinEdit2->Value = TrackBar2->Position*10;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit2Change(TObject *Sender)
+{
+ TrackBar2->Position = SpinEdit2->Value/10;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::TrackBar1Change(TObject *Sender)
+{
+SpinEdit1->Value = TrackBar1->Position*10;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit1Change(TObject *Sender)
+{
+TrackBar1->Position = SpinEdit1->Value/10;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::TrackBar5Change(TObject *Sender)
+{
+SpinEdit5->Value = TrackBar5->Position*10;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit5Change(TObject *Sender)
+{
+ TrackBar5->Position = SpinEdit5->Value/10;
+}
+//---------------------------------------------------------------------------
+
