@@ -2,8 +2,8 @@ object FormLight: TFormLight
   Left = 0
   Top = 0
   Caption = 'FormLight'
-  ClientHeight = 450
-  ClientWidth = 512
+  ClientHeight = 456
+  ClientWidth = 564
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,8 +16,8 @@ object FormLight: TFormLight
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 238
-    Width = 512
+    Top = 256
+    Width = 564
     Height = 3
     Cursor = crVSplit
     Align = alTop
@@ -28,7 +28,7 @@ object FormLight: TFormLight
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 512
+    Width = 564
     Height = 97
     Align = alTop
     TabOrder = 0
@@ -36,7 +36,7 @@ object FormLight: TFormLight
     object Label3: TLabel
       Left = 1
       Top = 1
-      Width = 510
+      Width = 562
       Height = 16
       Align = alTop
       Caption = #1057#1074#1077#1090#1086#1076#1080#1086#1076#1099
@@ -84,7 +84,7 @@ object FormLight: TFormLight
     object Panel18: TPanel
       Left = 132
       Top = 17
-      Width = 379
+      Width = 431
       Height = 79
       Align = alClient
       TabOrder = 1
@@ -92,7 +92,7 @@ object FormLight: TFormLight
       object Panel15: TPanel
         Left = 1
         Top = 42
-        Width = 377
+        Width = 429
         Height = 36
         Align = alTop
         TabOrder = 0
@@ -100,7 +100,7 @@ object FormLight: TFormLight
         object TrackBar6: TTrackBar
           Left = 1
           Top = 1
-          Width = 314
+          Width = 366
           Height = 34
           Align = alClient
           Max = 100
@@ -109,7 +109,7 @@ object FormLight: TFormLight
           ExplicitWidth = 276
         end
         object SpinEdit7: TSpinEdit
-          Left = 315
+          Left = 367
           Top = 1
           Width = 61
           Height = 34
@@ -125,7 +125,7 @@ object FormLight: TFormLight
       object Panel19: TPanel
         Left = 1
         Top = 1
-        Width = 377
+        Width = 429
         Height = 41
         Align = alTop
         TabOrder = 1
@@ -133,7 +133,7 @@ object FormLight: TFormLight
         object TrackBar7: TTrackBar
           Left = 1
           Top = 1
-          Width = 314
+          Width = 366
           Height = 39
           Align = alClient
           Max = 100
@@ -144,7 +144,7 @@ object FormLight: TFormLight
           ExplicitWidth = 276
         end
         object SpinEdit6: TSpinEdit
-          Left = 315
+          Left = 367
           Top = 1
           Width = 61
           Height = 39
@@ -162,15 +162,14 @@ object FormLight: TFormLight
   object Panel2: TPanel
     Left = 0
     Top = 97
-    Width = 512
-    Height = 141
+    Width = 564
+    Height = 159
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 474
     object LightSetting: TLabel
       Left = 1
       Top = 1
-      Width = 510
+      Width = 562
       Height = 16
       Align = alTop
       Caption = 'LightSetting'
@@ -182,34 +181,53 @@ object FormLight: TFormLight
       ParentFont = False
       ExplicitWidth = 79
     end
-    object Splitter2: TSplitter
-      Left = 129
+    object Splitter6: TSplitter
+      Left = 345
       Top = 17
-      Height = 123
-      ExplicitLeft = 152
-      ExplicitTop = 208
-      ExplicitHeight = 100
+      Height = 141
+      Align = alRight
+      ExplicitLeft = 348
+      ExplicitHeight = 144
+    end
+    object Splitter2: TSplitter
+      Left = 216
+      Top = 17
+      Height = 141
+      ExplicitLeft = 223
+      ExplicitTop = 15
+      ExplicitHeight = 126
     end
     object Panel5: TPanel
-      Left = 132
+      Left = 348
       Top = 17
-      Width = 379
-      Height = 123
-      Align = alClient
+      Width = 215
+      Height = 141
+      Align = alRight
       TabOrder = 0
-      ExplicitWidth = 341
+      ExplicitHeight = 126
+      object Label2: TLabel
+        Left = 1
+        Top = 1
+        Width = 213
+        Height = 13
+        Align = alTop
+        Alignment = taCenter
+        Caption = #1048#1085#1090#1077#1085#1089#1080#1074#1085#1086#1089#1090#1100' '#1089#1074#1077#1095#1077#1085#1080#1103
+        ExplicitWidth = 127
+      end
       object Panel6: TPanel
         Left = 1
-        Top = 42
-        Width = 377
+        Top = 55
+        Width = 213
         Height = 41
         Align = alTop
         TabOrder = 0
+        ExplicitTop = 42
         ExplicitWidth = 339
         object TrackBar1: TTrackBar
           Left = 1
           Top = 1
-          Width = 314
+          Width = 150
           Height = 39
           Align = alClient
           TabOrder = 0
@@ -217,7 +235,7 @@ object FormLight: TFormLight
           ExplicitWidth = 276
         end
         object SpinEdit1: TSpinEdit
-          Left = 315
+          Left = 151
           Top = 1
           Width = 61
           Height = 39
@@ -233,14 +251,15 @@ object FormLight: TFormLight
       end
       object Panel7: TPanel
         Left = 1
-        Top = 1
-        Width = 377
+        Top = 14
+        Width = 213
         Height = 41
         Align = alTop
         TabOrder = 1
+        ExplicitTop = 1
         ExplicitWidth = 339
         object SpinEdit2: TSpinEdit
-          Left = 315
+          Left = 151
           Top = 1
           Width = 61
           Height = 39
@@ -256,7 +275,7 @@ object FormLight: TFormLight
         object TrackBar2: TTrackBar
           Left = 1
           Top = 1
-          Width = 314
+          Width = 150
           Height = 39
           Align = alClient
           TabOrder = 1
@@ -266,16 +285,17 @@ object FormLight: TFormLight
       end
       object Panel14: TPanel
         Left = 1
-        Top = 83
-        Width = 377
+        Top = 96
+        Width = 213
         Height = 41
         Align = alTop
         TabOrder = 2
+        ExplicitTop = 83
         ExplicitWidth = 339
         object TrackBar5: TTrackBar
           Left = 1
           Top = 1
-          Width = 314
+          Width = 150
           Height = 39
           Align = alClient
           TabOrder = 0
@@ -283,7 +303,7 @@ object FormLight: TFormLight
           ExplicitWidth = 276
         end
         object SpinEdit5: TSpinEdit
-          Left = 315
+          Left = 151
           Top = 1
           Width = 61
           Height = 39
@@ -299,96 +319,218 @@ object FormLight: TFormLight
       end
     end
     object Panel4: TPanel
-      Left = 1
+      Left = 219
       Top = 17
-      Width = 128
-      Height = 123
-      Align = alLeft
+      Width = 126
+      Height = 141
+      Align = alClient
       TabOrder = 1
-      object Panel8: TPanel
+      ExplicitLeft = 196
+      ExplicitWidth = 132
+      ExplicitHeight = 126
+      object Label10: TLabel
         Left = 1
         Top = 1
-        Width = 126
-        Height = 41
+        Width = 124
+        Height = 13
         Align = alTop
-        TabOrder = 0
-        object Label1: TLabel
-          Left = 1
-          Top = 1
-          Width = 124
-          Height = 13
-          Align = alTop
-          Caption = #1040#1082#1090#1080#1085#1080#1095#1085#1099#1081' '#1089#1074#1077#1090
-          ExplicitWidth = 89
-        end
+        Alignment = taCenter
+        Caption = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077
+        ExplicitWidth = 73
       end
       object Panel9: TPanel
         Left = 1
-        Top = 42
-        Width = 126
+        Top = 55
+        Width = 124
         Height = 41
         Align = alTop
-        TabOrder = 1
-        object Label2: TLabel
-          Left = 1
-          Top = 1
-          Width = 124
-          Height = 13
-          Align = alTop
-          Caption = #1053#1072#1089#1099#1097#1072#1102#1097#1080#1081' '#1089#1074#1077#1090
-          ExplicitWidth = 97
-        end
+        Caption = #1053#1072#1089#1099#1097#1072#1102#1097#1080#1081' '#1089#1074#1077#1090
+        TabOrder = 0
+        ExplicitTop = 42
+        ExplicitWidth = 126
       end
       object Panel13: TPanel
         Left = 1
-        Top = 83
-        Width = 126
+        Top = 96
+        Width = 124
         Height = 41
         Align = alTop
         Caption = #1044#1086#1087'. '#1089#1074#1077#1090
+        TabOrder = 1
+        ExplicitTop = 83
+        ExplicitWidth = 126
+      end
+      object Panel8: TPanel
+        Left = 1
+        Top = 14
+        Width = 124
+        Height = 41
+        Align = alTop
+        Caption = #1040#1082#1090#1080#1085#1080#1095#1085#1099#1081' '#1089#1074#1077#1090
         TabOrder = 2
+        ExplicitTop = 1
+        ExplicitWidth = 128
+      end
+    end
+    object Panel20: TPanel
+      Left = 1
+      Top = 17
+      Width = 215
+      Height = 141
+      Align = alLeft
+      TabOrder = 2
+      ExplicitLeft = 60
+      ExplicitTop = 23
+      ExplicitHeight = 126
+      object Label1: TLabel
+        Left = 1
+        Top = 1
+        Width = 213
+        Height = 13
+        Align = alTop
+        Alignment = taCenter
+        Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' '#1089#1074#1077#1095#1077#1085#1080#1103
+        ExplicitWidth = 123
+      end
+      object Panel21: TPanel
+        Left = 1
+        Top = 14
+        Width = 213
+        Height = 41
+        Align = alTop
+        TabOrder = 0
+        ExplicitTop = 40
+        ExplicitWidth = 185
+        object TrackBar8: TTrackBar
+          Left = 65
+          Top = 1
+          Width = 147
+          Height = 39
+          Align = alClient
+          Max = 10000
+          TabOrder = 0
+          OnChange = TrackBar8Change
+          ExplicitLeft = 76
+          ExplicitTop = -4
+          ExplicitWidth = 150
+          ExplicitHeight = 45
+        end
+        object SpinEdit8: TSpinEdit
+          Left = 1
+          Top = 1
+          Width = 64
+          Height = 39
+          Align = alLeft
+          MaxValue = 0
+          MinValue = 0
+          TabOrder = 1
+          Value = 0
+          OnChange = SpinEdit8Change
+        end
+      end
+      object Panel22: TPanel
+        Left = 1
+        Top = 55
+        Width = 213
+        Height = 41
+        Align = alTop
+        TabOrder = 1
+        ExplicitLeft = 43
+        ExplicitTop = 85
+        ExplicitWidth = 185
+        object TrackBar9: TTrackBar
+          Left = 65
+          Top = 1
+          Width = 147
+          Height = 39
+          Align = alClient
+          Max = 10000
+          TabOrder = 0
+          OnChange = TrackBar9Change
+          ExplicitLeft = 76
+          ExplicitTop = -4
+          ExplicitWidth = 150
+          ExplicitHeight = 45
+        end
+        object SpinEdit9: TSpinEdit
+          Left = 1
+          Top = 1
+          Width = 64
+          Height = 39
+          Align = alLeft
+          MaxValue = 0
+          MinValue = 0
+          TabOrder = 1
+          Value = 0
+          OnChange = SpinEdit9Change
+        end
+      end
+      object Panel23: TPanel
+        Left = 1
+        Top = 96
+        Width = 213
+        Height = 42
+        Align = alTop
+        TabOrder = 2
+        ExplicitLeft = 43
+        ExplicitTop = 24
+        ExplicitWidth = 185
+        ExplicitHeight = 41
+        object TrackBar10: TTrackBar
+          Left = 65
+          Top = 1
+          Width = 147
+          Height = 40
+          Align = alClient
+          Max = 10000
+          TabOrder = 0
+          OnChange = TrackBar10Change
+          ExplicitLeft = 112
+          ExplicitWidth = 113
+        end
+        object SpinEdit10: TSpinEdit
+          Left = 1
+          Top = 1
+          Width = 64
+          Height = 40
+          Align = alLeft
+          MaxValue = 0
+          MinValue = 0
+          TabOrder = 1
+          Value = 0
+          OnChange = SpinEdit10Change
+        end
       end
     end
   end
   object Panel3: TPanel
     Left = 0
-    Top = 241
-    Width = 512
-    Height = 208
+    Top = 259
+    Width = 564
+    Height = 198
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 474
-    object Splitter3: TSplitter
-      Left = 1
-      Top = 1
-      Width = 510
-      Height = 3
-      Cursor = crVSplit
-      Align = alTop
-      ExplicitLeft = -1
-      ExplicitTop = -4
-      ExplicitWidth = 523
-    end
     object Splitter4: TSplitter
-      Left = 230
-      Top = 4
-      Height = 203
+      Left = 281
+      Top = 1
+      Height = 196
+      Align = alRight
       ExplicitLeft = 256
       ExplicitTop = 80
       ExplicitHeight = 100
     end
     object Panel11: TPanel
-      Left = 233
-      Top = 4
-      Width = 278
-      Height = 203
-      Align = alClient
+      Left = 284
+      Top = 1
+      Width = 279
+      Height = 196
+      Align = alRight
       TabOrder = 0
-      ExplicitWidth = 240
+      ExplicitHeight = 212
       object Label4: TLabel
         Left = 1
         Top = 1
-        Width = 276
+        Width = 277
         Height = 16
         Align = alTop
         Alignment = taCenter
@@ -403,12 +545,13 @@ object FormLight: TFormLight
       end
       object GroupBox4: TGroupBox
         Left = 1
-        Top = 107
-        Width = 276
+        Top = 111
+        Width = 277
         Height = 78
         Align = alTop
         Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (mks)'
         TabOrder = 0
+        ExplicitTop = 107
         ExplicitWidth = 238
         object Label8: TLabel
           Left = 71
@@ -445,22 +588,21 @@ object FormLight: TFormLight
       object GroupBox3: TGroupBox
         Left = 1
         Top = 17
-        Width = 276
-        Height = 90
+        Width = 277
+        Height = 94
         Align = alTop
         Caption = #1047#1072#1076#1077#1088#1078#1082#1072
         TabOrder = 1
-        ExplicitWidth = 238
         object Label6: TLabel
           Left = 71
-          Top = 32
+          Top = 40
           Width = 11
           Height = 13
           Caption = '%'
         end
         object Label7: TLabel
           Left = 128
-          Top = 32
+          Top = 40
           Width = 61
           Height = 16
           Caption = '2111 mks'
@@ -473,7 +615,7 @@ object FormLight: TFormLight
         end
         object SpinEdit3: TSpinEdit
           Left = 4
-          Top = 27
+          Top = 35
           Width = 61
           Height = 22
           MaxValue = 50
@@ -486,15 +628,17 @@ object FormLight: TFormLight
     end
     object Panel10: TPanel
       Left = 1
-      Top = 4
-      Width = 229
-      Height = 203
-      Align = alLeft
+      Top = 1
+      Width = 280
+      Height = 196
+      Align = alClient
       TabOrder = 1
+      ExplicitTop = 4
+      ExplicitHeight = 222
       object Label5: TLabel
         Left = 1
         Top = 1
-        Width = 227
+        Width = 278
         Height = 16
         Align = alTop
         Alignment = taCenter
@@ -511,8 +655,8 @@ object FormLight: TFormLight
       object GroupBox1: TGroupBox
         Left = 1
         Top = 38
-        Width = 227
-        Height = 69
+        Width = 278
+        Height = 78
         Align = alTop
         Anchors = [akLeft, akTop, akRight, akBottom]
         Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103' 6700 mks'
@@ -521,21 +665,23 @@ object FormLight: TFormLight
           AlignWithMargins = True
           Left = 5
           Top = 18
-          Width = 217
-          Height = 46
+          Width = 268
+          Height = 55
           Align = alClient
           Max = 100
           Min = 1
+          Frequency = 4
           Position = 10
           TabOrder = 0
           OnChange = TrackBar3Change
+          ExplicitHeight = 45
         end
       end
       object GroupBox2: TGroupBox
         Left = 1
-        Top = 107
-        Width = 227
-        Height = 78
+        Top = 116
+        Width = 278
+        Height = 77
         Align = alTop
         Caption = #1059#1089#1080#1083#1077#1085#1080#1077' 10 db'
         TabOrder = 1
@@ -543,20 +689,22 @@ object FormLight: TFormLight
           AlignWithMargins = True
           Left = 5
           Top = 18
-          Width = 217
-          Height = 55
+          Width = 268
+          Height = 54
           Align = alClient
           Max = 41
           Min = 6
           Position = 6
           TabOrder = 0
           OnChange = TrackBar4Change
+          ExplicitWidth = 217
+          ExplicitHeight = 55
         end
       end
       object ComboBox1: TComboBox
         Left = 1
         Top = 17
-        Width = 227
+        Width = 278
         Height = 21
         Align = alTop
         TabOrder = 2
@@ -566,6 +714,7 @@ object FormLight: TFormLight
           '5 ms'
           '10 ms'
           '100 ms')
+        ExplicitWidth = 227
       end
     end
   end

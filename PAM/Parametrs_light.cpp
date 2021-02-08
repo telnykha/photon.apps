@@ -172,3 +172,43 @@ void __fastcall TFormLight::SpinEdit5Change(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+
+void __fastcall TFormLight::TrackBar8Change(TObject *Sender)
+{
+SpinEdit8->Value = TrackBar8->Position;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit8Change(TObject *Sender)
+{
+TrackBar8->Position = SpinEdit8->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::TrackBar9Change(TObject *Sender)
+{
+SpinEdit9->Value = TrackBar9->Position;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit9Change(TObject *Sender)
+{
+TrackBar9->Position = SpinEdit9->Value;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::TrackBar10Change(TObject *Sender)
+{
+SpinEdit10->Value = TrackBar10->Position;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormLight::SpinEdit10Change(TObject *Sender)
+{
+TrackBar10->Position = SpinEdit10->Value;
+}
+//---------------------------------------------------------------------------
+
+
+

@@ -32,12 +32,9 @@ __published:	// IDE-managed Components
 	TTrackBar *TrackBar2;
 	TSpinEdit *SpinEdit1;
 	TSpinEdit *SpinEdit2;
-	TLabel *Label1;
-	TLabel *Label2;
 	TPanel *Panel8;
 	TPanel *Panel9;
 	TSplitter *Splitter2;
-	TSplitter *Splitter3;
 	TLabel *Label3;
 	TPanel *Panel11;
 	TPanel *Panel10;
@@ -72,6 +69,20 @@ __published:	// IDE-managed Components
 	TSplitter *Splitter5;
 	TSpinEdit *SpinEdit6;
 	TSpinEdit *SpinEdit7;
+	TPanel *Panel20;
+	TPanel *Panel21;
+	TPanel *Panel22;
+	TPanel *Panel23;
+	TTrackBar *TrackBar8;
+	TTrackBar *TrackBar9;
+	TTrackBar *TrackBar10;
+	TSpinEdit *SpinEdit8;
+	TSpinEdit *SpinEdit9;
+	TSpinEdit *SpinEdit10;
+	TSplitter *Splitter6;
+	TLabel *Label1;
+	TLabel *Label2;
+	TLabel *Label10;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall TrackBar3Change(TObject *Sender);
 	void __fastcall SpinEdit4Change(TObject *Sender);
@@ -88,6 +99,12 @@ __published:	// IDE-managed Components
 	void __fastcall SpinEdit1Change(TObject *Sender);
 	void __fastcall TrackBar5Change(TObject *Sender);
 	void __fastcall SpinEdit5Change(TObject *Sender);
+	void __fastcall TrackBar8Change(TObject *Sender);
+	void __fastcall SpinEdit8Change(TObject *Sender);
+	void __fastcall TrackBar9Change(TObject *Sender);
+	void __fastcall SpinEdit9Change(TObject *Sender);
+	void __fastcall TrackBar10Change(TObject *Sender);
+	void __fastcall SpinEdit10Change(TObject *Sender);
 private:	// User declarations
 TCommandsTable* m_table;
 TPAMOptions 	m_light_options;
