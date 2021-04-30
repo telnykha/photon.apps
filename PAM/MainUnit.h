@@ -240,6 +240,7 @@ __published:	// IDE-managed Components
 	TAction *ShowMightex;
 	TAction *ShowPanelResult;
 	TAction *ShowPanelParametrs;
+	TSpeedButton *SpeedButton20;
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
@@ -332,6 +333,7 @@ __published:	// IDE-managed Components
 	void __fastcall ShowPanelResultUpdate(TObject *Sender);
 	void __fastcall ShowPanelParametrsExecute(TObject *Sender);
 	void __fastcall ShowPanelParametrsUpdate(TObject *Sender);
+	void __fastcall SpeedButton20Click(TObject *Sender);
 
 
 

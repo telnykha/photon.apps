@@ -2,6 +2,7 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "editorUnit.h"
+#include "Parametrs_light.h"
 
 #define FRAME_CAPTURE_TIME 70
 #define COMMAND_MIN_TIME   1
@@ -141,6 +142,12 @@ void __fastcall TeditorDlg::SetupControls()
 void __fastcall TeditorDlg::FormShow(TObject *Sender)
 {
     this->SetupControls();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TeditorDlg::ShowSettingsLightExecute(TObject *Sender)
+{
+  FormLight->Show();
 }
 //---------------------------------------------------------------------------
 

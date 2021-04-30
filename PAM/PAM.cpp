@@ -5,11 +5,12 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("PAMLongProcessUnit.cpp", PAMLongProcessForm);
-USEFORM("editorUnit.cpp", editorDlg);
+USEFORM("diff_table.cpp", Difficult_command);
 USEFORM("ABOUT.cpp", AboutBox);
 USEFORM("optionsUnit.cpp", OptionsDlg);
 USEFORM("MainUnit.cpp", mainPAM);
-USEFORM("diff_table.cpp", Difficult_command);
+USEFORM("editorUnit.cpp", editorDlg);
+USEFORM("Parametrs_light.cpp", FormLight);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -24,6 +25,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TeditorDlg), &editorDlg);
 		Application->CreateForm(__classid(TPAMLongProcessForm), &PAMLongProcessForm);
 		Application->CreateForm(__classid(TDifficult_command), &Difficult_command);
+		Application->CreateForm(__classid(TFormLight), &FormLight);
 		Application->Run();
 	}
 	catch (Exception &exception)
