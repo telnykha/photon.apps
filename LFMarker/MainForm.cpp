@@ -142,7 +142,7 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
             }
         }
     }
-    catch(...)
+	catch(...)
     {
 		Memo1->Lines->Add("ERROR: cannot open image " + strFileName);
     }
@@ -1036,7 +1036,7 @@ void __fastcall TForm1::DrawOverlaps(TCanvas* cnv)
             awpRect r1 = m_scanner.GetFragmentRect(j);
             TLFRect dr;
             dr.SetRect(r1);
-            float overlap = rr->RectOverlap(dr);
+			float overlap = rr->RectOverlap(dr);
             if (overlap > nearlest)
             {
               nearlest = overlap;
@@ -1077,7 +1077,7 @@ void __fastcall TForm1::Options1Click(TObject *Sender)
     {
         PagesDlg->ValueListEditor2->Strings->Clear();
         ILFScanner* scr = m_ObjectEngine.GetScanner();
-        for (int i = 0; i < scr->GetParamsCount(); i++)
+		for (int i = 0; i < scr->GetParamsCount(); i++)
         {
             TLFParameter*  param = scr->GetParameter(i);
             if (param)
@@ -1125,7 +1125,7 @@ void __fastcall TForm1::Options1Click(TObject *Sender)
 		   this->m_ObjectEngine.SetResize(PagesDlg->CheckBox3->Checked);
 		   this->m_ObjectEngine.SetBaseImageWidth(StrToInt(PagesDlg->Edit4->Text));
 		   this->DetectInRect = PagesDlg->CheckBox5->Checked;
-        }
+		}
 
 		Detect();
 	}
@@ -1133,17 +1133,17 @@ void __fastcall TForm1::Options1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 TLFScanner* __fastcall TForm1::GetScanner()
 {
-    return &this->m_scanner;
+	return &this->m_scanner;
 }
 
 void __fastcall TForm1::Detect()
 {
 	this->RepaintImage();
 
-    this->m_objects->Clear();
-    this->m_rois.Clear();
+	this->m_objects->Clear();
+	this->m_rois.Clear();
 
-    if (ToolButton8->Down)
+	if (ToolButton8->Down)
 	   this->ObjectDetectorHelper();
 
    DrawScene();
@@ -1151,7 +1151,7 @@ void __fastcall TForm1::Detect()
 void __fastcall TForm1::DbCopyActionExecute(TObject *Sender)
 {
 	if (DbCopyDlg->ShowModal() == mrOk)
-    {
+	{
 	   // Setup options
 	   copy_options.strPathToCopy = DbCopyDlg->Edit1->Text;
 	   copy_options.copyImages    = DbCopyDlg->CheckBox1->Checked;
@@ -1170,7 +1170,7 @@ void __fastcall TForm1::DbCopyActionExecute(TObject *Sender)
 	   }
 
 	   if (!DbCopyDlg->CheckBox1->Checked && !DbCopyDlg->CheckBox2->Checked &&
-       	   !DbCopyDlg->CheckBox5->Checked)
+		   !DbCopyDlg->CheckBox5->Checked)
 	   {
 		  ShowMessage("Nothing to do.");
 		  return;
@@ -1304,8 +1304,9 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 {
 	ModePaneActionExecute(NULL);
 	AnsiString str = DirectoryListBox1->Directory;
-	// open database
 /*
+	// open database
+
 	OpenDatabase(str.c_str());
 	if (FragmentForm->Visible)
 	{
@@ -1323,7 +1324,7 @@ void __fastcall TForm1::Panel1Resize(TObject *Sender)
 
 void __fastcall TForm1::DbClearSelectionActionExecute(TObject *Sender)
 {
-    // todo: clear selection
+	// todo: clear selection
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DtInfoActionExecute(TObject *Sender)
@@ -1487,7 +1488,7 @@ void __fastcall TForm1::FImage1MouseMove(TObject *Sender, TShiftState Shift, int
           int Y)
 {
 	// отображение текущей информации о местоположении мыши внутри изображения.
-    if (PhImage2->Empty)
+	if (PhImage2->Empty)
     	return;
     int x = PhImage2->GetImageX(X);
     int y = PhImage2->GetImageY(Y);
@@ -1569,7 +1570,7 @@ void __fastcall TForm1::ImageProcessingHelper(awpImage* pImage)
     Memo1->Lines->Add("FileName = " + strFileName);
 #endif
 
-      if (strExt != ".awp" && strExt != ".jpg" && strExt != ".jpeg")
+	  if (strExt != ".awp" && strExt != ".jpg" && strExt != ".jpeg")
           strFileName = ChangeFileExt(strFileName, ".awp");
 
       if (awpSaveImage(strFileName.c_str(), pImage) == AWP_OK)
@@ -1651,7 +1652,7 @@ void __fastcall TForm1::ImageMirrorActionExecute(TObject *Sender)
     PhImage2->GetAwpImage(&pImage);
     if (pImage != NULL)
     {
-      if (awpFlip(&pImage, AWP_FLIP_HRZT) == AWP_OK)
+	  if (awpFlip(&pImage, AWP_FLIP_HRZT) == AWP_OK)
       	ImageProcessingHelper(pImage);
       else
        Memo1->Lines->Add("ERROR: cannot mirror image.");
@@ -1692,7 +1693,7 @@ void __fastcall TForm1::ImageFlipActionUpdate(TObject *Sender)
 void __fastcall TForm1::Flip1Click(TObject *Sender)
 {
         if (!RemoveMarkupHelper())
-             return;
+			 return;
 
         //FlipHelper
         awpImage* pImage = NULL;
@@ -1733,7 +1734,7 @@ void __fastcall TForm1::FlipLeft1Click(TObject *Sender)
     {
       if (awpFlip(&pImage, AWP_FLIP_LEFT) == AWP_OK)
       	ImageProcessingHelper(pImage);
-      else
+	  else
        Memo1->Lines->Add("ERROR: flip left image.");
       awpReleaseImage(&pImage);
     }
@@ -1774,7 +1775,7 @@ void __fastcall TForm1::ImageRotateActionExecute(TObject *Sender)
 {
     RotateDlg->CSpinEdit1->Value = 0;
     if (RotateDlg->ShowModal() != mrOk)
-       return;
+	   return;
 
     if (!RemoveMarkupHelper())
          return;
@@ -1815,7 +1816,7 @@ void __fastcall TForm1::ImageSobelActionExecute(TObject *Sender)
        	  if (awpCreateImage(&imgAmpl, pImage->sSizeX, pImage->sSizeY, pImage->bChannels, AWP_BYTE) != AWP_OK)
           	throw Exception("Cannot create image");
        	  if (awpCreateImage(&imgDir, pImage->sSizeX, pImage->sSizeY, pImage->bChannels, AWP_BYTE) != AWP_OK)
-          	throw Exception("Cannot create image");
+			throw Exception("Cannot create image");
           if (awpEdgeSobel(pImage, imgAmpl, NULL) == AWP_OK)
             ImageProcessingHelper(imgAmpl);
           else
@@ -1856,7 +1857,7 @@ void __fastcall TForm1::ImageFilterActionExecute(TObject *Sender)
       else
        Memo1->Lines->Add("ERROR: linear image filtering.");
       awpReleaseImage(&pImage);
-      awpReleaseImage(&dst);
+	  awpReleaseImage(&dst);
     }
 }
 //---------------------------------------------------------------------------
@@ -1979,7 +1980,7 @@ void __fastcall TForm1::PageControl1Change(TObject *Sender)
        		ModeMarkRectActionExecute(NULL);
     }
     else
-    {
+	{
        TableVisible = TableForm->Visible;
        FragmentsVisible = FragmentForm->Visible;
        m_markToolSelected = ModeMarkRectAction->Checked;
@@ -2020,7 +2021,7 @@ void __fastcall TForm1::UpdateDbView()
         str += LFGetFileExt(d->GetImageFile());
         ListItem = DbView->Items->Add();
         ListItem->Caption = str.c_str();
-        ListItem->SubItems->Add(d->GetCount());
+		ListItem->SubItems->Add(d->GetCount());
     }
     DbView->Columns->Items[0]->Width = -1;
 }
@@ -2034,11 +2035,12 @@ void __fastcall TForm1::DbViewSelectItem(TObject *Sender, TListItem *Item, bool 
 	str += Item->Caption;
 	m_strFileName = str;
 	UnicodeString strFileName = ExtractFileName(Item->Caption);
-	int idx = FileListBox1->Items->IndexOf(strFileName);
+	InitImageFile(m_strFileName);
 
-	FileListBox1->Selected[idx] = true;
-    if (m_strFileName != "")
-         InitImageFile(m_strFileName);
+ //	int idx = FileListBox1->Items->IndexOf(strFileName);
+ //	FileListBox1->Selected[idx] = true;
+ //   if (m_strFileName != "")
+ //        InitImageFile(m_strFileName);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::PhImage2AfterOpen(TObject *Sender)
@@ -2061,7 +2063,7 @@ void __fastcall TForm1::PhImage2AfterOpen(TObject *Sender)
         FragmentForm->SDescriptor = &this->m_Descr;
      }
 
-    Detect();
+	Detect();
 
 }
 //---------------------------------------------------------------------------
@@ -2143,7 +2145,7 @@ void __fastcall TForm1::DbClearActionUpdate(TObject *Sender)
 void __fastcall TForm1::ToolChange(TObject *Sender)
 {
     TPhImageMarkTool* tool = (TPhImageMarkTool*)Sender;
-    m_Descr.LoadXML(tool->DescrFile.c_str());
+	m_Descr.LoadXML(tool->DescrFile.c_str());
 	TableForm->UpdateTable();
 	if (DbView->ItemIndex >= 0)
 	{
@@ -2223,8 +2225,14 @@ void __fastcall TForm1::DbOpenActionExecute(TObject *Sender)
 {
 	if (OpenDialog1->Execute())
 	{
-        // try to open database
-	}}
+        AnsiString str = ExtractFileDir(OpenDialog1->FileName);
+		//open database
+		OpenDatabase(str.c_str());
+		if (FragmentForm->Visible)
+		{
+			FragmentForm->ChangeDictonary();
+		}
+	}
+}
 //---------------------------------------------------------------------------
-
 

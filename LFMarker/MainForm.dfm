@@ -213,7 +213,7 @@ object Form1: TForm1
         Top = 1
         Width = 342
         Height = 425
-        ActivePage = TabSheet1
+        ActivePage = TabSheet3
         Align = alClient
         TabOrder = 0
         TabPosition = tpBottom
@@ -823,7 +823,7 @@ object Form1: TForm1
     Left = 704
     Top = 48
     object CloseAction: TAction
-      Category = 'newcategory'
+      Category = 'File'
       Caption = 'Exit'
       Hint = 'Exit from program'
       OnExecute = CloseActionExecute

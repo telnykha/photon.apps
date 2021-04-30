@@ -56,6 +56,8 @@ object MainForm: TMainForm
     OnProgress = PhImage1Progress
     OnFinish = PhImage1Finish
     OnFrameData = PhImage1FrameData
+    ExplicitLeft = 88
+    ExplicitTop = 61
   end
   object ToolBar1: TToolBar
     AlignWithMargins = True

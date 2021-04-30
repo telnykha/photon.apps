@@ -9,6 +9,9 @@
         <Projects Include="PRI\pri.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\awpipl2\borland\awpipl2b.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="pri:Make">
         <MSBuild Projects="PRI\pri.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="awpipl2b">
+        <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj"/>
+    </Target>
+    <Target Name="awpipl2b:Clean">
+        <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awpipl2b:Make">
+        <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="PAM;pri"/>
+        <CallTarget Targets="PAM;pri;awpipl2b"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="PAM:Clean;pri:Clean"/>
+        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="PAM:Make;pri:Make"/>
+        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

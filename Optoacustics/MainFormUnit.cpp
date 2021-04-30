@@ -141,7 +141,7 @@ void TMainForm::ShowLeftDockPanel(TWinControl* APanel, bool MakeVisible, TContro
 void __fastcall TMainForm::LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source,
           int X, int Y, TDragState State, bool &Accept)
 {
-   Accept = (Source->Control) != NULL;
+  Accept = (Source->Control) != NULL;
   if (Accept)
   {
 	// Modify the DockRect to preview dock area.

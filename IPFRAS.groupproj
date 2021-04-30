@@ -12,6 +12,18 @@
         <Projects Include="..\photon41\photon41.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PAM2\pam2.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PAM2\ComPort\ComPort.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PAM2\ComPort\Comtest.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +59,50 @@
     <Target Name="photon41:Make">
         <MSBuild Projects="..\photon41\photon41.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="pam2">
+        <MSBuild Projects="PAM2\pam2.cbproj"/>
+    </Target>
+    <Target Name="pam2:Clean">
+        <MSBuild Projects="PAM2\pam2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pam2:Make">
+        <MSBuild Projects="PAM2\pam2.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ComPort">
+        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj"/>
+    </Target>
+    <Target Name="ComPort:Clean">
+        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ComPort:Make">
+        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Comtest">
+        <MSBuild Projects="PAM2\ComPort\Comtest.cbproj"/>
+    </Target>
+    <Target Name="Comtest:Clean">
+        <MSBuild Projects="PAM2\ComPort\Comtest.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Comtest:Make">
+        <MSBuild Projects="PAM2\ComPort\Comtest.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Fluovisor2;Optoacustics;photon41"/>
+        <CallTarget Targets="Fluovisor2;Optoacustics;photon41;awplflibb;pam2;ComPort;Comtest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Fluovisor2:Clean;Optoacustics:Clean;photon41:Clean"/>
+        <CallTarget Targets="Fluovisor2:Clean;Optoacustics:Clean;photon41:Clean;awplflibb:Clean;pam2:Clean;ComPort:Clean;Comtest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Fluovisor2:Make;Optoacustics:Make;photon41:Make"/>
+        <CallTarget Targets="Fluovisor2:Make;Optoacustics:Make;photon41:Make;awplflibb:Make;pam2:Make;ComPort:Make;Comtest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
