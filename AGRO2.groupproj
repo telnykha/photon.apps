@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{CF48EDF3-E034-4FAA-809C-59A8DD8D89E5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PAM2\pam2.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PAM2\ComPort\ComPort.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="pam2">
+        <MSBuild Projects="PAM2\pam2.cbproj"/>
+    </Target>
+    <Target Name="pam2:Clean">
+        <MSBuild Projects="PAM2\pam2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pam2:Make">
+        <MSBuild Projects="PAM2\pam2.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ComPort">
+        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj"/>
+    </Target>
+    <Target Name="ComPort:Clean">
+        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ComPort:Make">
+        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="pam2;ComPort"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="pam2:Clean;ComPort:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="pam2:Make;ComPort:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

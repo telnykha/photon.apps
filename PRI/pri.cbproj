@@ -58,10 +58,10 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>pri</SanitizedProjectName>
-        <IncludePath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41);$(LF)\include;$(AWP)\include;$(TINY);$(AWP)\include\_include;..\..\photon.apps\common\mightex\mightex;$(DOWNLOAD);$(IncludePath)</IncludePath>
+        <IncludePath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\photon;$(LF)\include;$(AWP)\include;$(TINY);$(AWP)\include\_include;..\..\photon.apps\common\mightex\mightex;$(DOWNLOAD);$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=P.R.I.;FileVersion=1.2.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2020 NN-Videolab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.2.0.0;Comments=e-mail: telnykha@yahoo.com      phone: +7(960) 198-05-88</VerInfo_Keys>
-        <ILINK_LibraryPath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\lib;$(TINY)\lib;$(AWP)\lib;$(LF)\lib;$(JPEG)\lib;..\..\bin;..\common\mightex\mightex;$(DOWNLOAD);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\common\;$(BDS)\ObjRepos\EN\Cpp\;$(PHOTON41)\lib;$(TINY)\lib;$(AWP)\lib;$(LF)\lib;..\..\bin;..\common\mightex\mightex;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MinorVer>2</VerInfo_MinorVer>
     </PropertyGroup>

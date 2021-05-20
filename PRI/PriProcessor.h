@@ -19,7 +19,6 @@ protected:
 	TLFImage m_531;
 	TLFImage m_570b;
 	TLFImage m_531b;
-                 15a b
 	awpImage* GetPri();
 	awpImage* Get_570();
 	awpImage* Get_570b();
