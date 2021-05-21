@@ -122,6 +122,10 @@
             <DependentOn>Nodes\pam2DocINode.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Nodes\pam2DocScriptNode.cpp">
+            <DependentOn>Nodes\pam2DocScriptNode.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Nodes\pam2DocTimeNode.cpp">
             <DependentOn>Nodes\pam2DocTimeNode.h</DependentOn>
             <BuildOrder>13</BuildOrder>
@@ -191,15 +195,15 @@
             <DependentOn>pamTimeLineUnit.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
-        <FormResources Include="pamOptionsUnit.dfm"/>
         <FormResources Include="pamMainUnit.dfm"/>
         <FormResources Include="pamExperimentUnit.dfm"/>
+        <FormResources Include="pamOptionsUnit.dfm"/>
         <FormResources Include="pamTimeLineUnit.dfm"/>
         <FormResources Include="pamScriptUnit.dfm"/>
         <FormResources Include="pamResultUnit.dfm"/>
-        <FormResources Include="pamAboutUnit.dfm"/>
         <FormResources Include="pamDistributionUnit.dfm"/>
         <FormResources Include="pamConsoleUnit.dfm"/>
+        <FormResources Include="pamAboutUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

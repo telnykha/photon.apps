@@ -24,3 +24,29 @@ const char* TLFpam2docTimeNode::GetName()
 {
 	return "TLFpam2docTimeNode";
 }
+
+TDateTime __fastcall TLFpam2docTimeNode::GetStartTime()
+{
+	return this->m_startTime;
+}
+TDateTime __fastcall TLFpam2docTimeNode::GetStopTime()
+{
+	return this->m_stopTime;
+}
+EPam2Modes __fastcall TLFpam2docTimeNode::GetMode()
+{
+	return this->m_mode;
+}
+
+void __fastcall TLFpam2docTimeNode::SetStartTime(TDateTime t)
+{
+	this->m_startTime = t;
+}
+void __fastcall TLFpam2docTimeNode::SetStopTime(TDateTime t)
+{
+	this->m_stopTime = t;
+}
+void __fastcall TLFpam2docTimeNode::SetMode(EPam2Modes mode)
+{
+    this->m_mode = mode;
+}
