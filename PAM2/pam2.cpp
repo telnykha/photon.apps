@@ -4,15 +4,15 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+USEFORM("pamOptionsUnit.cpp", pam2OptionsForm);
 USEFORM("pamMainUnit.cpp", pamMainForm);
-USEFORM("pamConsoleUnit.cpp", ConsoleForm);
-USEFORM("pamAboutUnit.cpp", AboutBox);
-USEFORM("pamResultUnit.cpp", pam2ResultForm);
-USEFORM("pamScriptUnit.cpp", pam2ScriptForm);
-USEFORM("pamDistributionUnit.cpp", pam2DistributionForm);
 USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
 USEFORM("pamTimeLineUnit.cpp", pam2TimeLineForm);
-USEFORM("pamOptionsUnit.cpp", pam2OptionsForm);
+USEFORM("pamScriptUnit.cpp", pam2ScriptForm);
+USEFORM("pamResultUnit.cpp", pam2ResultForm);
+USEFORM("pamAboutUnit.cpp", AboutBox);
+USEFORM("pamDistributionUnit.cpp", pam2DistributionForm);
+USEFORM("pamConsoleUnit.cpp", ConsoleForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

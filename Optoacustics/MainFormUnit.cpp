@@ -613,7 +613,7 @@ void TMainForm::ProcessImages()
 			awpImage* to_save =  result_image;//Colorize(result_image);
 			AnsiString s = resultDir + IntToStr(TIFF_NUM_DIRS-i) + ".awp";
 			awpSaveImage(s.c_str(), to_save);
-			_AWP_SAFE_RELEASE_(to_save)
+			//_AWP_SAFE_RELEASE_(to_save)
 			_AWP_SAFE_RELEASE_(result_image)
 		}
 
