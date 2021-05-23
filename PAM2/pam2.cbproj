@@ -58,8 +58,8 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>pam2</SanitizedProjectName>
-        <IncludePath>Nodes\;ComPort\;..\..\photon41\photon\;..\common\;$(PHOTON41)\photon\;$(TINY);$(AWP)\include;$(PHOTON41)\photon\include;$(LF)\include;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>Nodes\;ComPort\;..\..\photon41\photon\;..\..\photon.research\common\;..\common\;$(PHOTON41)\photon\lib;$(TINY)\lib;$(AWP)\lib;$(BDS)\lib\win32\debug\;$(LF)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>Nodes\;ComPort\;..\..\photon41\photon\;..\common\;$(PHOTON41)\photon\;$(TINY);$(AWP)\include;$(PHOTON41)\photon\include;$(LF)\include;..\common\Mightex\Mightex;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>Nodes\;ComPort\;..\..\photon41\photon\;..\..\photon.research\common\;..\common\;$(PHOTON41)\photon\lib;$(TINY)\lib;$(AWP)\lib;$(BDS)\lib\win32\debug\;$(LF)\lib;..\..\photon.apps\common\Mightex\Mightex;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>

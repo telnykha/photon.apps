@@ -130,18 +130,21 @@ __published:	// IDE-managed Components
 	void __fastcall fileSaveExperimentActionExecute(TObject *Sender);
 	void __fastcall fileSaveExperimentActionUpdate(TObject *Sender);
 	void __fastcall windowConsoleActionUpdate(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 
 
 private:	// User declarations
 	AnsiString rs;
+	TPam2Document m_pam2Doc;
+    int             m_camera;
+    int				m_numCameras;
 
-    TPam2Document m_pam2Doc;
 
+    bool OpenCamera();
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
-
-
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
+	void __fastcall PreviewFrame(int width, int height, unsigned char* data, int cameraID);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

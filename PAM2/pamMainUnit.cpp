@@ -14,16 +14,40 @@
 #include "pamTimeLineUnit.h"
 #include "pamOptionsUnit.h"
 
+
+#include "Buf_USBCCDCamera_SDK.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
 #pragma link "Comm"
 #pragma resource "*.dfm"
+
+#pragma link "BUF_USBCCDCamera_SDK_b.lib"
+
+
 TpamMainForm *pamMainForm;
+
+
+void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
+{
+	 if (pamMainForm != NULL)
+     {
+        MSG msg;
+        if(GetMessage(&msg,NULL,NULL,NULL))
+        {
+				TranslateMessage(&msg);
+                DispatchMessage(&msg);
+        }
+		pamMainForm->PreviewFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
+	 }
+}
+
 //---------------------------------------------------------------------------
 __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	: TForm(Owner)
 {
+	m_camera = 0;
+	m_numCameras = 0;
 }
 void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
 {
@@ -140,6 +164,11 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 	Comm1->Open();
 	Comm1->SetRTSState(true);
 	Comm1->SetDTRState(true);
+
+	if (!OpenCamera())
+	{
+		ShowMessage("Не подключена видеокамера!");
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
@@ -361,7 +390,57 @@ void __fastcall TpamMainForm::fileSaveExperimentActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::windowConsoleActionUpdate(TObject *Sender)
 {
-    windowConsoleAction->Checked = ConsoleForm->Visible;
+	windowConsoleAction->Checked = ConsoleForm->Visible;
+}
+//---------------------------------------------------------------------------
+bool TpamMainForm::OpenCamera()
+{
+	bool result = false;
+	m_numCameras = BUFCCDUSB_InitDevice();
+	if (m_numCameras == 0)
+		return false;
+
+	m_camera = 1;
+	BUFCCDUSB_AddDeviceToWorkingSet(m_camera);
+	BUFCCDUSB_InstallFrameHooker( 0, CamHook );
+	BUFCCDUSB_StartCameraEngine(this->Handle, 12);
+	BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+	BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+
+	return true;
+}
+
+void __fastcall TpamMainForm::PreviewFrame(int width, int height, unsigned char* data, int cameraID)
+{
+	int bits = 1;//this->m_pInitFile->inputData;
+    int type = bits == 0 ? AWP_BYTE:AWP_DOUBLE;
+    int size = bits == 0 ? sizeof(AWPBYTE):sizeof(AWPDOUBLE);
+    awpImage* img = NULL;
+    if (cameraID == 1)
+    {
+       awpCreateImage(&img, width, height, 1, AWP_BYTE);
+       AWPBYTE* dst = (AWPBYTE*)img->pPixels;
+       int x,y, i=0;
+       for (x = 0; x < width; x++)
+       {
+           for (y = 0; y < height; y++)
+           {
+               AWPWORD value = data[2*y + 2*x*height+ 1];
+               AWPWORD v2 = data[2*y + 2*x*height];
+			   v2 = v2 << 4;
+               value |= v2;
+			   dst[i] = 255*(float)value/4096.;
+               i++;
+           }
+
+       }
+        PhImage1->SetAwpImage(img);
+        awpReleaseImage(&img);
+    }
+}
+void __fastcall TpamMainForm::FormClose(TObject *Sender, TCloseAction &Action)
+{
+       BUFCCDUSB_UnInitDevice();
 }
 //---------------------------------------------------------------------------
 

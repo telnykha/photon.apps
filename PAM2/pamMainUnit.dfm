@@ -13,6 +13,7 @@ object pamMainForm: TpamMainForm
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -62,7 +63,6 @@ object pamMainForm: TpamMainForm
     OnDockDrop = LeftDocPanelDockDrop
     OnDockOver = LeftDocPanelDockOver
     OnUnDock = LeftDocPanelUnDock
-    ExplicitHeight = 418
   end
   object PhImage1: TPhImage
     Left = 8
@@ -75,7 +75,6 @@ object pamMainForm: TpamMainForm
     SlideShowInterval = 500
     Align = alClient
     ParentColor = False
-    ExplicitHeight = 418
   end
   object RightDocPanel: TPanel
     Left = 758
@@ -88,7 +87,6 @@ object pamMainForm: TpamMainForm
     OnDockDrop = RightDocPanelDockDrop
     OnDockOver = RightDocPanelDockOver
     OnUnDock = RightDocPanelUnDock
-    ExplicitHeight = 418
   end
   object BottomDocPanel: TPanel
     Left = 0
@@ -101,7 +99,6 @@ object pamMainForm: TpamMainForm
     OnDockDrop = BottomDocPanelDockDrop
     OnDockOver = BottomDocPanelDockOver
     OnUnDock = BottomDocPanelUnDock
-    ExplicitTop = 450
   end
   object MainMenu1: TMainMenu
     Left = 528

@@ -18,7 +18,7 @@
   SATURATION(br,t)- насыщающий свет яркостью br на время t в миллисекундах 
   ADDITIONAL(br,t)- дополнительный свет яркостью br на время t в миллисекундах
   FLASH(t)         - кадр во время насыщающей вспышки t - длительность вспышки в % от времени экспозиции
-  DARK             - темновой кадр
+  DARK             - темновой кадр, выключаются все светодиоды и включается видеокамера. 
   F0               - 
   FM               -
   FT               - 
@@ -29,7 +29,7 @@
 
 #define BLUE_PIN    9
 #define RED_PIN     10
-#define CAMERA_PIN  12
+#define CAMERA_PIN  11
 
 #define __SWITCH_OFF__ \
       SBLUE = LOW;\
@@ -314,8 +314,15 @@ void _pamFlash(int t)
 {
     __SWITCH_OFF__
 
-    Serial.println("FLASH UNDER CONSRUCTION");
+    digitalWrite(CAMERA_PIN, HIGH);
+    delayMicroseconds(20);
+    digitalWrite(BLUE_PIN, HIGH);
+    delayMicroseconds(t);
+    digitalWrite(BLUE_PIN, LOW);
+    digitalWrite(CAMERA_PIN, LOW);
     
+
+    Serial.println("FLASH UNDER CONSRUCTION");    
 }
 /*темновой кадр
 */

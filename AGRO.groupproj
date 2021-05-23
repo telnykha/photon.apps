@@ -12,6 +12,9 @@
         <Projects Include="..\..\awpipl2\borland\awpipl2b.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="PAM2\pam2.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="awpipl2b:Make">
         <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="pam2">
+        <MSBuild Projects="PAM2\pam2.cbproj"/>
+    </Target>
+    <Target Name="pam2:Clean">
+        <MSBuild Projects="PAM2\pam2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pam2:Make">
+        <MSBuild Projects="PAM2\pam2.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="PAM;pri;awpipl2b"/>
+        <CallTarget Targets="PAM;pri;awpipl2b;pam2"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean"/>
+        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make"/>
+        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

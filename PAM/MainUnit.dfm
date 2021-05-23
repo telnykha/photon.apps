@@ -306,7 +306,7 @@
     Top = 81
     Width = 799
     Height = 474
-    ActivePage = Сложные_команды
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 3
     OnChange = PageControl1Change
@@ -1183,7 +1183,6 @@
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = 338
       ExplicitWidth = 83
     end
     object Label2: TLabel
