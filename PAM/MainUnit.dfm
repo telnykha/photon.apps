@@ -312,6 +312,10 @@
     OnChange = PageControl1Change
     object TabSheet1: TTabSheet
       Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object StringGrid1: TStringGrid
         Left = 0
         Top = 41
@@ -473,6 +477,10 @@
     object Архив: TTabSheet
       Caption = #1040#1088#1093#1080#1074
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Splitter3: TSplitter
         Left = 179
         Top = 0
@@ -1103,10 +1111,18 @@
           TabOrder = 0
           object График: TTabSheet
             Caption = #1043#1088#1072#1092#1080#1082
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
           end
           object Таблица: TTabSheet
             Caption = #1058#1072#1073#1083#1080#1094#1072
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object StringGrid4: TStringGrid
               Left = 0
               Top = 0

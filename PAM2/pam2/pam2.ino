@@ -1,4 +1,4 @@
-/*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           /*
   PAM2 controller firmware
   
   Команды управления устройством
@@ -19,7 +19,7 @@
   ADDITIONAL(br,t)- дополнительный свет яркостью br на время t в миллисекундах
   FLASH(t)         - кадр во время насыщающей вспышки t - длительность вспышки в % от времени экспозиции
   DARK             - темновой кадр, выключаются все светодиоды и включается видеокамера. 
-  F0               - 
+  F0()             - 
   FM               -
   FT               - 
   FT1              -
@@ -306,6 +306,8 @@ void _pamAdditional(int brightness, unsigned int duration)
 void pamFlash(String command)
 {
     _pamFlash(50);
+
+    Serial.println("FLASH UNDER CONSRUCTION");    
 }
 
 /* измерительная вспышка. 
@@ -320,9 +322,6 @@ void _pamFlash(int t)
     delayMicroseconds(t);
     digitalWrite(BLUE_PIN, LOW);
     digitalWrite(CAMERA_PIN, LOW);
-    
-
-    Serial.println("FLASH UNDER CONSRUCTION");    
 }
 /*темновой кадр
 */

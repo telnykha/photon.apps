@@ -42,9 +42,7 @@ object pam2ResultForm: Tpam2ResultForm
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 192
-    ExplicitTop = 96
-    ExplicitHeight = 41
+    Visible = False
     object CheckListBox1: TCheckListBox
       AlignWithMargins = True
       Left = 3
@@ -54,10 +52,7 @@ object pam2ResultForm: Tpam2ResultForm
       Align = alClient
       ItemHeight = 13
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 145
-      ExplicitHeight = 127
+      Visible = False
     end
   end
   object Panel3: TPanel
@@ -68,10 +63,6 @@ object pam2ResultForm: Tpam2ResultForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 328
-    ExplicitTop = 88
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Chart1: TChart
       AlignWithMargins = True
       Left = 3
@@ -79,13 +70,12 @@ object pam2ResultForm: Tpam2ResultForm
       Width = 381
       Height = 121
       Legend.Visible = False
+      Title.Text.Strings = (
+        'TChart')
       View3D = False
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitTop = 0
-      ExplicitWidth = 384
-      ExplicitHeight = 127
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 13
       object Series1: TLineSeries

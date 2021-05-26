@@ -13,13 +13,14 @@
 #include "pamExperimentUnit.h"
 #include "pamTimeLineUnit.h"
 #include "pamOptionsUnit.h"
-
+#include "pamHardwareUnit.h"
 
 #include "Buf_USBCCDCamera_SDK.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
 #pragma link "Comm"
+#pragma link "PhPalette"
 #pragma resource "*.dfm"
 
 #pragma link "BUF_USBCCDCamera_SDK_b.lib"
@@ -48,6 +49,8 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 {
 	m_camera = 0;
 	m_numCameras = 0;
+	m_videoMode = pam2videoCommands;
+    m_Flash = 20;
 }
 void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
 {
@@ -160,15 +163,29 @@ void __fastcall TpamMainForm::BottomDocPanelUnDock(TObject *Sender, TControl *Cl
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 {
-	Comm1->DeviceName = L"COM5";
-	Comm1->Open();
-	Comm1->SetRTSState(true);
-	Comm1->SetDTRState(true);
-
+	bool hardware_ready = true;
+	try
+	{
+		Comm1->DeviceName = L"COM5";
+		Comm1->Open();
+		Comm1->SetRTSState(true);
+		Comm1->SetDTRState(true);
+	}
+	catch(Exception& e)
+	{
+		ShowMessage(e.Message);
+		hardware_ready = false;
+	}
 	if (!OpenCamera())
 	{
 		ShowMessage("Не подключена видеокамера!");
+		hardware_ready = false;
 	}
+	/*	Устанавливаем режим настройки, в случае когда все оборудование
+		обнаружено и работает без ошибок. в
+	*/
+	SetMode(hardware_ready?pam2Tuning:pam2Analysis);
+    SetVideoMode(pam2videoCommands);
 }
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
@@ -433,14 +450,283 @@ void __fastcall TpamMainForm::PreviewFrame(int width, int height, unsigned char*
                i++;
            }
 
-       }
-        PhImage1->SetAwpImage(img);
-        awpReleaseImage(&img);
-    }
+	   }
+	   awpImage* pal = (awpImage*)PhPalette1->ApplyPalette((void*)img);
+	   if (pal != NULL) {
+		   PhImage1->SetAwpImage(pal);
+		   awpReleaseImage(&pal);
+	   }
+	   else
+		   PhImage1->SetAwpImage(img);
+	   awpReleaseImage(&img);
+	}
 }
 void __fastcall TpamMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
        BUFCCDUSB_UnInitDevice();
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::modeLiveVideoExecute(TObject *Sender)
+{
+	SetVideoMode(pam2videoLive);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::modeLiveVideoUpdate(TObject *Sender)
+{
+	modeLiveVideo->Checked = m_videoMode == pam2videoLive;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::modeFlashActionExecute(TObject *Sender)
+{
+	SetVideoMode(pam2videoFlash);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::modeFlashActionUpdate(TObject *Sender)
+{
+	modeFlashAction->Checked = m_videoMode == pam2videoFlash;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::modeCommandsActionExecute(TObject *Sender)
+{
+   SetVideoMode(pam2videoCommands);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::modeCommandsActionUpdate(TObject *Sender)
+{
+	modeCommandsAction->Checked = m_videoMode == pam2videoCommands;
+}
+//---------------------------------------------------------------------------
+// typedef enum {pam2Tuning, pam2Capture, pam2Analysis}EPam2Modes;
+static UnicodeString EPam2ModeToString(EPam2Modes mode)
+{
+	if (mode == pam2Tuning)
+		return L"настройка";
+
+	if (mode == pam2Capture)
+		return L"измерение";
+
+	if (mode == pam2Analysis)
+		return L"анализ";
+}
+
+void __fastcall TpamMainForm::SetMode(EPam2Modes mode)
+{
+	m_mode = mode;
+	StatusBar1->Panels->Items[0]->Text = L"Режим: " + EPam2ModeToString(m_mode);
+}
+
+static UnicodeString EPam2VideoModesToString(EPam2VideoModes mode)
+{
+	if (mode == pam2videoLive)
+		return L" видео";
+
+	if (mode == pam2videoFlash)
+		return L"вспышки";
+
+	if (mode == pam2videoCommands)
+		return L"команды";
+}
+
+void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
+{
+	  Timer1->Enabled = false;
+
+	  m_videoMode = mode;
+	  BUFCCDUSB_StopFrameGrab();
+	  if (m_videoMode == pam2videoLive)
+	  {
+		// запускаем живое видео
+		BUFCCDUSB_SetCameraWorkMode(m_camera, 0);
+        BUFCCDUSB_SetFrameTime( m_camera, 2500);
+	  }
+	  else if (m_videoMode == pam2videoFlash)
+	  {
+		// запускаем таймер
+		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+		Timer1->Enabled = true;
+	  }
+	  else if (m_videoMode == pam2videoCommands)
+	  {
+		// запускаем командный режим.
+		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+	  }
+
+	  BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+	  StatusBar1->Panels->Items[1]->Text = L"Визуализация: " + EPam2VideoModesToString(m_videoMode);
+}
+
+void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
+{
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "FLASH(50)";
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteScaleActionExecute(TObject *Sender)
+{
+	PhPalette1->TicksVisible = !PhPalette1->TicksVisible;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteScaleActionUpdate(TObject *Sender)
+{
+	paletteScaleAction->Checked = PhPalette1->TicksVisible;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::plaetteGrayscaleActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalGrayscale;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::plaetteGrayscaleActionUpdate(TObject *Sender)
+{
+	plaetteGrayscaleAction->Checked = PhPalette1->PaletteType == phpalGrayscale;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteOceanActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalOcean;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteOceanActionUpdate(TObject *Sender)
+{
+	paletteOceanAction->Checked = PhPalette1->PaletteType == phpalOcean;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteGlowActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalGlow;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteGlowActionUpdate(TObject *Sender)
+{
+	paletteGlowAction->Checked = PhPalette1->PaletteType == phpalGlow;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteRedBlueActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalBluered;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteRedBlueActionUpdate(TObject *Sender)
+{
+	paletteRedBlueAction->Checked = PhPalette1->PaletteType == phpalBluered;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteTrafficActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalTraffic;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteTrafficActionUpdate(TObject *Sender)
+{
+	paletteTrafficAction->Checked = PhPalette1->PaletteType == phpalTraffic;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteSpecturmActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalSpectum;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteSpecturmActionUpdate(TObject *Sender)
+{
+	paletteSpecturmAction->Checked = PhPalette1->PaletteType == phpalSpectum;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteSpectrum2ActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalSpectrum2;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteSpectrum2ActionUpdate(TObject *Sender)
+{
+	paletteSpectrum2Action->Checked = PhPalette1->PaletteType == phpalSpectrum2;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteFalseColorsActionExecute(TObject *Sender)
+{
+	PhPalette1->PaletteType = phpalFalseColors;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::paletteFalseColorsActionUpdate(TObject *Sender)
+{
+	paletteFalseColorsAction->Checked = PhPalette1->PaletteType == phpalFalseColors;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::windowHardwareActionExecute(TObject *Sender)
+{
+    pam2HardwareForm->Visible = !pam2HardwareForm->Visible;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::windowHardwareActionUpdate(TObject *Sender)
+{
+	windowHardwareAction->Checked = pam2HardwareForm->Visible;
+}
+//---------------------------------------------------------------------------
+void __fastcall TpamMainForm::SetExposure(int value)
+{
+	int exp_units = value / 50;
+	if (BUFCCDUSB_SetExposureTime(m_camera, exp_units) == -1)
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить экспозицю. Подключите видеокамеру Mightex.");
+	else
+	{
+		char wb[256] ;
+		int i ;
+		if (Comm1->Enabled())
+		{
+			AnsiString str = "EXP=";
+			str += IntToStr(value);
+			sprintf(wb,"%s",str.c_str());
+			i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+		}
+	}
+}
+
+void __fastcall TpamMainForm::SetGain(int value)
+{
+	int v = value;
+	if (BUFCCDUSB_SetGains(m_camera, v , v, v) == -1)
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить усиление. Подключите видеокамеру Mightex.");
+}
+
+void __fastcall TpamMainForm::SetFlash(int value)
+{
+	if (value < 10 || value > 50) {
+        return;
+	}
+	m_Flash = value;
+}
+
+
+
 

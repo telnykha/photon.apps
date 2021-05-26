@@ -1,8 +1,8 @@
 object pamMainForm: TpamMainForm
   Left = 0
   Top = 0
-  Caption = 'PAM2'
-  ClientHeight = 477
+  Caption = '+++++++'
+  ClientHeight = 484
   ClientWidth = 763
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,88 +17,137 @@ object pamMainForm: TpamMainForm
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Splitter1: TSplitter
-    Left = 5
-    Top = 29
-    Height = 437
-    ExplicitLeft = 272
-    ExplicitTop = 152
-    ExplicitHeight = 100
-  end
-  object Splitter2: TSplitter
-    Left = 755
-    Top = 29
-    Height = 437
-    Align = alRight
-    ExplicitLeft = 384
-    ExplicitTop = 152
-    ExplicitHeight = 100
-  end
-  object Splitter3: TSplitter
-    Left = 0
-    Top = 466
-    Width = 763
-    Height = 3
-    Cursor = crVSplit
-    Align = alBottom
-    ExplicitTop = 447
-  end
-  object ToolBar1: TToolBar
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 763
-    Height = 29
-    Caption = 'ToolBar1'
-    TabOrder = 0
-    Visible = False
-  end
-  object LeftDocPanel: TPanel
-    Left = 0
-    Top = 29
-    Width = 5
-    Height = 437
-    Align = alLeft
-    DockSite = True
-    TabOrder = 1
-    OnDockDrop = LeftDocPanelDockDrop
-    OnDockOver = LeftDocPanelDockOver
-    OnUnDock = LeftDocPanelUnDock
-  end
-  object PhImage1: TPhImage
-    Left = 8
-    Top = 29
-    Width = 747
-    Height = 437
-    AutoMosaic = True
-    ThumbWidht = 128
-    ThumbHeight = 128
-    SlideShowInterval = 500
+    Height = 465
     Align = alClient
-    ParentColor = False
+    Caption = 'Panel1'
+    TabOrder = 0
+    object Splitter1: TSplitter
+      Left = 6
+      Top = 30
+      Height = 424
+      ExplicitLeft = 272
+      ExplicitTop = 152
+      ExplicitHeight = 100
+    end
+    object Splitter2: TSplitter
+      Left = 671
+      Top = 30
+      Height = 424
+      Align = alRight
+      ExplicitLeft = 384
+      ExplicitTop = 152
+      ExplicitHeight = 100
+    end
+    object Splitter3: TSplitter
+      Left = 1
+      Top = 454
+      Width = 761
+      Height = 2
+      Cursor = crVSplit
+      Align = alBottom
+      ExplicitTop = 448
+    end
+    object ToolBar1: TToolBar
+      Left = 1
+      Top = 1
+      Width = 761
+      Height = 29
+      Caption = 'ToolBar1'
+      TabOrder = 0
+      Visible = False
+    end
+    object LeftDocPanel: TPanel
+      Left = 1
+      Top = 30
+      Width = 5
+      Height = 424
+      Align = alLeft
+      DockSite = True
+      TabOrder = 1
+      OnDockDrop = LeftDocPanelDockDrop
+      OnDockOver = LeftDocPanelDockOver
+      OnUnDock = LeftDocPanelUnDock
+    end
+    object PhImage1: TPhImage
+      Left = 9
+      Top = 30
+      Width = 662
+      Height = 424
+      AutoMosaic = True
+      ThumbWidht = 128
+      ThumbHeight = 128
+      SlideShowInterval = 500
+      Align = alClient
+      ParentColor = False
+      ExplicitLeft = 229
+      ExplicitWidth = 442
+    end
+    object RightDocPanel: TPanel
+      Left = 674
+      Top = 30
+      Width = 5
+      Height = 424
+      Align = alRight
+      DockSite = True
+      TabOrder = 3
+      OnDockDrop = RightDocPanelDockDrop
+      OnDockOver = RightDocPanelDockOver
+      OnUnDock = RightDocPanelUnDock
+    end
+    object BottomDocPanel: TPanel
+      Left = 1
+      Top = 456
+      Width = 761
+      Height = 8
+      Align = alBottom
+      DockSite = True
+      TabOrder = 4
+      OnDockDrop = BottomDocPanelDockDrop
+      OnDockOver = BottomDocPanelDockOver
+      OnUnDock = BottomDocPanelUnDock
+    end
+    object PhPalette1: TPhPalette
+      Left = 679
+      Top = 30
+      Width = 83
+      Height = 424
+      Align = alRight
+      PopupMenu = PopupMenu1
+      Color = clGray
+      MaxValue = 4096.000000000000000000
+      TicksVisible = True
+      PaletteType = phpalGrayscale
+    end
   end
-  object RightDocPanel: TPanel
-    Left = 758
-    Top = 29
-    Width = 5
-    Height = 437
-    Align = alRight
-    DockSite = True
-    TabOrder = 3
-    OnDockDrop = RightDocPanelDockDrop
-    OnDockOver = RightDocPanelDockOver
-    OnUnDock = RightDocPanelUnDock
-  end
-  object BottomDocPanel: TPanel
+  object StatusBar1: TStatusBar
     Left = 0
-    Top = 469
+    Top = 465
     Width = 763
-    Height = 8
-    Align = alBottom
-    DockSite = True
-    TabOrder = 4
-    OnDockDrop = BottomDocPanelDockDrop
-    OnDockOver = BottomDocPanelDockOver
-    OnUnDock = BottomDocPanelUnDock
+    Height = 19
+    Panels = <
+      item
+        Text = #1056#1077#1078#1080#1084':'
+        Width = 150
+      end
+      item
+        Text = #1042#1080#1079#1091#1072#1083#1080#1079#1072#1094#1080#1103':'
+        Width = 150
+      end
+      item
+        Alignment = taCenter
+        Bevel = pbRaised
+        Text = 'x=0 y=0 v=255'
+        Width = 150
+      end
+      item
+        Alignment = taCenter
+        Bevel = pbRaised
+        Width = 50
+      end>
   end
   object MainMenu1: TMainMenu
     Left = 528
@@ -119,6 +168,7 @@ object pamMainForm: TpamMainForm
       end
       object N22: TMenuItem
         Action = fileCloseExperimentAction
+        Visible = False
       end
       object N25: TMenuItem
         Caption = '-'
@@ -131,6 +181,18 @@ object pamMainForm: TpamMainForm
       Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077
       object N13: TMenuItem
         Action = editCopyAction
+      end
+    end
+    object N28: TMenuItem
+      Caption = #1042#1080#1079#1091#1072#1083#1080#1079#1072#1094#1080#1103
+      object N29: TMenuItem
+        Action = modeLiveVideo
+      end
+      object N30: TMenuItem
+        Action = modeFlashAction
+      end
+      object N31: TMenuItem
+        Action = modeCommandsAction
       end
     end
     object N5: TMenuItem
@@ -158,6 +220,9 @@ object pamMainForm: TpamMainForm
       Caption = #1054#1082#1085#1072
       object N7: TMenuItem
         Action = windowConsoleAction
+      end
+      object N41: TMenuItem
+        Action = windowHardwareAction
       end
       object N8: TMenuItem
         Action = windowExperimentAction
@@ -294,6 +359,84 @@ object pamMainForm: TpamMainForm
       OnExecute = fileSaveExperimentActionExecute
       OnUpdate = fileSaveExperimentActionUpdate
     end
+    object modeLiveVideo: TAction
+      Category = 'mode'
+      Caption = #1042#1080#1076#1077#1086
+      OnExecute = modeLiveVideoExecute
+      OnUpdate = modeLiveVideoUpdate
+    end
+    object modeFlashAction: TAction
+      Category = 'mode'
+      Caption = #1042#1089#1087#1099#1096#1082#1080
+      OnExecute = modeFlashActionExecute
+      OnUpdate = modeFlashActionUpdate
+    end
+    object modeCommandsAction: TAction
+      Category = 'mode'
+      Caption = #1050#1086#1084#1072#1085#1076#1099
+      OnExecute = modeCommandsActionExecute
+      OnUpdate = modeCommandsActionUpdate
+    end
+    object paletteScaleAction: TAction
+      Category = 'palette'
+      Caption = #1064#1082#1072#1083#1072
+      OnExecute = paletteScaleActionExecute
+      OnUpdate = paletteScaleActionUpdate
+    end
+    object plaetteGrayscaleAction: TAction
+      Category = 'palette'
+      Caption = #1057#1077#1088#1072#1103
+      OnExecute = plaetteGrayscaleActionExecute
+      OnUpdate = plaetteGrayscaleActionUpdate
+    end
+    object paletteOceanAction: TAction
+      Category = 'palette'
+      Caption = #1054#1082#1077#1072#1085
+      OnExecute = paletteOceanActionExecute
+      OnUpdate = paletteOceanActionUpdate
+    end
+    object paletteGlowAction: TAction
+      Category = 'palette'
+      Caption = #1057#1086#1083#1085#1094#1077
+      OnExecute = paletteGlowActionExecute
+      OnUpdate = paletteGlowActionUpdate
+    end
+    object paletteRedBlueAction: TAction
+      Category = 'palette'
+      Caption = #1050#1088#1072#1089#1085#1086'-'#1089#1080#1085#1103#1103
+      OnExecute = paletteRedBlueActionExecute
+      OnUpdate = paletteRedBlueActionUpdate
+    end
+    object paletteTrafficAction: TAction
+      Category = 'palette'
+      Caption = #1057#1074#1077#1090#1086#1092#1086#1088
+      OnExecute = paletteTrafficActionExecute
+      OnUpdate = paletteTrafficActionUpdate
+    end
+    object paletteSpecturmAction: TAction
+      Category = 'palette'
+      Caption = #1057#1087#1077#1082#1090#1088
+      OnExecute = paletteSpecturmActionExecute
+      OnUpdate = paletteSpecturmActionUpdate
+    end
+    object paletteSpectrum2Action: TAction
+      Category = 'palette'
+      Caption = #1057#1087#1077#1082#1090#1088' 2'
+      OnExecute = paletteSpectrum2ActionExecute
+      OnUpdate = paletteSpectrum2ActionUpdate
+    end
+    object paletteFalseColorsAction: TAction
+      Category = 'palette'
+      Caption = #1059#1089#1083'. '#1094#1074#1077#1090#1072
+      OnExecute = paletteFalseColorsActionExecute
+      OnUpdate = paletteFalseColorsActionUpdate
+    end
+    object windowHardwareAction: TAction
+      Category = 'Window'
+      Caption = #1054#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1077
+      OnExecute = windowHardwareActionExecute
+      OnUpdate = windowHardwareActionUpdate
+    end
   end
   object Comm1: TComm
     DeviceName = 'Com2'
@@ -301,5 +444,45 @@ object pamMainForm: TpamMainForm
     OnRxChar = Comm1RxChar
     Left = 560
     Top = 40
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 488
+    Top = 40
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 592
+    Top = 88
+    object N32: TMenuItem
+      Action = paletteScaleAction
+    end
+    object N33: TMenuItem
+      Caption = '-'
+    end
+    object N34: TMenuItem
+      Action = plaetteGrayscaleAction
+    end
+    object N35: TMenuItem
+      Action = paletteOceanAction
+    end
+    object N36: TMenuItem
+      Action = paletteGlowAction
+    end
+    object N37: TMenuItem
+      Action = paletteRedBlueAction
+    end
+    object N38: TMenuItem
+      Action = paletteTrafficAction
+    end
+    object N39: TMenuItem
+      Action = paletteSpecturmAction
+    end
+    object N210: TMenuItem
+      Action = paletteSpectrum2Action
+    end
+    object N40: TMenuItem
+      Action = paletteFalseColorsAction
+    end
   end
 end

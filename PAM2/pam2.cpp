@@ -13,6 +13,7 @@ USEFORM("pamResultUnit.cpp", pam2ResultForm);
 USEFORM("pamDistributionUnit.cpp", pam2DistributionForm);
 USEFORM("pamConsoleUnit.cpp", ConsoleForm);
 USEFORM("pamAboutUnit.cpp", AboutBox);
+USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -29,6 +30,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(Tpam2ExperimentForm), &pam2ExperimentForm);
 		Application->CreateForm(__classid(Tpam2TimeLineForm), &pam2TimeLineForm);
 		Application->CreateForm(__classid(Tpam2OptionsForm), &pam2OptionsForm);
+		Application->CreateForm(__classid(Tpam2HardwareForm), &pam2HardwareForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

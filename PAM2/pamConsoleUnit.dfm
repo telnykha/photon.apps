@@ -3,8 +3,8 @@ object ConsoleForm: TConsoleForm
   Top = 0
   BorderStyle = bsSizeToolWin
   Caption = #1050#1086#1085#1089#1086#1083#1100
-  ClientHeight = 156
-  ClientWidth = 701
+  ClientHeight = 314
+  ClientWidth = 628
   Color = clBtnFace
   DragKind = dkDock
   DragMode = dmAutomatic
@@ -23,26 +23,26 @@ object ConsoleForm: TConsoleForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 701
+    Width = 628
     Height = 33
     Align = alTop
     TabOrder = 0
     object Button1: TButton
       AlignWithMargins = True
-      Left = 622
+      Left = 549
       Top = 4
       Width = 75
       Height = 25
       Align = alRight
       Caption = #1054#1090#1087#1088#1072#1074#1080#1090#1100
-      TabOrder = 0
+      TabOrder = 1
       OnClick = Button1Click
     end
     object ComboBox1: TComboBox
       AlignWithMargins = True
       Left = 4
       Top = 4
-      Width = 612
+      Width = 539
       Height = 24
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -51,20 +51,21 @@ object ConsoleForm: TConsoleForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 0
     end
   end
   object Memo1: TMemo
     Left = 0
     Top = 33
-    Width = 701
-    Height = 123
+    Width = 628
+    Height = 281
+    TabStop = False
     Align = alClient
     BevelInner = bvNone
     BevelOuter = bvNone
-    Color = clBlack
+    Color = clSilver
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clLime
+    Font.Color = clBlack
     Font.Height = -13
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]

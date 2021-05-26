@@ -47,8 +47,9 @@ void __fastcall TConsoleForm::Button1Click(TObject *Sender)
 		AnsiString str = ComboBox1->Text.c_str();
 		sprintf(wb,"%s",str.c_str());
 		i = pamMainForm->Comm1->Write(wb, ComboBox1->Text.Length()+1);
-		//if (ShowCommEvent->Checked) Memo1->Lines->Add("Write out: "+IntToStr(i));
 	}
+	else
+		Memo1->Lines->Add("Устройство не подключено.");
 }
 //---------------------------------------------------------------------------
 
