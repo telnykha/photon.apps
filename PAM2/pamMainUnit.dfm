@@ -83,8 +83,6 @@ object pamMainForm: TpamMainForm
       SlideShowInterval = 500
       Align = alClient
       ParentColor = False
-      ExplicitLeft = 229
-      ExplicitWidth = 442
     end
     object RightDocPanel: TPanel
       Left = 674

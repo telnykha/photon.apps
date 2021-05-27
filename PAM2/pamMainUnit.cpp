@@ -722,10 +722,125 @@ void __fastcall TpamMainForm::SetGain(int value)
 void __fastcall TpamMainForm::SetFlash(int value)
 {
 	if (value < 10 || value > 50) {
-        return;
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: Ќе могу установить длительность вспышки.");
+		return;
 	}
 	m_Flash = value;
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "LFLASH=";
+		str += IntToStr(value);
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
 }
+
+void __fastcall TpamMainForm::SetSat(int value)
+{
+	if (value < 0 || value > 100) {
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: Ќе могу установить интенсивность насыщающего света.");
+		return;
+	}
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "LSAT=";
+		str += IntToStr(value);
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
+}
+
+void __fastcall TpamMainForm::SwitchSat(int value)
+{
+	if (value !=0 && value !=1) {
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник насыщающего света.");
+		return;
+	}
+
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "SAT=";
+		str += IntToStr(value);
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
+}
+void __fastcall TpamMainForm::SetAdd(int value)
+{
+	if (value < 0 || value > 100) {
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: Ќе могу установить интенсивность дополнительного света.");
+		return;
+	}
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "LADD=";
+		str += IntToStr(value);
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
+}
+void __fastcall TpamMainForm::SwitchAdd(int value)
+{
+	if (value !=0 && value !=1) {
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник дополнительного света.");
+		return;
+	}
+
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "ADD=";
+		str += IntToStr(value);
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
+}
+void __fastcall TpamMainForm::SetAct(int value)
+{
+	if (value < 0 || value > 100) {
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: Ќе могу установить интенсивность актиничного света.");
+		return;
+	}
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "LACT=";
+		str += IntToStr(value);
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
+}
+
+void __fastcall TpamMainForm::SwitchAct(int value)
+{
+	if (value !=0 && value !=1) {
+		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник актиничного света.");
+		return;
+	}
+
+	char wb[256] ;
+	int i ;
+	if (Comm1->Enabled())
+	{
+		AnsiString str = "ACT=";
+		str += IntToStr(value);
+		sprintf(wb,"%s",str.c_str());
+		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+	}
+}
+
+
+
 
 
 

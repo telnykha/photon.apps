@@ -216,6 +216,12 @@ public:		// User declarations
 	void __fastcall SetExposure(int value);
 	void __fastcall SetGain(int value);
 	void __fastcall SetFlash(int value);
+	void __fastcall SetSat(int value);
+	void __fastcall SwitchSat(int value);
+	void __fastcall SetAdd(int value);
+	void __fastcall SwitchAdd(int value);
+	void __fastcall SetAct(int value);
+	void __fastcall SwitchAct(int value);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

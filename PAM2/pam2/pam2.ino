@@ -4,20 +4,28 @@
   Команды управления устройством
   ==============================
   PAM2            - возвращает версию, значение коснстанты VERSION
-  BRBLUE?         - возвращает значеие переменной BRBLUE -якркость синих светодиодов 
-  BRRED?          - возвращает значеие переменной BRRED -якркость красных светодиодов
-  BRBLUE=value    - устанавливает значеие переменной BRBLUE -якркость синих светодиодов
-  BRRED=value     - устанавливает значеие переменной BRRED -якркость красных светодиодов
-  SBLUE?          - возвращает текущее состояние синих светодиодов (0- выкл, 1- вкл)
-  SRED?           - возвращает текущее состояние красных светодиодов (0- выкл, 1- вкл)
-  SBLUE=value     - устанавливает текущее состояние синих светодиодов (0- выкл, 1- вкл)
-  SRED=value      - устанавливает текущее состояние красных светодиодов (0- выкл, 1- вкл)
+  LSAT?           - возвращает значеие переменной LSAT -якркость синих светодиодов 
+  LACT?           - возвращает значеие переменной LACT -якркость синих светодиодов в актиничном режиме
+  LADD?           - возвращает значеие переменной LADD -якркость красных светодиодов
+  LSAT=value      - устанавливает значеие переменной LSAT -якркость синих светодиодов
+  LACT=value      - устанавливает значеие переменной LACT -якркость синих светодиодов в актиничном режиме
+  LADD =value     - устанавливает значеие переменной LADD -якркость красных светодиодов
+  SAT?            - возвращает текущее состояние синих светодиодов (0- выкл, 1- вкл)
+  ACT?            - возвращает текущее состояние синих светодиодов (0- выкл, 1- вкл) в актиничном режиме
+  ADD?            - возвращает текущее состояние красных светодиодов (0- выкл, 1- вкл)
+  SAT=value       - устанавливает текущее состояние синих светодиодов (0- выкл, 1- вкл)
+  ACT=value       - устанавливает текущее состояние синих светодиодов (0- выкл, 1- вкл) в актиничном режиме
+  ADD=value       - устанавливает текущее состояние красных светодиодов (0- выкл, 1- вкл)
   EXP?            - возвращает значеие переменной EXP время экспозиции видеокамеры в микросекундах
   EXP=value       - устанавливает значеие переменной EXP время экспозиции видеокамеры в микросекундах
+  GAIN?           - возвращает значеие переменной GAIN усиление видеокамеры в децибеллах
+  GAIN=value      - устанавливает значеие переменной GAIN усиление видеокамеры в децибеллах
+  LFLASH?         - возвращает значение переменной LFLASH длинтельность вспышки в микросекундах   
+  LFLASH?         - возвращает значение переменной LFLASH длинтельность вспышки в микросекундах   
   ACTINIC(br,t)   - актиничный свет яркостью br на время t в миллисекундах
   SATURATION(br,t)- насыщающий свет яркостью br на время t в миллисекундах 
   ADDITIONAL(br,t)- дополнительный свет яркостью br на время t в миллисекундах
-  FLASH(t)         - кадр во время насыщающей вспышки t - длительность вспышки в % от времени экспозиции
+  FLASH           - кадр во время насыщающей вспышки LFLASH - длительность вспышки в микросекндах
   DARK             - темновой кадр, выключаются все светодиоды и включается видеокамера. 
   F0()             - 
   FM               -
@@ -32,22 +40,51 @@
 #define CAMERA_PIN  11
 
 #define __SWITCH_OFF__ \
-      SBLUE = LOW;\
-      digitalWrite(BLUE_PIN, SBLUE);\
-      SRED = LOW;\
-      digitalWrite(RED_PIN, SRED);\
+      int oldBlue = SAT;\
+      int oldRed  = ADD;\    
+      int oldAct  = ACT;\
+      SAT = LOW;\
+      ACT = LOW;\
+      digitalWrite(BLUE_PIN, SAT);\
+      ADD = LOW;\
+      digitalWrite(RED_PIN, ADD);\
 
+#define __SWITCH_ON__ \
+  if (oldBlue == HIGH)\
+  {\
+      SAT = HIGH;\
+      int value = 255*LSAT / 100;\
+      analogWrite(BLUE_PIN, value);\    
+  }\
+  if (oldRed == HIGH)\
+  {\
+      ADD = HIGH;\
+      int value = 255*LADD / 100;\
+      analogWrite(RED_PIN, value);\
+  }\
+  if (oldAct == HIGH)\
+  {\
+      ACT = HIGH;\
+      int value = 255*LADD / 1000;\
+      analogWrite(BLUE_PIN, value);\
+  }\
 
 
 const char*  VERSION        = "2.0.0";
-const String _error         = "ERROR"; 
+const String _error         = "ERROR: "; 
 const String _unknown       = "UNKNOWN COMMAND";
-
-int BRBLUE   = 20;    /*якорсть синего светодиода 0-100%  */
-int BRRED    = 30;    /*яркость красного светодиода 0-100%*/
-int SBLUE    = LOW;   /*состояние синего светодиода       */
-int SRED     = LOW;   /*состояние красного светодиода     */
+const String _success       = "SUCCESS: ";
+/*глобальные переменные*/
+int LSAT     = 20;    /*якорсть синего светодиода 0-100%  */
+int LACT     = 50;    /*актиничная якорсть синего светодиода 0-100%  */
+int LADD     = 30;    /*яркость красного светодиода 0-100%*/
+int SAT      = LOW;   /*состояние синего светодиода       */
+int ACT      = LOW;   /*состояние синего светодиода  в актиничном режиме*/
+int ADD      = LOW;   /*состояние красного светодиода     */
 int EXP      = 75;    /*время экспозиции видеокамеры в микросекундах*/
+int LFLASH   = 20;    /*время измерительной вспышки в микроукундах*/
+int GAIN     = 20;    /*усиление видеокамеры*/
+int TRANSFER = 40000; /*передача данных с видеокамеры на ПК*/ 
 
 /*буфер команд*/
 int  COMMANDSLEN = 0;
@@ -62,14 +99,14 @@ void pamVersioin()
 }
 /*возвращает яркость синего светодиода.
 */
-void pamGetBRBLUE()
+void pamGetLSAT()
 {
-  String result(BRBLUE);
+  String result(LSAT);
   Serial.println(result);
 }
 /*устанавливает яркость синего светодиода.
 */
-void pamSetBRBLUE(String str)
+void pamSetLSAT(String str)
 {
   int index = str.indexOf('=');
   if (index == -1)
@@ -78,15 +115,15 @@ void pamSetBRBLUE(String str)
   {
     String substr = str.substring(index + 1, str.length());
     int value = substr.toInt();
-    if (value > 0 && value <= 100)
+    if (value >= 0 && value <= 100)
     {
-      BRBLUE = value;
-      if (SBLUE == HIGH)
+      LSAT = value;
+      if (SAT == HIGH)
       {
-        int value = 255*BRBLUE / 100;
+        int value = 255*LSAT / 100;
         analogWrite(BLUE_PIN, value);
       }
-      Serial.println(value);
+      Serial.println(_success + str);
     }
     else
       Serial.println(_error);
@@ -94,14 +131,14 @@ void pamSetBRBLUE(String str)
 }
 /*состояние синего светодиода
 */
-void pamGetSBLUE()
+void pamGetSAT()
 {
-  String result(SBLUE);
+  String result(SAT);
   Serial.println(result);
 }
 /*переключение синего светодиода
 */
-void pamSetSBLUE(String str)
+void pamSetSAT(String str)
 {
   int index = str.indexOf('=');
   if (index == -1)
@@ -112,28 +149,99 @@ void pamSetSBLUE(String str)
     int value = substr.toInt();
     if (value == 0)
     {
-      SBLUE = LOW;
-      digitalWrite(BLUE_PIN, SBLUE);
+      SAT = LOW;
+      digitalWrite(BLUE_PIN, SAT);
     }
     else
     {
-      SBLUE = HIGH;
-      int value = 255*BRBLUE / 100;
+      SAT = HIGH;
+      ACT = LOW;
+      digitalWrite(BLUE_PIN, ACT);
+      int value = 255*LSAT / 100;
       analogWrite(BLUE_PIN, value);
     }
+    Serial.println(_success + str);
   }
 }
+/*------------------------------------------*/
+/*возвращает яркость синего светодиода в актиничном режиме
+*/
+void pamGetLACT()
+{
+  String result(LACT);
+  Serial.println(result);
+}
+/*устанавливает яркость синего светодиода.
+*/
+void pamSetLACT(String str)
+{
+  int index = str.indexOf('=');
+  if (index == -1)
+    Serial.println(_error);
+  else
+  {
+    String substr = str.substring(index + 1, str.length());
+    int value = substr.toInt();
+    if (value >= 0 && value <= 100)
+    {
+      LACT = value;
+      if (ACT == HIGH)
+      {
+        int value = 255*LACT / 1000;
+        analogWrite(BLUE_PIN, value);
+      }
+      Serial.println(_success + str);
+    }
+    else
+      Serial.println(_error);
+  }
+}
+/*состояние синего светодиода
+*/
+void pamGetACT()
+{
+  String result(ACT);
+  Serial.println(result);
+}
+/*переключение синего светодиода
+*/
+void pamSetACT(String str)
+{
+  int index = str.indexOf('=');
+  if (index == -1)
+    Serial.println(_error);
+  else
+  {
+    String substr = str.substring(index + 1, str.length());
+    int value = substr.toInt();
+    if (value == 0)
+    {
+      ACT = LOW;
+      digitalWrite(BLUE_PIN, ACT);
+    }
+    else
+    {
+      ACT = HIGH;
+      SAT = LOW;
+      digitalWrite(BLUE_PIN, SAT);
+      int value = 255*LSAT / 1000;
+      analogWrite(BLUE_PIN, value);
+    }
+    Serial.println(_success + str);
+  }
+}
+/*------------------------------------------*/
 /*
     состояние красного светодиода
 */
-void pamGetSRED()
+void pamGetADD()
 {
-  String result(SRED);
+  String result(ADD);
   Serial.println(result);
 }
 /*переключение красного светодиода
 */
-void pamSetSRED(String str)
+void pamSetADD(String str)
 {
   int index = str.indexOf('=');
   if (index == -1)
@@ -144,14 +252,15 @@ void pamSetSRED(String str)
     int value = substr.toInt();
     if (value == 0)
     {
-      SRED = LOW;
-      digitalWrite(RED_PIN, SRED);
+      ADD = LOW;
+      digitalWrite(RED_PIN, ADD);
     }
     else
     {
-      SRED = HIGH;
-      int value = 255*BRRED / 100;
+      ADD = HIGH;
+      int value = 255*LADD / 100;
       analogWrite(RED_PIN, value);
+      Serial.println(_success + str);
     }
   }
 }
@@ -159,16 +268,16 @@ void pamSetSRED(String str)
 /*
   возвращает яркость красного светодиода.
 */
-void pamGetBRRED()
+void pamGetLADD()
 {
-  String result(BRRED);
+  String result(LADD);
   Serial.println(result);
 }
 /*Устанавливает яркость красного светодиода.
 */
-void pamSetBRRED(String str)
+void pamSetLADD(String str)
 {
-  int index = str.indexOf('=');
+   int index = str.indexOf('=');
   if (index == -1)
     Serial.println(_error);
   else
@@ -177,9 +286,13 @@ void pamSetBRRED(String str)
     int value = substr.toInt();
     if (value > 0 && value <= 100)
     {
-      BRRED = value;
-      int value = 255*BRRED / 100;
-      analogWrite(RED_PIN, value);
+      LADD = value;
+      if (ADD == HIGH)
+      {
+        int value = 255*LADD / 100;
+        analogWrite(RED_PIN, value);
+      }
+      Serial.println(_success + str);
     }
     else
       Serial.println(_error);
@@ -192,6 +305,56 @@ void pamGetEXP()
   String result(EXP);
   Serial.println(result);
 }
+/*Устанавливает время экспозции.
+*/
+void pamSetEXP(String str)
+{
+  int index = str.indexOf('=');
+  if (index == -1)
+    Serial.println(_error);
+  else
+  {
+    String substr = str.substring(index + 1, str.length());
+    int value = substr.toInt();
+    if (value >= 50  && value <= 32000)
+    {
+      EXP = value;
+      Serial.println(_success + str);
+    }
+    else
+      Serial.println(_error);
+  }
+}
+/*Возвращает длительность вспышки в микросекундах
+*/
+void       pamGetLFLASH()
+{
+  String result(LFLASH);
+  Serial.println(result);
+}
+
+/*Устанавливает длительность вспышки в микросекундах
+*/
+void  pamSetLFLASH(String str)
+{
+  int index = str.indexOf('=');
+  if (index == -1)
+    Serial.println(_error + str);
+  else
+  {
+    String substr = str.substring(index + 1, str.length());
+    int value = substr.toInt();
+    if (value >= 20  && value <= 50)
+    {
+      LFLASH = value;
+      Serial.println(_success + str);
+    }
+    else
+      Serial.println(_error + str);
+  }
+}
+
+
 /*для реализации актиничтоно света используется ШИМ (PCM) сигнал 
   на выходе BLUE_PIN у которого яркость может изменяться от 
   1 до 32. Параметр brightness может принимать значения от 1 до 100,
@@ -207,7 +370,7 @@ void _pamActinic(int brightness, int duration)
       unsigned long total_delay = duration; // -- задержка в миллисекундах 
       analogWrite(BLUE_PIN, value);              // -- запуск ШИМ 
       delay(total_delay);                        // -- задержка 
-      digitalWrite(BLUE_PIN, SBLUE);             // -- остановка 
+      digitalWrite(BLUE_PIN, SAT);             // -- остановка 
 }
 
 #define _BEGIN_OBTAIN_PARAMS_                                 \
@@ -244,7 +407,8 @@ void pamActicinc(String command)
        _BEGIN_OBTAIN_PARAMS_            
             
             _pamActinic(brightness, duration);     
-            Serial.println("ACTINIC DONE");
+            //Serial.println("ACTINIC DONE");
+            Serial.println(_success + command);
 
       _END_OBTAIN_PARAMS_
 
@@ -256,7 +420,8 @@ void pamSaturation(String command)
        _BEGIN_OBTAIN_PARAMS_   
        
             _pamSaturation(brightness, duration);     
-            Serial.println("SATURATION DONE");
+            //Serial.println("SATURATION DONE");
+            Serial.println(_success + command);
             
        _END_OBTAIN_PARAMS_
 
@@ -275,14 +440,15 @@ void _pamSaturation(int brightness, unsigned int duration)
     unsigned long total_delay = duration; // -- задержка в миллисекундах 
     analogWrite(BLUE_PIN, value);              // -- запуск ШИМ 
     delay(total_delay);            // -- задержка 
-    digitalWrite(BLUE_PIN, SBLUE);             // -- остановка     
+    digitalWrite(BLUE_PIN, SAT);             // -- остановка     
 }
 void pamAdditional(String command)
 {
        _BEGIN_OBTAIN_PARAMS_   
        
             _pamAdditional(brightness, duration);     
-            Serial.println("ADDITIONAL DONE");
+            //Serial.println("ADDITIONAL DONE");
+            Serial.println(_success + command);
             
        _END_OBTAIN_PARAMS_
   
@@ -301,27 +467,35 @@ void _pamAdditional(int brightness, unsigned int duration)
     unsigned long total_delay =  duration;  // -- задержка в миллисекундах 
     analogWrite(RED_PIN, value);                // -- запуск ШИМ 
     delay(total_delay);             // -- задержка 
-    digitalWrite(RED_PIN, SRED);                // -- остановка       
+    digitalWrite(RED_PIN, ADD);                // -- остановка       
 }
-void pamFlash(String command)
+void pamFlash()
 {
-    _pamFlash(50);
+    _pamFlash();
 
-    Serial.println("FLASH UNDER CONSRUCTION");    
+    Serial.println(_success + "FLASH");    
 }
 
 /* измерительная вспышка. 
 */
-void _pamFlash(int t)
+void _pamFlash()
 {
+    // выклчаем освещение 
     __SWITCH_OFF__
 
     digitalWrite(CAMERA_PIN, HIGH);
     delayMicroseconds(20);
     digitalWrite(BLUE_PIN, HIGH);
-    delayMicroseconds(t);
+    delayMicroseconds(LFLASH);
     digitalWrite(BLUE_PIN, LOW);
+    int t = EXP-LFLASH-20;
+    if (t > 4)
+      delayMicroseconds(t);
     digitalWrite(CAMERA_PIN, LOW);
+
+  // возвращаем освещение в исходное состояние 
+  __SWITCH_ON__ 
+    
 }
 /*темновой кадр
 */
@@ -332,9 +506,9 @@ void pamDark()
     digitalWrite(CAMERA_PIN, HIGH);   
     delayMicroseconds(EXP);
     digitalWrite(CAMERA_PIN, LOW);   
+   __SWITCH_ON__ 
 
-    Serial.println("DARK DONE");
-
+    Serial.println(_success + "DARK");    
 }
 
 void setup() {
@@ -354,29 +528,43 @@ void loop() {
     String incomingString = Serial.readString();
     if (incomingString.indexOf('=') != -1)
     {
-      if (incomingString.indexOf("BRBLUE=") != -1)
-        pamSetBRBLUE(incomingString);
-      else if (incomingString.indexOf("BRRED=") != -1)
-        pamSetBRRED(incomingString);
-      else if (incomingString.indexOf("SBLUE=") != -1)
-        pamSetSBLUE(incomingString);
-      else if (incomingString.indexOf("SRED=") != -1)
-        pamSetSRED(incomingString);
+      if (incomingString.indexOf("LSAT=") != -1)
+        pamSetLSAT(incomingString);
+      else if (incomingString.indexOf("LACT=") != -1)
+        pamSetLACT(incomingString);
+      else if (incomingString.indexOf("LADD=") != -1)
+        pamSetLADD(incomingString);
+      else if (incomingString.indexOf("SAT=") != -1)
+        pamSetSAT(incomingString);
+      else if (incomingString.indexOf("ACT=") != -1)
+        pamSetACT(incomingString);
+      else if (incomingString.indexOf("ADD=") != -1)
+        pamSetADD(incomingString);
+      else if(incomingString.indexOf("EXP=") != -1)
+        pamSetEXP(incomingString);
+      else if(incomingString.indexOf("LFLASH=") != -1)
+        pamSetLFLASH(incomingString);
       else
         Serial.println(_unknown);
     }
     else if (incomingString.equals("PAM2"))
       pamVersioin();
-    else if (incomingString.equals("BRBLUE?"))
-      pamGetBRBLUE();
-    else if (incomingString.equals("BRRED?"))
-      pamGetBRRED();
+    else if (incomingString.equals("LSAT?"))
+      pamGetLSAT();
+    else if (incomingString.equals("LACT?"))
+      pamGetLACT();
+    else if (incomingString.equals("LADD?"))
+      pamGetLADD();
     else if (incomingString.equals("EXP?"))
       pamGetEXP();
-    else if (incomingString.equals("SBLUE?"))
-      pamGetSBLUE();
-    else if (incomingString.equals("SRED?"))
-      pamGetSRED();
+    else if (incomingString.equals("LFLASH?"))
+      pamGetLFLASH();
+    else if (incomingString.equals("SAT?"))
+      pamGetSAT();
+    else if (incomingString.equals("ACT?"))
+      pamGetACT();
+    else if (incomingString.equals("ADD?"))
+      pamGetADD();
     else if (incomingString.indexOf("ACTINIC(") != -1)
       pamActicinc(incomingString);
     else if (incomingString.indexOf("SATURATION(") != -1)
@@ -385,8 +573,8 @@ void loop() {
       pamAdditional(incomingString);           
     else if (incomingString.indexOf("DARK") != -1)
       pamDark();           
-    else if (incomingString.indexOf("FLASH(") != -1)
-      pamFlash(incomingString);           
+    else if (incomingString.indexOf("FLASH") != -1)
+      pamFlash();           
     else
       Serial.println(_unknown);
   }
