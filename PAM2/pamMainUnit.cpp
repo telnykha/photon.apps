@@ -24,7 +24,7 @@
 #pragma resource "*.dfm"
 
 #pragma link "BUF_USBCCDCamera_SDK_b.lib"
-
+#pragma link "awplflibb.lib"
 
 TpamMainForm *pamMainForm;
 
@@ -32,14 +32,17 @@ TpamMainForm *pamMainForm;
 void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 {
 	 if (pamMainForm != NULL)
-     {
-        MSG msg;
-        if(GetMessage(&msg,NULL,NULL,NULL))
-        {
+	 {
+		MSG msg;
+		if(GetMessage(&msg,NULL,NULL,NULL))
+		{
 				TranslateMessage(&msg);
-                DispatchMessage(&msg);
-        }
+				DispatchMessage(&msg);
+		}
+		ConsoleForm->Memo1->Lines->Add("Получено изображение");
 		pamMainForm->PreviewFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
+#ifdef _DEBUG
+#endif
 	 }
 }
 
@@ -50,7 +53,8 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	m_camera = 0;
 	m_numCameras = 0;
 	m_videoMode = pam2videoCommands;
-    m_Flash = 20;
+	m_Flash = 20;
+    m_buffer = NULL;//new TPamImageBuffer(1);
 }
 void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
 {
@@ -429,28 +433,51 @@ bool TpamMainForm::OpenCamera()
 
 void __fastcall TpamMainForm::PreviewFrame(int width, int height, unsigned char* data, int cameraID)
 {
-	int bits = 1;//this->m_pInitFile->inputData;
-    int type = bits == 0 ? AWP_BYTE:AWP_DOUBLE;
-    int size = bits == 0 ? sizeof(AWPBYTE):sizeof(AWPDOUBLE);
-    awpImage* img = NULL;
-    if (cameraID == 1)
-    {
-       awpCreateImage(&img, width, height, 1, AWP_BYTE);
-       AWPBYTE* dst = (AWPBYTE*)img->pPixels;
-       int x,y, i=0;
-       for (x = 0; x < width; x++)
-       {
-           for (y = 0; y < height; y++)
-           {
-               AWPWORD value = data[2*y + 2*x*height+ 1];
-               AWPWORD v2 = data[2*y + 2*x*height];
-			   v2 = v2 << 4;
-               value |= v2;
-			   dst[i] = 255*(float)value/4096.;
-               i++;
-           }
+	if (m_videoMode == pam2videoLive)
+	{
+		awpImage* img = NULL;
+		if (cameraID == 1)
+		{
+		   awpCreateImage(&img, width, height, 1, AWP_BYTE);
+		   AWPBYTE* dst = (AWPBYTE*)img->pPixels;
+		   int x,y, i=0;
+		   for (x = 0; x < width; x++)
+		   {
+			   for (y = 0; y < height; y++)
+			   {
+				   AWPWORD value = data[2*y + 2*x*height+ 1];
+				   AWPWORD v2 = data[2*y + 2*x*height];
+				   v2 = v2 << 4;
+				   value |= v2;
+				   dst[i] = 255*(float)value/4096.;
+				   i++;
+			   }
 
-	   }
+		   }
+		   awpImage* pal = (awpImage*)PhPalette1->ApplyPalette((void*)img);
+		   if (pal != NULL) {
+			   PhImage1->SetAwpImage(pal);
+			   awpReleaseImage(&pal);
+		   }
+		   else
+			   PhImage1->SetAwpImage(img);
+		   awpReleaseImage(&img);
+		}
+	}
+	else
+	{
+#ifdef _DEBUG
+		ConsoleForm->Memo1->Lines->Add("изображение добавлено в буфер");
+#endif
+		m_buffer->AddFrame(width, height, data);
+	}
+}
+
+void __fastcall TpamMainForm::SetPicture(awpImage* img)
+{
+#ifdef _DEBUG
+	   ConsoleForm->Memo1->Lines->Add("Изображение отправлено на экран.");
+#endif
 	   awpImage* pal = (awpImage*)PhPalette1->ApplyPalette((void*)img);
 	   if (pal != NULL) {
 		   PhImage1->SetAwpImage(pal);
@@ -458,9 +485,11 @@ void __fastcall TpamMainForm::PreviewFrame(int width, int height, unsigned char*
 	   }
 	   else
 		   PhImage1->SetAwpImage(img);
-	   awpReleaseImage(&img);
-	}
+	   delete m_buffer;
+       m_buffer = NULL;
 }
+
+
 void __fastcall TpamMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
        BUFCCDUSB_UnInitDevice();
@@ -563,14 +592,7 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 
 void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
 {
-	char wb[256] ;
-	int i ;
-	if (Comm1->Enabled())
-	{
-		AnsiString str = "FLASH(50)";
-		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-	}
+	this->ExecuteCommand(L"FLASH");
 }
 //---------------------------------------------------------------------------
 
@@ -700,15 +722,9 @@ void __fastcall TpamMainForm::SetExposure(int value)
 		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить экспозицю. Подключите видеокамеру Mightex.");
 	else
 	{
-		char wb[256] ;
-		int i ;
-		if (Comm1->Enabled())
-		{
-			AnsiString str = "EXP=";
-			str += IntToStr(value);
-			sprintf(wb,"%s",str.c_str());
-			i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-		}
+		UnicodeString str = L"EXP=";
+		str += IntToStr(value);
+		ExecuteCommand(str);
 	}
 }
 
@@ -726,15 +742,9 @@ void __fastcall TpamMainForm::SetFlash(int value)
 		return;
 	}
 	m_Flash = value;
-	char wb[256] ;
-	int i ;
-	if (Comm1->Enabled())
-	{
-		AnsiString str = "LFLASH=";
-		str += IntToStr(value);
-		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-	}
+	UnicodeString str = L"LFLASH=";
+	str += IntToStr(value);
+	ExecuteCommand(str);
 }
 
 void __fastcall TpamMainForm::SetSat(int value)
@@ -743,15 +753,9 @@ void __fastcall TpamMainForm::SetSat(int value)
 		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить интенсивность насыщающего света.");
 		return;
 	}
-	char wb[256] ;
-	int i ;
-	if (Comm1->Enabled())
-	{
-		AnsiString str = "LSAT=";
-		str += IntToStr(value);
-		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-	}
+	UnicodeString str = L"LSAT=";
+	str += IntToStr(value);
+	ExecuteCommand(str);
 }
 
 void __fastcall TpamMainForm::SwitchSat(int value)
@@ -760,16 +764,10 @@ void __fastcall TpamMainForm::SwitchSat(int value)
 		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник насыщающего света.");
 		return;
 	}
+	UnicodeString str = L"SAT=";
+	str += IntToStr(value);
+	ExecuteCommand(str);
 
-	char wb[256] ;
-	int i ;
-	if (Comm1->Enabled())
-	{
-		AnsiString str = "SAT=";
-		str += IntToStr(value);
-		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-	}
 }
 void __fastcall TpamMainForm::SetAdd(int value)
 {
@@ -777,15 +775,9 @@ void __fastcall TpamMainForm::SetAdd(int value)
 		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить интенсивность дополнительного света.");
 		return;
 	}
-	char wb[256] ;
-	int i ;
-	if (Comm1->Enabled())
-	{
-		AnsiString str = "LADD=";
-		str += IntToStr(value);
-		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-	}
+	UnicodeString str = L"LADD=";
+	str += IntToStr(value);
+	ExecuteCommand(str);
 }
 void __fastcall TpamMainForm::SwitchAdd(int value)
 {
@@ -793,16 +785,9 @@ void __fastcall TpamMainForm::SwitchAdd(int value)
 		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник дополнительного света.");
 		return;
 	}
-
-	char wb[256] ;
-	int i ;
-	if (Comm1->Enabled())
-	{
-		AnsiString str = "ADD=";
-		str += IntToStr(value);
-		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-	}
+	UnicodeString str = L"ADD=";
+	str += IntToStr(value);
+	ExecuteCommand(str);
 }
 void __fastcall TpamMainForm::SetAct(int value)
 {
@@ -810,15 +795,9 @@ void __fastcall TpamMainForm::SetAct(int value)
 		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить интенсивность актиничного света.");
 		return;
 	}
-	char wb[256] ;
-	int i ;
-	if (Comm1->Enabled())
-	{
-		AnsiString str = "LACT=";
-		str += IntToStr(value);
-		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
-	}
+	UnicodeString str = L"LACT=";
+	str += IntToStr(value);
+	ExecuteCommand(str);
 }
 
 void __fastcall TpamMainForm::SwitchAct(int value)
@@ -827,17 +806,32 @@ void __fastcall TpamMainForm::SwitchAct(int value)
 		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник актиничного света.");
 		return;
 	}
-
+	UnicodeString str = L"ACT=";
+	str += IntToStr(value);
+	ExecuteCommand(str);
+}
+// Выполнить команду
+void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
+{
 	char wb[256] ;
-	int i ;
+    int i ;
 	if (Comm1->Enabled())
 	{
-		AnsiString str = "ACT=";
-		str += IntToStr(value);
+		if (command == L"FLASH" || command == L"DARK") {
+			m_buffer = new TPamImageBuffer(1);
+		}
+		else if (command == L"FOFM" || command == L"FTFM1") {
+                m_buffer = new TPamImageBuffer(8);
+			 }
+
+		AnsiString str = command;
 		sprintf(wb,"%s",str.c_str());
-		i = pamMainForm->Comm1->Write(wb,str.Length()+1);
+		i = pamMainForm->Comm1->Write(wb, command.Length()+1);
 	}
+	else
+		ConsoleForm->Memo1->Lines->Add("Устройство не подключено.");
 }
+
 
 
 

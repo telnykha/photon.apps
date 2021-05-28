@@ -15,6 +15,7 @@
 #include <System.Actions.hpp>
 #include <Vcl.ActnList.hpp>
 //---------------------------------------------------------------------------
+const int c_exposure[10]= {50,100,250,500,1000,2000,4000,8000,16000,32000};
 class Tpam2HardwareForm : public TForm
 {
 __published:	// IDE-managed Components

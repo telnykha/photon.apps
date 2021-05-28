@@ -18,6 +18,8 @@
 #include "pamDocumentUnit.h"
 #include "PhPalette.h"
 #include <Vcl.Samples.Spin.hpp>
+#include "pamImageBufferUnit.h"
+
 typedef enum {pam2Tuning, pam2Capture, pam2Analysis}EPam2Modes;
 typedef enum {pam2videoLive, pam2videoFlash, pam2videoCommands}EPam2VideoModes;
 //---------------------------------------------------------------------------
@@ -113,6 +115,22 @@ __published:	// IDE-managed Components
 	TMenuItem *N40;
 	TAction *windowHardwareAction;
 	TMenuItem *N41;
+	TToolButton *ToolButton1;
+	TToolButton *ToolButton2;
+	TToolButton *ToolButton3;
+	TToolButton *ToolButton4;
+	TToolButton *ToolButton5;
+	TToolButton *ToolButton6;
+	TToolButton *ToolButton7;
+	TToolButton *ToolButton8;
+	TToolButton *ToolButton9;
+	TToolButton *ToolButton10;
+	TToolButton *ToolButton11;
+	TToolButton *ToolButton12;
+	TToolButton *ToolButton13;
+	TToolButton *ToolButton14;
+	TToolButton *ToolButton15;
+	TToolButton *ToolButton16;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -208,7 +226,7 @@ private:	// User declarations
 	bool OpenCamera();
 	void __fastcall SetMode(EPam2Modes mode);
 	void __fastcall SetVideoMode(EPam2VideoModes mode);
-
+	TPamImageBuffer* m_buffer;
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
@@ -222,6 +240,9 @@ public:		// User declarations
 	void __fastcall SwitchAdd(int value);
 	void __fastcall SetAct(int value);
 	void __fastcall SwitchAct(int value);
+	void __fastcall ExecuteCommand(const UnicodeString& command);
+
+	void __fastcall SetPicture(awpImage* img);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

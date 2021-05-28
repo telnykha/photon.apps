@@ -15,10 +15,6 @@ class Tpam2ExperimentForm : public TForm
 __published:	// IDE-managed Components
 	TPanel *Panel1;
 	TStatusBar *StatusBar1;
-	TPageControl *PageControl1;
-	TTabSheet *TabSheet1;
-	TTabSheet *TabSheet2;
-	TTreeView *TreeView1;
 private:	// User declarations
 public:		// User declarations
 	__fastcall Tpam2ExperimentForm(TComponent* Owner);

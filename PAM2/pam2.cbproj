@@ -59,7 +59,7 @@
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>pam2</SanitizedProjectName>
         <IncludePath>Nodes\;ComPort\;..\..\photon41\photon\;..\common\;$(PHOTON41)\photon\;$(TINY);$(AWP)\include;$(PHOTON41)\photon\include;$(LF)\include;..\common\Mightex\Mightex;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>Nodes\;ComPort\;..\..\photon41\photon\;..\..\photon.research\common\;..\common\;$(PHOTON41)\photon\lib;$(TINY)\lib;$(AWP)\lib;$(BDS)\lib\win32\debug\;$(LF)\lib;..\..\photon.apps\common\Mightex\Mightex;C:\_alt\_proj\photon\photon41\Win32\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>Nodes\;ComPort\;..\..\photon41\photon\;..\..\photon.research\common\;..\common\;$(PHOTON41)\photon\lib;$(TINY)\lib;$(AWP)\lib;$(BDS)\lib\win32\debug\;$(LF)\lib;..\..\photon.apps\common\Mightex\Mightex;C:\_alt\_proj\photon\photon41\Win32\Debug;$(LF)\lib ;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
@@ -74,7 +74,6 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <BCC_PCHName_Clang>pam2PCH.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -115,7 +114,6 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
-        <BCC_PCHName_Clang>pam2PCH.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="Nodes\pam2DocINode.cpp">
@@ -171,6 +169,10 @@
             <DependentOn>pamHardwareUnit.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamImageBufferUnit.cpp">
+            <DependentOn>pamImageBufferUnit.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamMainUnit.cpp">
             <Form>pamMainForm</Form>
             <FormType>dfm</FormType>
@@ -202,15 +204,15 @@
             <BuildOrder>9</BuildOrder>
         </CppCompile>
         <FormResources Include="pamMainUnit.dfm"/>
+        <FormResources Include="pamHardwareUnit.dfm"/>
         <FormResources Include="pamExperimentUnit.dfm"/>
-        <FormResources Include="pamOptionsUnit.dfm"/>
         <FormResources Include="pamTimeLineUnit.dfm"/>
         <FormResources Include="pamScriptUnit.dfm"/>
         <FormResources Include="pamResultUnit.dfm"/>
+        <FormResources Include="pamOptionsUnit.dfm"/>
         <FormResources Include="pamDistributionUnit.dfm"/>
         <FormResources Include="pamConsoleUnit.dfm"/>
         <FormResources Include="pamAboutUnit.dfm"/>
-        <FormResources Include="pamHardwareUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

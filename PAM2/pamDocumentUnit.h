@@ -3,6 +3,7 @@
 #define pamDocumentUnitH
 //---------------------------------------------------------------------------
 #include <system.hpp>
+
 class TPam2Document
 {
 protected:

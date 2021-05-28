@@ -9,7 +9,6 @@
 #pragma link "PhTrackBar"
 #pragma resource "*.dfm"
 Tpam2HardwareForm *pam2HardwareForm;
-const int c_exposure[10]= {50,100,250,500,1000,2000,4000,8000,16000,32000};
 //---------------------------------------------------------------------------
 __fastcall Tpam2HardwareForm::Tpam2HardwareForm(TComponent* Owner)
 	: TForm(Owner)

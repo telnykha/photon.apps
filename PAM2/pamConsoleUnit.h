@@ -21,6 +21,7 @@ __published:	// IDE-managed Components
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 private:	// User declarations
+	UnicodeString __fastcall UpdateHardwarePanel(const UnicodeString& command);
 public:		// User declarations
 	__fastcall TConsoleForm(TComponent* Owner);
 };

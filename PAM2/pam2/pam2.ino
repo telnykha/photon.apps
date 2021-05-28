@@ -26,13 +26,10 @@
   SATURATION(br,t)- насыщающий свет яркостью br на время t в миллисекундах 
   ADDITIONAL(br,t)- дополнительный свет яркостью br на время t в миллисекундах
   FLASH           - кадр во время насыщающей вспышки LFLASH - длительность вспышки в микросекндах
-  DARK             - темновой кадр, выключаются все светодиоды и включается видеокамера. 
-  F0()             - 
-  FM               -
-  FT               - 
-  FT1              -
-  F0FM             -  
-  FT1FM1           - 
+  DARK            - темновой кадр, выключаются все светодиоды и включается видеокамера. 
+  DARKNESS(t)     - темнота на заданное время t в миллисекундах
+  F0FM(t)         - получение пары изображений Fo и Fm  
+  FT1FM1(t)       - получение пары изображений F(t) и Fm(t)  
 */
 
 #define BLUE_PIN    9
@@ -65,7 +62,7 @@
   if (oldAct == HIGH)\
   {\
       ACT = HIGH;\
-      int value = 255*LADD / 1000;\
+      int value = 255*LACT / 1000;\
       analogWrite(BLUE_PIN, value);\
   }\
 
@@ -84,7 +81,7 @@ int ADD      = LOW;   /*состояние красного светодиода
 int EXP      = 75;    /*время экспозиции видеокамеры в микросекундах*/
 int LFLASH   = 20;    /*время измерительной вспышки в микроукундах*/
 int GAIN     = 20;    /*усиление видеокамеры*/
-int TRANSFER = 40000; /*передача данных с видеокамеры на ПК*/ 
+int TRANSFER = 70; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
 
 /*буфер команд*/
 int  COMMANDSLEN = 0;
@@ -224,7 +221,7 @@ void pamSetACT(String str)
       ACT = HIGH;
       SAT = LOW;
       digitalWrite(BLUE_PIN, SAT);
-      int value = 255*LSAT / 1000;
+      int value = 255*LACT / 1000;
       analogWrite(BLUE_PIN, value);
     }
     Serial.println(_success + str);
@@ -371,6 +368,10 @@ void _pamActinic(int brightness, int duration)
       analogWrite(BLUE_PIN, value);              // -- запуск ШИМ 
       delay(total_delay);                        // -- задержка 
       digitalWrite(BLUE_PIN, SAT);             // -- остановка 
+
+  // возвращаем освещение в исходное состояние 
+  __SWITCH_ON__ 
+      
 }
 
 #define _BEGIN_OBTAIN_PARAMS_                                 \
@@ -407,7 +408,6 @@ void pamActicinc(String command)
        _BEGIN_OBTAIN_PARAMS_            
             
             _pamActinic(brightness, duration);     
-            //Serial.println("ACTINIC DONE");
             Serial.println(_success + command);
 
       _END_OBTAIN_PARAMS_
@@ -420,7 +420,6 @@ void pamSaturation(String command)
        _BEGIN_OBTAIN_PARAMS_   
        
             _pamSaturation(brightness, duration);     
-            //Serial.println("SATURATION DONE");
             Serial.println(_success + command);
             
        _END_OBTAIN_PARAMS_
@@ -441,13 +440,16 @@ void _pamSaturation(int brightness, unsigned int duration)
     analogWrite(BLUE_PIN, value);              // -- запуск ШИМ 
     delay(total_delay);            // -- задержка 
     digitalWrite(BLUE_PIN, SAT);             // -- остановка     
+
+  // возвращаем освещение в исходное состояние 
+  __SWITCH_ON__ 
+    
 }
 void pamAdditional(String command)
 {
        _BEGIN_OBTAIN_PARAMS_   
        
             _pamAdditional(brightness, duration);     
-            //Serial.println("ADDITIONAL DONE");
             Serial.println(_success + command);
             
        _END_OBTAIN_PARAMS_
@@ -468,6 +470,10 @@ void _pamAdditional(int brightness, unsigned int duration)
     analogWrite(RED_PIN, value);                // -- запуск ШИМ 
     delay(total_delay);             // -- задержка 
     digitalWrite(RED_PIN, ADD);                // -- остановка       
+
+  // возвращаем освещение в исходное состояние 
+  __SWITCH_ON__ 
+    
 }
 void pamFlash()
 {
@@ -499,7 +505,7 @@ void _pamFlash()
 }
 /*темновой кадр
 */
-void pamDark()
+void _pamDark()
 {
     __SWITCH_OFF__ 
     
@@ -508,8 +514,109 @@ void pamDark()
     digitalWrite(CAMERA_PIN, LOW);   
    __SWITCH_ON__ 
 
+}
+void pamDark()
+{
+    _pamDark();
     Serial.println(_success + "DARK");    
 }
+/* отколючение испточников освещения на заданный промежуток времени
+*/
+void pamDarkness(String command)
+{
+    int index1 = command.indexOf('(');                        
+    int index2 = command.indexOf(')');                        
+    if (index1 == -1 || index2 == -1)                         
+      Serial.println(_error);                                 
+    else                                                      
+    {                                                         
+          String params = command.substring(index1 + 1, index2);  
+          int duration   = params.toInt();                         
+          if (duration < 1 || duration > 60000)
+            Serial.println(_error);                                 
+          else
+          {
+            _pamDarkness(duration);
+            Serial.println(_success + command);    
+          }
+   }
+}
+/* выключение освещения на delayMs миллисекунд 
+*/
+void _pamDarkness(int delayMs)
+{
+    // выклчаем освещение 
+    __SWITCH_OFF__
+    delay(delayMs);
+    __SWITCH_ON__ 
+}
+
+/* получение серии изображений FoFm
+*/
+void _pamFoFm()
+{
+    __SWITCH_OFF__
+    _pamDark();
+    delay(TRANSFER);
+    _pamFlash();
+    delay(TRANSFER);
+    _pamFlash();
+    delay(TRANSFER);
+    _pamDark();
+    _pamSaturation(LSAT, 500);
+    _pamFlash();
+    _pamSaturation(LSAT, 100);
+    _pamFlash();
+    _pamSaturation(LSAT, 100);
+    _pamFlash();
+    _pamSaturation(LSAT, 100);
+    _pamFlash();
+    delay(TRANSFER);        
+    __SWITCH_ON__ 
+}
+
+void pamFoFm()
+{
+    _pamFoFm();
+    Serial.println(_success + "FOFM");    
+}
+
+/* получение серии изображений FtFm1
+*/
+void _pamFtFm1()
+{
+    __SWITCH_OFF__
+    _pamDark();
+
+    _pamActinic(LACT, 100);
+    _pamFlash();
+
+    _pamActinic(LACT, 100);
+    _pamFlash();
+
+    _pamActinic(LACT, 100);
+    _pamFlash();
+    delay(TRANSFER);
+
+    _pamDark();
+    
+    _pamSaturation(LSAT, 500);
+    
+    _pamFlash();
+    _pamSaturation(LSAT, 100);
+    _pamFlash();
+    _pamSaturation(LSAT, 100);
+    _pamFlash();
+    delay(2*TRANSFER);        
+    __SWITCH_ON__ 
+}
+
+void pamFtFm1()
+{
+    _pamFtFm1();
+    Serial.println(_success + "FTFM1");    
+}
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -571,10 +678,16 @@ void loop() {
       pamSaturation(incomingString);   
     else if (incomingString.indexOf("ADDITIONAL(") != -1)
       pamAdditional(incomingString);           
+    else if (incomingString.indexOf("DARKNESS(") != -1)
+      pamDarkness(incomingString);           
     else if (incomingString.indexOf("DARK") != -1)
       pamDark();           
     else if (incomingString.indexOf("FLASH") != -1)
       pamFlash();           
+    else if (incomingString.indexOf("FOFM") != -1)
+      pamFoFm();           
+    else if (incomingString.indexOf("FTFM1") != -1)
+      pamFtFm1();           
     else
       Serial.println(_unknown);
   }
