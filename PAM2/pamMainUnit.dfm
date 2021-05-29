@@ -59,8 +59,7 @@ object pamMainForm: TpamMainForm
       Height = 26
       Caption = 'ToolBar1'
       TabOrder = 0
-      ExplicitLeft = 12
-      ExplicitTop = 1
+      Visible = False
       object ToolButton16: TToolButton
         AlignWithMargins = True
         Left = 0
@@ -94,8 +93,7 @@ object pamMainForm: TpamMainForm
         AlignWithMargins = True
         Left = 77
         Top = 0
-        Caption = 'ToolButton1'
-        ImageIndex = 0
+        Action = viewFrameAction
       end
       object ToolButton2: TToolButton
         AlignWithMargins = True
@@ -187,8 +185,6 @@ object pamMainForm: TpamMainForm
       OnDockDrop = LeftDocPanelDockDrop
       OnDockOver = LeftDocPanelDockOver
       OnUnDock = LeftDocPanelUnDock
-      ExplicitTop = 30
-      ExplicitHeight = 424
     end
     object PhImage1: TPhImage
       Left = 9
@@ -201,8 +197,6 @@ object pamMainForm: TpamMainForm
       SlideShowInterval = 500
       Align = alClient
       ParentColor = False
-      ExplicitTop = 36
-      ExplicitHeight = 418
     end
     object RightDocPanel: TPanel
       Left = 674
@@ -215,8 +209,6 @@ object pamMainForm: TpamMainForm
       OnDockDrop = RightDocPanelDockDrop
       OnDockOver = RightDocPanelDockOver
       OnUnDock = RightDocPanelUnDock
-      ExplicitTop = 30
-      ExplicitHeight = 424
     end
     object BottomDocPanel: TPanel
       Left = 1
@@ -241,8 +233,6 @@ object pamMainForm: TpamMainForm
       MaxValue = 4096.000000000000000000
       TicksVisible = True
       PaletteType = phpalGrayscale
-      ExplicitTop = 30
-      ExplicitHeight = 424
     end
   end
   object StatusBar1: TStatusBar
@@ -305,16 +295,79 @@ object pamMainForm: TpamMainForm
         Action = editCopyAction
       end
     end
-    object N28: TMenuItem
+    object N41: TMenuItem
       Caption = #1042#1080#1079#1091#1072#1083#1080#1079#1072#1094#1080#1103
-      object N29: TMenuItem
-        Action = modeLiveVideo
+      object N45: TMenuItem
+        Action = viewFrameAction
       end
-      object N30: TMenuItem
-        Action = modeFlashAction
+      object N46: TMenuItem
+        Caption = '-'
+      end
+      object Fo1: TMenuItem
+        Action = viewFoAction
+      end
+      object Fm1: TMenuItem
+        Action = viewFmAction
+      end
+      object Ft1: TMenuItem
+        Action = viewFtAction
+      end
+      object Fm2: TMenuItem
+        Action = viewFm1Action
+      end
+      object Fv1: TMenuItem
+        Action = viewFvAction
+      end
+      object Fv2: TMenuItem
+        Action = viewFv1Action
+      end
+      object Fq1: TMenuItem
+        Action = viewFq1Action
+      end
+      object Fo2: TMenuItem
+        Action = viewFo1Action
+      end
+      object FvFm1: TMenuItem
+        Action = viewFvFm1Action
+      end
+      object YII1: TMenuItem
+        Action = viewYII1Action
+      end
+      object NPQ1: TMenuItem
+        Action = viewNPQ1Action
+      end
+      object qN1: TMenuItem
+        Action = viewqN1Action
+      end
+    end
+    object N28: TMenuItem
+      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
+      object N29: TMenuItem
+        Action = tuningLiveVideo
       end
       object N31: TMenuItem
-        Action = modeCommandsAction
+        Action = tuningCommandsAction
+      end
+      object N42: TMenuItem
+        Caption = '-'
+      end
+      object N30: TMenuItem
+        Action = tuningFlashAction
+      end
+      object N43: TMenuItem
+        Action = tuningDarkAction
+      end
+      object FoFm1: TMenuItem
+        Action = tuningFoFmAction
+      end
+      object FtFm1: TMenuItem
+        Action = tuningFtTm1Action
+      end
+      object N110: TMenuItem
+        Caption = '-'
+      end
+      object N44: TMenuItem
+        Action = windowHardwareAction
       end
     end
     object N5: TMenuItem
@@ -342,9 +395,6 @@ object pamMainForm: TpamMainForm
       Caption = #1054#1082#1085#1072
       object N7: TMenuItem
         Action = windowConsoleAction
-      end
-      object N41: TMenuItem
-        Action = windowHardwareAction
       end
       object N8: TMenuItem
         Action = windowExperimentAction
@@ -481,23 +531,23 @@ object pamMainForm: TpamMainForm
       OnExecute = fileSaveExperimentActionExecute
       OnUpdate = fileSaveExperimentActionUpdate
     end
-    object modeLiveVideo: TAction
-      Category = 'mode'
-      Caption = #1042#1080#1076#1077#1086
-      OnExecute = modeLiveVideoExecute
-      OnUpdate = modeLiveVideoUpdate
+    object tuningLiveVideo: TAction
+      Category = 'tuning'
+      Caption = #1057#1080#1075#1085#1072#1083' '#1089' '#1074#1080#1076#1077#1086#1082#1072#1084#1077#1088#1099
+      OnExecute = tuningLiveVideoExecute
+      OnUpdate = tuningLiveVideoUpdate
     end
-    object modeFlashAction: TAction
-      Category = 'mode'
-      Caption = #1042#1089#1087#1099#1096#1082#1080
-      OnExecute = modeFlashActionExecute
-      OnUpdate = modeFlashActionUpdate
+    object tuningFlashAction: TAction
+      Category = 'tuning'
+      Caption = #1048#1079#1084#1077#1088#1080#1090#1077#1083#1100#1085#1072#1103' '#1074#1089#1087#1099#1096#1082#1072
+      OnExecute = tuningFlashActionExecute
+      OnUpdate = tuningFlashActionUpdate
     end
-    object modeCommandsAction: TAction
-      Category = 'mode'
-      Caption = #1050#1086#1084#1072#1085#1076#1099
-      OnExecute = modeCommandsActionExecute
-      OnUpdate = modeCommandsActionUpdate
+    object tuningCommandsAction: TAction
+      Category = 'tuning'
+      Caption = #1050#1086#1084#1072#1085#1076#1085#1099#1081' '#1088#1077#1078#1080#1084
+      OnExecute = tuningCommandsActionExecute
+      OnUpdate = tuningCommandsActionUpdate
     end
     object paletteScaleAction: TAction
       Category = 'palette'
@@ -555,9 +605,105 @@ object pamMainForm: TpamMainForm
     end
     object windowHardwareAction: TAction
       Category = 'Window'
-      Caption = #1054#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1077
+      Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099' '#1086#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1103
       OnExecute = windowHardwareActionExecute
       OnUpdate = windowHardwareActionUpdate
+    end
+    object tuningDarkAction: TAction
+      Category = 'tuning'
+      Caption = #1058#1077#1084#1085#1086#1074#1086#1081' '#1082#1072#1076#1088
+      OnExecute = tuningDarkActionExecute
+      OnUpdate = tuningDarkActionUpdate
+    end
+    object tuningFoFmAction: TAction
+      Category = 'tuning'
+      Caption = #1048#1079#1084#1077#1088#1077#1085#1080#1077' Fo + Fm'
+      OnExecute = tuningFoFmActionExecute
+      OnUpdate = tuningFoFmActionUpdate
+    end
+    object tuningFtTm1Action: TAction
+      Category = 'tuning'
+      Caption = #1048#1079#1084#1077#1088#1077#1085#1080#1077' Ft + Fm`'
+      OnExecute = tuningFtTm1ActionExecute
+      OnUpdate = tuningFtTm1ActionUpdate
+    end
+    object viewFrameAction: TAction
+      Category = 'view'
+      Caption = #1058#1077#1082#1091#1097#1080#1081' '#1082#1072#1076#1088
+      OnExecute = viewFrameActionExecute
+      OnUpdate = viewFrameActionUpdate
+    end
+    object viewFoAction: TAction
+      Category = 'view'
+      Caption = 'Fo'
+      OnExecute = viewFoActionExecute
+      OnUpdate = viewFoActionUpdate
+    end
+    object viewFmAction: TAction
+      Category = 'view'
+      Caption = 'Fm'
+      OnExecute = viewFmActionExecute
+      OnUpdate = viewFmActionUpdate
+    end
+    object viewFtAction: TAction
+      Category = 'view'
+      Caption = 'Ft'
+      OnExecute = viewFtActionExecute
+      OnUpdate = viewFtActionUpdate
+    end
+    object viewFm1Action: TAction
+      Category = 'view'
+      Caption = 'Fm'#39
+      OnExecute = viewFm1ActionExecute
+      OnUpdate = viewFm1ActionUpdate
+    end
+    object viewFvAction: TAction
+      Category = 'view'
+      Caption = 'Fv'
+      OnExecute = viewFvActionExecute
+      OnUpdate = viewFvActionUpdate
+    end
+    object viewFv1Action: TAction
+      Category = 'view'
+      Caption = 'Fv'#39
+      OnExecute = viewFv1ActionExecute
+      OnUpdate = viewFv1ActionUpdate
+    end
+    object viewFq1Action: TAction
+      Category = 'view'
+      Caption = 'Fq'#39
+      OnExecute = viewFq1ActionExecute
+      OnUpdate = viewFq1ActionUpdate
+    end
+    object viewFo1Action: TAction
+      Category = 'view'
+      Caption = 'Fo'#39
+      OnExecute = viewFo1ActionExecute
+      OnUpdate = viewFo1ActionUpdate
+    end
+    object viewFvFm1Action: TAction
+      Category = 'view'
+      Caption = 'Fv/Fm'#39
+      OnExecute = viewFvFm1ActionExecute
+      OnUpdate = viewFvFm1ActionUpdate
+    end
+    object viewYII1Action: TAction
+      Category = 'view'
+      Caption = 'YII'#39
+      OnExecute = viewYII1ActionExecute
+      OnUpdate = viewYII1ActionUpdate
+    end
+    object viewNPQ1Action: TAction
+      Category = 'view'
+      Caption = 'NPQ'#39
+      OnExecute = viewNPQ1ActionExecute
+      OnUpdate = viewNPQ1ActionUpdate
+    end
+    object viewqN1Action: TAction
+      Category = 'view'
+      Caption = 'qN'#39
+      OnExecute = viewqN1ActionExecute
+      OnUpdate = viewqN1ActionUpdate
     end
   end
   object Comm1: TComm

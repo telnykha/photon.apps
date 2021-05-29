@@ -39,7 +39,7 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 		}
-		ConsoleForm->Memo1->Lines->Add("Получено изображение");
+		//ConsoleForm->Memo1->Lines->Add("Получено изображение");
 		pamMainForm->PreviewFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
 #ifdef _DEBUG
 #endif
@@ -496,39 +496,41 @@ void __fastcall TpamMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::modeLiveVideoExecute(TObject *Sender)
+void __fastcall TpamMainForm::tuningLiveVideoExecute(TObject *Sender)
 {
 	SetVideoMode(pam2videoLive);
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::modeLiveVideoUpdate(TObject *Sender)
+void __fastcall TpamMainForm::tuningLiveVideoUpdate(TObject *Sender)
 {
-	modeLiveVideo->Checked = m_videoMode == pam2videoLive;
+	tuningLiveVideo->Checked = m_videoMode == pam2videoLive;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::modeFlashActionExecute(TObject *Sender)
+void __fastcall TpamMainForm::tuningFlashActionExecute(TObject *Sender)
 {
-	SetVideoMode(pam2videoFlash);
+	//SetVideoMode(pam2videoFlash);
+	this->ExecuteCommand(L"FLASH");
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::modeFlashActionUpdate(TObject *Sender)
+void __fastcall TpamMainForm::tuningFlashActionUpdate(TObject *Sender)
 {
-	modeFlashAction->Checked = m_videoMode == pam2videoFlash;
+	//tuningFlashAction->Checked = m_videoMode == pam2videoFlash;
+	tuningFlashAction->Enabled = m_videoMode == pam2videoCommands;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::modeCommandsActionExecute(TObject *Sender)
+void __fastcall TpamMainForm::tuningCommandsActionExecute(TObject *Sender)
 {
    SetVideoMode(pam2videoCommands);
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::modeCommandsActionUpdate(TObject *Sender)
+void __fastcall TpamMainForm::tuningCommandsActionUpdate(TObject *Sender)
 {
-	modeCommandsAction->Checked = m_videoMode == pam2videoCommands;
+	tuningCommandsAction->Checked = m_videoMode == pam2videoCommands;
 }
 //---------------------------------------------------------------------------
 // typedef enum {pam2Tuning, pam2Capture, pam2Analysis}EPam2Modes;
@@ -814,15 +816,21 @@ void __fastcall TpamMainForm::SwitchAct(int value)
 void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 {
 	char wb[256] ;
-    int i ;
+	int i ;
 	if (Comm1->Enabled())
 	{
+		if (m_videoMode == pam2videoLive && (command == L"FLASH" ||
+		 command == L"DARK" || command == L"FOFM" || command == L"FTFM1")) {
+			ConsoleForm->Memo1->Lines->Add("ERROR: команда " + command + L" не поддерживается в режиме отображения видеосигнала.");
+			return;
+		}
+
 		if (command == L"FLASH" || command == L"DARK") {
 			m_buffer = new TPamImageBuffer(1);
 		}
 		else if (command == L"FOFM" || command == L"FTFM1") {
-                m_buffer = new TPamImageBuffer(8);
-			 }
+				m_buffer = new TPamImageBuffer(8);
+		}
 
 		AnsiString str = command;
 		sprintf(wb,"%s",str.c_str());
@@ -832,10 +840,195 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 		ConsoleForm->Memo1->Lines->Add("Устройство не подключено.");
 }
 
+void __fastcall TpamMainForm::tuningDarkActionExecute(TObject *Sender)
+{
+	this->ExecuteCommand(L"DARK");
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TpamMainForm::tuningDarkActionUpdate(TObject *Sender)
+{
+	tuningDarkAction->Enabled = m_videoMode == pam2videoCommands;
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TpamMainForm::tuningFoFmActionExecute(TObject *Sender)
+{
+		this->ExecuteCommand(L"FOFM");
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TpamMainForm::tuningFoFmActionUpdate(TObject *Sender)
+{
+	tuningFoFmAction->Enabled = m_videoMode == pam2videoCommands;
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TpamMainForm::tuningFtTm1ActionExecute(TObject *Sender)
+{
+    this->ExecuteCommand(L"FTFM1");
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TpamMainForm::tuningFtTm1ActionUpdate(TObject *Sender)
+{
+	tuningFtTm1Action->Enabled = m_videoMode == pam2videoCommands;
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TpamMainForm::viewFrameActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFrameActionUpdate(TObject *Sender)
+{
+	viewFrameAction->Enabled = m_pam2Doc.hasFrame;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFoActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFoActionUpdate(TObject *Sender)
+{
+	viewFoAction->Enabled = m_pam2Doc.hasFoFm;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFmActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFmActionUpdate(TObject *Sender)
+{
+	viewFmAction->Enabled = m_pam2Doc.hasFoFm;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFtActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFtActionUpdate(TObject *Sender)
+{
+		viewFtAction->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFm1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFm1ActionUpdate(TObject *Sender)
+{
+	viewFm1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFvActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFvActionUpdate(TObject *Sender)
+{
+	viewFvAction->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFv1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFv1ActionUpdate(TObject *Sender)
+{
+	viewFv1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFq1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFq1ActionUpdate(TObject *Sender)
+{
+	viewFq1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFo1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFo1ActionUpdate(TObject *Sender)
+{
+	viewFo1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFvFm1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewFvFm1ActionUpdate(TObject *Sender)
+{
+	viewFvFm1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewYII1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewYII1ActionUpdate(TObject *Sender)
+{
+	viewYII1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewNPQ1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewNPQ1ActionUpdate(TObject *Sender)
+{
+	viewNPQ1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewqN1ActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::viewqN1ActionUpdate(TObject *Sender)
+{
+	viewqN1Action->Enabled = m_pam2Doc.hasFtFm1;
+}
+//---------------------------------------------------------------------------
 

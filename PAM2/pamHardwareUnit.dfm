@@ -3,8 +3,8 @@ object pam2HardwareForm: Tpam2HardwareForm
   Top = 0
   BorderStyle = bsToolWindow
   Caption = #1054#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1077
-  ClientHeight = 494
-  ClientWidth = 219
+  ClientHeight = 492
+  ClientWidth = 218
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,14 +18,13 @@ object pam2HardwareForm: Tpam2HardwareForm
     Left = 0
     Top = 0
     Width = 220
-    Height = 494
+    Height = 492
     Align = alLeft
     BorderStyle = bsSingle
     DragKind = dkDock
     DragMode = dmAutomatic
     TabOrder = 0
-    ExplicitTop = -8
-    ExplicitHeight = 513
+    ExplicitHeight = 494
     object Label1: TLabel
       AlignWithMargins = True
       Left = 4
@@ -41,8 +40,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitLeft = 1
-      ExplicitTop = 258
       ExplicitWidth = 75
     end
     object Label2: TLabel
@@ -221,13 +218,10 @@ object pam2HardwareForm: Tpam2HardwareForm
       Left = 1
       Top = 280
       Width = 214
-      Height = 209
+      Height = 207
       Align = alClient
       TabOrder = 3
-      ExplicitLeft = 14
-      ExplicitTop = 328
-      ExplicitWidth = 185
-      ExplicitHeight = 105
+      ExplicitHeight = 209
       object SpeedButton1: TSpeedButton
         Left = 150
         Top = 25
@@ -394,8 +388,8 @@ object pam2HardwareForm: Tpam2HardwareForm
     OnMouseUp = PhTrackBar4MouseUp
   end
   object ActionList1: TActionList
-    Left = 164
-    Top = 87
+    Left = 100
+    Top = 95
     object hardwareSATAction: TAction
       Caption = '50%'
       GroupIndex = 1
