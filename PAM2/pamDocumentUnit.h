@@ -6,6 +6,8 @@
 #include "pamImageBufferUnit.h"
 class TPam2Document
 {
+private:
+	HWND m_hwnd;
 protected:
 	TPamImageBuffer* m_frameBuffer;
 	TPamImageBuffer* m_fofmBuffer;
@@ -17,14 +19,19 @@ protected:
 	bool __fastcall HasFrame();
 	bool __fastcall HasFoFm();
 	bool __fastcall HasFtFm1();
+
+	void SetFrameBuffer(TPamImageBuffer* buffer);
+
 public:
-	TPam2Document();
+	TPam2Document(HWND wnd = NULL);
 	~TPam2Document();
 
 	bool newDocument();
 	bool OpenDocument(const UnicodeString& fileName);
 	bool SaveDocument(const UnicodeString& fileName);
 	bool closeDocument();
+
+	bool SetBuffer(TPamImageBuffer* buffer);
 
 	// получение визуализых данных из документа.
 	awpImage* GetFrame();

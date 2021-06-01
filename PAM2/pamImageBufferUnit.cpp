@@ -5,11 +5,54 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-TPamImageBuffer::TPamImageBuffer(int size)
+TPamImageBuffer::TPamImageBuffer(EPam2BufferType bufferType)
 {
 	m_count = 0;
-	m_size = size;
+	m_bufferType = bufferType;
+	switch(m_bufferType)
+	{
+		case pam2bfDark:
+		case pam2bfFlash:
+			m_size = 1;
+		break;
+		case pam2bfFoFm:
+		case pam2bfFtFm1:
+			m_size = 8;
+		break;
+	}
 }
+
+TPamImageBuffer::TPamImageBuffer(TPamImageBuffer& other)
+{
+	this->m_count = other.m_count;
+	this->m_size  = other.m_size;
+	this->m_bufferType = other.m_bufferType;
+	for (int i = 0; i < m_count; i++)
+	{
+		TLFImage* _img = new TLFImage();
+		_img->SetImage(other.getImage(i));
+		m_list.AddImage(_img);
+	}
+}
+
+TPamImageBuffer& TPamImageBuffer::operator=(TPamImageBuffer& buffer)
+{
+   if (this != &buffer)
+   {
+        m_list.Clear();
+		this->m_count = buffer.m_count;
+		this->m_size  = buffer.m_size;
+		this->m_bufferType = buffer.m_bufferType;
+		for (int i = 0; i < m_count; i++)
+		{
+			TLFImage* _img = new TLFImage();
+			_img->SetImage(buffer.getImage(i));
+			m_list.AddImage(_img);
+		}
+   }
+   return *this;
+}
+
 
 void __fastcall TPamImageBuffer::AddFrame(int width, int height, unsigned char* data)
 {
@@ -25,8 +68,7 @@ void __fastcall TPamImageBuffer::AddFrame(int width, int height, unsigned char* 
 	 if (m_count >= m_size) {
 		// Подготовка результирующего изображения
 		// и обновление экрана
-		Process();
-		pamMainForm->SetPicture(getImage(0));
+		pamMainForm->SetBuffer(this);
 	 }
 }
 
@@ -65,15 +107,6 @@ void __fastcall TPamImageBuffer::Clear()
 	m_list.Clear();
 	m_count = 0;
 }
-
-void __fastcall TPamImageBuffer::Process()
-{
-	for (int i = 0; i < m_list.GetCount(); i++) {
-		awpImage* img = m_list.GetImage(i)->GetImage();
-		awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
-	}
-}
-
 
 
 

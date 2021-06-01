@@ -825,12 +825,14 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 			return;
 		}
 
-		if (command == L"FLASH" || command == L"DARK") {
-			m_buffer = new TPamImageBuffer(1);
-		}
-		else if (command == L"FOFM" || command == L"FTFM1") {
-				m_buffer = new TPamImageBuffer(8);
-		}
+		if (command == L"FLASH")
+			m_buffer = new TPamImageBuffer(pam2bfFlash);
+		else if (command == L"DARK")
+			m_buffer = new TPamImageBuffer(pam2bfFlash);
+		else if (command == L"FOFM")
+			m_buffer = new TPamImageBuffer(pam2bfFoFm);
+		 else if(command == L"FTFM1")
+			m_buffer = new TPamImageBuffer(pam2bfFtFm1);
 
 		AnsiString str = command;
 		sprintf(wb,"%s",str.c_str());
@@ -1031,4 +1033,26 @@ void __fastcall TpamMainForm::viewqN1ActionUpdate(TObject *Sender)
 	viewqN1Action->Enabled = m_pam2Doc.hasFtFm1;
 }
 //---------------------------------------------------------------------------
+void __fastcall TpamMainForm::WMUSER1(TMessage & msg)
+{
+	ConsoleForm->Memo1->Lines->Add(L"Message WM_USER+1");
+	awpImage* image = m_pam2Doc.GetFrame();
+	if (image != NULL)
+	{
+		awpImage* img = NULL;
+		awpCopyImage(image, &img);
+		awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
+		this->SetPicture(img);
+        awpReleaseImage(&img);
+	}
+}
+void __fastcall TpamMainForm::WMUSER2(TMessage & msg)
+{
+
+}
+
+void __fastcall TpamMainForm::SetBuffer(TPamImageBuffer* buffer)
+{
+	this->m_pam2Doc.SetBuffer(buffer);
+}
 

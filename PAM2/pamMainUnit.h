@@ -295,6 +295,14 @@ private:	// User declarations
 	void __fastcall SetMode(EPam2Modes mode);
 	void __fastcall SetVideoMode(EPam2VideoModes mode);
 	TPamImageBuffer* m_buffer;
+
+protected:
+	BEGIN_MESSAGE_MAP
+		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
+		VCL_MESSAGE_HANDLER(WM_USER+2, TMessage, WMUSER2)
+	END_MESSAGE_MAP(TForm)
+	void __fastcall WMUSER1(TMessage & msg);
+	void __fastcall WMUSER2(TMessage & msg);
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
@@ -311,6 +319,7 @@ public:		// User declarations
 	void __fastcall ExecuteCommand(const UnicodeString& command);
 
 	void __fastcall SetPicture(awpImage* img);
+	void __fastcall SetBuffer(TPamImageBuffer* buffer);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;
