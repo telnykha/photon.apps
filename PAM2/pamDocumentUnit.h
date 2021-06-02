@@ -4,6 +4,8 @@
 //---------------------------------------------------------------------------
 #include <system.hpp>
 #include "pamImageBufferUnit.h"
+#include "pamFrameUnit.h"
+
 class TPam2Document
 {
 private:
@@ -13,6 +15,9 @@ protected:
 	TPamImageBuffer* m_fofmBuffer;
 	TPamImageBuffer* m_ftfm1Buffer;
 
+	TPam2Frame  m_FoFm;
+	TPam2Frame  m_FtFm1;
+
 	int m_numFrames;
 	int m_currentFrame;
 
@@ -20,7 +25,9 @@ protected:
 	bool __fastcall HasFoFm();
 	bool __fastcall HasFtFm1();
 
-	void SetFrameBuffer(TPamImageBuffer* buffer);
+	void __fastcall SetFrameBuffer(TPamImageBuffer* buffer);
+	void __fastcall SetFoFmBuffer(TPamImageBuffer* buffer);
+	void __fastcall SetFtFm1Buffer(TPamImageBuffer* buffer);
 
 public:
 	TPam2Document(HWND wnd = NULL);
@@ -31,7 +38,7 @@ public:
 	bool SaveDocument(const UnicodeString& fileName);
 	bool closeDocument();
 
-	bool SetBuffer(TPamImageBuffer* buffer);
+	bool __fastcall SetBuffer(TPamImageBuffer* buffer);
 
 	// получение визуализых данных из документа.
 	awpImage* GetFrame();

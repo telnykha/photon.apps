@@ -52,7 +52,8 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 {
 	m_camera = 0;
 	m_numCameras = 0;
-	m_videoMode = pam2videoCommands;
+	m_videoMode  = pam2videoCommands;
+	m_viewSource = pam2viewFrame;
 	m_Flash = 20;
     m_buffer = NULL;//new TPamImageBuffer(1);
 }
@@ -189,7 +190,8 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 		обнаружено и работает без ошибок. в
 	*/
 	SetMode(hardware_ready?pam2Tuning:pam2Analysis);
-    SetVideoMode(pam2videoCommands);
+	SetVideoMode(pam2videoCommands);
+    SetViewSource(pam2viewFrame);
 }
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
@@ -485,8 +487,6 @@ void __fastcall TpamMainForm::SetPicture(awpImage* img)
 	   }
 	   else
 		   PhImage1->SetAwpImage(img);
-	   delete m_buffer;
-       m_buffer = NULL;
 }
 
 
@@ -563,6 +563,39 @@ static UnicodeString EPam2VideoModesToString(EPam2VideoModes mode)
 	if (mode == pam2videoCommands)
 		return L"команды";
 }
+/*
+typedef enum {pam2viewFrame, pam2viewFo, pam2viewFm, pam2viewFt,pam2viewFm1,
+pam2viewFv, pam2viewFv1, pam2viewFq1, pam2viewFo1, pam2vewFvFm1,
+pam2viewYII1, pam2viewNPQ1, pam2viewqN1}EPam2ViewSource;
+
+*/
+static UnicodeString EPam2ViewSourceToString(EPam2ViewSource source)
+{
+	if (source == pam2viewFrame)
+		return "Frame";
+	if (source == pam2viewFo)
+		return "Fo";
+	if (source == pam2viewFm)
+		return "Fm";
+	if (source == pam2viewFt)
+		return "Ft";
+	if (source == pam2viewFv)
+		return "Fv";
+	if (source == pam2viewFv1)
+		return "Fv'";
+	if (source == pam2viewFq1)
+		return "Fq'";
+	if (source == pam2viewFo1)
+		return "Fo'";
+	if (source == pam2viewFvFm1)
+		return "Fv/Fm'";
+	if (source == pam2viewYII1)
+		return "YII'";
+	if (source == pam2viewNPQ1)
+		return "NPQ'";
+	if (source == pam2viewqN1)
+		return "qN'";
+}
 
 void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 {
@@ -589,7 +622,6 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  }
 
 	  BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
-	  StatusBar1->Panels->Items[1]->Text = L"Визуализация: " + EPam2VideoModesToString(m_videoMode);
 }
 
 void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
@@ -613,6 +645,7 @@ void __fastcall TpamMainForm::paletteScaleActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::plaetteGrayscaleActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalGrayscale;
+	this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -625,6 +658,7 @@ void __fastcall TpamMainForm::plaetteGrayscaleActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteOceanActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalOcean;
+	this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -637,6 +671,7 @@ void __fastcall TpamMainForm::paletteOceanActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteGlowActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalGlow;
+	this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -649,6 +684,7 @@ void __fastcall TpamMainForm::paletteGlowActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteRedBlueActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalBluered;
+    this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -661,6 +697,7 @@ void __fastcall TpamMainForm::paletteRedBlueActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteTrafficActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalTraffic;
+    this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -673,6 +710,7 @@ void __fastcall TpamMainForm::paletteTrafficActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteSpecturmActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalSpectum;
+    this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -685,6 +723,7 @@ void __fastcall TpamMainForm::paletteSpecturmActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteSpectrum2ActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalSpectrum2;
+    this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -697,6 +736,7 @@ void __fastcall TpamMainForm::paletteSpectrum2ActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteFalseColorsActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalFalseColors;
+    this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -825,6 +865,12 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 			return;
 		}
 
+		if ((command == L"FLASH" ||
+		 command == L"DARK" || command == L"FOFM" || command == L"FTFM1")) {
+			delete this->m_buffer;
+			m_buffer = NULL;
+		}
+
 		if (command == L"FLASH")
 			m_buffer = new TPamImageBuffer(pam2bfFlash);
 		else if (command == L"DARK")
@@ -874,168 +920,180 @@ void __fastcall TpamMainForm::tuningFtTm1ActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::tuningFtTm1ActionUpdate(TObject *Sender)
 {
-	tuningFtTm1Action->Enabled = m_videoMode == pam2videoCommands;
+	tuningFtTm1Action->Enabled = m_videoMode == pam2videoCommands && m_pam2Doc.hasFoFm;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFrameActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFrame);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFrameActionUpdate(TObject *Sender)
 {
 	viewFrameAction->Enabled = m_pam2Doc.hasFrame;
+	viewFrameAction->Checked = m_viewSource == pam2viewFrame;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFoActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFo);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFoActionUpdate(TObject *Sender)
 {
 	viewFoAction->Enabled = m_pam2Doc.hasFoFm;
+	viewFoAction->Checked = m_viewSource == pam2viewFo;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFmActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFm);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFmActionUpdate(TObject *Sender)
 {
 	viewFmAction->Enabled = m_pam2Doc.hasFoFm;
+	viewFmAction->Checked = m_viewSource == pam2viewFm;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFtActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFt);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFtActionUpdate(TObject *Sender)
 {
 		viewFtAction->Enabled = m_pam2Doc.hasFtFm1;
+		viewFtAction->Checked = m_viewSource == pam2viewFt;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFm1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFm1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFm1ActionUpdate(TObject *Sender)
 {
 	viewFm1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewFm1Action->Checked = m_viewSource == pam2viewFm1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFvActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFv);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFvActionUpdate(TObject *Sender)
 {
 	viewFvAction->Enabled = m_pam2Doc.hasFtFm1;
+	viewFvAction->Checked = m_viewSource == pam2viewFv;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFv1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFv1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFv1ActionUpdate(TObject *Sender)
 {
 	viewFv1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewFv1Action->Checked = m_viewSource == pam2viewFv1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFq1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFq1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFq1ActionUpdate(TObject *Sender)
 {
 	viewFq1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewFq1Action->Checked = m_viewSource == pam2viewFq1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFo1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFo1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFo1ActionUpdate(TObject *Sender)
 {
 	viewFo1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewFo1Action->Checked = m_viewSource == pam2viewFo1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFvFm1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewFvFm1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewFvFm1ActionUpdate(TObject *Sender)
 {
 	viewFvFm1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewFvFm1Action->Checked = m_viewSource == pam2viewFvFm1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewYII1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewYII1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewYII1ActionUpdate(TObject *Sender)
 {
 	viewYII1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewYII1Action->Checked = m_viewSource == pam2viewYII1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewNPQ1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewNPQ1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewNPQ1ActionUpdate(TObject *Sender)
 {
 	viewNPQ1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewNPQ1Action->Checked = m_viewSource == pam2viewNPQ1;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewqN1ActionExecute(TObject *Sender)
 {
-//
+	SetViewSource(pam2viewqN1);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::viewqN1ActionUpdate(TObject *Sender)
 {
 	viewqN1Action->Enabled = m_pam2Doc.hasFtFm1;
+	viewqN1Action->Checked = m_viewSource == pam2viewqN1;
 }
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::WMUSER1(TMessage & msg)
 {
-	ConsoleForm->Memo1->Lines->Add(L"Message WM_USER+1");
 	awpImage* image = m_pam2Doc.GetFrame();
 	if (image != NULL)
 	{
@@ -1043,7 +1101,7 @@ void __fastcall TpamMainForm::WMUSER1(TMessage & msg)
 		awpCopyImage(image, &img);
 		awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
 		this->SetPicture(img);
-        awpReleaseImage(&img);
+		awpReleaseImage(&img);
 	}
 }
 void __fastcall TpamMainForm::WMUSER2(TMessage & msg)
@@ -1051,8 +1109,73 @@ void __fastcall TpamMainForm::WMUSER2(TMessage & msg)
 
 }
 
-void __fastcall TpamMainForm::SetBuffer(TPamImageBuffer* buffer)
+TPam2Document* __fastcall TpamMainForm::GetDocument()
 {
-	this->m_pam2Doc.SetBuffer(buffer);
+	return &m_pam2Doc;
 }
+
+void __fastcall TpamMainForm::SetViewSource(EPam2ViewSource source)
+{
+   m_viewSource = source;
+   // обновляем экран
+  StatusBar1->Panels->Items[1]->Text = L"Визуализация: " + EPam2ViewSourceToString(m_viewSource);
+  UpdateScreen();
+}
+
+void __fastcall TpamMainForm::UpdateScreen()
+{
+	awpImage* img = NULL;
+	switch(m_viewSource)
+	{
+	  case  pam2viewFrame:
+		img = m_pam2Doc.GetFrame();
+	  break;
+	  case  pam2viewFo:
+		img = m_pam2Doc.GetFo();
+	  break;
+	  case  pam2viewFm:
+		img = m_pam2Doc.GetFm();
+	  break;
+	  case  pam2viewFt:
+		img = m_pam2Doc.GetFt();
+	  break;
+	  case  pam2viewFm1:
+		img = m_pam2Doc.GetFm1();
+	  break;
+	  case  pam2viewFv:
+		img = m_pam2Doc.GetFv();
+	  break;
+	  case  pam2viewFv1:
+		img = m_pam2Doc.GetFv1();
+	  break;
+	  case  pam2viewFq1:
+		img = m_pam2Doc.GetFq1();
+	  break;
+	  case  pam2viewFo1:
+		img = m_pam2Doc.GetFo1();
+	  break;
+	  case  pam2viewFvFm1:
+		img = m_pam2Doc.GetFvFm1();
+	  break;
+	  case  pam2viewYII1:
+		img = m_pam2Doc.GetYII1();
+	  break;
+	  case  pam2viewNPQ1:
+		img = m_pam2Doc.GetNPQ1();
+	  break;
+	  case  pam2viewqN1:
+		img = m_pam2Doc.GetqN1();
+	  break;
+	}
+	if (img != NULL)
+	{
+		awpImage* _img = NULL;
+		awpCopyImage(img, &_img);
+		awpConvert(_img, AWP_CONVERT_TO_BYTE_WITH_NORM);
+		this->SetPicture(_img);
+		awpReleaseImage(&_img);
+		awpReleaseImage(&img);
+	}
+}
+
 

@@ -163,6 +163,10 @@
             <DependentOn>pamExperimentUnit.h</DependentOn>
             <BuildOrder>8</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamFrameUnit.cpp">
+            <DependentOn>pamFrameUnit.h</DependentOn>
+            <BuildOrder>17</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamHardwareUnit.cpp">
             <Form>pam2HardwareForm</Form>
             <FormType>dfm</FormType>

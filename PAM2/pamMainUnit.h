@@ -22,6 +22,9 @@
 
 typedef enum {pam2Tuning, pam2Capture, pam2Analysis}EPam2Modes;
 typedef enum {pam2videoLive, pam2videoFlash, pam2videoCommands}EPam2VideoModes;
+typedef enum {pam2viewFrame, pam2viewFo, pam2viewFm, pam2viewFt,pam2viewFm1,
+pam2viewFv, pam2viewFv1, pam2viewFq1, pam2viewFo1, pam2viewFvFm1,
+pam2viewYII1, pam2viewNPQ1, pam2viewqN1}EPam2ViewSource;
 //---------------------------------------------------------------------------
 class TpamMainForm : public TForm
 {
@@ -171,7 +174,7 @@ __published:	// IDE-managed Components
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
 	void __fastcall RightDocPanelDockOver(TObject *Sender, TDragDockObject *Source,
-          int X, int Y, TDragState State, bool &Accept);
+		  int X, int Y, TDragState State, bool &Accept);
 	void __fastcall BottomDocPanelDockOver(TObject *Sender, TDragDockObject *Source,
           int X, int Y, TDragState State, bool &Accept);
 	void __fastcall windowConsoleActionExecute(TObject *Sender);
@@ -286,14 +289,16 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	AnsiString rs;
 	TPam2Document   m_pam2Doc;
-    int             m_camera;
-    int				m_numCameras;
-    int             m_Flash;
+	int             m_camera;
+	int				m_numCameras;
+	int             m_Flash;
 	EPam2Modes      m_mode;
 	EPam2VideoModes m_videoMode;
+	EPam2ViewSource m_viewSource;
 	bool OpenCamera();
 	void __fastcall SetMode(EPam2Modes mode);
 	void __fastcall SetVideoMode(EPam2VideoModes mode);
+	void __fastcall SetViewSource(EPam2ViewSource source);
 	TPamImageBuffer* m_buffer;
 
 protected:
@@ -301,8 +306,11 @@ protected:
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
 		VCL_MESSAGE_HANDLER(WM_USER+2, TMessage, WMUSER2)
 	END_MESSAGE_MAP(TForm)
+
 	void __fastcall WMUSER1(TMessage & msg);
 	void __fastcall WMUSER2(TMessage & msg);
+
+	TPam2Document* __fastcall GetDocument();
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
@@ -319,7 +327,8 @@ public:		// User declarations
 	void __fastcall ExecuteCommand(const UnicodeString& command);
 
 	void __fastcall SetPicture(awpImage* img);
-	void __fastcall SetBuffer(TPamImageBuffer* buffer);
+	void __fastcall UpdateScreen();
+	__property TPam2Document* doc = {read = GetDocument};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

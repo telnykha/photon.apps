@@ -66,9 +66,10 @@ void __fastcall TPamImageBuffer::AddFrame(int width, int height, unsigned char* 
 	 }
 	 m_count++;
 	 if (m_count >= m_size) {
-		// ѕодготовка результирующего изображени€
-		// и обновление экрана
-		pamMainForm->SetBuffer(this);
+		// выполн€ем первичную предварительную обработку изображений
+
+		// в буфере закончились кадры, отправл€ем его в документ
+		pamMainForm->doc->SetBuffer(this);
 	 }
 }
 
@@ -79,7 +80,8 @@ awpImage* TPamImageBuffer::getImage(int index)
 	}
 	return m_list.GetImage(index)->GetImage();
 }
-
+// преобразование 12ти битного изображени€ с видеокамеры Mightex
+// в awpImage типа AWP_FLOAT
 awpImage* TPamImageBuffer::Convert12BitToAwpFloat(int width, int height, unsigned char* data)
 {
    awpImage* img = NULL;
