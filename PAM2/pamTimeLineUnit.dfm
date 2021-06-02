@@ -42,32 +42,34 @@ object pam2TimeLineForm: Tpam2TimeLineForm
     Width = 527
     Height = 19
     Panels = <>
-    ExplicitLeft = 232
-    ExplicitTop = 184
-    ExplicitWidth = 0
   end
   object Chart1: TChart
-    Left = 0
-    Top = 28
-    Width = 527
-    Height = 195
+    AlignWithMargins = True
+    Left = 3
+    Top = 31
+    Width = 521
+    Height = 189
+    BackWall.Color = clBackground
     Legend.Visible = False
     MarginBottom = 0
     MarginLeft = 0
     MarginRight = 1
     MarginTop = 2
+    AxisVisible = False
+    TopAxis.LabelsFormat.Font.Height = -4
     View3D = False
     Align = alClient
+    Color = -1
     TabOrder = 2
-    ExplicitLeft = 184
-    ExplicitTop = 104
-    ExplicitWidth = 400
-    ExplicitHeight = 250
+    ExplicitLeft = 0
+    ExplicitTop = 28
+    ExplicitWidth = 527
+    ExplicitHeight = 195
     DefaultCanvas = 'TGDIPlusCanvas'
-    ColorPaletteIndex = 13
+    ColorPaletteIndex = 19
     object Series1: TFastLineSeries
       Selected.Hover.Visible = True
-      LinePen.Color = 10708548
+      LinePen.Color = 15054131
       TreatNulls = tnDontPaint
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -76,7 +78,7 @@ object pam2TimeLineForm: Tpam2TimeLineForm
     end
     object Series2: TFastLineSeries
       Selected.Hover.Visible = True
-      LinePen.Color = 3513587
+      LinePen.Color = 13395626
       TreatNulls = tnDontPaint
       XValues.Name = 'X'
       XValues.Order = loAscending

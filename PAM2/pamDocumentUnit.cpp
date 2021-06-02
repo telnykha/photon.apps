@@ -22,19 +22,19 @@ TPam2Document::~TPam2Document()
 
 }
 
-bool TPam2Document::newDocument()
+bool __fastcall TPam2Document::newDocument()
 {
 	return false;
 }
-bool TPam2Document::OpenDocument(const UnicodeString& fileName)
+bool __fastcall TPam2Document::OpenDocument(const UnicodeString& fileName)
 {
 	return false;
 }
-bool TPam2Document::SaveDocument(const UnicodeString& fileName)
+bool __fastcall TPam2Document::SaveDocument(const UnicodeString& fileName)
 {
 	return false;
 }
-bool TPam2Document::closeDocument()
+bool __fastcall TPam2Document::closeDocument()
 {
 	return false;
 }
@@ -111,10 +111,6 @@ awpImage* TPam2Document::GetFv1()
 	}
 	awpReleaseImage(&Fo);
 	return result;
-}
-awpImage* TPam2Document::GetFq()
-{
-	return NULL;
 }
 awpImage* TPam2Document::GetFq1()
 {

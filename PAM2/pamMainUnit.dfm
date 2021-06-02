@@ -1,7 +1,7 @@
 object pamMainForm: TpamMainForm
   Left = 0
   Top = 0
-  Caption = '+++++++'
+  Caption = 'Photon PAM Fluorescence Analyser '
   ClientHeight = 484
   ClientWidth = 763
   Color = clBtnFace
@@ -371,18 +371,21 @@ object pamMainForm: TpamMainForm
       end
     end
     object N5: TMenuItem
-      Caption = #1048#1085#1089#1090#1088#1091#1084#1077#1085#1090#1099
-      object N14: TMenuItem
-        Action = toolsExecuteAction
-      end
-      object N19: TMenuItem
-        Caption = '-'
+      Caption = #1048#1079#1084#1077#1088#1077#1085#1080#1103
+      object N16: TMenuItem
+        Action = toolsStartExperimetAction
       end
       object N15: TMenuItem
         Action = toolsStopExperimentAction
       end
-      object N16: TMenuItem
-        Action = toolsStartExperimetAction
+      object N19: TMenuItem
+        Caption = '-'
+      end
+      object N8: TMenuItem
+        Action = windowScriptAction
+      end
+      object N14: TMenuItem
+        Action = toolsExecuteAction
       end
       object N18: TMenuItem
         Caption = '-'
@@ -390,26 +393,29 @@ object pamMainForm: TpamMainForm
       object N17: TMenuItem
         Action = toolsOptionsAction
       end
+      object N50: TMenuItem
+        Action = windowExperimentAction
+      end
+    end
+    object Fyfkb1: TMenuItem
+      Caption = #1040#1085#1072#1083#1080#1079
+      object N47: TMenuItem
+        Action = windowTimeLineAction
+      end
+      object N48: TMenuItem
+        Action = windowDistributionAction
+      end
+      object N49: TMenuItem
+        Action = windowResultAction
+      end
     end
     object N4: TMenuItem
-      Caption = #1054#1082#1085#1072
+      Caption = #1057#1077#1088#1074#1080#1089
       object N7: TMenuItem
         Action = windowConsoleAction
       end
-      object N8: TMenuItem
-        Action = windowExperimentAction
-      end
       object N9: TMenuItem
-        Action = windowScriptAction
-      end
-      object N10: TMenuItem
-        Action = windowResultAction
-      end
-      object N11: TMenuItem
-        Action = windowDistributionAction
-      end
-      object N12: TMenuItem
-        Action = windowTimeLineAction
+        Action = toolsOptionsAction
       end
     end
     object N6: TMenuItem
@@ -428,6 +434,7 @@ object pamMainForm: TpamMainForm
     object filesCloseAction: TAction
       Category = 'Files'
       Caption = #1042#1099#1093#1086#1076
+      ShortCut = 16499
       OnExecute = filesCloseActionExecute
     end
     object windowConsoleAction: TAction
@@ -485,13 +492,13 @@ object pamMainForm: TpamMainForm
     end
     object toolsStartExperimetAction: TAction
       Category = 'tools'
-      Caption = #1053#1072#1095#1072#1083#1086' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
+      Caption = #1053#1072#1095#1072#1090#1100' '#1080#1079#1084#1077#1088#1077#1085#1080#1103
       OnExecute = toolsStartExperimetActionExecute
       OnUpdate = toolsStartExperimetActionUpdate
     end
     object toolsStopExperimentAction: TAction
       Category = 'tools'
-      Caption = #1047#1072#1074#1077#1088#1096#1077#1085#1080#1077' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1072
+      Caption = #1047#1072#1074#1077#1088#1096#1080#1090#1100' '#1080#1079#1084#1077#1088#1077#1085#1080#1103
       OnExecute = toolsStopExperimentActionExecute
       OnUpdate = toolsStopExperimentActionUpdate
     end
@@ -509,13 +516,15 @@ object pamMainForm: TpamMainForm
     end
     object fileNewAction: TAction
       Category = 'Files'
-      Caption = #1053#1086#1074#1099#1081' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090
+      Caption = #1053#1086#1074#1099#1081' '#1076#1086#1082#1091#1084#1077#1085#1090
+      ShortCut = 16462
       OnExecute = fileNewActionExecute
       OnUpdate = fileNewActionUpdate
     end
     object fileOpenAction: TAction
       Category = 'Files'
-      Caption = #1054#1090#1082#1088#1099#1090#1100' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090'...'
+      Caption = #1054#1090#1082#1088#1099#1090#1100' '#1076#1086#1082#1091#1084#1077#1085#1090'...'
+      ShortCut = 16463
       OnExecute = fileOpenActionExecute
       OnUpdate = fileOpenActionUpdate
     end
@@ -527,7 +536,8 @@ object pamMainForm: TpamMainForm
     end
     object fileSaveExperimentAction: TAction
       Category = 'Files'
-      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1101#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090'... '
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1076#1086#1082#1091#1084#1077#1085#1090'... '
+      ShortCut = 16467
       OnExecute = fileSaveExperimentActionExecute
       OnUpdate = fileSaveExperimentActionUpdate
     end

@@ -63,11 +63,6 @@ __published:	// IDE-managed Components
 	TMenuItem *N17;
 	TMenuItem *N4;
 	TMenuItem *N7;
-	TMenuItem *N8;
-	TMenuItem *N9;
-	TMenuItem *N10;
-	TMenuItem *N11;
-	TMenuItem *N12;
 	TMenuItem *N6;
 	TMenuItem *N20;
 	TMenuItem *N21;
@@ -170,6 +165,13 @@ __published:	// IDE-managed Components
 	TMenuItem *YII1;
 	TMenuItem *NPQ1;
 	TMenuItem *qN1;
+	TMenuItem *Fyfkb1;
+	TMenuItem *N47;
+	TMenuItem *N48;
+	TMenuItem *N49;
+	TMenuItem *N50;
+	TMenuItem *N8;
+	TMenuItem *N9;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
