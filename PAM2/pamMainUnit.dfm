@@ -1,7 +1,7 @@
 object pamMainForm: TpamMainForm
   Left = 0
   Top = 0
-  Caption = 'Photon PAM Fluorescence Analyser '
+  Caption = '[/|\] Photon PAM Fluorescence Analyser  '
   ClientHeight = 484
   ClientWidth = 763
   Color = clBtnFace
@@ -59,13 +59,11 @@ object pamMainForm: TpamMainForm
       Height = 26
       Caption = 'ToolBar1'
       TabOrder = 0
-      Visible = False
       object ToolButton16: TToolButton
         AlignWithMargins = True
         Left = 0
         Top = 0
-        Caption = 'ToolButton16'
-        ImageIndex = 13
+        Action = tuningFlashAction
       end
       object ToolButton15: TToolButton
         AlignWithMargins = True
@@ -197,6 +195,7 @@ object pamMainForm: TpamMainForm
       SlideShowInterval = 500
       Align = alClient
       ParentColor = False
+      OnMouseMove = PhImage1MouseMove
     end
     object RightDocPanel: TPanel
       Left = 674
@@ -628,12 +627,14 @@ object pamMainForm: TpamMainForm
     object tuningFoFmAction: TAction
       Category = 'tuning'
       Caption = #1048#1079#1084#1077#1088#1077#1085#1080#1077' Fo + Fm'
+      ShortCut = 16463
       OnExecute = tuningFoFmActionExecute
       OnUpdate = tuningFoFmActionUpdate
     end
     object tuningFtTm1Action: TAction
       Category = 'tuning'
       Caption = #1048#1079#1084#1077#1088#1077#1085#1080#1077' Ft + Fm`'
+      ShortCut = 16468
       OnExecute = tuningFtTm1ActionExecute
       OnUpdate = tuningFtTm1ActionUpdate
     end

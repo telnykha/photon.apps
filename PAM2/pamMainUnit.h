@@ -286,6 +286,8 @@ __published:	// IDE-managed Components
 	void __fastcall viewNPQ1ActionUpdate(TObject *Sender);
 	void __fastcall viewqN1ActionExecute(TObject *Sender);
 	void __fastcall viewqN1ActionUpdate(TObject *Sender);
+	void __fastcall PhImage1MouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
+
 
 
 private:	// User declarations
@@ -301,8 +303,13 @@ private:	// User declarations
 	void __fastcall SetMode(EPam2Modes mode);
 	void __fastcall SetVideoMode(EPam2VideoModes mode);
 	void __fastcall SetViewSource(EPam2ViewSource source);
-	TPamImageBuffer* m_buffer;
 
+	TPamImageBuffer* m_buffer;
+	awpImage*        m_screenSource;
+	// параметры эксперимента
+	int              m_numFlashes;
+	int              m_dutyСycle;
+	int              m_currentFlash;
 protected:
 	BEGIN_MESSAGE_MAP
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
@@ -313,6 +320,8 @@ protected:
 	void __fastcall WMUSER2(TMessage & msg);
 
 	TPam2Document* __fastcall GetDocument();
+
+	void __fastcall SetmDutyСycle(int value);
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
@@ -331,6 +340,10 @@ public:		// User declarations
 	void __fastcall SetPicture(awpImage* img);
 	void __fastcall UpdateScreen();
 	__property TPam2Document* doc = {read = GetDocument};
+
+	// параметры эксперимента
+	__property int NumFlashes = {read = m_numFlashes, write = m_numFlashes};
+	__property int DutyСycle = {read = m_dutyСycle, write = m_dutyСycle};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

@@ -29,6 +29,16 @@ __published:	// IDE-managed Components
 	TPhTrackBar *PhTrackBar2;
 	TPanel *Panel3;
 	TSpinEdit *SpinEdit1;
+	void __fastcall SpinEdit3Change(TObject *Sender);
+	void __fastcall SpinEdit1Change(TObject *Sender);
+	void __fastcall PhTrackBar1Change(TObject *Sender);
+	void __fastcall PhTrackBar1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall PhTrackBar2Change(TObject *Sender);
+	void __fastcall PhTrackBar2MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall Tpam2ExperimentForm(TComponent* Owner);

@@ -64,6 +64,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <Defines>WIN32;$(Defines)</Defines>
+        <Custom_Styles>Carbon|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Carbon.vsf</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;ComPort;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;photon41;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;svn;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -105,6 +106,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;photon41.lib;ComPort.lib;vclx.lib;Tee.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
+        <Debugger_DebugSourcePath>C:\_alt\_proj\awplflib\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -207,9 +209,9 @@
             <DependentOn>pamTimeLineUnit.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
-        <FormResources Include="pamMainUnit.dfm"/>
         <FormResources Include="pamHardwareUnit.dfm"/>
         <FormResources Include="pamExperimentUnit.dfm"/>
+        <FormResources Include="pamMainUnit.dfm"/>
         <FormResources Include="pamTimeLineUnit.dfm"/>
         <FormResources Include="pamScriptUnit.dfm"/>
         <FormResources Include="pamResultUnit.dfm"/>

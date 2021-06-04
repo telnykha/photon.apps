@@ -151,9 +151,13 @@ awpImage* TPam2Document::GetFo1()
 
 
 	for (int i = 0; i < Fo->sSizeX*Fo->sSizeY; i++) {
-		float a = _Fv[i] / (0.001 + _Fm[i]);
-		float b = _Fo[i] / (0.001 + _Fm1[i]);
-		_result[i] = _Fo[i] /(0.001 + a + b);
+		float a = _Fv[i] / (_Fm[i]);
+		float b = _Fo[i] / (_Fm1[i]);
+		float c = a + b;
+		if (fabs(c) < 1) {
+			c = 1;
+		}
+		_result[i] = _Fo[i] /c;
 	}
 	awpReleaseImage(&Fv);
 	return result;
@@ -172,7 +176,7 @@ awpImage* TPam2Document::GetFvFm1()
 	AWPFLOAT* _result = (AWPFLOAT*)result->pPixels;
 
 	for (int i = 0; i < Fv1->sSizeX*Fv1->sSizeY; i++) {
-		_result[i] = _Fv1[i] / _Fm1[i];
+		_result[i] = _Fv1[i] / (_Fm1[i] + 0.0001);
 	}
 	awpReleaseImage(&Fv1);
 	return result;
@@ -191,7 +195,9 @@ awpImage* TPam2Document::GetYII1()
 	AWPFLOAT* _result = (AWPFLOAT*)result->pPixels;
 
 	for (int i = 0; i < Fq1->sSizeX*Fq1->sSizeY; i++) {
-		_result[i] = _Fq1[i] / _Fm1[i];
+		float a = _Fm1[i];
+		if (a == 0) a = 0.1;
+		_result[i] = _Fq1[i] / a;
 	}
 	awpReleaseImage(&Fq1);
 	return result;
@@ -212,7 +218,9 @@ awpImage* TPam2Document::GetNPQ1()
 	AWPFLOAT* _result = (AWPFLOAT*)result->pPixels;
 
 	for (int i = 0; i < Fm1->sSizeX*Fm1->sSizeY; i++) {
-		_result[i] = (_Fm[i] - _Fm1[i])/_Fm1[i];
+	    float a = _Fm1[i];
+		if (a == 0) a = 0.1;
+		_result[i] = (_Fm[i] - _Fm1[i])/a;
 	}
 	return result;
 }

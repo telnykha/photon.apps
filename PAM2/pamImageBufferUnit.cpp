@@ -17,7 +17,7 @@ TPamImageBuffer::TPamImageBuffer(EPam2BufferType bufferType)
 		break;
 		case pam2bfFoFm:
 		case pam2bfFtFm1:
-			m_size = 8;
+			m_size = 7;
 		break;
 	}
 }
@@ -66,12 +66,26 @@ void __fastcall TPamImageBuffer::AddFrame(int width, int height, unsigned char* 
 	 }
 	 m_count++;
 	 if (m_count >= m_size) {
-		// выполняем первичную предварительную обработку изображений
-
 		// в буфере закончились кадры, отправляем его в документ
 		pamMainForm->doc->SetBuffer(this);
+#ifdef _DEBUG
+     _DebugSave(ExtractFilePath(Application->ExeName));
+#endif
 	 }
 }
+
+#ifdef _DEBUG
+void __fastcall TPamImageBuffer::_DebugSave(const UnicodeString path )
+{
+	for (int i ; i < m_list.GetCount(); i++)
+	{
+		TLFImage* img = m_list.GetImage(i);
+		AnsiString fname = path + "\\" + IntToStr(i) + ".awp";
+        img->SaveToFile(fname.c_str());
+	}
+}
+
+#endif
 
 awpImage* TPamImageBuffer::getImage(int index)
 {

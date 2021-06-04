@@ -39,8 +39,11 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 		}
-		//ConsoleForm->Memo1->Lines->Add("Получено изображение");
+//		ConsoleForm->Memo1->Lines->Add(L"Mightex exposure: " + IntToStr(50*Attributes->ExposureTime) + L" mks");
+//		ConsoleForm->Memo1->Lines->Add(L"Mightex Frq : " + IntToStr(Attributes->CCDFrequency) + L" mks");
+		ConsoleForm->Memo1->Lines->Add(L"Mightex Frame time : " + IntToStr(Attributes->FrameTime) + L" mks");
 		pamMainForm->PreviewFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
+
 #ifdef _DEBUG
 #endif
 	 }
@@ -55,7 +58,13 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	m_videoMode  = pam2videoCommands;
 	m_viewSource = pam2viewFrame;
 	m_Flash = 20;
-    m_buffer = NULL;//new TPamImageBuffer(1);
+	m_buffer = NULL;
+	m_screenSource = NULL;
+
+	m_numFlashes = 10;
+	m_dutyСycle = 2;
+	m_currentFlash = 0;
+
 }
 void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
 {
@@ -171,7 +180,7 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 	bool hardware_ready = true;
 	try
 	{
-		Comm1->DeviceName = L"COM5";
+		Comm1->DeviceName = L"COM8";
 		Comm1->Open();
 		Comm1->SetRTSState(true);
 		Comm1->SetDTRState(true);
@@ -428,7 +437,7 @@ bool TpamMainForm::OpenCamera()
 	BUFCCDUSB_InstallFrameHooker( 0, CamHook );
 	BUFCCDUSB_StartCameraEngine(this->Handle, 12);
 	BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
-	BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+	BUFCCDUSB_StartFrameGrab(1);
 
 	return true;
 }
@@ -469,8 +478,9 @@ void __fastcall TpamMainForm::PreviewFrame(int width, int height, unsigned char*
 	else
 	{
 #ifdef _DEBUG
-		ConsoleForm->Memo1->Lines->Add("изображение добавлено в буфер");
+//		ConsoleForm->Memo1->Lines->Add("изображение добавлено в буфер");
 #endif
+		BUFCCDUSB_StartFrameGrab(1);
 		m_buffer->AddFrame(width, height, data);
 	}
 }
@@ -579,6 +589,8 @@ static UnicodeString EPam2ViewSourceToString(EPam2ViewSource source)
 		return "Fm";
 	if (source == pam2viewFt)
 		return "Ft";
+	if (source == pam2viewFm1)
+		return "Fm1";
 	if (source == pam2viewFv)
 		return "Fv";
 	if (source == pam2viewFv1)
@@ -607,7 +619,7 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  {
 		// запускаем живое видео
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 0);
-        BUFCCDUSB_SetFrameTime( m_camera, 2500);
+	   	BUFCCDUSB_SetFrameTime( m_camera, 1000);
 	  }
 	  else if (m_videoMode == pam2videoFlash)
 	  {
@@ -618,10 +630,14 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  else if (m_videoMode == pam2videoCommands)
 	  {
 		// запускаем командный режим.
+		BUFCCDUSB_StopFrameGrab();
+		//BUFCCDUSB_SetCustomizedResolution(m_camera, 1280, 960, 0, 24);
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+        //BUFCCDUSB_StartFrameGrab(12);
+		//BUFCCDUSB_SetMinimumFrameDelay(1);
 	  }
 
-	  BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+	 // BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
 }
 
 void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
@@ -710,7 +726,7 @@ void __fastcall TpamMainForm::paletteTrafficActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::paletteSpecturmActionExecute(TObject *Sender)
 {
 	PhPalette1->PaletteType = phpalSpectum;
-    this->UpdateScreen();
+	this->UpdateScreen();
 }
 //---------------------------------------------------------------------------
 
@@ -876,7 +892,14 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 		else if (command == L"DARK")
 			m_buffer = new TPamImageBuffer(pam2bfFlash);
 		else if (command == L"FOFM")
+		{
 			m_buffer = new TPamImageBuffer(pam2bfFoFm);
+			BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+			BUFCCDUSB_SetFrameTime( m_camera, 100);
+			BUFCCDUSB_StartFrameGrab(1);
+			//BUFCCDUSB_SetMinimumFrameDelay(1);
+
+		}
 		 else if(command == L"FTFM1")
 			m_buffer = new TPamImageBuffer(pam2bfFtFm1);
 
@@ -1094,15 +1117,7 @@ void __fastcall TpamMainForm::viewqN1ActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::WMUSER1(TMessage & msg)
 {
-	awpImage* image = m_pam2Doc.GetFrame();
-	if (image != NULL)
-	{
-		awpImage* img = NULL;
-		awpCopyImage(image, &img);
-		awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
-		this->SetPicture(img);
-		awpReleaseImage(&img);
-	}
+	this->UpdateScreen();
 }
 void __fastcall TpamMainForm::WMUSER2(TMessage & msg)
 {
@@ -1118,12 +1133,14 @@ void __fastcall TpamMainForm::SetViewSource(EPam2ViewSource source)
 {
    m_viewSource = source;
    // обновляем экран
-  StatusBar1->Panels->Items[1]->Text = L"Визуализация: " + EPam2ViewSourceToString(m_viewSource);
   UpdateScreen();
 }
 
 void __fastcall TpamMainForm::UpdateScreen()
 {
+	_AWP_SAFE_RELEASE_(this->m_screenSource)
+
+	StatusBar1->Panels->Items[1]->Text = L"Визуализация: " + EPam2ViewSourceToString(m_viewSource);
 	awpImage* img = NULL;
 	switch(m_viewSource)
 	{
@@ -1170,12 +1187,42 @@ void __fastcall TpamMainForm::UpdateScreen()
 	if (img != NULL)
 	{
 		awpImage* _img = NULL;
+
 		awpCopyImage(img, &_img);
+		awpCopyImage(img, &this->m_screenSource);
+
 		awpConvert(_img, AWP_CONVERT_TO_BYTE_WITH_NORM);
 		this->SetPicture(_img);
+
 		awpReleaseImage(&_img);
 		awpReleaseImage(&img);
 	}
+}
+
+
+void __fastcall TpamMainForm::PhImage1MouseMove(TObject *Sender, TShiftState Shift,
+          int X, int Y)
+{
+	if (PhImage1->Bitmap->Empty || this->m_screenSource == NULL)
+		return;
+	int _x = PhImage1->GetImageX(X);
+	int _y = PhImage1->GetImageY(Y);
+
+	if (_x >= 0 && _y >= 0)
+	{
+		AWPFLOAT* f = (AWPFLOAT*)this->m_screenSource->pPixels;
+		double value = f[_y*this->m_screenSource->sSizeX + _x];
+		StatusBar1->Panels->Items[2]->Text = L"X:" + IntToStr(_x) + L" Y:" +IntToStr(_y) + L" V:" +FormatFloat("###.#", value);
+	}
+	else
+        StatusBar1->Panels->Items[2]->Text  = L"";
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TpamMainForm::SetmDutyСycle(int value)
+{
+	this->m_dutyСycle = value;
+	this->Timer1->Interval = 1000*this->m_dutyСycle;
 }
 
 

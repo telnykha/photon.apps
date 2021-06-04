@@ -25,7 +25,6 @@ object pam2ExperimentForm: Tpam2ExperimentForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = -6
     object Gauge1: TGauge
       AlignWithMargins = True
       Left = 3
@@ -47,9 +46,7 @@ object pam2ExperimentForm: Tpam2ExperimentForm
       Action = pamMainForm.toolsStopExperimentAction
       Align = alBottom
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 136
-      ExplicitWidth = 217
+      OnClick = Button1Click
     end
     object Button2: TButton
       AlignWithMargins = True
@@ -60,9 +57,7 @@ object pam2ExperimentForm: Tpam2ExperimentForm
       Action = pamMainForm.toolsStartExperimetAction
       Align = alBottom
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 96
-      ExplicitWidth = 217
+      OnClick = Button2Click
     end
     object GroupBox1: TGroupBox
       AlignWithMargins = True
@@ -73,9 +68,6 @@ object pam2ExperimentForm: Tpam2ExperimentForm
       Align = alTop
       Caption = #1063#1080#1089#1083#1086' '#1080#1079#1084#1077#1088#1080#1090#1077#1083#1100#1085#1099#1093' '#1074#1089#1087#1099#1096#1077#1082
       TabOrder = 2
-      ExplicitLeft = 4
-      ExplicitTop = 20
-      ExplicitWidth = 208
       object PhTrackBar1: TPhTrackBar
         AlignWithMargins = True
         Left = 5
@@ -83,10 +75,15 @@ object pam2ExperimentForm: Tpam2ExperimentForm
         Width = 131
         Height = 46
         Align = alClient
-        Max = 9
+        Max = 256
+        Min = 10
+        Frequency = 25
+        Position = 20
         ShowSelRange = False
         TabOrder = 0
         TickMarks = tmBoth
+        OnChange = PhTrackBar1Change
+        OnMouseUp = PhTrackBar1MouseUp
       end
       object Panel2: TPanel
         Left = 139
@@ -101,10 +98,11 @@ object pam2ExperimentForm: Tpam2ExperimentForm
           Top = 16
           Width = 53
           Height = 22
-          MaxValue = 32000
-          MinValue = 1
+          MaxValue = 256
+          MinValue = 10
           TabOrder = 0
-          Value = 30000
+          Value = 20
+          OnChange = SpinEdit3Change
         end
       end
     end
@@ -117,9 +115,6 @@ object pam2ExperimentForm: Tpam2ExperimentForm
       Align = alTop
       Caption = #1057#1082#1074#1072#1078#1085#1086#1089#1090#1100' ('#1089#1077#1082')'
       TabOrder = 3
-      ExplicitLeft = 4
-      ExplicitTop = 20
-      ExplicitWidth = 208
       object PhTrackBar2: TPhTrackBar
         AlignWithMargins = True
         Left = 5
@@ -127,10 +122,15 @@ object pam2ExperimentForm: Tpam2ExperimentForm
         Width = 131
         Height = 46
         Align = alClient
-        Max = 9
+        Max = 30
+        Min = 2
+        Frequency = 5
+        Position = 2
         ShowSelRange = False
         TabOrder = 0
         TickMarks = tmBoth
+        OnChange = PhTrackBar2Change
+        OnMouseUp = PhTrackBar2MouseUp
       end
       object Panel3: TPanel
         Left = 139
@@ -145,10 +145,11 @@ object pam2ExperimentForm: Tpam2ExperimentForm
           Top = 16
           Width = 53
           Height = 22
-          MaxValue = 32000
-          MinValue = 1
+          MaxValue = 30
+          MinValue = 2
           TabOrder = 0
-          Value = 30000
+          Value = 2
+          OnChange = SpinEdit1Change
         end
       end
     end
@@ -158,8 +159,10 @@ object pam2ExperimentForm: Tpam2ExperimentForm
     Top = 289
     Width = 217
     Height = 19
-    Panels = <>
-    ExplicitTop = 166
-    ExplicitWidth = 236
+    Panels = <
+      item
+        Text = #1042#1088#1077#1084#1103': 3:15:45 '#1054#1089#1090#1072#1083#1086#1089#1100': 2:12:34'
+        Width = 200
+      end>
   end
 end

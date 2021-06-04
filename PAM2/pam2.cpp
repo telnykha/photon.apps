@@ -4,6 +4,8 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+#include <Vcl.Styles.hpp>
+#include <Vcl.Themes.hpp>
 USEFORM("pamMainUnit.cpp", pamMainForm);
 USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
 USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
@@ -21,6 +23,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
+		TStyleManager::TrySetStyle("Carbon");
 		Application->CreateForm(__classid(TpamMainForm), &pamMainForm);
 		Application->CreateForm(__classid(TConsoleForm), &ConsoleForm);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);

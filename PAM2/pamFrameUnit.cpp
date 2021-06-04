@@ -29,15 +29,16 @@ void __fastcall TPam2Frame::SetBuffer(TPamImageBuffer* buffer)
 	AWPFLOAT* _i2 = (AWPFLOAT*)(buffer->getImage(2)->pPixels);
 	AWPFLOAT* _i3 = (AWPFLOAT*)(buffer->getImage(3)->pPixels);
 
-	AWPFLOAT* _i00 = (AWPFLOAT*)(buffer->getImage(4)->pPixels);
-	AWPFLOAT* _i01 = (AWPFLOAT*)(buffer->getImage(5)->pPixels);
-	AWPFLOAT* _i02 = (AWPFLOAT*)(buffer->getImage(6)->pPixels);
-	AWPFLOAT* _i03 = (AWPFLOAT*)(buffer->getImage(7)->pPixels);
+	AWPFLOAT* _i00 = (AWPFLOAT*)(buffer->getImage(0)->pPixels);
+	AWPFLOAT* _i01 = (AWPFLOAT*)(buffer->getImage(4)->pPixels);
+	AWPFLOAT* _i02 = (AWPFLOAT*)(buffer->getImage(5)->pPixels);
+	AWPFLOAT* _i03 = (AWPFLOAT*)(buffer->getImage(6)->pPixels);
 
 	for (int i = 0; i < img->sSizeX*img->sSizeY; i++)
 	{
-		_f0[i] = 0.33333*(_i1[i]+_i2[i]+_i3[i]) - _i0[i];
-		_f1[i] = 0.33333*(_i01[i]+_i02[i]+_i03[i]) - _i01[i];
+		_f0[i] = (_i1[i]+_i2[i]+_i3[i])/3   - _i0[i];
+		float a = (_i01[i]+_i02[i]+_i03[i])/3 - _i00[i];
+		_f1[i] = a == 0 ? 1:a; // - _i03[i];
 	}
 
 	m_frame0.SetImage(f0);

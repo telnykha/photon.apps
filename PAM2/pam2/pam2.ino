@@ -81,7 +81,7 @@ int ADD      = LOW;   /*состояние красного светодиода
 int EXP      = 75;    /*время экспозиции видеокамеры в микросекундах*/
 int LFLASH   = 20;    /*время измерительной вспышки в микроукундах*/
 int GAIN     = 20;    /*усиление видеокамеры*/
-int TRANSFER = 70; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
+int TRANSFER = 100; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
 
 /*буфер команд*/
 int  COMMANDSLEN = 0;
@@ -490,7 +490,7 @@ void _pamFlash()
     __SWITCH_OFF__
 
     digitalWrite(CAMERA_PIN, HIGH);
-    delayMicroseconds(20);
+    delayMicroseconds(10);
     digitalWrite(BLUE_PIN, HIGH);
     delayMicroseconds(LFLASH);
     digitalWrite(BLUE_PIN, LOW);
@@ -512,6 +512,7 @@ void _pamDark()
     digitalWrite(CAMERA_PIN, HIGH);   
     delayMicroseconds(EXP);
     digitalWrite(CAMERA_PIN, LOW);   
+    
    __SWITCH_ON__ 
 
 }
@@ -555,23 +556,48 @@ void _pamDarkness(int delayMs)
 */
 void _pamFoFm()
 {
+   //String s = "LSAT=0";
+   // pamSetLSAT(s);
     __SWITCH_OFF__
-    _pamDark();
+    
+    _pamDark();           //0 F0_BF
     delay(TRANSFER);
-    _pamFlash();
+    
+    _pamFlash();          //1   F0_1
     delay(TRANSFER);
-    _pamFlash();
+ //   _pamDark();           //2 - unused
+ //   delay(TRANSFER);
+
+    _pamFlash();          //3   F0_2
     delay(TRANSFER);
-    _pamDark();
-    _pamSaturation(LSAT, 500);
-    _pamFlash();
-    _pamSaturation(LSAT, 100);
-    _pamFlash();
-    _pamSaturation(LSAT, 100);
-    _pamFlash();
-    _pamSaturation(LSAT, 100);
-    _pamFlash();
+  //  _pamDark();           //4   - unused
+  //  delay(TRANSFER);
+
+    _pamFlash();          //5   F0_3
+    delay(TRANSFER);
+
+   _pamSaturation(LSAT, 500);
+
+//    _pamDark();           //6   Fm_BF
+//    _pamSaturation(LSAT, 500);
+
+    _pamFlash();              //7 - Fm_1
+//    delay(TRANSFER);
+    _pamSaturation(LSAT, TRANSFER);
+    
+//    _pamDark();               //8 - unused
+//    _pamSaturation(LSAT,TRANSFER);
+
+    _pamFlash();              //9  - Fm_2
+//    delay(TRANSFER);
+    _pamSaturation(LSAT, TRANSFER);   
+    
+//    _pamDark();               //10 - unused 
+//    _pamSaturation(LSAT, 100);
+    
+    _pamFlash();              //11 - Fm3
     delay(TRANSFER);        
+     
     __SWITCH_ON__ 
 }
 
@@ -586,7 +612,8 @@ void pamFoFm()
 void _pamFtFm1()
 {
     __SWITCH_OFF__
-    _pamDark();
+   _pamDark();
+    //_pamFlash();
 
     _pamActinic(LACT, 100);
     _pamFlash();
@@ -598,7 +625,8 @@ void _pamFtFm1()
     _pamFlash();
     delay(TRANSFER);
 
-    _pamDark();
+    //_pamDark();
+    //_pamFlash();
     
     _pamSaturation(LSAT, 500);
     
@@ -607,7 +635,7 @@ void _pamFtFm1()
     _pamFlash();
     _pamSaturation(LSAT, 100);
     _pamFlash();
-    delay(2*TRANSFER);        
+    delay(TRANSFER);        
     __SWITCH_ON__ 
 }
 
