@@ -3,10 +3,9 @@ object pam2ExperimentForm: Tpam2ExperimentForm
   Top = 0
   BorderStyle = bsToolWindow
   Caption = #1069#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090
-  ClientHeight = 308
+  ClientHeight = 277
   ClientWidth = 217
   Color = clBtnFace
-  DragKind = dkDock
   DragMode = dmAutomatic
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,49 +14,55 @@ object pam2ExperimentForm: Tpam2ExperimentForm
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 217
-    Height = 289
+    Height = 258
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
     object Gauge1: TGauge
       AlignWithMargins = True
       Left = 3
-      Top = 250
+      Top = 233
       Width = 211
-      Height = 36
+      Height = 22
       Align = alBottom
-      Progress = 0
-      ExplicitLeft = 0
-      ExplicitTop = 136
-      ExplicitWidth = 217
+      BackColor = clBlack
+      BorderStyle = bsNone
+      ForeColor = clBlue
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Progress = 25
+      ExplicitTop = 264
     end
     object Button1: TButton
       AlignWithMargins = True
       Left = 3
-      Top = 208
+      Top = 191
       Width = 211
       Height = 36
       Action = pamMainForm.toolsStopExperimentAction
       Align = alBottom
       TabOrder = 0
-      OnClick = Button1Click
     end
     object Button2: TButton
       AlignWithMargins = True
       Left = 3
-      Top = 168
+      Top = 151
       Width = 211
       Height = 34
       Action = pamMainForm.toolsStartExperimetAction
       Align = alBottom
       TabOrder = 1
-      OnClick = Button2Click
     end
     object GroupBox1: TGroupBox
       AlignWithMargins = True
@@ -156,13 +161,17 @@ object pam2ExperimentForm: Tpam2ExperimentForm
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 289
+    Top = 258
     Width = 217
     Height = 19
     Panels = <
       item
-        Text = #1042#1088#1077#1084#1103': 3:15:45 '#1054#1089#1090#1072#1083#1086#1089#1100': 2:12:34'
-        Width = 200
+        Text = #1042#1088#1077#1084#1103': 3:15:45 '
+        Width = 100
+      end
+      item
+        Text = #1054#1089#1090#1072#1083#1086#1089#1100': 2:12:34'
+        Width = 50
       end>
   end
 end

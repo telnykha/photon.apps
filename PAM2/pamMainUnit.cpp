@@ -14,13 +14,14 @@
 #include "pamTimeLineUnit.h"
 #include "pamOptionsUnit.h"
 #include "pamHardwareUnit.h"
-
+#include "pamExperimentUnit.h"
 #include "Buf_USBCCDCamera_SDK.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
 #pragma link "Comm"
 #pragma link "PhPalette"
+#pragma link "PhVideoTrackBar"
 #pragma resource "*.dfm"
 
 #pragma link "BUF_USBCCDCamera_SDK_b.lib"
@@ -41,7 +42,7 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 		}
 //		ConsoleForm->Memo1->Lines->Add(L"Mightex exposure: " + IntToStr(50*Attributes->ExposureTime) + L" mks");
 //		ConsoleForm->Memo1->Lines->Add(L"Mightex Frq : " + IntToStr(Attributes->CCDFrequency) + L" mks");
-		ConsoleForm->Memo1->Lines->Add(L"Mightex Frame time : " + IntToStr(Attributes->FrameTime) + L" mks");
+//		ConsoleForm->Memo1->Lines->Add(L"Mightex Frame time : " + IntToStr(Attributes->FrameTime) + L" mks");
 		pamMainForm->PreviewFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
 
 #ifdef _DEBUG
@@ -217,7 +218,18 @@ void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
 			if ((rb[i] ==  0))
 			  { ; }
 			 else if (/*rb[i]=='\n' ||*/ rb[i] == '\r')
-				{ ConsoleForm->Memo1->Lines->Add(TimeToStr(Time()) +L">" + rs); rs="" ;}
+				{
+					if (m_mode == pam2Capture)
+					{
+						this->m_pam2Doc.AddEvent(rs);
+
+					}
+					else
+					{
+						ConsoleForm->Memo1->Lines->Add(TimeToStr(Time()) +L">" + rs);
+					}
+					rs="" ;
+			}
 			  else
 			  {
 				sprintf(ts,"%c",rb[i]); rs=rs+ts;
@@ -230,12 +242,14 @@ void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
 
 void __fastcall TpamMainForm::windowExperimentActionExecute(TObject *Sender)
 {
-    pam2ExperimentForm->Visible = !pam2ExperimentForm->Visible;
+
+	pam2ExperimentForm->Visible = !pam2ExperimentForm->Visible;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::windowExperimentActionUpdate(TObject *Sender)
 {
+   windowExperimentAction->Enabled = m_mode == pam2Tuning;
    windowExperimentAction->Checked = pam2ExperimentForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -296,7 +310,7 @@ void __fastcall TpamMainForm::editCopyActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::editCopyActionUpdate(TObject *Sender)
 {
-//
+	editCopyAction->Enabled = m_mode !=  pam2Capture;
 }
 //---------------------------------------------------------------------------
 
@@ -320,31 +334,36 @@ void __fastcall TpamMainForm::toolsExecuteActionExecute(TObject *Sender)
 //
 void __fastcall TpamMainForm::toolsExecuteActionUpdate(TObject *Sender)
 {
-//
+    toolsExecuteAction->Enabled = m_mode == pam2Tuning;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::toolsStartExperimetActionExecute(TObject *Sender)
 {
-//
+	// Начало измерений
+	pam2ExperimentForm->Gauge1->Progress = 0;
+	pam2ExperimentForm->Gauge1->Visible = true;
+	Timer1->Interval = 1000*this->m_dutyСycle;
+    this->SetMode(pam2Capture);
+    Timer1->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::toolsStartExperimetActionUpdate(TObject *Sender)
 {
-//
+	toolsStartExperimetAction->Enabled = m_mode == pam2Tuning;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::toolsStopExperimentActionExecute(TObject *Sender)
 {
-//
+	toolsStopExperimentAction->Enabled = m_mode == pam2Capture;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::toolsStopExperimentActionUpdate(TObject *Sender)
 {
-//
+    toolsStopExperimentAction->Enabled = m_mode == pam2Capture;
 }
 //---------------------------------------------------------------------------
 
@@ -374,13 +393,13 @@ void __fastcall TpamMainForm::helpContentActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::fileNewActionExecute(TObject *Sender)
 {
-//
+    SetMode(pam2Tuning);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::fileNewActionUpdate(TObject *Sender)
 {
-//
+    fileNewAction->Enabled = m_mode != pam2Capture;
 }
 //---------------------------------------------------------------------------
 
@@ -392,7 +411,7 @@ void __fastcall TpamMainForm::fileOpenActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::fileOpenActionUpdate(TObject *Sender)
 {
-//
+	fileOpenAction->Enabled = m_mode != pam2Capture;
 }
 //---------------------------------------------------------------------------
 
@@ -404,7 +423,7 @@ void __fastcall TpamMainForm::fileCloseExperimentActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::fileCloseExperimentActionUpdate(TObject *Sender)
 {
-//
+	fileCloseExperimentAction->Enabled = m_mode != pam2Capture;
 }
 //---------------------------------------------------------------------------
 
@@ -416,7 +435,7 @@ void __fastcall TpamMainForm::fileSaveExperimentActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::fileSaveExperimentActionUpdate(TObject *Sender)
 {
-//
+	fileSaveExperimentAction->Enabled = m_mode !=  pam2Capture;
 }
 //---------------------------------------------------------------------------
 
@@ -488,7 +507,7 @@ void __fastcall TpamMainForm::PreviewFrame(int width, int height, unsigned char*
 void __fastcall TpamMainForm::SetPicture(awpImage* img)
 {
 #ifdef _DEBUG
-	   ConsoleForm->Memo1->Lines->Add("Изображение отправлено на экран.");
+	 //  ConsoleForm->Memo1->Lines->Add("Изображение отправлено на экран.");
 #endif
 	   awpImage* pal = (awpImage*)PhPalette1->ApplyPalette((void*)img);
 	   if (pal != NULL) {
@@ -514,6 +533,7 @@ void __fastcall TpamMainForm::tuningLiveVideoExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::tuningLiveVideoUpdate(TObject *Sender)
 {
+	tuningLiveVideo->Enabled = m_mode == pam2Tuning;
 	tuningLiveVideo->Checked = m_videoMode == pam2videoLive;
 }
 //---------------------------------------------------------------------------
@@ -528,7 +548,7 @@ void __fastcall TpamMainForm::tuningFlashActionExecute(TObject *Sender)
 void __fastcall TpamMainForm::tuningFlashActionUpdate(TObject *Sender)
 {
 	//tuningFlashAction->Checked = m_videoMode == pam2videoFlash;
-	tuningFlashAction->Enabled = m_videoMode == pam2videoCommands;
+	tuningFlashAction->Enabled = m_mode == pam2Tuning && m_videoMode == pam2videoCommands;
 }
 //---------------------------------------------------------------------------
 
@@ -540,6 +560,7 @@ void __fastcall TpamMainForm::tuningCommandsActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::tuningCommandsActionUpdate(TObject *Sender)
 {
+	tuningCommandsAction->Enabled = m_mode == pam2Tuning;
 	tuningCommandsAction->Checked = m_videoMode == pam2videoCommands;
 }
 //---------------------------------------------------------------------------
@@ -558,7 +579,25 @@ static UnicodeString EPam2ModeToString(EPam2Modes mode)
 
 void __fastcall TpamMainForm::SetMode(EPam2Modes mode)
 {
+//	if (mode == m_mode)
+//		  return;
+
 	m_mode = mode;
+	switch(m_mode)
+	{
+		case pam2Tuning:
+			Panel2->Visible = false;
+		break;
+		case pam2Capture:
+			Panel2->Visible = false;
+		break;
+		case pam2Analysis:
+			Panel2->Visible = true;
+			pam2HardwareForm->Visible = false;
+            pam2ExperimentForm->Visible = false;
+		break;
+
+	}
 	StatusBar1->Panels->Items[0]->Text = L"Режим: " + EPam2ModeToString(m_mode);
 }
 
@@ -642,7 +681,20 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 
 void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
 {
-	this->ExecuteCommand(L"FLASH");
+	//this->ExecuteCommand(L"FLASH");
+	if (m_currentFlash == 0)
+		this->ExecuteCommand(L"FOFM");
+	else
+		this->ExecuteCommand(L"FTFM1");
+	m_currentFlash++;
+	pam2ExperimentForm->Gauge1->Progress = (100*m_currentFlash)/m_numFlashes;
+	if (m_currentFlash >= m_numFlashes)
+	{
+		Timer1->Enabled = false;
+		pam2ExperimentForm->Gauge1->Progress = 0;
+		m_currentFlash = 0;
+        SetMode(pam2Analysis);
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -770,6 +822,7 @@ void __fastcall TpamMainForm::windowHardwareActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::windowHardwareActionUpdate(TObject *Sender)
 {
+	windowHardwareAction->Enabled = m_mode == pam2Tuning;
 	windowHardwareAction->Checked = pam2HardwareForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -919,7 +972,7 @@ void __fastcall TpamMainForm::tuningDarkActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::tuningDarkActionUpdate(TObject *Sender)
 {
-	tuningDarkAction->Enabled = m_videoMode == pam2videoCommands;
+	tuningDarkAction->Enabled = m_mode == pam2Tuning && m_videoMode == pam2videoCommands;
 }
 //---------------------------------------------------------------------------
 
@@ -931,19 +984,19 @@ void __fastcall TpamMainForm::tuningFoFmActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::tuningFoFmActionUpdate(TObject *Sender)
 {
-	tuningFoFmAction->Enabled = m_videoMode == pam2videoCommands;
+	tuningFoFmAction->Enabled = m_mode == pam2Tuning && m_videoMode == pam2videoCommands;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::tuningFtTm1ActionExecute(TObject *Sender)
 {
-    this->ExecuteCommand(L"FTFM1");
+	this->ExecuteCommand(L"FTFM1");
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::tuningFtTm1ActionUpdate(TObject *Sender)
 {
-	tuningFtTm1Action->Enabled = m_videoMode == pam2videoCommands && m_pam2Doc.hasFoFm;
+	tuningFtTm1Action->Enabled = m_mode == pam2Tuning &&  m_videoMode == pam2videoCommands && m_pam2Doc.hasFoFm;
 }
 //---------------------------------------------------------------------------
 
@@ -1219,10 +1272,40 @@ void __fastcall TpamMainForm::PhImage1MouseMove(TObject *Sender, TShiftState Shi
 
 }
 //---------------------------------------------------------------------------
-void __fastcall TpamMainForm::SetmDutyСycle(int value)
+// устанавливает свкажность вспышек FTFM1 в секундах
+// допустимый диапазон [2..30]
+void __fastcall TpamMainForm::SetDutyСycle(int value)
 {
 	this->m_dutyСycle = value;
+	bool e = Timer1->Enabled;
+	Timer1->Enabled = false;
 	this->Timer1->Interval = 1000*this->m_dutyСycle;
+    Timer1->Enabled = e;
+}
+//---------------------------------------------------------------------------
+// возвращает длительность эксперимента в секундах
+int __fastcall TpamMainForm::GetCaptureDuration()
+{
+	return this->m_dutyСycle*this->m_numFlashes;
 }
 
+void __fastcall TpamMainForm::toolsOptionsActionUpdate(TObject *Sender)
+{
+    toolsOptionsAction->Enabled = m_mode != pam2Capture;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
+{
+	if (m_mode == pam2Capture)
+	{
+		if (Application->MessageBoxW(L"Устройство находится в режиме измерений. Остановить программу?",L"PAM2", MB_YESNO) == IDYES)
+		{
+			CanClose = true;
+		}
+		else
+            CanClose = false;
+	}
+}
+//---------------------------------------------------------------------------
 

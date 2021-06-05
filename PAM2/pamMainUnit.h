@@ -19,6 +19,7 @@
 #include "PhPalette.h"
 #include <Vcl.Samples.Spin.hpp>
 #include "pamImageBufferUnit.h"
+#include "PhVideoTrackBar.h"
 
 typedef enum {pam2Tuning, pam2Capture, pam2Analysis}EPam2Modes;
 typedef enum {pam2videoLive, pam2videoFlash, pam2videoCommands}EPam2VideoModes;
@@ -60,7 +61,6 @@ __published:	// IDE-managed Components
 	TMenuItem *N15;
 	TMenuItem *N16;
 	TMenuItem *N18;
-	TMenuItem *N17;
 	TMenuItem *N4;
 	TMenuItem *N7;
 	TMenuItem *N6;
@@ -172,6 +172,8 @@ __published:	// IDE-managed Components
 	TMenuItem *N50;
 	TMenuItem *N8;
 	TMenuItem *N9;
+	TPanel *Panel2;
+	TPhVideoTrackBar *PhVideoTrackBar1;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -287,6 +289,8 @@ __published:	// IDE-managed Components
 	void __fastcall viewqN1ActionExecute(TObject *Sender);
 	void __fastcall viewqN1ActionUpdate(TObject *Sender);
 	void __fastcall PhImage1MouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
+	void __fastcall toolsOptionsActionUpdate(TObject *Sender);
+	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 
 
 
@@ -320,8 +324,11 @@ protected:
 	void __fastcall WMUSER2(TMessage & msg);
 
 	TPam2Document* __fastcall GetDocument();
+	void __fastcall SetDutyÑycle(int value);
+	int __fastcall GetCaptureDuration();
 
-	void __fastcall SetmDutyÑycle(int value);
+
+
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
@@ -343,7 +350,8 @@ public:		// User declarations
 
 	// ïàðàìåòðû ýêñïåðèìåíòà
 	__property int NumFlashes = {read = m_numFlashes, write = m_numFlashes};
-	__property int DutyÑycle = {read = m_dutyÑycle, write = m_dutyÑycle};
+	__property int DutyÑycle = {read = m_dutyÑycle, write = SetDutyÑycle};
+	__property int CaptureDuration = {read = GetCaptureDuration};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

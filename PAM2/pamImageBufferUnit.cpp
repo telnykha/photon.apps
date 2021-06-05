@@ -62,7 +62,7 @@ void __fastcall TPamImageBuffer::AddFrame(int width, int height, unsigned char* 
 		TLFImage* _img = new TLFImage();
 		_img->SetImage(img);
 		m_list.AddImage(_img);
-
+        _AWP_SAFE_RELEASE_(img)
 	 }
 	 m_count++;
 	 if (m_count >= m_size) {

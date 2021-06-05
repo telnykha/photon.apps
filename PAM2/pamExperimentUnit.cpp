@@ -4,6 +4,7 @@
 #pragma hdrstop
 #include "pamMainUnit.h"
 #include "pamExperimentUnit.h"
+#include "PhTime.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "PhTrackBar"
@@ -32,6 +33,7 @@ void __fastcall Tpam2ExperimentForm::SpinEdit1Change(TObject *Sender)
 	PhTrackBar2->Position = SpinEdit1->Value;
 	PhTrackBar2->OnChange =e;
 	pamMainForm->DutyСycle =  PhTrackBar2->Position;
+	UpdateStatus();
 }
 //---------------------------------------------------------------------------
 
@@ -49,6 +51,7 @@ void __fastcall Tpam2ExperimentForm::PhTrackBar1MouseUp(TObject *Sender, TMouseB
           TShiftState Shift, int X, int Y)
 {
 	pamMainForm->NumFlashes =  PhTrackBar1->Position;
+	UpdateStatus();
 }
 //---------------------------------------------------------------------------
 
@@ -62,9 +65,10 @@ void __fastcall Tpam2ExperimentForm::PhTrackBar2Change(TObject *Sender)
 //---------------------------------------------------------------------------
 
 void __fastcall Tpam2ExperimentForm::PhTrackBar2MouseUp(TObject *Sender, TMouseButton Button,
-          TShiftState Shift, int X, int Y)
+		  TShiftState Shift, int X, int Y)
 {
 	pamMainForm->DutyСycle =  PhTrackBar2->Position;
+	UpdateStatus();
 }
 //---------------------------------------------------------------------------
 
@@ -77,6 +81,46 @@ void __fastcall Tpam2ExperimentForm::Button2Click(TObject *Sender)
 void __fastcall Tpam2ExperimentForm::Button1Click(TObject *Sender)
 {
 	pamMainForm->toolsStopExperimentAction->OnExecute(Sender);
+}
+//---------------------------------------------------------------------------
+void __fastcall Tpam2ExperimentForm::UpdateStatus()
+{
+	UnicodeString str =  PhGetTimeSecStamp(pamMainForm->CaptureDuration);
+	StatusBar1->Panels->Items[0]->Text = L"Время: " + str;
+	//todo: если режим работы программы установлен в "сбор данных"
+	//выводить время до окончания выполнения сбора
+    StatusBar1->Panels->Items[1]->Text = L"";
+}
+
+
+void __fastcall Tpam2ExperimentForm::FormShow(TObject *Sender)
+{
+	// установка начальных параметров элементов управления
+   TNotifyEvent e = SpinEdit1->OnChange;
+   SpinEdit1->OnChange = NULL;
+   SpinEdit1->Value = pamMainForm->DutyСycle;
+   SpinEdit1->OnChange = e;
+
+	e = PhTrackBar2->OnChange;
+	PhTrackBar2->OnChange = NULL;
+	PhTrackBar2->Position = pamMainForm->DutyСycle;
+	PhTrackBar2->OnChange =e;
+
+
+   e = SpinEdit3->OnChange;
+   SpinEdit3->OnChange = NULL;
+   SpinEdit3->Value = pamMainForm->NumFlashes;
+   SpinEdit3->OnChange = e;
+
+
+	e = PhTrackBar1->OnChange;
+	PhTrackBar1->OnChange = NULL;
+	PhTrackBar1->Position = pamMainForm->NumFlashes;
+	PhTrackBar1->OnChange =e;
+
+    Gauge1->Progress = 0;
+
+	UpdateStatus();
 }
 //---------------------------------------------------------------------------
 

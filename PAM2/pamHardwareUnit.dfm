@@ -3,7 +3,7 @@ object pam2HardwareForm: Tpam2HardwareForm
   Top = 0
   BorderStyle = bsToolWindow
   Caption = #1054#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1077
-  ClientHeight = 492
+  ClientHeight = 496
   ClientWidth = 218
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,18 +18,18 @@ object pam2HardwareForm: Tpam2HardwareForm
     Left = 0
     Top = 0
     Width = 220
-    Height = 492
+    Height = 496
     Align = alLeft
-    BorderStyle = bsSingle
+    BevelOuter = bvNone
     DragKind = dkDock
     DragMode = dmAutomatic
     TabOrder = 0
-    ExplicitHeight = 494
+    ExplicitHeight = 492
     object Label1: TLabel
       AlignWithMargins = True
-      Left = 4
-      Top = 261
-      Width = 208
+      Left = 3
+      Top = 260
+      Width = 214
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -40,12 +40,14 @@ object pam2HardwareForm: Tpam2HardwareForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 4
+      ExplicitTop = 261
       ExplicitWidth = 75
     end
     object Label2: TLabel
-      Left = 1
-      Top = 1
-      Width = 214
+      Left = 0
+      Top = 0
+      Width = 220
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -57,12 +59,14 @@ object pam2HardwareForm: Tpam2HardwareForm
       Font.Style = [fsBold]
       ParentFont = False
       Layout = tlBottom
+      ExplicitLeft = 1
+      ExplicitTop = 1
       ExplicitWidth = 145
     end
     object Label3: TLabel
-      Left = 1
-      Top = 167
-      Width = 214
+      Left = 0
+      Top = 166
+      Width = 220
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -73,22 +77,27 @@ object pam2HardwareForm: Tpam2HardwareForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 1
+      ExplicitTop = 167
       ExplicitWidth = 165
     end
     object GroupBox1: TGroupBox
       AlignWithMargins = True
-      Left = 4
-      Top = 20
-      Width = 208
+      Left = 3
+      Top = 19
+      Width = 212
       Height = 69
+      Margins.Right = 5
       Align = alTop
       Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103
       TabOrder = 0
+      ExplicitLeft = 4
+      ExplicitTop = 20
       object PhTrackBar1: TPhTrackBar
         AlignWithMargins = True
         Left = 5
         Top = 18
-        Width = 128
+        Width = 132
         Height = 46
         Align = alClient
         Max = 9
@@ -99,7 +108,7 @@ object pam2HardwareForm: Tpam2HardwareForm
         OnMouseUp = PhTrackBar1MouseUp
       end
       object Panel1: TPanel
-        Left = 136
+        Left = 140
         Top = 15
         Width = 70
         Height = 52
@@ -122,15 +131,18 @@ object pam2HardwareForm: Tpam2HardwareForm
     end
     object GroupBox5: TGroupBox
       AlignWithMargins = True
-      Left = 4
-      Top = 95
-      Width = 208
+      Left = 3
+      Top = 94
+      Width = 212
       Height = 69
+      Margins.Right = 5
       Align = alTop
       Caption = #1059#1089#1080#1083#1077#1085#1080#1077
       TabOrder = 1
+      ExplicitLeft = 4
+      ExplicitTop = 95
       object Panel2: TPanel
-        Left = 136
+        Left = 140
         Top = 15
         Width = 70
         Height = 52
@@ -153,7 +165,7 @@ object pam2HardwareForm: Tpam2HardwareForm
         AlignWithMargins = True
         Left = 5
         Top = 18
-        Width = 128
+        Width = 132
         Height = 46
         Align = alClient
         Max = 41
@@ -169,15 +181,18 @@ object pam2HardwareForm: Tpam2HardwareForm
     end
     object GroupBox6: TGroupBox
       AlignWithMargins = True
-      Left = 4
-      Top = 186
-      Width = 208
+      Left = 3
+      Top = 185
+      Width = 212
       Height = 69
+      Margins.Right = 5
       Align = alTop
       Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (mks)'
       TabOrder = 2
+      ExplicitLeft = 4
+      ExplicitTop = 186
       object Panel3: TPanel
-        Left = 136
+        Left = 140
         Top = 15
         Width = 70
         Height = 52
@@ -200,7 +215,7 @@ object pam2HardwareForm: Tpam2HardwareForm
         AlignWithMargins = True
         Left = 5
         Top = 18
-        Width = 128
+        Width = 132
         Height = 46
         Align = alClient
         Max = 50
@@ -215,13 +230,17 @@ object pam2HardwareForm: Tpam2HardwareForm
       end
     end
     object GroupBox2: TGroupBox
-      Left = 1
-      Top = 280
-      Width = 214
-      Height = 207
+      AlignWithMargins = True
+      Left = 3
+      Top = 282
+      Width = 212
+      Height = 211
+      Margins.Right = 5
       Align = alClient
       TabOrder = 3
-      ExplicitHeight = 209
+      ExplicitLeft = 1
+      ExplicitTop = 280
+      ExplicitWidth = 218
       object SpeedButton1: TSpeedButton
         Left = 150
         Top = 25

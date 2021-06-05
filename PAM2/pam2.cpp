@@ -6,9 +6,9 @@
 //---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
-USEFORM("pamMainUnit.cpp", pamMainForm);
 USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
 USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
+USEFORM("pamMainUnit.cpp", pamMainForm);
 USEFORM("pamTimeLineUnit.cpp", pam2TimeLineForm);
 USEFORM("pamScriptUnit.cpp", pam2ScriptForm);
 USEFORM("pamResultUnit.cpp", pam2ResultForm);

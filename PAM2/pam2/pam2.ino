@@ -434,8 +434,9 @@ void pamSaturation(String command)
 void _pamSaturation(int brightness, unsigned int duration)
 {
     __SWITCH_OFF__
-
+    //todo: управление максимальной мощностью насыщающего света
     int value = 32+223*brightness / 100;
+    //int value = 64*brightness / 100;
     unsigned long total_delay = duration; // -- задержка в миллисекундах 
     analogWrite(BLUE_PIN, value);              // -- запуск ШИМ 
     delay(total_delay);            // -- задержка 
@@ -556,8 +557,6 @@ void _pamDarkness(int delayMs)
 */
 void _pamFoFm()
 {
-   //String s = "LSAT=0";
-   // pamSetLSAT(s);
     __SWITCH_OFF__
     
     _pamDark();           //0 F0_BF
@@ -565,38 +564,25 @@ void _pamFoFm()
     
     _pamFlash();          //1   F0_1
     delay(TRANSFER);
- //   _pamDark();           //2 - unused
- //   delay(TRANSFER);
 
     _pamFlash();          //3   F0_2
     delay(TRANSFER);
-  //  _pamDark();           //4   - unused
-  //  delay(TRANSFER);
 
     _pamFlash();          //5   F0_3
     delay(TRANSFER);
 
    _pamSaturation(LSAT, 500);
 
-//    _pamDark();           //6   Fm_BF
-//    _pamSaturation(LSAT, 500);
 
     _pamFlash();              //7 - Fm_1
-//    delay(TRANSFER);
     _pamSaturation(LSAT, TRANSFER);
     
-//    _pamDark();               //8 - unused
-//    _pamSaturation(LSAT,TRANSFER);
 
     _pamFlash();              //9  - Fm_2
-//    delay(TRANSFER);
     _pamSaturation(LSAT, TRANSFER);   
     
-//    _pamDark();               //10 - unused 
-//    _pamSaturation(LSAT, 100);
-    
     _pamFlash();              //11 - Fm3
-    delay(TRANSFER);        
+    delay(2*TRANSFER);        
      
     __SWITCH_ON__ 
 }
@@ -635,7 +621,7 @@ void _pamFtFm1()
     _pamFlash();
     _pamSaturation(LSAT, 100);
     _pamFlash();
-    delay(TRANSFER);        
+    delay(2*TRANSFER);        
     __SWITCH_ON__ 
 }
 

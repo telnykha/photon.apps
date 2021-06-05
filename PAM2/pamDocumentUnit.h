@@ -40,7 +40,7 @@ public:
 	bool __fastcall SaveDocument(const UnicodeString& fileName);
 
 	bool __fastcall SetBuffer(TPamImageBuffer* buffer);
-
+	void __fastcall AddEvent(const UnicodeString& event);
 
 
 	// получение визуализых данных из документа.

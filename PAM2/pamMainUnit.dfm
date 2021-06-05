@@ -14,6 +14,7 @@ object pamMainForm: TpamMainForm
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -28,7 +29,7 @@ object pamMainForm: TpamMainForm
     object Splitter1: TSplitter
       Left = 6
       Top = 33
-      Height = 421
+      Height = 397
       ExplicitLeft = 272
       ExplicitTop = 152
       ExplicitHeight = 100
@@ -36,7 +37,7 @@ object pamMainForm: TpamMainForm
     object Splitter2: TSplitter
       Left = 671
       Top = 33
-      Height = 421
+      Height = 397
       Align = alRight
       ExplicitLeft = 384
       ExplicitTop = 152
@@ -44,7 +45,7 @@ object pamMainForm: TpamMainForm
     end
     object Splitter3: TSplitter
       Left = 1
-      Top = 454
+      Top = 430
       Width = 761
       Height = 2
       Cursor = crVSplit
@@ -59,6 +60,7 @@ object pamMainForm: TpamMainForm
       Height = 26
       Caption = 'ToolBar1'
       TabOrder = 0
+      Visible = False
       object ToolButton16: TToolButton
         AlignWithMargins = True
         Left = 0
@@ -176,19 +178,20 @@ object pamMainForm: TpamMainForm
       Left = 1
       Top = 33
       Width = 5
-      Height = 421
+      Height = 397
       Align = alLeft
       DockSite = True
       TabOrder = 1
       OnDockDrop = LeftDocPanelDockDrop
       OnDockOver = LeftDocPanelDockOver
       OnUnDock = LeftDocPanelUnDock
+      ExplicitHeight = 421
     end
     object PhImage1: TPhImage
       Left = 9
       Top = 33
       Width = 662
-      Height = 421
+      Height = 397
       AutoMosaic = True
       ThumbWidht = 128
       ThumbHeight = 128
@@ -196,18 +199,20 @@ object pamMainForm: TpamMainForm
       Align = alClient
       ParentColor = False
       OnMouseMove = PhImage1MouseMove
+      ExplicitHeight = 328
     end
     object RightDocPanel: TPanel
       Left = 674
       Top = 33
       Width = 5
-      Height = 421
+      Height = 397
       Align = alRight
       DockSite = True
       TabOrder = 3
       OnDockDrop = RightDocPanelDockDrop
       OnDockOver = RightDocPanelDockOver
       OnUnDock = RightDocPanelUnDock
+      ExplicitHeight = 421
     end
     object BottomDocPanel: TPanel
       Left = 1
@@ -225,13 +230,30 @@ object pamMainForm: TpamMainForm
       Left = 679
       Top = 33
       Width = 83
-      Height = 421
+      Height = 397
       Align = alRight
       PopupMenu = PopupMenu1
       Color = clGray
       MaxValue = 4096.000000000000000000
       TicksVisible = True
       PaletteType = phpalGrayscale
+      ExplicitHeight = 421
+    end
+    object Panel2: TPanel
+      Left = 1
+      Top = 432
+      Width = 761
+      Height = 24
+      Align = alBottom
+      Caption = 'Panel2'
+      TabOrder = 6
+      Visible = False
+      object PhVideoTrackBar1: TPhVideoTrackBar
+        Left = 1
+        Top = 1
+        Width = 759
+        Height = 24
+      end
     end
   end
   object StatusBar1: TStatusBar
@@ -389,9 +411,6 @@ object pamMainForm: TpamMainForm
       object N18: TMenuItem
         Caption = '-'
       end
-      object N17: TMenuItem
-        Action = toolsOptionsAction
-      end
       object N50: TMenuItem
         Action = windowExperimentAction
       end
@@ -444,13 +463,13 @@ object pamMainForm: TpamMainForm
     end
     object windowExperimentAction: TAction
       Category = 'Window'
-      Caption = #1069#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090
+      Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099' '#1080#1079#1084#1077#1088#1077#1085#1080#1081
       OnExecute = windowExperimentActionExecute
       OnUpdate = windowExperimentActionUpdate
     end
     object windowScriptAction: TAction
       Category = 'Window'
-      Caption = #1057#1082#1088#1080#1087#1090
+      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1090#1100' '#1089#1082#1088#1080#1087#1090
       OnExecute = windowScriptActionExecute
       OnUpdate = windowScriptActionUpdate
     end
@@ -482,6 +501,7 @@ object pamMainForm: TpamMainForm
       Category = 'tools'
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072'...'
       OnExecute = toolsOptionsActionExecute
+      OnUpdate = toolsOptionsActionUpdate
     end
     object toolsExecuteAction: TAction
       Category = 'tools'
@@ -614,7 +634,7 @@ object pamMainForm: TpamMainForm
     end
     object windowHardwareAction: TAction
       Category = 'Window'
-      Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099' '#1086#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1103
+      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1086#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1103
       OnExecute = windowHardwareActionExecute
       OnUpdate = windowHardwareActionUpdate
     end

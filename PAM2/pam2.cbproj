@@ -209,6 +209,10 @@
             <DependentOn>pamTimeLineUnit.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
+        <CppCompile Include="PhTime.cpp">
+            <DependentOn>PhTime.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
         <FormResources Include="pamHardwareUnit.dfm"/>
         <FormResources Include="pamExperimentUnit.dfm"/>
         <FormResources Include="pamMainUnit.dfm"/>

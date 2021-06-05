@@ -3,6 +3,8 @@
 #pragma hdrstop
 #include "pamDocumentUnit.h"
 #include "pamMainUnit.h"
+#include "pamConsoleUnit.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -278,7 +280,6 @@ bool __fastcall TPam2Document::SetBuffer(TPamImageBuffer* buffer)
 	{
 		// set FoFm
 		SetFoFmBuffer(buffer);
-
 	}
 	else if (true)
 	{
@@ -324,5 +325,10 @@ void __fastcall TPam2Document::SetFtFm1Buffer(TPamImageBuffer* buffer)
 		m_numFrames = 2;
 	}
 	::SendMessage(pamMainForm->Handle, WM_USER+1, 0,0);
+}
+
+void __fastcall TPam2Document::AddEvent(const UnicodeString& event)
+{
+	ConsoleForm->Memo1->Lines->Add(event);
 }
 

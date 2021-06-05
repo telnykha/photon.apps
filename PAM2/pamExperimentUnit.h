@@ -39,7 +39,9 @@ __published:	// IDE-managed Components
           int X, int Y);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
+	void __fastcall UpdateStatus();
 public:		// User declarations
 	__fastcall Tpam2ExperimentForm(TComponent* Owner);
 };
