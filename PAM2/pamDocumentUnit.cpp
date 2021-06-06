@@ -4,9 +4,47 @@
 #include "pamDocumentUnit.h"
 #include "pamMainUnit.h"
 #include "pamConsoleUnit.h"
-
+#include "System.IOUtils.hpp"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "TinyXML.lib"
+
+static UnicodeString GetDefaultFileName()
+{
+	LPITEMIDLIST pidl;
+	LPMALLOC pShellMalloc;
+	wchar_t szDir[MAX_PATH];
+	UnicodeString PathStr ;
+
+	if (SUCCEEDED(SHGetMalloc(&pShellMalloc)))
+	{
+		if (SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_APPDATA, &pidl)))
+		{
+			if (SHGetPathFromIDList(pidl, szDir))
+			{
+				PathStr = szDir ;
+				PathStr = PathStr + "\\" ;
+			}
+			pShellMalloc->Free(pidl);
+		}
+		pShellMalloc->Release();
+	}
+
+	PathStr += L"\\BFL\\";
+	if (!DirectoryExists(PathStr))
+		CreateDir(PathStr);
+
+	PathStr += L"\\PAM2\\";
+	if (!DirectoryExists(PathStr))
+		CreateDir(PathStr);
+
+
+	UnicodeString DataStr = PathStr + "\\default\\";
+	if (!DirectoryExists(DataStr))
+		CreateDir(DataStr);
+
+	return PathStr + L"\\default.pam2";
+}
 
 TPam2Document::TPam2Document(HWND wnd)
 {
@@ -17,16 +55,36 @@ TPam2Document::TPam2Document(HWND wnd)
 	m_numFrames = 0;
 	m_currentFrame = 0;
 
-    m_hwnd = wnd;
+	m_hwnd = wnd;
+	ClearDocument();
+
+	m_fileName =  GetDefaultFileName();
+	AnsiString _ansi = m_fileName;
+
+	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "windows-1251", "" );
+	m_doc.LinkEndChild( decl );
+
+	m_doc.SaveFile(_ansi.c_str());
 }
+
 TPam2Document::~TPam2Document()
 {
-
+	ClearDocument();
+	m_fileName =  GetDefaultFileName();
+	AnsiString _ansi = m_fileName;
+	m_doc.SaveFile(_ansi.c_str());
 }
 
-bool __fastcall TPam2Document::newDocument()
+bool __fastcall TPam2Document::NewDocument()
 {
-	return false;
+	ClearDocument();
+	m_fileName =  GetDefaultFileName();
+	AnsiString _ansi = m_fileName;
+
+	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "windows-1251", "" );
+	m_doc.LinkEndChild( decl );
+
+	return m_doc.SaveFile(_ansi.c_str());
 }
 bool __fastcall TPam2Document::OpenDocument(const UnicodeString& fileName)
 {
@@ -36,9 +94,44 @@ bool __fastcall TPam2Document::SaveDocument(const UnicodeString& fileName)
 {
 	return false;
 }
-bool __fastcall TPam2Document::closeDocument()
+
+void __fastcall TPam2Document::ClearDocument()
 {
-	return false;
+	UnicodeString str = GetDefaultFileName();
+	str = ExtractFilePath(str);
+	str += L"default\\";
+
+	if (!TDirectory::IsEmpty(str))
+	{
+		System::DynamicArray<System::UnicodeString> arr = TDirectory::GetFiles(str);
+		for (int i = arr.Length-1; i >= 0; i--)
+		{
+			DeleteFile(arr[i]);
+		}
+	}
+	m_numFrames    = 0;
+	m_currentFrame = 0;
+
+	m_FoFm.Clear();
+	m_FtFm1.Clear();
+
+	if (m_frameBuffer != NULL)
+	{
+		delete m_frameBuffer;
+		m_frameBuffer = NULL;
+	}
+	if (m_fofmBuffer != NULL)
+	{
+		delete m_fofmBuffer;
+		m_fofmBuffer = NULL;
+	}
+	if (m_ftfm1Buffer != NULL)
+	{
+		delete m_ftfm1Buffer;
+        m_ftfm1Buffer = NULL;
+	}
+
+	m_doc.Clear();
 }
 
 awpImage* TPam2Document::GetFrame()

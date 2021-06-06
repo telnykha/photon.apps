@@ -5,12 +5,13 @@
 #include <system.hpp>
 #include "pamImageBufferUnit.h"
 #include "pamFrameUnit.h"
+#include "TinyXml.h"
 
 class TPam2Document
 {
 private:
 	HWND m_hwnd;
-
+    UnicodeString m_fileName;
 protected:
 	TPamImageBuffer* m_frameBuffer;
 	TPamImageBuffer* m_fofmBuffer;
@@ -18,6 +19,7 @@ protected:
 
 	TPam2Frame  m_FoFm;
 	TPam2Frame  m_FtFm1;
+	TiXmlDocument m_doc;
 
 	int m_numFrames;
 	int m_currentFrame;
@@ -30,12 +32,12 @@ protected:
 	void __fastcall SetFoFmBuffer(TPamImageBuffer* buffer);
 	void __fastcall SetFtFm1Buffer(TPamImageBuffer* buffer);
 
-	bool __fastcall closeDocument();
+	void __fastcall ClearDocument();
 public:
 	TPam2Document(HWND wnd = NULL);
 	~TPam2Document();
 
-	bool __fastcall newDocument();
+	bool __fastcall NewDocument();
 	bool __fastcall OpenDocument(const UnicodeString& fileName);
 	bool __fastcall SaveDocument(const UnicodeString& fileName);
 

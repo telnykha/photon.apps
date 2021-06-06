@@ -56,3 +56,9 @@ awpImage* __fastcall TPam2Frame::GetFrame1()
 	return this->m_frame1.GetImage();
 }
 
+void __fastcall TPam2Frame::Clear()
+{
+	m_frame0.FreeImages();
+    m_frame1.FreeImages();
+}
+

@@ -16,6 +16,7 @@ protected:
 public:
 	TPam2Frame();
 	void __fastcall SetBuffer(TPamImageBuffer* buffer);
+	void __fastcall Clear();
 
 	__property awpImage* Frame0 = {read = GetFrame0};
 	__property awpImage* Frame1 = {read = GetFrame1};
