@@ -43,6 +43,7 @@ Optoacustics/__history/*.*
 PAM2/Win32/debug/*.*
 PAM2/Win32/release/*.*
 PAM2/__history/*.*
+PAM2/__recovery/
 PAM2/ComPort/Win32/debug/*.*
 PAM2/ComPort/Win32/release/*.*
 PAM2/~*.*

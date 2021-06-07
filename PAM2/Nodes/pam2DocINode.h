@@ -2,7 +2,7 @@
 #ifndef pam2DocINodeH
 #define pam2DocINodeH
 //---------------------------------------------------------------------------
-#include "LF.h"
+#include "_LF.h"
 
 class ILFPam2docNode : public TLFObject
 {

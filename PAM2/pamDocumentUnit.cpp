@@ -5,6 +5,7 @@
 #include "pamMainUnit.h"
 #include "pamConsoleUnit.h"
 #include "System.IOUtils.hpp"
+#include "pamEventUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "TinyXML.lib"
@@ -63,6 +64,8 @@ TPam2Document::TPam2Document(HWND wnd)
 
 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "windows-1251", "" );
 	m_doc.LinkEndChild( decl );
+	TiXmlNode* node = new TiXmlElement("pam2tree");
+	m_doc.LinkEndChild( node );
 
 	m_doc.SaveFile(_ansi.c_str());
 }
@@ -374,7 +377,7 @@ bool __fastcall TPam2Document::SetBuffer(TPamImageBuffer* buffer)
 		// set FoFm
 		SetFoFmBuffer(buffer);
 	}
-	else if (true)
+	else //if (buffer->BufferType == pam2bfFtFm1)
 	{
 		// set FtFm1
 		SetFtFm1Buffer(buffer);
@@ -423,5 +426,68 @@ void __fastcall TPam2Document::SetFtFm1Buffer(TPamImageBuffer* buffer)
 void __fastcall TPam2Document::AddEvent(const UnicodeString& event)
 {
 	ConsoleForm->Memo1->Lines->Add(event);
+	AnsiString eventStr = event;
+
+	TPam2Event* e = new TPam2Event(GetTickCount(), eventStr.c_str());
+	// сохраняем изображения
+	UnicodeString str = GetDefaultFileName();
+	str = ExtractFilePath(str);
+	str += L"default\\";
+
+	if (e->name == "FLASH" || e->name == "DARK")
+	{
+		AnsiString fileName = str + e->GetAttribute("FileName");
+		awpImage* img = m_frameBuffer->getImage(0);
+		if (img != NULL){
+			awpSaveImage(fileName.c_str(), img);
+		}
+	}
+	else if (e->name == "FOFM" || e->name == "FTFM1")
+	{
+
+		TPamImageBuffer* buf = NULL;
+		TPam2Frame*      frame = NULL;
+		if (e->name == "FOFM")
+		{
+			buf = m_fofmBuffer;
+			frame = &m_FoFm;
+		}
+		else if (e->name == "FTFM1")
+		{
+ 			buf = m_fofmBuffer;
+			frame = &m_FoFm;
+		}
+
+	   AnsiString fileName = str + e->GetAttribute("FT");
+	   awpSaveImage(fileName.c_str(), frame->Frame0);
+	   fileName = str + e->GetAttribute("FM");
+	   awpSaveImage(fileName.c_str(), frame->Frame1);
+	}
+	m_events.Add(e);
 }
+
+void __fastcall TPam2Document::BeginRecording()
+{
+	// todo: добавить в документ начальсное состояние оборудования
+    // и области интереса
+}
+void __fastcall TPam2Document::EndRecording()
+{
+	TiXmlNode* node = m_doc.GetDocument()->FirstChild("pam2tree");
+
+	for (int i = 0; i < m_events.GetCount(); i++)
+	{
+		TPam2Event* e = (TPam2Event*)m_events.Get(i);
+		e->SaveXmlNode(node);
+	}
+
+	AnsiString _ansi = m_fileName;
+	m_doc.SaveFile(_ansi.c_str());
+
+}
+void __fastcall TPam2Document::AbortRecording()
+{
+
+}
+
 

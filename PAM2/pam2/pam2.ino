@@ -498,7 +498,10 @@ void _pamFlash()
     int t = EXP-LFLASH-20;
     if (t > 4)
       delayMicroseconds(t);
+    delay(60);
     digitalWrite(CAMERA_PIN, LOW);
+   
+    
 
   // возвращаем освещение в исходное состояние 
   __SWITCH_ON__ 
@@ -513,6 +516,7 @@ void _pamDark()
     digitalWrite(CAMERA_PIN, HIGH);   
     delayMicroseconds(EXP);
     digitalWrite(CAMERA_PIN, LOW);   
+   delay(TRANSFER);
     
    __SWITCH_ON__ 
 
@@ -599,7 +603,6 @@ void _pamFtFm1()
 {
     __SWITCH_OFF__
    _pamDark();
-    //_pamFlash();
 
     _pamActinic(LACT, 100);
     _pamFlash();

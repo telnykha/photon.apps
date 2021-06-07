@@ -27,7 +27,7 @@ TPamImageBuffer::TPamImageBuffer(TPamImageBuffer& other)
 	this->m_count = other.m_count;
 	this->m_size  = other.m_size;
 	this->m_bufferType = other.m_bufferType;
-	for (int i = 0; i < m_count; i++)
+	for (int i = 0; i < m_size; i++)
 	{
 		TLFImage* _img = new TLFImage();
 		_img->SetImage(other.getImage(i));

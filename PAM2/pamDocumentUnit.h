@@ -24,6 +24,8 @@ protected:
 	int m_numFrames;
 	int m_currentFrame;
 
+	TLFObjectList m_events;
+
 	bool __fastcall HasFrame();
 	bool __fastcall HasFoFm();
 	bool __fastcall HasFtFm1();
@@ -33,6 +35,7 @@ protected:
 	void __fastcall SetFtFm1Buffer(TPamImageBuffer* buffer);
 
 	void __fastcall ClearDocument();
+
 public:
 	TPam2Document(HWND wnd = NULL);
 	~TPam2Document();
@@ -44,6 +47,10 @@ public:
 	bool __fastcall SetBuffer(TPamImageBuffer* buffer);
 	void __fastcall AddEvent(const UnicodeString& event);
 
+
+	void __fastcall BeginRecording();
+	void __fastcall EndRecording();
+	void __fastcall AbortRecording();
 
 	// получение визуализых данных из документа.
 	awpImage* GetFrame();

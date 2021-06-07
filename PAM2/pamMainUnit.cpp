@@ -345,7 +345,8 @@ void __fastcall TpamMainForm::toolsStartExperimetActionExecute(TObject *Sender)
 	pam2ExperimentForm->Gauge1->Visible = true;
 	Timer1->Interval = 1000*this->m_dutyСycle;
     this->SetMode(pam2Capture);
-    Timer1->Enabled = true;
+	Timer1->Enabled = true;
+    m_pam2Doc.BeginRecording();
 }
 //---------------------------------------------------------------------------
 
@@ -357,7 +358,8 @@ void __fastcall TpamMainForm::toolsStartExperimetActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::toolsStopExperimentActionExecute(TObject *Sender)
 {
-	toolsStopExperimentAction->Enabled = m_mode == pam2Capture;
+   //	toolsStopExperimentAction->Enabled = m_mode == pam2Capture;
+   m_pam2Doc.AbortRecording();
 }
 //---------------------------------------------------------------------------
 
@@ -658,7 +660,8 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  {
 		// запускаем живое видео
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 0);
-	   	BUFCCDUSB_SetFrameTime( m_camera, 1000);
+		BUFCCDUSB_SetFrameTime( m_camera, 1000);
+	   //	BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
 	  }
 	  else if (m_videoMode == pam2videoFlash)
 	  {
@@ -683,16 +686,19 @@ void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
 {
 	//this->ExecuteCommand(L"FLASH");
 	if (m_currentFlash == 0)
+	{
 		this->ExecuteCommand(L"FOFM");
+	}
 	else
 		this->ExecuteCommand(L"FTFM1");
 	m_currentFlash++;
 	pam2ExperimentForm->Gauge1->Progress = (100*m_currentFlash)/m_numFlashes;
-	if (m_currentFlash >= m_numFlashes)
+	if (m_currentFlash > m_numFlashes)
 	{
 		Timer1->Enabled = false;
 		pam2ExperimentForm->Gauge1->Progress = 0;
 		m_currentFlash = 0;
+        m_pam2Doc.EndRecording();
         SetMode(pam2Analysis);
 	}
 }

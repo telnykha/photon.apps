@@ -185,7 +185,6 @@ object pamMainForm: TpamMainForm
       OnDockDrop = LeftDocPanelDockDrop
       OnDockOver = LeftDocPanelDockOver
       OnUnDock = LeftDocPanelUnDock
-      ExplicitHeight = 421
     end
     object PhImage1: TPhImage
       Left = 9
@@ -199,7 +198,6 @@ object pamMainForm: TpamMainForm
       Align = alClient
       ParentColor = False
       OnMouseMove = PhImage1MouseMove
-      ExplicitHeight = 328
     end
     object RightDocPanel: TPanel
       Left = 674
@@ -212,7 +210,6 @@ object pamMainForm: TpamMainForm
       OnDockDrop = RightDocPanelDockDrop
       OnDockOver = RightDocPanelDockOver
       OnUnDock = RightDocPanelUnDock
-      ExplicitHeight = 421
     end
     object BottomDocPanel: TPanel
       Left = 1
@@ -237,7 +234,6 @@ object pamMainForm: TpamMainForm
       MaxValue = 4096.000000000000000000
       TicksVisible = True
       PaletteType = phpalGrayscale
-      ExplicitHeight = 421
     end
     object Panel2: TPanel
       Left = 1
