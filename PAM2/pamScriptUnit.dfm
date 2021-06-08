@@ -25,9 +25,6 @@ object pam2ScriptForm: Tpam2ScriptForm
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitLeft = 208
-    ExplicitTop = 120
-    ExplicitWidth = 185
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -35,9 +32,6 @@ object pam2ScriptForm: Tpam2ScriptForm
     Width = 386
     Height = 19
     Panels = <>
-    ExplicitLeft = 248
-    ExplicitTop = 208
-    ExplicitWidth = 0
   end
   object RichEdit1: TRichEdit
     Left = 0
@@ -50,14 +44,9 @@ object pam2ScriptForm: Tpam2ScriptForm
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    Lines.Strings = (
-      'RichEdit1')
     ParentFont = False
     TabOrder = 2
     Zoom = 100
-    ExplicitLeft = 152
-    ExplicitTop = 96
-    ExplicitWidth = 185
-    ExplicitHeight = 89
+    ExplicitTop = 35
   end
 end

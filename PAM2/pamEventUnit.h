@@ -23,6 +23,9 @@ protected:
 	int __fastcall GetAttrDuration();
 	char* __fastcall GetCommandName(const char* command);
 public:
+   TPam2Event();
+   TPam2Event(TPam2Event& other);
+
    TPam2Event(unsigned long t, const char* command);
    ~TPam2Event();
 

@@ -11,7 +11,8 @@ class TPam2Document
 {
 private:
 	HWND m_hwnd;
-    UnicodeString m_fileName;
+	UnicodeString m_fileName;
+	bool          m_notSaved;
 protected:
 	TPamImageBuffer* m_frameBuffer;
 	TPamImageBuffer* m_fofmBuffer;
@@ -25,6 +26,12 @@ protected:
 	int m_currentFrame;
 
 	TLFObjectList m_events;
+    TLFObjectList m_frames;
+
+	bool __fastcall LoadFrames();
+	void __fastcall LoadFtFm1();
+
+	UnicodeString __fastcall GetDataPath();
 
 	bool __fastcall HasFrame();
 	bool __fastcall HasFoFm();
@@ -42,7 +49,8 @@ public:
 
 	bool __fastcall NewDocument();
 	bool __fastcall OpenDocument(const UnicodeString& fileName);
-	bool __fastcall SaveDocument(const UnicodeString& fileName);
+	bool __fastcall SaveDocument();
+	bool __fastcall SaveAsDocument(const UnicodeString& fileName);
 
 	bool __fastcall SetBuffer(TPamImageBuffer* buffer);
 	void __fastcall AddEvent(const UnicodeString& event);
@@ -51,6 +59,15 @@ public:
 	void __fastcall BeginRecording();
 	void __fastcall EndRecording();
 	void __fastcall AbortRecording();
+
+	static bool __fastcall DeleteDocument(const UnicodeString& fileName);
+
+	//Навигация по фреймам
+	void __fastcall First();
+	void __fastcall Previous();
+	void __fastcall Next();
+	void __fastcall Last();
+	void __fastcall GoFrame(int index);
 
 	// получение визуализых данных из документа.
 	awpImage* GetFrame();
@@ -70,6 +87,10 @@ public:
 	__property bool hasFrame = {read = HasFrame};
 	__property bool hasFoFm  = {read = HasFoFm};
 	__property bool hasFtFm1 = {read = HasFtFm1};
+	__property bool notSaved = {read = m_notSaved};
+
+	__property int NumFrames = {read = m_numFrames};
+	__property int CurrentFrame = {read = m_currentFrame};
 
 };
 #endif

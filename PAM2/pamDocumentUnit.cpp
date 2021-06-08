@@ -68,6 +68,8 @@ TPam2Document::TPam2Document(HWND wnd)
 	m_doc.LinkEndChild( node );
 
 	m_doc.SaveFile(_ansi.c_str());
+
+	m_notSaved = false;
 }
 
 TPam2Document::~TPam2Document()
@@ -89,17 +91,140 @@ bool __fastcall TPam2Document::NewDocument()
 
 	return m_doc.SaveFile(_ansi.c_str());
 }
+// загрузка документа из файла
 bool __fastcall TPam2Document::OpenDocument(const UnicodeString& fileName)
 {
-	return false;
+	if (!FileExists(fileName))
+		return false;
+	AnsiString _ansi = fileName;
+	if (!m_doc.LoadFile(_ansi.c_str()))
+		return false;
+	TiXmlNode* node = m_doc.GetDocument()->FirstChild("pam2tree");
+	if (node == NULL)
+		return false;
+	m_events.Clear();
+	// считываем список событий
+	for(TiXmlNode* child = node->FirstChild("pam2Event"); child; child = child->NextSibling() )
+	{
+		TPam2Event* e = new TPam2Event();
+		if (e->LoadXmlNode(child)) {
+              m_events.Add(e);
+		}
+	}
+
+	// todo: считываем скрипт
+	// todo: считываем начальное состояние
+	// todo: считываем области интереса
+	this->m_fileName = fileName;
+	if (m_events.GetCount() > 0) {
+		// из массива events получаем массив изображений
+		if (LoadFrames()) {
+			// считаем первые два кадра FOFM и FTFM1
+			First();
+		}
+		else
+		{
+			this->m_fileName =  GetDefaultFileName();
+			ClearDocument();
+			return false;
+		}
+	}
+	else
+		return true;
 }
-bool __fastcall TPam2Document::SaveDocument(const UnicodeString& fileName)
+// сохранение документа под тем же именем файла
+bool __fastcall TPam2Document::SaveDocument()
 {
-	return false;
+	m_doc.Clear();
+	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "windows-1251", "" );
+	m_doc.LinkEndChild( decl );
+	TiXmlNode* node = m_doc.GetDocument()->FirstChild("pam2tree");
+
+	// сохраняем список событий, если он есть.
+	for (int i = 0; i < m_events.GetCount(); i++)
+	{
+		TPam2Event* e = (TPam2Event*)m_events.Get(i);
+		e->SaveXmlNode(node);
+	}
+
+	//todo: сохраняем начальные настройки, если они есть
+
+	//todo: сохраняем скрипт, если он есть
+
+	//todo: сохраняем выделенные области, если они есть.
+
+	AnsiString _ansi = this->m_fileName;
+	return m_doc.SaveFile(_ansi.c_str());
 }
+// сохранение документа под новым именем
+// предполагает переписывание результатов измерений в новую папку.
+bool __fastcall TPam2Document::SaveAsDocument(const UnicodeString& fileName)
+{
+
+	UnicodeString str1 = ExtractFilePath(fileName);
+	UnicodeString str2 = ChangeFileExt(ExtractFileName(fileName), "");
+	UnicodeString dataPath = str1+str2;
+
+	if (DirectoryExists(dataPath)) {
+		// удаляем все файлы в папке
+		if (!TDirectory::IsEmpty(dataPath))
+		{
+			System::DynamicArray<System::UnicodeString> arr = TDirectory::GetFiles(dataPath);
+			for (int i = arr.Length-1; i >= 0; i--)
+			{
+				DeleteFile(arr[i]);
+			}
+		}
+	}
+	else
+		CreateDir(dataPath);
+	// копируем файлы
+	UnicodeString str3 = ExtractFilePath(m_fileName);
+	UnicodeString str4 = ChangeFileExt(ExtractFileName(m_fileName), "");
+	UnicodeString srcPath = str3+str4;
+	System::DynamicArray<System::UnicodeString> arr = TDirectory::GetFiles(srcPath);
+	for(int i = 0; i < arr.Length; i++)
+	{
+		UnicodeString dstName = dataPath + L"\\"+ ExtractFileName(arr[i]);
+		CopyFile(arr[i].c_str(), dstName.c_str(), false);
+	}
+
+	AnsiString _ansi = fileName;
+	bool result = m_doc.SaveFile(_ansi.c_str());
+	if (result)
+	{
+		// сохранение прошло успешно
+		m_notSaved = false;
+		m_fileName = fileName;
+	}
+	return result;
+}
+
+bool __fastcall TPam2Document::DeleteDocument(const UnicodeString& fileName)
+{
+ 	UnicodeString str1 = ExtractFilePath(fileName);
+	UnicodeString str2 = ChangeFileExt(ExtractFileName(fileName), "");
+	UnicodeString dataPath = str1+str2;
+
+	if (DirectoryExists(dataPath)) {
+		// удаляем все файлы в папке
+		if (!TDirectory::IsEmpty(dataPath))
+		{
+			System::DynamicArray<System::UnicodeString> arr = TDirectory::GetFiles(dataPath);
+			for (int i = arr.Length-1; i >= 0; i--)
+			{
+				DeleteFile(arr[i]);
+			}
+		}
+	}
+
+	return DeleteFile(fileName);
+}
+
 
 void __fastcall TPam2Document::ClearDocument()
 {
+	m_notSaved = false;
 	UnicodeString str = GetDefaultFileName();
 	str = ExtractFilePath(str);
 	str += L"default\\";
@@ -133,6 +258,8 @@ void __fastcall TPam2Document::ClearDocument()
 		delete m_ftfm1Buffer;
         m_ftfm1Buffer = NULL;
 	}
+	m_events.Clear();
+	m_frames.Clear();
 
 	m_doc.Clear();
 }
@@ -352,12 +479,12 @@ bool __fastcall TPam2Document::HasFrame()
 
 bool __fastcall TPam2Document::HasFoFm()
 {
-	return m_numFrames > 0;
+	return m_FoFm.Frame0 != NULL && m_FoFm.Frame1 != NULL;
 }
 
 bool __fastcall TPam2Document::HasFtFm1()
 {
-	return m_numFrames > 1;
+	return m_FtFm1.Frame0 != NULL && m_FtFm1.Frame1 != NULL;
 }
 /*
 
@@ -454,8 +581,8 @@ void __fastcall TPam2Document::AddEvent(const UnicodeString& event)
 		}
 		else if (e->name == "FTFM1")
 		{
- 			buf = m_fofmBuffer;
-			frame = &m_FoFm;
+			buf = m_ftfm1Buffer;
+			frame = &m_FtFm1;
 		}
 
 	   AnsiString fileName = str + e->GetAttribute("FT");
@@ -469,7 +596,7 @@ void __fastcall TPam2Document::AddEvent(const UnicodeString& event)
 void __fastcall TPam2Document::BeginRecording()
 {
 	// todo: добавить в документ начальсное состояние оборудования
-    // и области интереса
+	// и области интереса
 }
 void __fastcall TPam2Document::EndRecording()
 {
@@ -484,10 +611,128 @@ void __fastcall TPam2Document::EndRecording()
 	AnsiString _ansi = m_fileName;
 	m_doc.SaveFile(_ansi.c_str());
 
+	m_notSaved = true;
+
 }
 void __fastcall TPam2Document::AbortRecording()
 {
-
+   this->ClearDocument();
 }
 
+bool __fastcall TPam2Document::LoadFrames()
+{
+	 m_frames.Clear();
+	 for (int i = 0; i < m_events.GetCount(); i++)
+	 {
+		TPam2Event* e = (TPam2Event*)m_events.Get(i);
+		AnsiString str = e->GetAttribute("name");
+		if (str == "FOFM" || str == "FTFM1")
+		{
+			TPam2Event* e1 = new TPam2Event(*e);
+			m_frames.Add(e1);
+		}
+	 }
+	 this->m_numFrames = m_frames.GetCount();
+	 return m_frames.GetCount() > 0;
+}
+
+void __fastcall TPam2Document::First()
+{
+	UnicodeString srcPath = GetDataPath();
+
+   //todo: мы предполагаем, что первое изображение в списке будет FOFT,
+   // хоть и нет никаких причин, чтобы этому не верить, но надо убедиться
+   TPam2Event* e = (TPam2Event*)m_frames.Get(0);
+   AnsiString ftFileName = srcPath + e->GetAttribute("FT");
+   AnsiString fmFileName = srcPath + e->GetAttribute("FM");
+
+   awpImage* img0 = NULL;
+   awpImage* img1 = NULL;
+
+   awpLoadImage(ftFileName.c_str(), &img0);
+   awpLoadImage(fmFileName.c_str(), &img1);
+   m_FoFm.SetFrames(img0, img1);
+
+   _AWP_SAFE_RELEASE_(img0)
+   _AWP_SAFE_RELEASE_(img1)
+
+   // считываем второе изображение это уже изображение FTFM1
+
+   e = (TPam2Event*)m_frames.Get(1);
+   ftFileName = srcPath + e->GetAttribute("FT");
+   fmFileName = srcPath + e->GetAttribute("FM");
+
+   awpLoadImage(ftFileName.c_str(), &img0);
+   awpLoadImage(fmFileName.c_str(), &img1);
+   m_FtFm1.SetFrames(img0, img1);
+
+   _AWP_SAFE_RELEASE_(img0)
+   _AWP_SAFE_RELEASE_(img1)
+
+   this->m_numFrames = m_frames.GetCount();
+   this->m_currentFrame = 1;
+
+}
+void __fastcall TPam2Document::Previous()
+{
+	m_currentFrame--;
+	if(m_currentFrame  < 1)
+	{
+		m_currentFrame = 1;
+		return;
+	}
+}
+void __fastcall TPam2Document::Next()
+{
+	m_currentFrame++;
+	if(m_currentFrame  > m_frames.GetCount() -1)
+	{
+		m_currentFrame = m_frames.GetCount() -1;
+		return;
+	}
+	LoadFtFm1();
+}
+void __fastcall TPam2Document::Last()
+{
+	m_currentFrame = m_frames.GetCount() -1;
+	LoadFtFm1();
+}
+
+UnicodeString __fastcall TPam2Document::GetDataPath()
+{
+	UnicodeString str3 = ExtractFilePath(m_fileName);
+	UnicodeString str4 = ChangeFileExt(ExtractFileName(m_fileName), "");
+	UnicodeString srcPath = str3+str4 + L"\\";
+	return     srcPath;
+}
+
+void __fastcall TPam2Document::LoadFtFm1()
+{
+   TPam2Event* e = (TPam2Event*)m_frames.Get(m_currentFrame);
+	UnicodeString srcPath = GetDataPath();
+
+   AnsiString ftFileName = srcPath + e->GetAttribute("FT");
+   AnsiString fmFileName = srcPath + e->GetAttribute("FM");
+
+   awpImage* img0 = NULL;
+   awpImage* img1 = NULL;
+
+   awpLoadImage(ftFileName.c_str(), &img0);
+   awpLoadImage(fmFileName.c_str(), &img1);
+   m_FtFm1.SetFrames(img0, img1);
+
+   _AWP_SAFE_RELEASE_(img0)
+   _AWP_SAFE_RELEASE_(img1)
+	::SendMessage(pamMainForm->Handle, WM_USER+1, 0,0);
+}
+
+void __fastcall TPam2Document::GoFrame(int index)
+{
+	if (index < 1 || index >= this->m_numFrames || index == m_currentFrame) {
+		return;
+	}
+
+	this->m_currentFrame = index;
+	this->LoadFtFm1();
+}
 

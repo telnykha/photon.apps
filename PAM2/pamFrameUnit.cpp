@@ -36,8 +36,8 @@ void __fastcall TPam2Frame::SetBuffer(TPamImageBuffer* buffer)
 
 	for (int i = 0; i < img->sSizeX*img->sSizeY; i++)
 	{
-		_f0[i] = (_i1[i]+_i2[i]+_i3[i])/3 ;//  - _i0[i];
-		float a = (_i01[i]+_i02[i]+_i03[i])/3;// - _i00[i];
+		_f0[i] = (_i1[i]+_i2[i]+_i3[i])/3     - _i0[i];
+		float a = (_i01[i]+_i02[i]+_i03[i])/3 - _i00[i];
 		_f1[i] = a == 0 ? 1:a; // - _i03[i];
 	}
 
@@ -59,6 +59,12 @@ awpImage* __fastcall TPam2Frame::GetFrame1()
 void __fastcall TPam2Frame::Clear()
 {
 	m_frame0.FreeImages();
-    m_frame1.FreeImages();
+	m_frame1.FreeImages();
+}
+
+bool __fastcall TPam2Frame::SetFrames(awpImage* frame0, awpImage* frame1)
+{
+	m_frame0.SetImage(frame0);
+	m_frame1.SetImage(frame1);
 }
 

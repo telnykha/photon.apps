@@ -20,6 +20,12 @@
 #include <Vcl.Samples.Spin.hpp>
 #include "pamImageBufferUnit.h"
 #include "PhVideoTrackBar.h"
+#include <Vcl.Dialogs.hpp>
+#include "PhImageTool.h"
+#include "PhPaneTool.h"
+#include "PhTrackBar.h"
+#include <System.ImageList.hpp>
+#include <Vcl.ImgList.hpp>
 
 typedef enum {pam2Tuning, pam2Capture, pam2Analysis}EPam2Modes;
 typedef enum {pam2videoLive, pam2videoFlash, pam2videoCommands}EPam2VideoModes;
@@ -173,7 +179,14 @@ __published:	// IDE-managed Components
 	TMenuItem *N8;
 	TMenuItem *N9;
 	TPanel *Panel2;
-	TPhVideoTrackBar *PhVideoTrackBar1;
+	TOpenDialog *OpenDialog1;
+	TSaveDialog *SaveDialog1;
+	TPhPaneTool *PhPaneTool1;
+	TToolButton *ToolButton17;
+	TPhTrackBar *PhTrackBar1;
+	TImageList *ImageList1;
+	TToolButton *ToolButton18;
+	TToolButton *ToolButton19;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -291,6 +304,7 @@ __published:	// IDE-managed Components
 	void __fastcall PhImage1MouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall toolsOptionsActionUpdate(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
+	void __fastcall PhTrackBar1Change(TObject *Sender);
 
 
 
@@ -327,7 +341,7 @@ protected:
 	void __fastcall SetDuty—ycle(int value);
 	int __fastcall GetCaptureDuration();
 
-
+	bool __fastcall SaveAsHelper();
 
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);

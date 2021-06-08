@@ -22,6 +22,9 @@
 #pragma link "Comm"
 #pragma link "PhPalette"
 #pragma link "PhVideoTrackBar"
+#pragma link "PhImageTool"
+#pragma link "PhPaneTool"
+#pragma link "PhTrackBar"
 #pragma resource "*.dfm"
 
 #pragma link "BUF_USBCCDCamera_SDK_b.lib"
@@ -34,12 +37,14 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 {
 	 if (pamMainForm != NULL)
 	 {
+/*
 		MSG msg;
 		if(GetMessage(&msg,NULL,NULL,NULL))
 		{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 		}
+*/
 //		ConsoleForm->Memo1->Lines->Add(L"Mightex exposure: " + IntToStr(50*Attributes->ExposureTime) + L" mks");
 //		ConsoleForm->Memo1->Lines->Add(L"Mightex Frq : " + IntToStr(Attributes->CCDFrequency) + L" mks");
 //		ConsoleForm->Memo1->Lines->Add(L"Mightex Frame time : " + IntToStr(Attributes->FrameTime) + L" mks");
@@ -342,9 +347,8 @@ void __fastcall TpamMainForm::toolsStartExperimetActionExecute(TObject *Sender)
 {
 	// Начало измерений
 	pam2ExperimentForm->Gauge1->Progress = 0;
-	pam2ExperimentForm->Gauge1->Visible = true;
 	Timer1->Interval = 1000*this->m_dutyСycle;
-    this->SetMode(pam2Capture);
+	this->SetMode(pam2Capture);
 	Timer1->Enabled = true;
     m_pam2Doc.BeginRecording();
 }
@@ -358,8 +362,10 @@ void __fastcall TpamMainForm::toolsStartExperimetActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::toolsStopExperimentActionExecute(TObject *Sender)
 {
-   //	toolsStopExperimentAction->Enabled = m_mode == pam2Capture;
-   m_pam2Doc.AbortRecording();
+	pam2ExperimentForm->Gauge1->Progress = 0;
+	this->SetMode(pam2Tuning);
+	Timer1->Enabled = false;
+    m_pam2Doc.AbortRecording();
 }
 //---------------------------------------------------------------------------
 
@@ -395,7 +401,18 @@ void __fastcall TpamMainForm::helpContentActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::fileNewActionExecute(TObject *Sender)
 {
-    SetMode(pam2Tuning);
+	if (m_pam2Doc.notSaved)
+	{
+		if (Application->MessageBoxW(L"Документ содержит измерения, которые не были сохранены.\n\
+		 Сохранить документ?", L"PAM2",  MB_YESNO) == IDYES)
+		{
+			//save helper
+			if (!this->SaveAsHelper()) {
+				return;
+			}
+		}
+	}
+	SetMode(pam2Tuning);
 }
 //---------------------------------------------------------------------------
 
@@ -407,7 +424,28 @@ void __fastcall TpamMainForm::fileNewActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::fileOpenActionExecute(TObject *Sender)
 {
- //
+	if (m_pam2Doc.notSaved)
+	{
+		if (Application->MessageBoxW(L"Документ содержит измерения, которые не были сохранены.\n\
+		 Сохранить документ?", L"PAM2",  MB_YESNO) == IDYES)
+		{
+			//save helper
+			if (!this->SaveAsHelper()) {
+				return;
+			}
+		}
+	}
+
+	 if (OpenDialog1->Execute())
+	 {
+		if (!m_pam2Doc.OpenDocument(OpenDialog1->FileName)) {
+			ShowMessage(L"Не могу открыть файл \n" + OpenDialog1->FileName);
+		}
+		else
+		{
+			SetMode(pam2Analysis);
+		}
+	 }
 }
 //---------------------------------------------------------------------------
 
@@ -458,7 +496,7 @@ bool TpamMainForm::OpenCamera()
 	BUFCCDUSB_InstallFrameHooker( 0, CamHook );
 	BUFCCDUSB_StartCameraEngine(this->Handle, 12);
 	BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
-	BUFCCDUSB_StartFrameGrab(1);
+//	BUFCCDUSB_StartFrameGrab(1);
 
 	return true;
 }
@@ -596,7 +634,10 @@ void __fastcall TpamMainForm::SetMode(EPam2Modes mode)
 		case pam2Analysis:
 			Panel2->Visible = true;
 			pam2HardwareForm->Visible = false;
-            pam2ExperimentForm->Visible = false;
+			pam2ExperimentForm->Visible = false;
+			PhTrackBar1->Min = 1;
+			PhTrackBar1->Max = m_pam2Doc.NumFrames;
+			PhTrackBar1->Frequency = m_pam2Doc.NumFrames / 20;
 		break;
 
 	}
@@ -660,8 +701,8 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  {
 		// запускаем живое видео
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 0);
-		BUFCCDUSB_SetFrameTime( m_camera, 1000);
-	   //	BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+		BUFCCDUSB_SetFrameTime( m_camera, 2500);
+		BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
 	  }
 	  else if (m_videoMode == pam2videoFlash)
 	  {
@@ -675,7 +716,7 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 		BUFCCDUSB_StopFrameGrab();
 		//BUFCCDUSB_SetCustomizedResolution(m_camera, 1280, 960, 0, 24);
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
-        //BUFCCDUSB_StartFrameGrab(12);
+		//BUFCCDUSB_StartFrameGrab(12);
 		//BUFCCDUSB_SetMinimumFrameDelay(1);
 	  }
 
@@ -1305,13 +1346,49 @@ void __fastcall TpamMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
 	if (m_mode == pam2Capture)
 	{
-		if (Application->MessageBoxW(L"Устройство находится в режиме измерений. Остановить программу?",L"PAM2", MB_YESNO) == IDYES)
+		if (Application->MessageBoxW(L"Устройство находится в режиме измерений.\n\
+			Остановить программу?",L"PAM2", MB_YESNO) == IDYES)
 		{
 			CanClose = true;
 		}
 		else
-            CanClose = false;
+			CanClose = false;
 	}
+}
+//---------------------------------------------------------------------------
+bool __fastcall TpamMainForm::SaveAsHelper()
+{
+	if (SaveDialog1->Execute())
+	{
+		// добавим расширение к имени файла
+		UnicodeString strFileName = ChangeFileExt(SaveDialog1->FileName, ".pam2");
+
+		// проверка наличия файла
+		if (FileExists(strFileName))
+		{
+			UnicodeString strMessage = L"Файл " + ExtractFileName(strFileName) + L" уже существует.\n";
+			strMessage += L" Удалить его?";
+			if (Application->MessageBoxW(strMessage.c_str(), L"PAM2", MB_YESNO)== IDYES)
+			{
+				// удаляем все файлы, связанные с экспериментом
+				if (!TPam2Document::DeleteDocument(strFileName))
+					return false;
+			}
+			else
+				return false;
+		}
+		else
+			return m_pam2Doc.SaveAsDocument(strFileName);
+	}
+	else
+		return false;
+}
+
+
+
+void __fastcall TpamMainForm::PhTrackBar1Change(TObject *Sender)
+{
+	 m_pam2Doc.GoFrame(PhTrackBar1->Position);
 }
 //---------------------------------------------------------------------------
 

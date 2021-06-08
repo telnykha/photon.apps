@@ -6,6 +6,12 @@
 #include <string>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+TPam2Event::TPam2Event()
+{
+	m_command = "";
+	m_name = "";
+	m_time = 0;
+}
 
 TPam2Event::TPam2Event(unsigned long t, const char* command)
 {
@@ -39,6 +45,11 @@ bool __fastcall TPam2Event::LoadXmlNode(TiXmlNode* node)
 {
 	if (node == NULL)
 		return false;
+	TiXmlElement* e = node->ToElement();
+	for(TiXmlAttribute* attr = e->FirstAttribute(); attr; attr = attr->Next())
+	{
+       m_attributes.insert(pair<string,string>(attr->Name(), attr->Value()));
+	}
 
 	return true;
 }
@@ -196,5 +207,13 @@ AnsiString TPam2Event::GetAttribute(AnsiString key)
    string _result = m_attributes[_key];
    result = _result.c_str();
    return result;
+}
+
+TPam2Event::TPam2Event(TPam2Event& other)
+{
+	this->m_command = other.m_command;
+	this->m_name = other.m_name;
+	this->m_time = other.m_time;
+    this->m_attributes = other.m_attributes;
 }
 

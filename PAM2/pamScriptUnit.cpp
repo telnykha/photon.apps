@@ -14,3 +14,4 @@ __fastcall Tpam2ScriptForm::Tpam2ScriptForm(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+
