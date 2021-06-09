@@ -469,13 +469,16 @@ void __fastcall TpamMainForm::fileCloseExperimentActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::fileSaveExperimentActionExecute(TObject *Sender)
 {
-//
+	if (m_pam2Doc.SaveDocument())
+	{
+		ShowMessage(L"Не могу сохранить документ!");
+	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::fileSaveExperimentActionUpdate(TObject *Sender)
 {
-	fileSaveExperimentAction->Enabled = m_mode !=  pam2Capture;
+	fileSaveExperimentAction->Enabled = m_mode !=  pam2Capture && m_pam2Doc.notSaved;
 }
 //---------------------------------------------------------------------------
 
@@ -496,7 +499,6 @@ bool TpamMainForm::OpenCamera()
 	BUFCCDUSB_InstallFrameHooker( 0, CamHook );
 	BUFCCDUSB_StartCameraEngine(this->Handle, 12);
 	BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
-//	BUFCCDUSB_StartFrameGrab(1);
 
 	return true;
 }
@@ -580,7 +582,7 @@ void __fastcall TpamMainForm::tuningLiveVideoUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::tuningFlashActionExecute(TObject *Sender)
 {
-	//SetVideoMode(pam2videoFlash);
+	BUFCCDUSB_StartFrameGrab(1);
 	this->ExecuteCommand(L"FLASH");
 }
 //---------------------------------------------------------------------------
@@ -714,7 +716,7 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  {
 		// запускаем командный режим.
 		BUFCCDUSB_StopFrameGrab();
-		//BUFCCDUSB_SetCustomizedResolution(m_camera, 1280, 960, 0, 24);
+		//BUFCCDUSB_SetCustomizedResolution(m_camera, 1280, 480, 0x81, 24);
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
 		//BUFCCDUSB_StartFrameGrab(12);
 		//BUFCCDUSB_SetMinimumFrameDelay(1);
@@ -1013,6 +1015,7 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 
 void __fastcall TpamMainForm::tuningDarkActionExecute(TObject *Sender)
 {
+	BUFCCDUSB_StartFrameGrab(1);
 	this->ExecuteCommand(L"DARK");
 }
 //---------------------------------------------------------------------------
@@ -1389,6 +1392,18 @@ bool __fastcall TpamMainForm::SaveAsHelper()
 void __fastcall TpamMainForm::PhTrackBar1Change(TObject *Sender)
 {
 	 m_pam2Doc.GoFrame(PhTrackBar1->Position);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::fileSaveAsActionExecute(TObject *Sender)
+{
+    SaveAsHelper();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::fileSaveAsActionUpdate(TObject *Sender)
+{
+	fileSaveAsAction->Enabled = m_mode !=  pam2Capture && m_pam2Doc.notSaved;
 }
 //---------------------------------------------------------------------------
 

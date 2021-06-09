@@ -187,6 +187,8 @@ __published:	// IDE-managed Components
 	TImageList *ImageList1;
 	TToolButton *ToolButton18;
 	TToolButton *ToolButton19;
+	TAction *fileSaveAsAction;
+	TMenuItem *N10;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -305,6 +307,8 @@ __published:	// IDE-managed Components
 	void __fastcall toolsOptionsActionUpdate(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 	void __fastcall PhTrackBar1Change(TObject *Sender);
+	void __fastcall fileSaveAsActionExecute(TObject *Sender);
+	void __fastcall fileSaveAsActionUpdate(TObject *Sender);
 
 
 

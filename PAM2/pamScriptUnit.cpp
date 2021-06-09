@@ -15,3 +15,15 @@ __fastcall Tpam2ScriptForm::Tpam2ScriptForm(TComponent* Owner)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall Tpam2ScriptForm::scriptNewActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall Tpam2ScriptForm::scriptNewActionUpdate(TObject *Sender)
+{
+///
+}
+//---------------------------------------------------------------------------
+

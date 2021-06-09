@@ -70,6 +70,7 @@ object pamMainForm: TpamMainForm
       Images = ImageList1
       List = True
       TabOrder = 0
+      Visible = False
       object ToolButton17: TToolButton
         Left = 0
         Top = 0
@@ -328,6 +329,9 @@ object pamMainForm: TpamMainForm
       end
       object N26: TMenuItem
         Action = fileSaveExperimentAction
+      end
+      object N10: TMenuItem
+        Action = fileSaveAsAction
       end
       object N22: TMenuItem
         Action = fileCloseExperimentAction
@@ -588,7 +592,7 @@ object pamMainForm: TpamMainForm
     end
     object fileSaveExperimentAction: TAction
       Category = 'Files'
-      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1076#1086#1082#1091#1084#1077#1085#1090'... '
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1076#1086#1082#1091#1084#1077#1085#1090
       Enabled = False
       ImageIndex = 2
       ShortCut = 16467
@@ -779,6 +783,12 @@ object pamMainForm: TpamMainForm
       OnExecute = viewqN1ActionExecute
       OnUpdate = viewqN1ActionUpdate
     end
+    object fileSaveAsAction: TAction
+      Category = 'Files'
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1076#1086#1082#1091#1084#1077#1085#1090' '#1082#1072#1082'... '
+      OnExecute = fileSaveAsActionExecute
+      OnUpdate = fileSaveAsActionUpdate
+    end
   end
   object Comm1: TComm
     DeviceName = 'Com2'
@@ -833,7 +843,7 @@ object pamMainForm: TpamMainForm
     Top = 144
   end
   object SaveDialog1: TSaveDialog
-    Filter = #1069#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1099' PAM2|pam2'
+    Filter = #1069#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1099' PAM2|*.pam2'
     Left = 592
     Top = 144
   end
@@ -846,7 +856,7 @@ object pamMainForm: TpamMainForm
     DrawingStyle = dsTransparent
     Height = 40
     Width = 40
-    Left = 480
+    Left = 488
     Top = 144
     Bitmap = {
       494C01010B001800040028002800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600

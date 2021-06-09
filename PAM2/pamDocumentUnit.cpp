@@ -610,7 +610,7 @@ void __fastcall TPam2Document::EndRecording()
 
 	AnsiString _ansi = m_fileName;
 	m_doc.SaveFile(_ansi.c_str());
-
+    this->LoadFrames();
 	m_notSaved = true;
 
 }
