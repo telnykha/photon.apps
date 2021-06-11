@@ -27,7 +27,6 @@ object pamMainForm: TpamMainForm
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitWidth = 763
     object Splitter1: TSplitter
       Left = 6
       Top = 57
@@ -201,8 +200,6 @@ object pamMainForm: TpamMainForm
       OnDockDrop = LeftDocPanelDockDrop
       OnDockOver = LeftDocPanelDockOver
       OnUnDock = LeftDocPanelUnDock
-      ExplicitTop = 33
-      ExplicitHeight = 381
     end
     object PhImage1: TPhImage
       Left = 9
@@ -216,9 +213,6 @@ object pamMainForm: TpamMainForm
       Align = alClient
       ParentColor = False
       OnMouseMove = PhImage1MouseMove
-      ExplicitTop = 33
-      ExplicitWidth = 662
-      ExplicitHeight = 381
     end
     object RightDocPanel: TPanel
       Left = 698
@@ -231,9 +225,6 @@ object pamMainForm: TpamMainForm
       OnDockDrop = RightDocPanelDockDrop
       OnDockOver = RightDocPanelDockOver
       OnUnDock = RightDocPanelUnDock
-      ExplicitLeft = 674
-      ExplicitTop = 33
-      ExplicitHeight = 381
     end
     object BottomDocPanel: TPanel
       Left = 1
@@ -246,7 +237,6 @@ object pamMainForm: TpamMainForm
       OnDockDrop = BottomDocPanelDockDrop
       OnDockOver = BottomDocPanelDockOver
       OnUnDock = BottomDocPanelUnDock
-      ExplicitWidth = 761
     end
     object PhPalette1: TPhPalette
       Left = 703
@@ -259,9 +249,6 @@ object pamMainForm: TpamMainForm
       MaxValue = 4096.000000000000000000
       TicksVisible = True
       PaletteType = phpalGrayscale
-      ExplicitLeft = 679
-      ExplicitTop = 33
-      ExplicitHeight = 381
     end
     object Panel2: TPanel
       Left = 1
@@ -271,7 +258,6 @@ object pamMainForm: TpamMainForm
       Align = alBottom
       TabOrder = 6
       Visible = False
-      ExplicitWidth = 761
       object PhTrackBar1: TPhTrackBar
         Left = 1
         Top = 1
@@ -282,7 +268,6 @@ object pamMainForm: TpamMainForm
         TabOrder = 0
         TickMarks = tmBoth
         OnChange = PhTrackBar1Change
-        ExplicitWidth = 759
       end
     end
   end
@@ -311,7 +296,6 @@ object pamMainForm: TpamMainForm
         Bevel = pbRaised
         Width = 50
       end>
-    ExplicitWidth = 763
   end
   object MainMenu1: TMainMenu
     Left = 528

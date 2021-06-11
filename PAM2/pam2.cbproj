@@ -216,6 +216,10 @@
             <DependentOn>pamResultUnit.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamScriptDocUnit.cpp">
+            <DependentOn>pamScriptDocUnit.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamScriptUnit.cpp">
             <Form>pam2ScriptForm</Form>
             <FormType>dfm</FormType>

@@ -370,6 +370,8 @@ public:		// User declarations
 	__property int NumFlashes = {read = m_numFlashes, write = m_numFlashes};
 	__property int Duty—ycle = {read = m_duty—ycle, write = SetDuty—ycle};
 	__property int CaptureDuration = {read = GetCaptureDuration};
+
+	__property EPam2Modes Mode = {read = m_mode};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

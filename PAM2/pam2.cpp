@@ -8,11 +8,11 @@
 #include <Vcl.Themes.hpp>
 USEFORM("pamMainUnit.cpp", pamMainForm);
 USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
-USEFORM("pamOptionsUnit.cpp", pam2OptionsForm);
+USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
 USEFORM("pamTimeLineUnit.cpp", pam2TimeLineForm);
 USEFORM("pamScriptUnit.cpp", pam2ScriptForm);
 USEFORM("pamResultUnit.cpp", pam2ResultForm);
-USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
+USEFORM("pamOptionsUnit.cpp", pam2OptionsForm);
 USEFORM("pamDistributionUnit.cpp", pam2DistributionForm);
 USEFORM("pamConsoleUnit.cpp", ConsoleForm);
 USEFORM("pamAboutUnit.cpp", AboutBox);

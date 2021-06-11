@@ -15,6 +15,10 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ImgList.hpp>
 #include <Vcl.ToolWin.hpp>
+#include <Vcl.Menus.hpp>
+#include <Vcl.StdActns.hpp>
+#include "pamScriptDocUnit.h"
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class Tpam2ScriptForm : public TForm
 {
@@ -30,11 +34,36 @@ __published:	// IDE-managed Components
 	TAction *scriptCheckAction;
 	TAction *scriptExecuteAction;
 	TAction *scriptClearAction;
-	TImageList *ImageList1;
-	TSpeedButton *SpeedButton1;
+	TPopupMenu *PopupMenu1;
+	TMenuItem *scriptNewAction1;
+	TMenuItem *N1;
+	TMenuItem *N2;
+	TMenuItem *N3;
+	TMenuItem *N4;
+	TMenuItem *N5;
+	TMenuItem *scriptClearAction1;
+	TEditCopy *scriptEditCopyAction;
+	TMenuItem *N6;
+	TMenuItem *scriptCheckAction1;
+	TMenuItem *N7;
+	TMenuItem *scriptExecuteAction1;
+	TOpenDialog *OpenDialog1;
+	TSaveDialog *SaveDialog1;
+	TEditSelectAll *scriptEditSelectAllAction;
+	TMenuItem *N8;
 	void __fastcall scriptNewActionExecute(TObject *Sender);
 	void __fastcall scriptNewActionUpdate(TObject *Sender);
+	void __fastcall scriptOpenActionUpdate(TObject *Sender);
+	void __fastcall scriptOpenActionExecute(TObject *Sender);
+	void __fastcall scriptSaveActionUpdate(TObject *Sender);
+	void __fastcall scriptSaveAsActionUpdate(TObject *Sender);
+	void __fastcall scriptSaveAsActionExecute(TObject *Sender);
+	void __fastcall scriptSaveActionExecute(TObject *Sender);
+	void __fastcall RichEdit1Change(TObject *Sender);
+	void __fastcall scriptCheckActionExecute(TObject *Sender);
+	void __fastcall scriptCheckActionUpdate(TObject *Sender);
 private:	// User declarations
+    TPam2ScriptDoc* m_script;
 public:		// User declarations
 	__fastcall Tpam2ScriptForm(TComponent* Owner);
 };
