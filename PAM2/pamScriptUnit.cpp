@@ -4,6 +4,7 @@
 #pragma hdrstop
 #include "pamScriptUnit.h"
 #include "pamMainUnit.h"
+#include "PhTime.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -79,23 +80,46 @@ void __fastcall Tpam2ScriptForm::scriptSaveActionExecute(TObject *Sender)
 
 void __fastcall Tpam2ScriptForm::RichEdit1Change(TObject *Sender)
 {
-    RichEdit1->Modified = true;
+	RichEdit1->Modified = true;
+	UpdateStatus();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall Tpam2ScriptForm::scriptCheckActionExecute(TObject *Sender)
 {
 	if (m_script->CheckScript()) {
-		ShowMessage(L"Скрипт не содержит ошибок.");
+		int CommandsCount = m_script->CommandsCount;
+		UnicodeString strTime = PhGetTimeMSecStamp(m_script->GetScriptTime());
+		StatusBar1->Panels->Items[0]->Text = L"Число событий " + IntToStr(CommandsCount) + L". Ожидаемое время выполнения:" + strTime;
 	}
 	else
+	{
 		ShowMessage(L"Скрипт содержит ошибки!");
+		StatusBar1->Panels->Items[0]->Text = L"Скрипт содержит ошибки.";
+	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall Tpam2ScriptForm::scriptCheckActionUpdate(TObject *Sender)
 {
-    scriptCheckAction->Enabled = RichEdit1->Lines->Count > 0;
+	scriptCheckAction->Enabled = RichEdit1->Lines->Count > 0;
+}
+//---------------------------------------------------------------------------
+void __fastcall Tpam2ScriptForm::UpdateStatus()
+{
+//
+}
+
+void __fastcall Tpam2ScriptForm::scriptExecuteActionExecute(TObject *Sender)
+{
+	m_script->IsRunning = true;
+	pamMainForm->Timer2->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall Tpam2ScriptForm::scriptExecuteActionUpdate(TObject *Sender)
+{
+    scriptExecuteAction->Enabled = RichEdit1->Lines->Count > 0 && RichEdit1->Modified == false && m_script->Checked;
 }
 //---------------------------------------------------------------------------
 
