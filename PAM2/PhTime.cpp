@@ -34,3 +34,13 @@ UnicodeString PhGetTimeSecStamp(unsigned int sec)
     return FormatFloat("00",t.Hours) + L":" + FormatFloat("00",t.Minutes) + L":" + FormatFloat("00",t.Secunds);
 }
 
+UnicodeString PhGetTimeMSecStamp(unsigned int msec)
+{
+	unsigned int sec = msec / 1000;
+	unsigned int _msec = msec - 1000*sec;
+	UnicodeString str = PhGetTimeSecStamp(sec);
+    str += L":";
+	str += FormatFloat(L"000", _msec);
+	return str;
+}
+

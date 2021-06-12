@@ -3325,4 +3325,11 @@ object pamMainForm: TpamMainForm
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000
       000000000000}
   end
+  object Timer2: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = Timer2Timer
+    Left = 416
+    Top = 72
+  end
 end

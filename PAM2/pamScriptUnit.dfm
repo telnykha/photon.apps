@@ -32,7 +32,13 @@ object pam2ScriptForm: Tpam2ScriptForm
     Top = 346
     Width = 427
     Height = 19
-    Panels = <>
+    Panels = <
+      item
+        Width = 400
+      end
+      item
+        Width = 100
+      end>
   end
   object RichEdit1: TRichEdit
     Left = 0
@@ -94,6 +100,8 @@ object pam2ScriptForm: Tpam2ScriptForm
       Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100
       ImageIndex = 4
       ShortCut = 120
+      OnExecute = scriptExecuteActionExecute
+      OnUpdate = scriptExecuteActionUpdate
     end
     object scriptClearAction: TAction
       Caption = #1054#1095#1080#1089#1090#1080#1090#1100

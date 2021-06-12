@@ -7,6 +7,14 @@
 #pragma package(smart_init)
 TPam2Frame::TPam2Frame()
 {}
+/* установка буфера из 7ми кадров
+// кадр 0  - темновой кадр
+// кадр 1  - ft1
+// кадр 2  - ft2
+// кадр 3  - ft3
+// кадр 4  - fm1
+// кадр 5  - fm2
+// кадр 6  - fm3
 void __fastcall TPam2Frame::SetBuffer(TPamImageBuffer* buffer)
 {
 	if (buffer == NULL)
@@ -46,6 +54,55 @@ void __fastcall TPam2Frame::SetBuffer(TPamImageBuffer* buffer)
 	awpReleaseImage(&f0);
 	awpReleaseImage(&f1);
 }
+*/
+/*
+/* установка буфера из 5ми кадров
+// кадр 0  - темновой кадр
+// кадр 1  - ft1
+// кадр 2  - ft2
+// кадр 3  - ft3
+// кадр 4  - fm1
+*/
+void __fastcall TPam2Frame::SetBuffer(TPamImageBuffer* buffer)
+{
+	if (buffer == NULL)
+		return;
+	if (buffer->BufferType == pam2bfDark || buffer->BufferType == pam2bfFlash)
+		return;
+
+	awpImage* f0 = NULL;
+	awpImage* f1 = NULL;
+
+	awpImage* img = buffer->getImage(0);
+	awpCreateImage(&f0, img->sSizeX, img->sSizeY, 1, AWP_FLOAT);
+	awpCreateImage(&f1, img->sSizeX, img->sSizeY, 1, AWP_FLOAT);
+
+	AWPFLOAT* _f0 = (AWPFLOAT*)f0->pPixels;
+	AWPFLOAT* _f1 = (AWPFLOAT*)f1->pPixels;
+
+	AWPFLOAT* _i0 = (AWPFLOAT*)(buffer->getImage(0)->pPixels);
+	AWPFLOAT* _i1 = (AWPFLOAT*)(buffer->getImage(1)->pPixels);
+	AWPFLOAT* _i2 = (AWPFLOAT*)(buffer->getImage(2)->pPixels);
+	AWPFLOAT* _i3 = (AWPFLOAT*)(buffer->getImage(3)->pPixels);
+
+	AWPFLOAT* _i00 = (AWPFLOAT*)(buffer->getImage(0)->pPixels);
+	AWPFLOAT* _i01 = (AWPFLOAT*)(buffer->getImage(4)->pPixels);
+	AWPFLOAT* _i02 = (AWPFLOAT*)(buffer->getImage(4)->pPixels);
+	AWPFLOAT* _i03 = (AWPFLOAT*)(buffer->getImage(4)->pPixels);
+
+	for (int i = 0; i < img->sSizeX*img->sSizeY; i++)
+	{
+		_f0[i] = (_i1[i]+_i2[i]+_i3[i])/3     - _i0[i];
+		float a = (_i01[i]+_i02[i]+_i03[i])/3 - _i00[i];
+		_f1[i] = a == 0 ? 1:a; // - _i03[i];
+	}
+
+	m_frame0.SetImage(f0);
+	m_frame1.SetImage(f1);
+	awpReleaseImage(&f0);
+	awpReleaseImage(&f1);
+}
+
 
 awpImage* __fastcall TPam2Frame::GetFrame0()
 {

@@ -79,9 +79,9 @@ int SAT      = LOW;   /*состояние синего светодиода    
 int ACT      = LOW;   /*состояние синего светодиода  в актиничном режиме*/
 int ADD      = LOW;   /*состояние красного светодиода     */
 int EXP      = 75;    /*время экспозиции видеокамеры в микросекундах*/
+int GAIN     = 6;     /*усиление видеокамеры в децибеллах*/
 int LFLASH   = 20;    /*время измерительной вспышки в микроукундах*/
-int GAIN     = 20;    /*усиление видеокамеры*/
-int TRANSFER = 100; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
+int TRANSFER = 60; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
 
 /*буфер команд*/
 int  COMMANDSLEN = 0;
@@ -322,6 +322,35 @@ void pamSetEXP(String str)
       Serial.println(_error);
   }
 }
+
+/*возвращает время экспозиции
+*/
+void pamGetGAIN()
+{
+  String result(GAIN);
+  Serial.println(result);
+}
+/*Устанавливает время экспозции.
+*/
+void pamSetGAIN(String str)
+{
+  int index = str.indexOf('=');
+  if (index == -1)
+    Serial.println(_error);
+  else
+  {
+    String substr = str.substring(index + 1, str.length());
+    int value = substr.toInt();
+    if (value >= 6  && value <= 41)
+    {
+      GAIN = value;
+      Serial.println(_success + str);
+    }
+    else
+      Serial.println(_error);
+  }
+}
+
 /*Возвращает длительность вспышки в микросекундах
 */
 void       pamGetLFLASH()
@@ -498,7 +527,7 @@ void _pamFlash()
     int t = EXP-LFLASH-20;
     if (t > 4)
       delayMicroseconds(t);
-    delay(60);
+    delay(TRANSFER);
     digitalWrite(CAMERA_PIN, LOW);
    
     
@@ -576,17 +605,15 @@ void _pamFoFm()
     delay(TRANSFER);
 
    _pamSaturation(LSAT, 500);
-
-
-    _pamFlash();              //7 - Fm_1
-    _pamSaturation(LSAT, TRANSFER);
-    
-
-    _pamFlash();              //9  - Fm_2
-    _pamSaturation(LSAT, TRANSFER);   
-    
-    _pamFlash();              //11 - Fm3
-    delay(2*TRANSFER);        
+   _pamFlash();              //7 - Fm_1
+//    _pamSaturation(LSAT, TRANSFER);
+//    
+//
+//    _pamFlash();              //9  - Fm_2
+//    _pamSaturation(LSAT, TRANSFER);   
+//    
+//    _pamFlash();              //11 - Fm3
+//    delay(2*TRANSFER);        
      
     __SWITCH_ON__ 
 }
@@ -612,19 +639,14 @@ void _pamFtFm1()
 
     _pamActinic(LACT, 100);
     _pamFlash();
-    delay(TRANSFER);
-
-    //_pamDark();
-    //_pamFlash();
-    
     _pamSaturation(LSAT, 500);
-    
+   
     _pamFlash();
-    _pamSaturation(LSAT, 100);
-    _pamFlash();
-    _pamSaturation(LSAT, 100);
-    _pamFlash();
-    delay(2*TRANSFER);        
+//    _pamSaturation(LSAT, 100);
+//    _pamFlash();
+//    _pamSaturation(LSAT, 100);
+//    _pamFlash();
+//    delay(2*TRANSFER);        
     __SWITCH_ON__ 
 }
 
@@ -666,6 +688,8 @@ void loop() {
         pamSetADD(incomingString);
       else if(incomingString.indexOf("EXP=") != -1)
         pamSetEXP(incomingString);
+      else if(incomingString.indexOf("GAIN=") != -1)
+        pamSetGAIN(incomingString);        
       else if(incomingString.indexOf("LFLASH=") != -1)
         pamSetLFLASH(incomingString);
       else
@@ -681,6 +705,8 @@ void loop() {
       pamGetLADD();
     else if (incomingString.equals("EXP?"))
       pamGetEXP();
+    else if (incomingString.equals("GAIN?"))
+      pamGetGAIN();
     else if (incomingString.equals("LFLASH?"))
       pamGetLFLASH();
     else if (incomingString.equals("SAT?"))

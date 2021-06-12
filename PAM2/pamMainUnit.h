@@ -189,6 +189,7 @@ __published:	// IDE-managed Components
 	TToolButton *ToolButton19;
 	TAction *fileSaveAsAction;
 	TMenuItem *N10;
+	TTimer *Timer2;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -309,6 +310,7 @@ __published:	// IDE-managed Components
 	void __fastcall PhTrackBar1Change(TObject *Sender);
 	void __fastcall fileSaveAsActionExecute(TObject *Sender);
 	void __fastcall fileSaveAsActionUpdate(TObject *Sender);
+	void __fastcall Timer2Timer(TObject *Sender);
 
 
 
@@ -332,6 +334,7 @@ private:	// User declarations
 	int              m_numFlashes;
 	int              m_duty—ycle;
 	int              m_currentFlash;
+    int              m_timeOut;
 protected:
 	BEGIN_MESSAGE_MAP
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
@@ -344,7 +347,6 @@ protected:
 	TPam2Document* __fastcall GetDocument();
 	void __fastcall SetDuty—ycle(int value);
 	int __fastcall GetCaptureDuration();
-
 	bool __fastcall SaveAsHelper();
 
 public:		// User declarations

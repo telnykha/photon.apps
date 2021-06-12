@@ -62,10 +62,15 @@ __published:	// IDE-managed Components
 	void __fastcall RichEdit1Change(TObject *Sender);
 	void __fastcall scriptCheckActionExecute(TObject *Sender);
 	void __fastcall scriptCheckActionUpdate(TObject *Sender);
+	void __fastcall scriptExecuteActionExecute(TObject *Sender);
+	void __fastcall scriptExecuteActionUpdate(TObject *Sender);
 private:	// User declarations
-    TPam2ScriptDoc* m_script;
+	TPam2ScriptDoc* m_script;
+	void __fastcall UpdateStatus();
 public:		// User declarations
 	__fastcall Tpam2ScriptForm(TComponent* Owner);
+
+	__property TPam2ScriptDoc* Script = {read = m_script};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE Tpam2ScriptForm *pam2ScriptForm;

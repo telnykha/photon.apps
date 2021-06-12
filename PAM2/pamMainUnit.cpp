@@ -16,6 +16,7 @@
 #include "pamHardwareUnit.h"
 #include "pamExperimentUnit.h"
 #include "Buf_USBCCDCamera_SDK.h"
+#include "System.AnsiStrings.hpp"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -1404,6 +1405,25 @@ void __fastcall TpamMainForm::fileSaveAsActionExecute(TObject *Sender)
 void __fastcall TpamMainForm::fileSaveAsActionUpdate(TObject *Sender)
 {
 	fileSaveAsAction->Enabled = m_mode !=  pam2Capture && m_pam2Doc.notSaved;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::Timer2Timer(TObject *Sender)
+{
+	// получаем следующу команду
+	UnicodeString cmd = pam2ScriptForm->Script->NextCommand();
+    cmd = ReplaceStr(cmd, L" ",L"");
+	if (cmd == L"END") {
+	   // останавливаем выполнение скрипта
+	   pam2ScriptForm->Script->IsRunning = false;
+       Timer2->Enabled = false;
+	}
+	else
+	{
+		Timer2->Interval = 1.5*pam2ScriptForm->Script->GetCommandTime(cmd);
+		this->ExecuteCommand(cmd);
+	}
+
 }
 //---------------------------------------------------------------------------
 

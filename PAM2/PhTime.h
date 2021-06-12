@@ -23,4 +23,5 @@ public:
 };
 
 UnicodeString PhGetTimeSecStamp(unsigned int sec);
+UnicodeString PhGetTimeMSecStamp(unsigned int msec);
 #endif
