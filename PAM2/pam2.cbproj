@@ -133,18 +133,6 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="Nodes\pam2DocINode.cpp">
-            <DependentOn>Nodes\pam2DocINode.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Nodes\pam2DocScriptNode.cpp">
-            <DependentOn>Nodes\pam2DocScriptNode.h</DependentOn>
-            <BuildOrder>14</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Nodes\pam2DocTimeNode.cpp">
-            <DependentOn>Nodes\pam2DocTimeNode.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
         <CppCompile Include="pam2.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -198,6 +186,12 @@
             <DependentOn>pamImageBufferUnit.h</DependentOn>
             <BuildOrder>16</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamLongProcessUnit.cpp">
+            <Form>LongProcessForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>pamLongProcessUnit.h</DependentOn>
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamMainUnit.cpp">
             <Form>pamMainForm</Form>
             <FormType>dfm</FormType>
@@ -236,16 +230,17 @@
             <DependentOn>PhTime.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <FormResources Include="pamOptionsUnit.dfm"/>
         <FormResources Include="pamMainUnit.dfm"/>
         <FormResources Include="pamHardwareUnit.dfm"/>
-        <FormResources Include="pamExperimentUnit.dfm"/>
         <FormResources Include="pamTimeLineUnit.dfm"/>
         <FormResources Include="pamScriptUnit.dfm"/>
         <FormResources Include="pamResultUnit.dfm"/>
-        <FormResources Include="pamOptionsUnit.dfm"/>
+        <FormResources Include="pamExperimentUnit.dfm"/>
         <FormResources Include="pamDistributionUnit.dfm"/>
         <FormResources Include="pamConsoleUnit.dfm"/>
         <FormResources Include="pamAboutUnit.dfm"/>
+        <FormResources Include="pamLongProcessUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -6,7 +6,6 @@ object pam2ScriptForm: Tpam2ScriptForm
   ClientHeight = 365
   ClientWidth = 427
   Color = clBtnFace
-  DockSite = True
   DragKind = dkDock
   DragMode = dmAutomatic
   Font.Charset = DEFAULT_CHARSET

@@ -465,10 +465,9 @@ void __fastcall TPam2ScriptDoc::SetIsRunning(bool value)
 	  if (m_running == value) {
 		return;
 	  }
-
+	  m_nextCommand = 0;
 	  m_running = value;
 	  if (m_running) {
-		m_nextCommand = 0;
 		CreateScript();
 	  }
 }
@@ -485,7 +484,7 @@ UnicodeString  TPam2ScriptDoc::NextCommand()
 		   return L"END";
 	}
 	else
-        return L"";
+		return L"";
 }
 
 void __fastcall TPam2ScriptDoc::CreateScript()

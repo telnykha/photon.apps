@@ -190,6 +190,7 @@ __published:	// IDE-managed Components
 	TAction *fileSaveAsAction;
 	TMenuItem *N10;
 	TTimer *Timer2;
+	TTimer *Timer3;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -311,6 +312,7 @@ __published:	// IDE-managed Components
 	void __fastcall fileSaveAsActionExecute(TObject *Sender);
 	void __fastcall fileSaveAsActionUpdate(TObject *Sender);
 	void __fastcall Timer2Timer(TObject *Sender);
+	void __fastcall Timer3Timer(TObject *Sender);
 
 
 
@@ -334,7 +336,13 @@ private:	// User declarations
 	int              m_numFlashes;
 	int              m_dutyСycle;
 	int              m_currentFlash;
-    int              m_timeOut;
+	int              m_timeOut;
+	// параметры скрипта
+	int              m_numEvents;
+	int              m_currentEvent;
+	int              m_commandTime;
+	DWORD            m_currentTime;
+    bool             m_cancelScript;
 protected:
 	BEGIN_MESSAGE_MAP
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
@@ -366,6 +374,7 @@ public:		// User declarations
 
 	void __fastcall SetPicture(awpImage* img);
 	void __fastcall UpdateScreen();
+	void __fastcall CancelScript();
 	__property TPam2Document* doc = {read = GetDocument};
 
 	// параметры эксперимента

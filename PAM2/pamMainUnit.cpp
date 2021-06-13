@@ -17,6 +17,7 @@
 #include "pamExperimentUnit.h"
 #include "Buf_USBCCDCamera_SDK.h"
 #include "System.AnsiStrings.hpp"
+#include "pamLongProcessUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -38,21 +39,7 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 {
 	 if (pamMainForm != NULL)
 	 {
-/*
-		MSG msg;
-		if(GetMessage(&msg,NULL,NULL,NULL))
-		{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-		}
-*/
-//		ConsoleForm->Memo1->Lines->Add(L"Mightex exposure: " + IntToStr(50*Attributes->ExposureTime) + L" mks");
-//		ConsoleForm->Memo1->Lines->Add(L"Mightex Frq : " + IntToStr(Attributes->CCDFrequency) + L" mks");
-//		ConsoleForm->Memo1->Lines->Add(L"Mightex Frame time : " + IntToStr(Attributes->FrameTime) + L" mks");
 		pamMainForm->PreviewFrame(Attributes->Column, Attributes->Row, BytePtr, Attributes->CameraID);
-
-#ifdef _DEBUG
-#endif
 	 }
 }
 
@@ -233,6 +220,11 @@ void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
 					else
 					{
 						ConsoleForm->Memo1->Lines->Add(TimeToStr(Time()) +L">" + rs);
+						if (pam2ScriptForm->Script->IsRunning) {
+							Timer2->Interval = 50;
+							Timer2->Enabled  = true;
+                            Timer3->Enabled = false;
+						}
 					}
 					rs="" ;
 			}
@@ -334,7 +326,15 @@ void __fastcall TpamMainForm::toolsOptionsActionExecute(TObject *Sender)
 //
 void __fastcall TpamMainForm::toolsExecuteActionExecute(TObject *Sender)
 {
-//
+	// добавим в консоль метку начала выполнения скрипта
+/*	 ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Начало скрипта.");
+	 pam2ScriptForm->Script->IsRunning = true;
+	 Timer2->Enabled = true;
+*/
+	m_numEvents = pam2ScriptForm->Script->CommandsCount;
+	m_currentEvent = 0;
+    m_cancelScript = false;
+	LongProcessForm->ShowModal();
 }
 //---------------------------------------------------------------------------
 //
@@ -350,6 +350,7 @@ void __fastcall TpamMainForm::toolsStartExperimetActionExecute(TObject *Sender)
 	pam2ExperimentForm->Gauge1->Progress = 0;
 	Timer1->Interval = 1000*this->m_dutyСycle;
 	this->SetMode(pam2Capture);
+	ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Начало измерений.");
 	Timer1->Enabled = true;
     m_pam2Doc.BeginRecording();
 }
@@ -717,18 +718,12 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  {
 		// запускаем командный режим.
 		BUFCCDUSB_StopFrameGrab();
-		//BUFCCDUSB_SetCustomizedResolution(m_camera, 1280, 480, 0x81, 24);
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
-		//BUFCCDUSB_StartFrameGrab(12);
-		//BUFCCDUSB_SetMinimumFrameDelay(1);
 	  }
-
-	 // BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
 }
 
 void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
 {
-	//this->ExecuteCommand(L"FLASH");
 	if (m_currentFlash == 0)
 	{
 		this->ExecuteCommand(L"FOFM");
@@ -740,6 +735,7 @@ void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
 	if (m_currentFlash > m_numFlashes)
 	{
 		Timer1->Enabled = false;
+        ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Завершение измерений.");
 		pam2ExperimentForm->Gauge1->Progress = 0;
 		m_currentFlash = 0;
         m_pam2Doc.EndRecording();
@@ -880,7 +876,7 @@ void __fastcall TpamMainForm::SetExposure(int value)
 {
 	int exp_units = value / 50;
 	if (BUFCCDUSB_SetExposureTime(m_camera, exp_units) == -1)
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить экспозицю. Подключите видеокамеру Mightex.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить экспозицю. Подключите видеокамеру Mightex.");
 	else
 	{
 		UnicodeString str = L"EXP=";
@@ -893,13 +889,13 @@ void __fastcall TpamMainForm::SetGain(int value)
 {
 	int v = value;
 	if (BUFCCDUSB_SetGains(m_camera, v , v, v) == -1)
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить усиление. Подключите видеокамеру Mightex.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить усиление. Подключите видеокамеру Mightex.");
 }
 
 void __fastcall TpamMainForm::SetFlash(int value)
 {
 	if (value < 10 || value > 50) {
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить длительность вспышки.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить длительность вспышки.");
 		return;
 	}
 	m_Flash = value;
@@ -911,7 +907,7 @@ void __fastcall TpamMainForm::SetFlash(int value)
 void __fastcall TpamMainForm::SetSat(int value)
 {
 	if (value < 0 || value > 100) {
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить интенсивность насыщающего света.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить интенсивность насыщающего света.");
 		return;
 	}
 	UnicodeString str = L"LSAT=";
@@ -922,7 +918,7 @@ void __fastcall TpamMainForm::SetSat(int value)
 void __fastcall TpamMainForm::SwitchSat(int value)
 {
 	if (value !=0 && value !=1) {
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник насыщающего света.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: переключить источник насыщающего света.");
 		return;
 	}
 	UnicodeString str = L"SAT=";
@@ -933,7 +929,7 @@ void __fastcall TpamMainForm::SwitchSat(int value)
 void __fastcall TpamMainForm::SetAdd(int value)
 {
 	if (value < 0 || value > 100) {
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить интенсивность дополнительного света.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить интенсивность дополнительного света.");
 		return;
 	}
 	UnicodeString str = L"LADD=";
@@ -943,7 +939,7 @@ void __fastcall TpamMainForm::SetAdd(int value)
 void __fastcall TpamMainForm::SwitchAdd(int value)
 {
 	if (value !=0 && value !=1) {
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник дополнительного света.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: переключить источник дополнительного света.");
 		return;
 	}
 	UnicodeString str = L"ADD=";
@@ -953,7 +949,7 @@ void __fastcall TpamMainForm::SwitchAdd(int value)
 void __fastcall TpamMainForm::SetAct(int value)
 {
 	if (value < 0 || value > 100) {
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: Не могу установить интенсивность актиничного света.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить интенсивность актиничного света.");
 		return;
 	}
 	UnicodeString str = L"LACT=";
@@ -964,7 +960,7 @@ void __fastcall TpamMainForm::SetAct(int value)
 void __fastcall TpamMainForm::SwitchAct(int value)
 {
 	if (value !=0 && value !=1) {
-		ConsoleForm->Memo1->Lines->Add(L"ERROR: переключить источник актиничного света.");
+		ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: переключить источник актиничного света.");
 		return;
 	}
 	UnicodeString str = L"ACT=";
@@ -980,7 +976,7 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 	{
 		if (m_videoMode == pam2videoLive && (command == L"FLASH" ||
 		 command == L"DARK" || command == L"FOFM" || command == L"FTFM1")) {
-			ConsoleForm->Memo1->Lines->Add("ERROR: команда " + command + L" не поддерживается в режиме отображения видеосигнала.");
+			ConsoleForm->Memo1->Lines->Add("[PAM2@ERROR]: команда " + command + L" не поддерживается в режиме отображения видеосигнала.");
 			return;
 		}
 
@@ -1011,7 +1007,7 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 		i = pamMainForm->Comm1->Write(wb, command.Length()+1);
 	}
 	else
-		ConsoleForm->Memo1->Lines->Add("Устройство не подключено.");
+		ConsoleForm->Memo1->Lines->Add("[PAM2@ERROR]: Устройство не подключено.");
 }
 
 void __fastcall TpamMainForm::tuningDarkActionExecute(TObject *Sender)
@@ -1412,18 +1408,44 @@ void __fastcall TpamMainForm::Timer2Timer(TObject *Sender)
 {
 	// получаем следующу команду
 	UnicodeString cmd = pam2ScriptForm->Script->NextCommand();
-    cmd = ReplaceStr(cmd, L" ",L"");
+	cmd = ReplaceStr(cmd, L" ",L"");
+	Timer2->Enabled = false;
+    Timer3->Enabled = true;
 	if (cmd == L"END") {
 	   // останавливаем выполнение скрипта
 	   pam2ScriptForm->Script->IsRunning = false;
-       Timer2->Enabled = false;
+	   ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Завершение скрипта.");
+	   LongProcessForm->ModalResult= mrOk;
 	}
+	else if (m_cancelScript) {
+		   pam2ScriptForm->Script->IsRunning = false;
+		   ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Отмена скрипта.");
+		   LongProcessForm->ModalResult= mrOk;
+		   //todo: удалить все, что скрипт начудил.
+	 }
 	else
 	{
-		Timer2->Interval = 1.5*pam2ScriptForm->Script->GetCommandTime(cmd);
+        LongProcessForm->Label1->Caption = L"Выполняется команда: " + cmd;
+		LongProcessForm->Gauge1->Progress = 100*(double)m_currentEvent / (double)m_numEvents;
+		m_currentEvent++;
+		m_commandTime = pam2ScriptForm->Script->GetCommandTime(cmd);
+		m_currentTime = GetTickCount();
+		LongProcessForm->Gauge2->Progress = 0;
 		this->ExecuteCommand(cmd);
 	}
 
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::Timer3Timer(TObject *Sender)
+{
+	//
+	int t = GetTickCount() - m_currentTime;
+	LongProcessForm->Gauge2->Progress = 100*(double)t / (double)m_commandTime;
+}
+//---------------------------------------------------------------------------
+void __fastcall TpamMainForm::CancelScript()
+{
+    m_cancelScript = true;
+}
 

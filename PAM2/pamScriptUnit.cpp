@@ -81,7 +81,6 @@ void __fastcall Tpam2ScriptForm::scriptSaveActionExecute(TObject *Sender)
 void __fastcall Tpam2ScriptForm::RichEdit1Change(TObject *Sender)
 {
 	RichEdit1->Modified = true;
-	UpdateStatus();
 }
 //---------------------------------------------------------------------------
 
@@ -105,15 +104,10 @@ void __fastcall Tpam2ScriptForm::scriptCheckActionUpdate(TObject *Sender)
 	scriptCheckAction->Enabled = RichEdit1->Lines->Count > 0;
 }
 //---------------------------------------------------------------------------
-void __fastcall Tpam2ScriptForm::UpdateStatus()
-{
-//
-}
-
 void __fastcall Tpam2ScriptForm::scriptExecuteActionExecute(TObject *Sender)
 {
 	m_script->IsRunning = true;
-	pamMainForm->Timer2->Enabled = true;
+	pamMainForm->toolsExecuteActionExecute(Sender);
 }
 //---------------------------------------------------------------------------
 

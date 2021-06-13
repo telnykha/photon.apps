@@ -66,7 +66,6 @@ __published:	// IDE-managed Components
 	void __fastcall scriptExecuteActionUpdate(TObject *Sender);
 private:	// User declarations
 	TPam2ScriptDoc* m_script;
-	void __fastcall UpdateStatus();
 public:		// User declarations
 	__fastcall Tpam2ScriptForm(TComponent* Owner);
 

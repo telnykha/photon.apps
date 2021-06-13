@@ -81,7 +81,7 @@ int ADD      = LOW;   /*состояние красного светодиода
 int EXP      = 75;    /*время экспозиции видеокамеры в микросекундах*/
 int GAIN     = 6;     /*усиление видеокамеры в децибеллах*/
 int LFLASH   = 20;    /*время измерительной вспышки в микроукундах*/
-int TRANSFER = 60; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
+int TRANSFER = 100; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
 
 /*буфер команд*/
 int  COMMANDSLEN = 0;
@@ -92,14 +92,14 @@ long COMMANDS[2048];
 void pamVersioin()
 {
   String result(VERSION);
-  Serial.println(result);
+  Serial.println(_success +"PAM2=" +result);
 }
 /*возвращает яркость синего светодиода.
 */
 void pamGetLSAT()
 {
   String result(LSAT);
-  Serial.println(result);
+  Serial.println(_success +"LSAT=" +result);
 }
 /*устанавливает яркость синего светодиода.
 */
@@ -131,7 +131,7 @@ void pamSetLSAT(String str)
 void pamGetSAT()
 {
   String result(SAT);
-  Serial.println(result);
+  Serial.println(_success +"SAT=" +result);
 }
 /*переключение синего светодиода
 */
@@ -166,7 +166,7 @@ void pamSetSAT(String str)
 void pamGetLACT()
 {
   String result(LACT);
-  Serial.println(result);
+  Serial.println(_success +"LACT=" +result);
 }
 /*устанавливает яркость синего светодиода.
 */
@@ -198,7 +198,7 @@ void pamSetLACT(String str)
 void pamGetACT()
 {
   String result(ACT);
-  Serial.println(result);
+  Serial.println(_success +"ACT=" +result);
 }
 /*переключение синего светодиода
 */
@@ -234,7 +234,7 @@ void pamSetACT(String str)
 void pamGetADD()
 {
   String result(ADD);
-  Serial.println(result);
+  Serial.println(_success +"ADD=" +result);
 }
 /*переключение красного светодиода
 */
@@ -257,8 +257,8 @@ void pamSetADD(String str)
       ADD = HIGH;
       int value = 255*LADD / 100;
       analogWrite(RED_PIN, value);
-      Serial.println(_success + str);
     }
+      Serial.println(_success + str);
   }
 }
 
@@ -268,7 +268,7 @@ void pamSetADD(String str)
 void pamGetLADD()
 {
   String result(LADD);
-  Serial.println(result);
+  Serial.println(_success +"LADD=" +result);
 }
 /*Устанавливает яркость красного светодиода.
 */
@@ -300,7 +300,7 @@ void pamSetLADD(String str)
 void pamGetEXP()
 {
   String result(EXP);
-  Serial.println(result);
+  Serial.println(_success +"EXP=" +result);
 }
 /*Устанавливает время экспозции.
 */
@@ -328,7 +328,7 @@ void pamSetEXP(String str)
 void pamGetGAIN()
 {
   String result(GAIN);
-  Serial.println(result);
+  Serial.println(_success +"GAIN=" +result);
 }
 /*Устанавливает время экспозции.
 */
@@ -356,7 +356,7 @@ void pamSetGAIN(String str)
 void       pamGetLFLASH()
 {
   String result(LFLASH);
-  Serial.println(result);
+  Serial.println(_success +"LFLASH=" +result);
 }
 
 /*Устанавливает длительность вспышки в микросекундах

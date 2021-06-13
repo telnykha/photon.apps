@@ -785,7 +785,7 @@ object pamMainForm: TpamMainForm
     Enabled = False
     OnTimer = Timer1Timer
     Left = 488
-    Top = 40
+    Top = 56
   end
   object PopupMenu1: TPopupMenu
     Left = 592
@@ -3329,7 +3329,14 @@ object pamMainForm: TpamMainForm
     Enabled = False
     Interval = 100
     OnTimer = Timer2Timer
-    Left = 416
-    Top = 72
+    Left = 448
+    Top = 56
+  end
+  object Timer3: TTimer
+    Enabled = False
+    Interval = 50
+    OnTimer = Timer3Timer
+    Left = 448
+    Top = 104
   end
 end
