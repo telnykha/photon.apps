@@ -8,15 +8,16 @@
 #include <Vcl.Themes.hpp>
 USEFORM("pamOptionsUnit.cpp", pam2OptionsForm);
 USEFORM("pamMainUnit.cpp", pamMainForm);
-USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
+USEFORM("pamLongProcessUnit.cpp", LongProcessForm);
+USEFORM("pamResultUnit.cpp", pam2ResultForm);
 USEFORM("pamTimeLineUnit.cpp", pam2TimeLineForm);
 USEFORM("pamScriptUnit.cpp", pam2ScriptForm);
-USEFORM("pamResultUnit.cpp", pam2ResultForm);
-USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
-USEFORM("pamDistributionUnit.cpp", pam2DistributionForm);
+USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
 USEFORM("pamConsoleUnit.cpp", ConsoleForm);
 USEFORM("pamAboutUnit.cpp", AboutBox);
-USEFORM("pamLongProcessUnit.cpp", LongProcessForm);
+USEFORM("pamDistributionUnit.cpp", pam2DistributionForm);
+USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
+USEFORM("pamSplashUnit.cpp", pamSplashForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -36,6 +37,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(Tpam2OptionsForm), &pam2OptionsForm);
 		Application->CreateForm(__classid(Tpam2HardwareForm), &pam2HardwareForm);
 		Application->CreateForm(__classid(TLongProcessForm), &LongProcessForm);
+		Application->CreateForm(__classid(TpamSplashForm), &pamSplashForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

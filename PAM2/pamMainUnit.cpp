@@ -18,6 +18,8 @@
 #include "Buf_USBCCDCamera_SDK.h"
 #include "System.AnsiStrings.hpp"
 #include "pamLongProcessUnit.h"
+#include "pamSplashUnit.h"
+#include "pamScriptDocUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -58,7 +60,30 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	m_numFlashes = 10;
 	m_dutyСycle = 2;
 	m_currentFlash = 0;
+	// инициализация переменных микроконтроллера
+	m_initArduino = false;
+	m_exposure = 250;
+	m_gain = 10;
 
+	m_sat = 0;
+	m_act = 0;
+	m_add = 0;
+	m_lsat = 30;
+	m_lact = 20;
+	m_ladd = 50;
+	m_lflash = 20;
+
+
+	m_initCommands = new TStringList();
+	m_initCommands->Add("EXP=" + IntToStr(m_exposure));
+	m_initCommands->Add("GAIN=" + IntToStr(m_gain));
+	m_initCommands->Add("SAT=" + IntToStr(m_sat));
+	m_initCommands->Add("ACT=" + IntToStr(m_act));
+	m_initCommands->Add("ADD=" +IntToStr(m_add));
+	m_initCommands->Add("LSAT=" + IntToStr(m_lsat));
+	m_initCommands->Add("LACT=" + IntToStr(m_lact));
+	m_initCommands->Add("LADD=" + IntToStr(m_ladd));
+	m_initCommands->Add("LFLASH=" + IntToStr(m_lflash));
 }
 void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
 {
@@ -190,11 +215,11 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 		hardware_ready = false;
 	}
 	/*	Устанавливаем режим настройки, в случае когда все оборудование
-		обнаружено и работает без ошибок. в
+		обнаружено и работает без ошибок.
 	*/
 	SetMode(hardware_ready?pam2Tuning:pam2Analysis);
 	SetVideoMode(pam2videoCommands);
-    SetViewSource(pam2viewFrame);
+	SetViewSource(pam2viewFrame);
 }
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
@@ -224,6 +249,10 @@ void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
 							Timer2->Interval = 50;
 							Timer2->Enabled  = true;
                             Timer3->Enabled = false;
+						}
+						if (m_initArduino) {
+							Timer4->Interval = 250;
+							Timer4->Enabled  = true;
 						}
 					}
 					rs="" ;
@@ -565,7 +594,8 @@ void __fastcall TpamMainForm::SetPicture(awpImage* img)
 
 void __fastcall TpamMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
-       BUFCCDUSB_UnInitDevice();
+    this->ExecuteCommand(L"OFF");
+	BUFCCDUSB_UnInitDevice();
 }
 //---------------------------------------------------------------------------
 
@@ -735,7 +765,7 @@ void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
 	if (m_currentFlash > m_numFlashes)
 	{
 		Timer1->Enabled = false;
-        ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Завершение измерений.");
+		ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Завершение измерений.");
 		pam2ExperimentForm->Gauge1->Progress = 0;
 		m_currentFlash = 0;
         m_pam2Doc.EndRecording();
@@ -996,15 +1026,99 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 			BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
 			BUFCCDUSB_SetFrameTime( m_camera, 100);
 			BUFCCDUSB_StartFrameGrab(1);
-			//BUFCCDUSB_SetMinimumFrameDelay(1);
-
 		}
 		 else if(command == L"FTFM1")
 			m_buffer = new TPamImageBuffer(pam2bfFtFm1);
 
+		// если выполняется команда установки значения
+		// переменной микропрограммы, то это значение записывается в
+		// соотвтетствующую переменную приложения.
+		UnicodeString cmd = command;
+		cmd = ReplaceStr(cmd, L" ",L"");
+		UnicodeString _str = cmd;
+		int v= 0;
+		bool checkAssigment = true;
+		if (_str.Pos(L"EXP=")== 1) {
+			// проверка допустимости команды
+			 checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"EXP", 50, 32000, v);
+			 if (checkAssigment) {
+				this->m_exposure = v;
+				int exp_units = v / 50;
+				if (BUFCCDUSB_SetExposureTime(m_camera, exp_units) == -1)
+					ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить экспозицю. Подключите видеокамеру Mightex.");
+			 }
+		}
+		else if(_str.Pos(L"GAIN=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"GAIN", 6, 41,v);
+			 if (checkAssigment) {
+				this->m_gain = v;
+			 if (BUFCCDUSB_SetGains(m_camera, v , v, v) == -1)
+					ConsoleForm->Memo1->Lines->Add(L"[PAM2@ERROR]: Не могу установить усиление. Подключите видеокамеру Mightex.");
+
+			 }
+		}
+		else if(_str.Pos(L"LSAT=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"LSAT", 0, 100,v);
+			 if (checkAssigment) {
+				this->m_lsat = v;
+			 }
+
+		}
+		else if(_str.Pos(L"LACT=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"LACT", 0, 100,v);
+			 if (checkAssigment) {
+				this->m_lact = v;
+			 }
+
+		}
+		else if(_str.Pos(L"LADD=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"ADD", 0, 1,v);
+			 if (checkAssigment) {
+				this->m_ladd = v;
+			 }
+
+		}
+		else if(_str.Pos(L"SAT=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"SAT", 0, 1,v);
+			 if (checkAssigment) {
+				this->m_sat = v;
+			 }
+
+		}
+		else if(_str.Pos(L"ACT=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"ACT", 0, 1,v);
+			 if (checkAssigment) {
+				this->m_act = v;
+			 }
+
+		}
+		else if(_str.Pos(L"ADD=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"ADD", 0, 1,v);
+			 if (checkAssigment) {
+				this->m_add = v;
+			 }
+
+		}
+		else if(_str.Pos(L"LFLASH=")== 1)
+		{
+			checkAssigment =TPam2ScriptDoc::CheckAssignment(_str, L"LFLASH", 20, 50,v);
+			 if (checkAssigment) {
+				this->m_lflash = v;
+			 }
+
+		}
+
 		AnsiString str = command;
 		sprintf(wb,"%s",str.c_str());
 		i = pamMainForm->Comm1->Write(wb, command.Length()+1);
+		//todo: проверить i !!!!
 	}
 	else
 		ConsoleForm->Memo1->Lines->Add("[PAM2@ERROR]: Устройство не подключено.");
@@ -1436,7 +1550,6 @@ void __fastcall TpamMainForm::Timer2Timer(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TpamMainForm::Timer3Timer(TObject *Sender)
 {
 	//
@@ -1448,4 +1561,46 @@ void __fastcall TpamMainForm::CancelScript()
 {
     m_cancelScript = true;
 }
+void __fastcall TpamMainForm::InitHardware()
+{
+	 m_initArduino = true;
+	 m_currentCommand = 0;
+	 Timer4->Enabled = true;
+	 pamSplashForm->ShowModal();
+
+}
+void __fastcall TpamMainForm::Timer4Timer(TObject *Sender)
+{
+	if (m_initArduino) {
+		// получить следующую команду
+		UnicodeString cmd = NextCommand();
+		cmd = ReplaceStr(cmd, L" ",L"");
+		Timer4->Enabled = false;
+		if (cmd == L"END")
+		{
+			m_initArduino = false;
+            pamSplashForm->ModalResult = mrOk;
+		}
+		else
+		{
+		   this->ExecuteCommand(cmd);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+UnicodeString  __fastcall TpamMainForm::NextCommand()
+{
+	if (m_currentCommand < m_initCommands->Count) {
+		UnicodeString str = m_initCommands->Strings[m_currentCommand];
+        m_currentCommand++;
+		return str;
+	}
+	else
+		return L"END";
+}
+void __fastcall TpamMainForm::FormShow(TObject *Sender)
+{
+	InitHardware();
+}
+//---------------------------------------------------------------------------
 

@@ -7,8 +7,7 @@
 class TPam2ScriptDoc
 {
 private:
-	bool __fastcall CheckAssignment(const UnicodeString& str, const UnicodeString& cmd, int min, int max);
-	bool __fastcall CheckDARKNESS(const UnicodeString& str, int& value);
+	bool __fastcall CheckOneParam(const UnicodeString& str, int& value);
 	bool __fastcall CheckDB(const UnicodeString& str, const UnicodeString& cmd, int& bv, int& dv );
 	bool __fastcall IsCommand(const UnicodeString& str);
 	bool m_running;
@@ -37,8 +36,9 @@ public:
 
    bool __fastcall CheckScript();
    int  __fastcall GetScriptTime();
-   UnicodeString  NextCommand();
+   UnicodeString  __fastcall NextCommand();
    int  __fastcall GetCommandTime(const UnicodeString& str);
+	static bool __fastcall CheckAssignment(const UnicodeString& str, const UnicodeString& cmd, int min, int max, int& value);
 
    __property UnicodeString FileName = {read = m_fileName};
    __property int CommandsCount = {read = GetCommandsCount};

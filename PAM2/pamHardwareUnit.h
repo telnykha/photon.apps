@@ -73,7 +73,9 @@ __published:	// IDE-managed Components
 	void __fastcall SpeedButton3Click(TObject *Sender);
 	void __fastcall hardwareSATActionExecute(TObject *Sender);
 	void __fastcall hardwareACTActionExecute(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
+	int __fastcall GetExpTrackPosition(int exp);
 public:		// User declarations
 	__fastcall Tpam2HardwareForm(TComponent* Owner);
 };

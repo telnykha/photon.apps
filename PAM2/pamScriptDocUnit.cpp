@@ -25,9 +25,11 @@ TPam2ScriptDoc::TPam2ScriptDoc(TRichEdit* edit)
 	m_cmds->Add(L"FOFM");
 	m_cmds->Add(L"FTFM1");
 	m_cmds->Add(L"DARKNESS");
+	m_cmds->Add(L"DELAY");
 	m_cmds->Add(L"SATURATION");
 	m_cmds->Add(L"ACTINIC");
 	m_cmds->Add(L"ADIITIONAL");
+	m_cmds->Add(L"OFF");
 
 	m_script = new TStringList();
 	m_running = false;
@@ -143,6 +145,7 @@ bool __fastcall TPam2ScriptDoc::CheckCommand(const UnicodeString& str)
 		 _str == L"ADD?" ||
 		 _str == L"FLASH" ||
 		 _str == L"DARK" ||
+		 _str == L"OFF" ||
 		 _str == L"FOFM" ||
 		 _str == L"FTFM1")
 	{
@@ -158,11 +161,15 @@ bool __fastcall TPam2ScriptDoc::CheckCommand(const UnicodeString& str)
 	}
 
 	// поровека команд с одним параметром
-	// DARKNESS
+	// DARKNESS, DELAY
 	pos = _str.Pos(L"DARKNESS(");
 	int v,b;
 	if (pos == 1) {
-	   return this->CheckDARKNESS(_str, v);
+	   return this->CheckOneParam(_str, v);
+	}
+	pos = _str.Pos(L"DELAY(");
+ 	if (pos == 1) {
+	   return this->CheckOneParam(_str, v);
 	}
 	// проверка команд с двумя параметрами
 	// SATURATION, ACTINIC, ADDITIONAL
@@ -179,13 +186,14 @@ bool __fastcall TPam2ScriptDoc::CheckCommand(const UnicodeString& str)
 
 	return false;
 }
-bool __fastcall TPam2ScriptDoc::CheckAssignment(const UnicodeString& str, const UnicodeString& cmd, int min, int max)
+bool __fastcall TPam2ScriptDoc::CheckAssignment(const UnicodeString& str, const UnicodeString& cmd, int min, int max, int& v)
 {
 	UnicodeString _str = str;
 	int pos = _str.Pos(cmd);
 	if (pos != 1)
 		return false;
 	pos = _str.Pos(L"=");
+	v = 0;
 	if (pos > 0) {
 		UnicodeString sv = _str.SubString(pos+1, _str.Length() - pos);
 		int value = 0;
@@ -200,6 +208,7 @@ bool __fastcall TPam2ScriptDoc::CheckAssignment(const UnicodeString& str, const 
 		if (value <min || value > max) {
 			return false;
 		}
+        v = value;
 	}
 	else
 		return false;
@@ -210,48 +219,48 @@ bool __fastcall TPam2ScriptDoc::CheckAssignment(const UnicodeString& str, const 
 bool __fastcall TPam2ScriptDoc::CheckAssigmentCommands(const UnicodeString& str)
 {
 	UnicodeString _str = str;
-
+		int v= 0;
 		if (_str.Pos(L"EXP")== 1) {
 			// проверка допустимости команды
-			return this->CheckAssignment(_str, L"EXP", 50, 32000);
+			return this->CheckAssignment(_str, L"EXP", 50, 32000, v);
 		}
 		else if(_str.Pos(L"GAIN")== 1)
 		{
-			return this->CheckAssignment(_str, L"GAIN", 6, 41);
+			return this->CheckAssignment(_str, L"GAIN", 6, 41,v);
 		}
 		else if(_str.Pos(L"LSAT")== 1)
 		{
-			return this->CheckAssignment(_str, L"LSAT", 0, 100);
+			return this->CheckAssignment(_str, L"LSAT", 0, 100,v);
 		}
 		else if(_str.Pos(L"LACT")== 1)
 		{
-		return this->CheckAssignment(str, L"LACT", 0, 100);
+		return this->CheckAssignment(_str, L"LACT", 0, 100,v);
 		}
 		else if(_str.Pos(L"LADD")== 1)
 		{
-			return this->CheckAssignment(_str, L"ADD", 0, 1);
+			return this->CheckAssignment(_str, L"ADD", 0, 1,v);
 		}
 		else if(_str.Pos(L"SAT")== 1)
 		{
-			return this->CheckAssignment(_str, L"SAT", 0, 1);
+			return this->CheckAssignment(_str, L"SAT", 0, 1,v);
 		}
 		else if(_str.Pos(L"ACT")== 1)
 		{
-			return this->CheckAssignment(str, L"ACT", 0, 1);
+			return this->CheckAssignment(_str, L"ACT", 0, 1,v);
 		}
 		else if(_str.Pos(L"ADD")== 1)
 		{
-			return this->CheckAssignment(_str, L"ADD", 0, 1);
+			return this->CheckAssignment(_str, L"ADD", 0, 1,v);
 		}
 		else if(_str.Pos(L"LFLASH")== 1)
 		{
-			return this->CheckAssignment(_str, L"LFLASH", 20, 50);
+			return this->CheckAssignment(_str, L"LFLASH", 20, 50,v);
 		}
 		else
 			return false;
 }
 
-bool __fastcall TPam2ScriptDoc::CheckDARKNESS(const UnicodeString& str, int& value)
+bool __fastcall TPam2ScriptDoc::CheckOneParam(const UnicodeString& str, int& value)
 {
 	UnicodeString _str = str;
 	value = 0;
@@ -406,8 +415,8 @@ int  __fastcall TPam2ScriptDoc::GetCommandTime(const UnicodeString& str)
 			return value;
 		  }
 
-	 if (_str.Pos(L"DARKNESS") == 1) {
-		CheckDARKNESS(_str, value);
+	 if (_str.Pos(L"DARKNESS") == 1 || _str.Pos(L"DELAY")) {
+		CheckOneParam(_str, value);
 		return value;
 	 }
 
@@ -429,6 +438,7 @@ int  __fastcall TPam2ScriptDoc::GetCommandTime(const UnicodeString& str)
 		_str.Pos(L"LSAT") == 1 ||
 		_str.Pos(L"LADD") == 1 ||
 		_str.Pos(L"SAT") == 1 ||
+		_str.Pos(L"OFF") == 1 ||
 		_str.Pos(L"ACT") == 1 ||
 		_str.Pos(L"ADD") == 1) {
 		return 100;
@@ -472,7 +482,7 @@ void __fastcall TPam2ScriptDoc::SetIsRunning(bool value)
 	  }
 }
 
-UnicodeString  TPam2ScriptDoc::NextCommand()
+UnicodeString  __fastcall  TPam2ScriptDoc::NextCommand()
 {
 	if (m_running) {
 	   if (m_nextCommand < m_script->Count) {

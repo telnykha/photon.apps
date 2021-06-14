@@ -17,6 +17,7 @@ object pamMainForm: TpamMainForm
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -3338,5 +3339,11 @@ object pamMainForm: TpamMainForm
     OnTimer = Timer3Timer
     Left = 448
     Top = 104
+  end
+  object Timer4: TTimer
+    Enabled = False
+    OnTimer = Timer4Timer
+    Left = 448
+    Top = 152
   end
 end

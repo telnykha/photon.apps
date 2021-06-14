@@ -78,7 +78,7 @@ void __fastcall Tpam2HardwareForm::PhTrackBar3Change(TObject *Sender)
 	SpinEdit1->OnChange = NULL;
 	GroupBox6->Caption = L"Длительность " + IntToStr(v) + L" мкс";
 	SpinEdit1->Value = v;
-    SpinEdit1->OnChange =e;
+	SpinEdit1->OnChange =e;
 }
 //---------------------------------------------------------------------------
 void __fastcall Tpam2HardwareForm::SpinEdit1Change(TObject *Sender)
@@ -173,4 +173,95 @@ void __fastcall Tpam2HardwareForm::hardwareACTActionExecute(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall Tpam2HardwareForm::FormShow(TObject *Sender)
+{
+   // устанавливаем положения элементов управления в соответствии со значениями
+   // полученными из главного окна приложения.
+
+	// экспозиция
+	TNotifyEvent e = PhTrackBar1->OnChange;
+	PhTrackBar1->OnChange = NULL;
+	PhTrackBar1->Position = GetExpTrackPosition(pamMainForm->Exposure);
+	PhTrackBar1->OnChange =e;
+
+	e = SpinEdit3->OnChange;
+	SpinEdit3->OnChange = NULL;
+	GroupBox1->Caption = L"Экспозиция " + IntToStr(pamMainForm->Exposure) + L" мкс";
+	SpinEdit3->Value = pamMainForm->Exposure;
+	SpinEdit3->OnChange =e;
+
+	// Усиление
+	e = PhTrackBar2->OnChange;
+	PhTrackBar2->OnChange = NULL;
+	PhTrackBar2->Position = pamMainForm->Gain;
+	PhTrackBar2->OnChange =e;
+
+	e = SpinEdit2->OnChange;
+	SpinEdit2->OnChange = NULL;
+	GroupBox5->Caption = L"Усиление " + IntToStr(pamMainForm->Gain) + L" dB";
+	SpinEdit2->Value = pamMainForm->Gain;
+	SpinEdit2->OnChange =e;
+
+	// вспышка
+	e = PhTrackBar3->OnChange;
+	PhTrackBar3->OnChange = NULL;
+	PhTrackBar3->Position = pamMainForm->LFlash;
+	PhTrackBar3->OnChange =e;
+
+	e = SpinEdit1->OnChange;
+	SpinEdit1->OnChange = NULL;
+	GroupBox1->Caption = L"Длительность " + IntToStr(pamMainForm->LFlash) + L" мкс";
+	SpinEdit1->Value = pamMainForm->LFlash;
+	SpinEdit1->OnChange =e;
+
+	// насыщающий свет
+	e = PhTrackBar4->OnChange;
+	PhTrackBar4->OnChange = NULL;
+	PhTrackBar4->Position = pamMainForm->LSat;
+	PhTrackBar4->OnChange =e;
+
+	e = hardwareSATAction->OnExecute;
+	hardwareSATAction->OnExecute = NULL;
+	hardwareSATAction->Checked = pamMainForm->Sat;
+	hardwareSATAction->OnExecute =e;
+	SpeedButton1->Caption =   IntToStr(pamMainForm->LSat) + L"%";
+
+	// актиничный свет
+	e = PhTrackBar5->OnChange;
+	PhTrackBar5->OnChange = NULL;
+	PhTrackBar5->Position = pamMainForm->LAct;
+	PhTrackBar5->OnChange =e;
+
+	e = hardwareACTAction->OnExecute;
+	hardwareACTAction->OnExecute = NULL;
+	hardwareACTAction->Checked = pamMainForm->Act;
+	hardwareACTAction->OnExecute =e;
+
+	SpeedButton2->Caption =   IntToStr(pamMainForm->LAct) + L"%";
+
+	// Дополнительный свет
+	e = PhTrackBar6->OnChange;
+	PhTrackBar6->OnChange = NULL;
+	PhTrackBar6->Position = pamMainForm->LAdd;
+	PhTrackBar6->OnChange =e;
+
+	SpeedButton3->Down =   pamMainForm->Add;
+	SpeedButton3->Caption =   IntToStr(pamMainForm->LAdd) + L"%";
+
+}
+//---------------------------------------------------------------------------
+int __fastcall Tpam2HardwareForm::GetExpTrackPosition(int exp)
+{
+	int dmin = fabs(float(exp - c_exposure[0]));
+	int index = 0;
+	for (int i = 0; i < 10; i++)
+	{
+		int d = fabs(float(exp - c_exposure[i]));
+		if (d < dmin) {
+			dmin = d;
+			index = i;
+		}
+	}
+	return index;
+}
 

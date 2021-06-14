@@ -220,6 +220,12 @@
             <DependentOn>pamScriptUnit.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamSplashUnit.cpp">
+            <Form>pamSplashForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>pamSplashUnit.h</DependentOn>
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamTimeLineUnit.cpp">
             <Form>pam2TimeLineForm</Form>
             <FormType>dfm</FormType>
@@ -232,15 +238,16 @@
         </CppCompile>
         <FormResources Include="pamOptionsUnit.dfm"/>
         <FormResources Include="pamMainUnit.dfm"/>
-        <FormResources Include="pamHardwareUnit.dfm"/>
+        <FormResources Include="pamLongProcessUnit.dfm"/>
+        <FormResources Include="pamResultUnit.dfm"/>
         <FormResources Include="pamTimeLineUnit.dfm"/>
         <FormResources Include="pamScriptUnit.dfm"/>
-        <FormResources Include="pamResultUnit.dfm"/>
-        <FormResources Include="pamExperimentUnit.dfm"/>
-        <FormResources Include="pamDistributionUnit.dfm"/>
+        <FormResources Include="pamHardwareUnit.dfm"/>
         <FormResources Include="pamConsoleUnit.dfm"/>
         <FormResources Include="pamAboutUnit.dfm"/>
-        <FormResources Include="pamLongProcessUnit.dfm"/>
+        <FormResources Include="pamDistributionUnit.dfm"/>
+        <FormResources Include="pamExperimentUnit.dfm"/>
+        <FormResources Include="pamSplashUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

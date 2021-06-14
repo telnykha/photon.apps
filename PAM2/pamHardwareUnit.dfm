@@ -12,6 +12,7 @@ object pam2HardwareForm: Tpam2HardwareForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel6: TPanel
@@ -24,7 +25,6 @@ object pam2HardwareForm: Tpam2HardwareForm
     DragKind = dkDock
     DragMode = dmAutomatic
     TabOrder = 0
-    ExplicitHeight = 492
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
@@ -40,8 +40,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitLeft = 4
-      ExplicitTop = 261
       ExplicitWidth = 75
     end
     object Label2: TLabel
@@ -59,8 +57,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Font.Style = [fsBold]
       ParentFont = False
       Layout = tlBottom
-      ExplicitLeft = 1
-      ExplicitTop = 1
       ExplicitWidth = 145
     end
     object Label3: TLabel
@@ -77,8 +73,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitLeft = 1
-      ExplicitTop = 167
       ExplicitWidth = 165
     end
     object GroupBox1: TGroupBox
@@ -91,8 +85,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Align = alTop
       Caption = #1069#1082#1089#1087#1086#1079#1080#1094#1080#1103
       TabOrder = 0
-      ExplicitLeft = 4
-      ExplicitTop = 20
       object PhTrackBar1: TPhTrackBar
         AlignWithMargins = True
         Left = 5
@@ -139,8 +131,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Align = alTop
       Caption = #1059#1089#1080#1083#1077#1085#1080#1077
       TabOrder = 1
-      ExplicitLeft = 4
-      ExplicitTop = 95
       object Panel2: TPanel
         Left = 140
         Top = 15
@@ -189,8 +179,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Align = alTop
       Caption = #1044#1083#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' (mks)'
       TabOrder = 2
-      ExplicitLeft = 4
-      ExplicitTop = 186
       object Panel3: TPanel
         Left = 140
         Top = 15
@@ -238,9 +226,6 @@ object pam2HardwareForm: Tpam2HardwareForm
       Margins.Right = 5
       Align = alClient
       TabOrder = 3
-      ExplicitLeft = 1
-      ExplicitTop = 280
-      ExplicitWidth = 218
       object SpeedButton1: TSpeedButton
         Left = 150
         Top = 25

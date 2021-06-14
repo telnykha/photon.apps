@@ -191,6 +191,7 @@ __published:	// IDE-managed Components
 	TMenuItem *N10;
 	TTimer *Timer2;
 	TTimer *Timer3;
+	TTimer *Timer4;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -313,6 +314,8 @@ __published:	// IDE-managed Components
 	void __fastcall fileSaveAsActionUpdate(TObject *Sender);
 	void __fastcall Timer2Timer(TObject *Sender);
 	void __fastcall Timer3Timer(TObject *Sender);
+	void __fastcall Timer4Timer(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 
 
 
@@ -329,7 +332,6 @@ private:	// User declarations
 	void __fastcall SetMode(EPam2Modes mode);
 	void __fastcall SetVideoMode(EPam2VideoModes mode);
 	void __fastcall SetViewSource(EPam2ViewSource source);
-
 	TPamImageBuffer* m_buffer;
 	awpImage*        m_screenSource;
 	// параметры эксперимента
@@ -342,7 +344,24 @@ private:	// User declarations
 	int              m_currentEvent;
 	int              m_commandTime;
 	DWORD            m_currentTime;
-    bool             m_cancelScript;
+	bool             m_cancelScript;
+	// параметры видеокамеры
+	int              m_exposure;
+	int              m_gain;
+	// параметры освещения
+	int              m_sat;
+	int              m_act;
+	int              m_add;
+	int              m_lsat;
+	int              m_lact;
+	int              m_ladd;
+	int              m_lflash;
+	// переменные инициализации оборудования
+	int              m_currentCommand;
+	bool             m_initArduino;
+	TStringList*     m_initCommands;
+	// получение состояния микроконтроллера
+
 protected:
 	BEGIN_MESSAGE_MAP
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
@@ -356,6 +375,10 @@ protected:
 	void __fastcall SetDutyСycle(int value);
 	int __fastcall GetCaptureDuration();
 	bool __fastcall SaveAsHelper();
+
+	void __fastcall InitHardware();
+	UnicodeString  __fastcall NextCommand();
+
 
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
@@ -383,6 +406,16 @@ public:		// User declarations
 	__property int CaptureDuration = {read = GetCaptureDuration};
 
 	__property EPam2Modes Mode = {read = m_mode};
+	__property int Exposure = {read = m_exposure, write = SetExposure};
+	__property int Gain     = {read = m_gain, write = SetGain};
+
+	__property int Sat = {read = m_sat, write = SwitchSat};
+	__property int Act = {read = m_act, write = SwitchAct};
+	__property int Add = {read = m_add, write = SwitchAdd};
+	__property int LSat = {read=m_lsat, write = SetSat};
+	__property int LAct = {read = m_lact, write = SetAct};
+	__property int LAdd = {read = m_ladd, write = SetAdd};
+	__property int LFlash = {read= m_lflash, write = SetFlash};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

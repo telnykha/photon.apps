@@ -28,8 +28,10 @@
   FLASH           - кадр во время насыщающей вспышки LFLASH - длительность вспышки в микросекндах
   DARK            - темновой кадр, выключаются все светодиоды и включается видеокамера. 
   DARKNESS(t)     - темнота на заданное время t в миллисекундах
+  DELAY(t)        - зедержка выполениия на время t в миллисекундах
   F0FM(t)         - получение пары изображений Fo и Fm  
-  FT1FM1(t)       - получение пары изображений F(t) и Fm(t)  
+  FT1FM1(t)       - получение пары изображений F(t) и Fm(t) 
+  OFF             - выключает все источники освещения  
 */
 
 #define BLUE_PIN    9
@@ -38,7 +40,7 @@
 
 #define __SWITCH_OFF__ \
       int oldBlue = SAT;\
-      int oldRed  = ADD;\    
+      int oldRed  = ADD;\
       int oldAct  = ACT;\
       SAT = LOW;\
       ACT = LOW;\
@@ -51,7 +53,7 @@
   {\
       SAT = HIGH;\
       int value = 255*LSAT / 100;\
-      analogWrite(BLUE_PIN, value);\    
+      analogWrite(BLUE_PIN, value);\
   }\
   if (oldRed == HIGH)\
   {\
@@ -94,12 +96,17 @@ void pamVersioin()
   String result(VERSION);
   Serial.println(_success +"PAM2=" +result);
 }
+void pamOFF()
+{
+  __SWITCH_OFF__
+  Serial.println(_success +"OFF");  
+}
 /*возвращает яркость синего светодиода.
 */
 void pamGetLSAT()
 {
   String result(LSAT);
-  Serial.println(_success +"LSAT=" +result);
+  Serial.println(_success +"LSAT?=" +result);
 }
 /*устанавливает яркость синего светодиода.
 */
@@ -131,7 +138,7 @@ void pamSetLSAT(String str)
 void pamGetSAT()
 {
   String result(SAT);
-  Serial.println(_success +"SAT=" +result);
+  Serial.println(_success +"SAT?=" +result);
 }
 /*переключение синего светодиода
 */
@@ -166,7 +173,7 @@ void pamSetSAT(String str)
 void pamGetLACT()
 {
   String result(LACT);
-  Serial.println(_success +"LACT=" +result);
+  Serial.println(_success +"LACT?=" +result);
 }
 /*устанавливает яркость синего светодиода.
 */
@@ -198,7 +205,7 @@ void pamSetLACT(String str)
 void pamGetACT()
 {
   String result(ACT);
-  Serial.println(_success +"ACT=" +result);
+  Serial.println(_success +"ACT?=" +result);
 }
 /*переключение синего светодиода
 */
@@ -234,7 +241,7 @@ void pamSetACT(String str)
 void pamGetADD()
 {
   String result(ADD);
-  Serial.println(_success +"ADD=" +result);
+  Serial.println(_success +"ADD?=" +result);
 }
 /*переключение красного светодиода
 */
@@ -268,7 +275,7 @@ void pamSetADD(String str)
 void pamGetLADD()
 {
   String result(LADD);
-  Serial.println(_success +"LADD=" +result);
+  Serial.println(_success +"LADD?=" +result);
 }
 /*Устанавливает яркость красного светодиода.
 */
@@ -300,7 +307,7 @@ void pamSetLADD(String str)
 void pamGetEXP()
 {
   String result(EXP);
-  Serial.println(_success +"EXP=" +result);
+  Serial.println(_success +"EXP?=" +result);
 }
 /*Устанавливает время экспозции.
 */
@@ -328,7 +335,7 @@ void pamSetEXP(String str)
 void pamGetGAIN()
 {
   String result(GAIN);
-  Serial.println(_success +"GAIN=" +result);
+  Serial.println(_success +"GAIN?=" +result);
 }
 /*Устанавливает время экспозции.
 */
@@ -356,7 +363,7 @@ void pamSetGAIN(String str)
 void       pamGetLFLASH()
 {
   String result(LFLASH);
-  Serial.println(_success +"LFLASH=" +result);
+  Serial.println(_success +"LFLASH?=" +result);
 }
 
 /*Устанавливает длительность вспышки в микросекундах
@@ -586,6 +593,33 @@ void _pamDarkness(int delayMs)
     __SWITCH_ON__ 
 }
 
+void pamDelay(String command)
+{
+    int index1 = command.indexOf('(');                        
+    int index2 = command.indexOf(')');                        
+    if (index1 == -1 || index2 == -1)                         
+      Serial.println(_error);                                 
+    else                                                      
+    {                                                         
+          String params = command.substring(index1 + 1, index2);  
+          int duration   = params.toInt();                         
+          if (duration < 1 || duration > 60000)
+            Serial.println(_error);                                 
+          else
+          {
+            _pamDelay(duration);
+            Serial.println(_success + command);    
+          }
+   }
+}
+/* выключение освещения на delayMs миллисекунд 
+*/
+void _pamDelay(int delayMs)
+{
+    delay(delayMs);
+}
+
+
 /* получение серии изображений FoFm
 */
 void _pamFoFm()
@@ -697,6 +731,8 @@ void loop() {
     }
     else if (incomingString.equals("PAM2"))
       pamVersioin();
+    else if (incomingString.equals("OFF"))
+      pamOFF();
     else if (incomingString.equals("LSAT?"))
       pamGetLSAT();
     else if (incomingString.equals("LACT?"))
@@ -723,6 +759,8 @@ void loop() {
       pamAdditional(incomingString);           
     else if (incomingString.indexOf("DARKNESS(") != -1)
       pamDarkness(incomingString);           
+    else if (incomingString.indexOf("DELAY(") != -1)
+      pamDelay(incomingString);           
     else if (incomingString.indexOf("DARK") != -1)
       pamDark();           
     else if (incomingString.indexOf("FLASH") != -1)
