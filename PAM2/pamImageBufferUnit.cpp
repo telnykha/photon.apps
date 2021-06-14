@@ -17,7 +17,7 @@ TPamImageBuffer::TPamImageBuffer(EPam2BufferType bufferType)
 		break;
 		case pam2bfFoFm:
 		case pam2bfFtFm1:
-			m_size = 5;
+			m_size = 7;
 		break;
 	}
 }

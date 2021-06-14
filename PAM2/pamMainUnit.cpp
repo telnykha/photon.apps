@@ -369,7 +369,7 @@ void __fastcall TpamMainForm::toolsExecuteActionExecute(TObject *Sender)
 //
 void __fastcall TpamMainForm::toolsExecuteActionUpdate(TObject *Sender)
 {
-    toolsExecuteAction->Enabled = m_mode == pam2Tuning;
+    toolsExecuteAction->Enabled = m_mode == pam2Tuning && pam2ScriptForm->RichEdit1->Lines->Count > 0 && pam2ScriptForm->RichEdit1->Modified == false && pam2ScriptForm->Script->Checked;
 }
 //---------------------------------------------------------------------------
 
@@ -742,12 +742,14 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 	  {
 		// запускаем таймер
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+		//BUFCCDUSB_SetFrameTime( m_camera, 2500);
 		Timer1->Enabled = true;
 	  }
 	  else if (m_videoMode == pam2videoCommands)
 	  {
 		// запускаем командный режим.
 		BUFCCDUSB_StopFrameGrab();
+		//BUFCCDUSB_SetFrameTime( m_camera, 2500);
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
 	  }
 }
@@ -1024,11 +1026,16 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 		{
 			m_buffer = new TPamImageBuffer(pam2bfFoFm);
 			BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
-			BUFCCDUSB_SetFrameTime( m_camera, 100);
+			BUFCCDUSB_SetFrameTime( m_camera, 2500);
 			BUFCCDUSB_StartFrameGrab(1);
 		}
 		 else if(command == L"FTFM1")
+		 {
 			m_buffer = new TPamImageBuffer(pam2bfFtFm1);
+			BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+			BUFCCDUSB_SetFrameTime( m_camera, 2500);
+			BUFCCDUSB_StartFrameGrab(1);
+		 }
 
 		// если выполняется команда установки значения
 		// переменной микропрограммы, то это значение записывается в

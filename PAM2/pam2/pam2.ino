@@ -640,14 +640,14 @@ void _pamFoFm()
 
    _pamSaturation(LSAT, 500);
    _pamFlash();              //7 - Fm_1
-//    _pamSaturation(LSAT, TRANSFER);
+    _pamSaturation(LSAT, TRANSFER);
 //    
 //
-//    _pamFlash();              //9  - Fm_2
-//    _pamSaturation(LSAT, TRANSFER);   
-//    
-//    _pamFlash();              //11 - Fm3
-//    delay(2*TRANSFER);        
+    _pamFlash();              //9  - Fm_2
+    _pamSaturation(LSAT, TRANSFER);   
+    
+    _pamFlash();              //11 - Fm3
+    delay(2*TRANSFER);        
      
     __SWITCH_ON__ 
 }
@@ -676,11 +676,11 @@ void _pamFtFm1()
     _pamSaturation(LSAT, 500);
    
     _pamFlash();
-//    _pamSaturation(LSAT, 100);
-//    _pamFlash();
-//    _pamSaturation(LSAT, 100);
-//    _pamFlash();
-//    delay(2*TRANSFER);        
+    _pamSaturation(LSAT, TRANSFER);
+    _pamFlash();
+    _pamSaturation(LSAT, TRANSFER);
+    _pamFlash();
+    delay(2*TRANSFER);        
     __SWITCH_ON__ 
 }
 
