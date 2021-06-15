@@ -1,0 +1,103 @@
+//---------------------------------------------------------------------------
+
+#pragma hdrstop
+
+#include "pamROI.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+
+TPam2ROI::TPam2ROI()
+{
+   m_zone =NULL;
+   m_area = 0;
+   m_min = 0;
+   m_max = 0;
+   m_avg = 0;
+   m_std = 0;
+}
+TPam2ROI::~TPam2ROI()
+{
+   if (m_zone != NULL) {
+	   delete m_zone;
+   }
+}
+// вычисление параметров.
+bool TPam2ROI::Calculate(awpImage* image)
+{
+	 if (image == NULL) {
+		return false;
+	 }
+	 if (image->sSizeX != PAM_IMAGE_WIDTH) {
+		 return false;
+	 }
+	 if (image->sSizeY != PAM_IMAGE_HEIGHT) {
+		 return false;
+	 }
+	 if (image->dwType != AWP_FLOAT) {
+		 return false;
+	 }
+
+	 AWPBYTE*  m = (AWPBYTE*)(m_mask.GetImage())->pPixels;
+	 AWPFLOAT* f = (AWPFLOAT*)image->pPixels;
+
+
+	 // вычисление параметров.
+	 double area = 0;
+	 double avg = 0;
+	 double min = f[0];
+	 double max = f[0];
+	 double std = 0;
+
+	 for (int i = 0; i < PAM_IMAGE_WIDTH*PAM_IMAGE_HEIGHT; i++) {
+		if (m[i] ==1)
+		{
+			area += 1;
+			avg  += f[i];
+			std  += (f[i]*f[i]);
+			if (min < f[0]) {
+				min = f[0];
+			}
+			if (max > f[0]) {
+			   max = f[0];
+			}
+		}
+	 }
+
+	 if (area == 0) {
+         return false;
+	 }
+
+	 m_area = area;
+	 m_avg = avg / area;
+	 m_min = min;
+	 m_max = max;
+	 m_std = std/area;
+     m_std = std - m_avg*m_avg;
+}
+
+void  TPam2ROI::CreateMask()
+{
+   TLFZones zones;
+   zones.AddZone(new TLFZone(*m_zone));
+
+   awpImage* image = NULL;
+   awpCreateImage(&image, PAM_IMAGE_WIDTH, PAM_IMAGE_HEIGHT, 1, AWP_BYTE);
+   awpImage* mask  = zones.GetMaskImage(image, false);
+   m_mask.SetImage(mask);
+   _AWP_SAFE_RELEASE_(image);
+   _AWP_SAFE_RELEASE_(mask);
+
+}
+
+void     TPam2ROI::SetZone(TLFZone* zone)
+{
+	if (m_zone != NULL) {
+		delete m_zone;
+	}
+	m_zone = new TLFZone(*zone);
+	// маска пересчитывается всякий раз, когда устанавливается зона? может
+	// быть имеет смысл маску пересчитывать не так части, а только по необходимости
+	// например в Calculate?
+	CreateMask();
+}
+

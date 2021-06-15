@@ -213,6 +213,7 @@ object pamMainForm: TpamMainForm
       SlideShowInterval = 500
       Align = alClient
       ParentColor = False
+      PopupMenu = PopupMenu2
       OnMouseMove = PhImage1MouseMove
     end
     object RightDocPanel: TPanel
@@ -300,7 +301,7 @@ object pamMainForm: TpamMainForm
   end
   object MainMenu1: TMainMenu
     Left = 528
-    Top = 40
+    Top = 56
     object N1: TMenuItem
       Caption = #1060#1072#1081#1083#1099
       object N23: TMenuItem
@@ -414,9 +415,14 @@ object pamMainForm: TpamMainForm
       Caption = #1048#1079#1084#1077#1088#1077#1085#1080#1103
       object N16: TMenuItem
         Action = toolsStartExperimetAction
+        Visible = False
       end
       object N15: TMenuItem
         Action = toolsStopExperimentAction
+        Visible = False
+      end
+      object N50: TMenuItem
+        Action = windowExperimentAction
       end
       object N19: TMenuItem
         Caption = '-'
@@ -427,23 +433,20 @@ object pamMainForm: TpamMainForm
       object N14: TMenuItem
         Action = toolsExecuteAction
       end
-      object N18: TMenuItem
-        Caption = '-'
-      end
-      object N50: TMenuItem
-        Action = windowExperimentAction
-      end
     end
     object Fyfkb1: TMenuItem
       Caption = #1040#1085#1072#1083#1080#1079
-      object N47: TMenuItem
-        Action = windowTimeLineAction
-      end
       object N48: TMenuItem
-        Action = windowDistributionAction
+        Action = windowROIAction
       end
       object N49: TMenuItem
         Action = windowResultAction
+      end
+      object N11: TMenuItem
+        Caption = '-'
+      end
+      object N47: TMenuItem
+        Action = windowTimeLineAction
       end
     end
     object N4: TMenuItem
@@ -467,8 +470,8 @@ object pamMainForm: TpamMainForm
   end
   object ActionList1: TActionList
     Images = ImageList1
-    Left = 592
-    Top = 40
+    Left = 568
+    Top = 56
     object filesCloseAction: TAction
       Category = 'Files'
       Caption = #1042#1099#1093#1086#1076
@@ -476,14 +479,14 @@ object pamMainForm: TpamMainForm
       OnExecute = filesCloseActionExecute
     end
     object windowConsoleAction: TAction
-      Category = 'Window'
+      Category = 'Service'
       Caption = #1050#1086#1085#1089#1086#1083#1100
       OnExecute = windowConsoleActionExecute
       OnUpdate = windowConsoleActionUpdate
     end
     object windowExperimentAction: TAction
       Category = 'Window'
-      Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099' '#1080#1079#1084#1077#1088#1077#1085#1080#1081
+      Caption = #1056#1091#1095#1085#1086#1081' '#1088#1077#1078#1080#1084
       OnExecute = windowExperimentActionExecute
       OnUpdate = windowExperimentActionUpdate
     end
@@ -495,19 +498,20 @@ object pamMainForm: TpamMainForm
     end
     object windowResultAction: TAction
       Category = 'Window'
-      Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090
+      Caption = #1044#1080#1085#1072#1084#1080#1082#1072' '#1087#1072#1088#1072#1084#1077#1090#1088#1086#1074
       OnExecute = windowResultActionExecute
       OnUpdate = windowResultActionUpdate
     end
-    object windowDistributionAction: TAction
+    object windowROIAction: TAction
       Category = 'Window'
-      Caption = #1056#1072#1089#1087#1088#1077#1076#1077#1083#1077#1085#1080#1077
-      OnExecute = windowDistributionActionExecute
-      OnUpdate = windowDistributionActionUpdate
+      Caption = #1054#1073#1083#1072#1089#1090#1080' '#1080#1085#1090#1077#1088#1077#1089#1072
+      OnExecute = windowROIActionExecute
+      OnUpdate = windowROIActionUpdate
     end
     object windowTimeLineAction: TAction
       Category = 'Window'
-      Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103' '#1096#1082#1072#1083#1072
+      Caption = #1055#1088#1086#1090#1086#1082#1086#1083' '#1089#1086#1073#1099#1090#1080#1081
+      Visible = False
       OnExecute = windowTimeLineActionExecute
       OnUpdate = windowTimeLineActionUpdate
     end
@@ -520,6 +524,7 @@ object pamMainForm: TpamMainForm
     object toolsOptionsAction: TAction
       Category = 'tools'
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072'...'
+      Visible = False
       OnExecute = toolsOptionsActionExecute
       OnUpdate = toolsOptionsActionUpdate
     end
@@ -657,7 +662,7 @@ object pamMainForm: TpamMainForm
       OnUpdate = paletteFalseColorsActionUpdate
     end
     object windowHardwareAction: TAction
-      Category = 'Window'
+      Category = 'tuning'
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1086#1073#1086#1088#1091#1076#1086#1074#1072#1085#1080#1103
       OnExecute = windowHardwareActionExecute
       OnUpdate = windowHardwareActionUpdate
@@ -774,6 +779,51 @@ object pamMainForm: TpamMainForm
       OnExecute = fileSaveAsActionExecute
       OnUpdate = fileSaveAsActionUpdate
     end
+    object imageBestFitAction: TAction
+      Caption = #1042#1087#1080#1089#1072#1090#1100' '#1074' '#1086#1082#1085#1086
+      OnExecute = imageBestFitActionExecute
+      OnUpdate = imageBestFitActionUpdate
+    end
+    object imageActualSizeAction: TAction
+      Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1088#1072#1079#1084#1077#1088
+      OnExecute = imageActualSizeActionExecute
+      OnUpdate = imageActualSizeActionUpdate
+    end
+    object imageZoomInAction: TAction
+      Caption = #1059#1074#1077#1083#1080#1095#1080#1090#1100
+      OnExecute = imageZoomInActionExecute
+      OnUpdate = imageZoomInActionUpdate
+    end
+    object imageZoomOutAction: TAction
+      Caption = #1059#1084#1077#1085#1100#1096#1080#1090#1100
+      OnExecute = imageZoomOutActionExecute
+      OnUpdate = imageZoomOutActionUpdate
+    end
+    object imageAddRectAction: TAction
+      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1087#1088#1103#1084#1086#1091#1075#1086#1083#1100#1085#1080#1082#1080
+      OnExecute = imageAddRectActionExecute
+      OnUpdate = imageAddRectActionUpdate
+    end
+    object imageAddCircleAction: TAction
+      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1086#1082#1088#1091#1078#1085#1086#1089#1090#1080
+      OnExecute = imageAddCircleActionExecute
+      OnUpdate = imageAddCircleActionUpdate
+    end
+    object imageAddPolygonAction: TAction
+      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1084#1085#1086#1075#1086#1091#1075#1086#1083#1100#1085#1080#1082#1080
+      OnExecute = imageAddPolygonActionExecute
+      OnUpdate = imageAddPolygonActionUpdate
+    end
+    object imageSaveAction: TAction
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1077'... '
+      OnExecute = imageSaveActionExecute
+      OnUpdate = imageSaveActionUpdate
+    end
+    object imageZoomPaneAction: TAction
+      Caption = #1055#1088#1086#1089#1084#1086#1090#1088' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1103
+      OnExecute = imageZoomPaneActionExecute
+      OnUpdate = imageZoomPaneActionUpdate
+    end
   end
   object Comm1: TComm
     DeviceName = 'Com2'
@@ -789,8 +839,8 @@ object pamMainForm: TpamMainForm
     Top = 56
   end
   object PopupMenu1: TPopupMenu
-    Left = 592
-    Top = 96
+    Left = 568
+    Top = 104
     object N32: TMenuItem
       Action = paletteScaleAction
     end
@@ -829,7 +879,7 @@ object pamMainForm: TpamMainForm
   end
   object SaveDialog1: TSaveDialog
     Filter = #1069#1082#1089#1087#1077#1088#1080#1084#1077#1085#1090#1099' PAM2|*.pam2'
-    Left = 592
+    Left = 568
     Top = 144
   end
   object PhPaneTool1: TPhPaneTool
@@ -3345,5 +3395,42 @@ object pamMainForm: TpamMainForm
     OnTimer = Timer4Timer
     Left = 448
     Top = 152
+  end
+  object PopupMenu2: TPopupMenu
+    Left = 448
+    Top = 208
+    object N12: TMenuItem
+      Action = imageBestFitAction
+    end
+    object N17: TMenuItem
+      Action = imageActualSizeAction
+    end
+    object N18: TMenuItem
+      Action = imageZoomInAction
+    end
+    object N51: TMenuItem
+      Action = imageZoomOutAction
+    end
+    object N52: TMenuItem
+      Caption = '-'
+    end
+    object N53: TMenuItem
+      Action = imageAddRectAction
+    end
+    object N54: TMenuItem
+      Action = imageAddCircleAction
+    end
+    object N55: TMenuItem
+      Action = imageAddPolygonAction
+    end
+    object N58: TMenuItem
+      Action = imageZoomPaneAction
+    end
+    object N56: TMenuItem
+      Caption = '-'
+    end
+    object N57: TMenuItem
+      Action = imageSaveAction
+    end
   end
 end

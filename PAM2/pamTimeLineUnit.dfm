@@ -3,8 +3,8 @@ object pam2TimeLineForm: Tpam2TimeLineForm
   Top = 0
   BorderStyle = bsSizeToolWin
   Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103' '#1096#1082#1072#1083#1072
-  ClientHeight = 242
-  ClientWidth = 527
+  ClientHeight = 383
+  ClientWidth = 443
   Color = clBtnFace
   DragKind = dkDock
   DragMode = dmAutomatic
@@ -20,70 +20,19 @@ object pam2TimeLineForm: Tpam2TimeLineForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 527
+    Width = 443
     Height = 28
     Align = alTop
     TabOrder = 0
-    object SpeedButton1: TSpeedButton
-      AlignWithMargins = True
-      Left = 4
-      Top = 4
-      Width = 23
-      Height = 20
-      Align = alLeft
-      ExplicitLeft = 54
-      ExplicitTop = 3
-      ExplicitHeight = 22
-    end
+    ExplicitWidth = 527
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 223
-    Width = 527
+    Top = 364
+    Width = 443
     Height = 19
     Panels = <>
-  end
-  object Chart1: TChart
-    AlignWithMargins = True
-    Left = 3
-    Top = 31
-    Width = 521
-    Height = 189
-    BackWall.Color = clBackground
-    Legend.Visible = False
-    MarginBottom = 0
-    MarginLeft = 0
-    MarginRight = 1
-    MarginTop = 2
-    AxisVisible = False
-    TopAxis.LabelsFormat.Font.Height = -4
-    View3D = False
-    Align = alClient
-    Color = -1
-    TabOrder = 2
-    ExplicitLeft = 0
-    ExplicitTop = 28
+    ExplicitTop = 223
     ExplicitWidth = 527
-    ExplicitHeight = 195
-    DefaultCanvas = 'TGDIPlusCanvas'
-    ColorPaletteIndex = 19
-    object Series1: TFastLineSeries
-      Selected.Hover.Visible = True
-      LinePen.Color = 15054131
-      TreatNulls = tnDontPaint
-      XValues.Name = 'X'
-      XValues.Order = loAscending
-      YValues.Name = 'Y'
-      YValues.Order = loNone
-    end
-    object Series2: TFastLineSeries
-      Selected.Hover.Visible = True
-      LinePen.Color = 13395626
-      TreatNulls = tnDontPaint
-      XValues.Name = 'X'
-      XValues.Order = loAscending
-      YValues.Name = 'Y'
-      YValues.Order = loNone
-    end
   end
 end

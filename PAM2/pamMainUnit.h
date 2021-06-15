@@ -26,6 +26,7 @@
 #include "PhTrackBar.h"
 #include <System.ImageList.hpp>
 #include <Vcl.ImgList.hpp>
+#include "pam2ROIEditor.h"
 
 typedef enum {pam2Tuning, pam2Capture, pam2Analysis}EPam2Modes;
 typedef enum {pam2videoLive, pam2videoFlash, pam2videoCommands}EPam2VideoModes;
@@ -66,7 +67,6 @@ __published:	// IDE-managed Components
 	TMenuItem *N19;
 	TMenuItem *N15;
 	TMenuItem *N16;
-	TMenuItem *N18;
 	TMenuItem *N4;
 	TMenuItem *N7;
 	TMenuItem *N6;
@@ -78,7 +78,7 @@ __published:	// IDE-managed Components
 	TAction *windowExperimentAction;
 	TAction *windowScriptAction;
 	TAction *windowResultAction;
-	TAction *windowDistributionAction;
+	TAction *windowROIAction;
 	TAction *windowTimeLineAction;
 	TAction *editCopyAction;
 	TAction *toolsOptionsAction;
@@ -192,6 +192,28 @@ __published:	// IDE-managed Components
 	TTimer *Timer2;
 	TTimer *Timer3;
 	TTimer *Timer4;
+	TMenuItem *N11;
+	TAction *imageBestFitAction;
+	TAction *imageActualSizeAction;
+	TAction *imageZoomInAction;
+	TPopupMenu *PopupMenu2;
+	TMenuItem *N12;
+	TMenuItem *N17;
+	TMenuItem *N18;
+	TAction *imageZoomOutAction;
+	TMenuItem *N51;
+	TMenuItem *N52;
+	TAction *imageAddRectAction;
+	TAction *imageAddCircleAction;
+	TAction *imageAddPolygonAction;
+	TAction *imageSaveAction;
+	TMenuItem *N53;
+	TMenuItem *N54;
+	TMenuItem *N55;
+	TMenuItem *N56;
+	TMenuItem *N57;
+	TAction *imageZoomPaneAction;
+	TMenuItem *N58;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -220,8 +242,8 @@ __published:	// IDE-managed Components
 	void __fastcall windowScriptActionUpdate(TObject *Sender);
 	void __fastcall windowResultActionExecute(TObject *Sender);
 	void __fastcall windowResultActionUpdate(TObject *Sender);
-	void __fastcall windowDistributionActionExecute(TObject *Sender);
-	void __fastcall windowDistributionActionUpdate(TObject *Sender);
+	void __fastcall windowROIActionExecute(TObject *Sender);
+	void __fastcall windowROIActionUpdate(TObject *Sender);
 	void __fastcall windowTimeLineActionExecute(TObject *Sender);
 	void __fastcall windowTimeLineActionUpdate(TObject *Sender);
 	void __fastcall editCopyActionExecute(TObject *Sender);
@@ -316,6 +338,24 @@ __published:	// IDE-managed Components
 	void __fastcall Timer3Timer(TObject *Sender);
 	void __fastcall Timer4Timer(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall imageBestFitActionExecute(TObject *Sender);
+	void __fastcall imageBestFitActionUpdate(TObject *Sender);
+	void __fastcall imageActualSizeActionExecute(TObject *Sender);
+	void __fastcall imageActualSizeActionUpdate(TObject *Sender);
+	void __fastcall imageZoomInActionExecute(TObject *Sender);
+	void __fastcall imageZoomInActionUpdate(TObject *Sender);
+	void __fastcall imageZoomOutActionExecute(TObject *Sender);
+	void __fastcall imageZoomOutActionUpdate(TObject *Sender);
+	void __fastcall imageAddRectActionExecute(TObject *Sender);
+	void __fastcall imageAddRectActionUpdate(TObject *Sender);
+	void __fastcall imageAddCircleActionExecute(TObject *Sender);
+	void __fastcall imageAddCircleActionUpdate(TObject *Sender);
+	void __fastcall imageAddPolygonActionExecute(TObject *Sender);
+	void __fastcall imageAddPolygonActionUpdate(TObject *Sender);
+	void __fastcall imageSaveActionExecute(TObject *Sender);
+	void __fastcall imageSaveActionUpdate(TObject *Sender);
+	void __fastcall imageZoomPaneActionExecute(TObject *Sender);
+	void __fastcall imageZoomPaneActionUpdate(TObject *Sender);
 
 
 
@@ -361,7 +401,10 @@ private:	// User declarations
 	bool             m_initArduino;
 	TStringList*     m_initCommands;
 	// получение состояния микроконтроллера
+	bool             m_hardware_ready;
 
+	// редактор roi
+    TPhPam2RoiTool*  m_roiTool;
 protected:
 	BEGIN_MESSAGE_MAP
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)

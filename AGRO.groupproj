@@ -21,6 +21,12 @@
         <Projects Include="..\..\TinyXML\borland\TinyXML.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="LFMarker\ObjectsMarker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -83,14 +89,32 @@
     <Target Name="TinyXML:Make">
         <MSBuild Projects="..\..\TinyXML\borland\TinyXML.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="ObjectsMarker">
+        <MSBuild Projects="LFMarker\ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean">
+        <MSBuild Projects="LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make">
+        <MSBuild Projects="LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML"/>
+        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML;ObjectsMarker;awplflibb"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean"/>
+        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean;ObjectsMarker:Clean;awplflibb:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make"/>
+        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make;ObjectsMarker:Make;awplflibb:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

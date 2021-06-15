@@ -555,13 +555,13 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="ObjectsMarker.res" Configuration="Debug" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="todo.txt" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin64\borlndmm.dll" Class="DependencyModule">
                     <Platform Name="Win64">

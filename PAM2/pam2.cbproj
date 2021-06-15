@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>pam2.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -115,7 +115,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;photon41.lib;ComPort.lib;vclx.lib;Tee.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
-        <Debugger_DebugSourcePath>C:\_alt\_proj\awplflib\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_DebugSourcePath>C:\_alt\_proj\awplflib\src\;C:\_alt\_proj\photon\photon.apps\PAM2\ComPort\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <BCC_AllCodeguardOptions>false</BCC_AllCodeguardOptions>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
@@ -134,6 +134,10 @@
         <LinkPackageStatics>rtl.lib;vcl.lib;photon41.lib;ComPort.lib;vclx.lib;Tee.lib;vclimg.lib;VclSmp.lib</LinkPackageStatics>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="ImageUtils.cpp">
+            <DependentOn>ImageUtils.h</DependentOn>
+            <BuildOrder>22</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pam2.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -141,6 +145,10 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="pam2ROIEditor.cpp">
+            <DependentOn>pam2ROIEditor.h</DependentOn>
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamAboutUnit.cpp">
             <Form>AboutBox</Form>
             <FormType>dfm</FormType>
@@ -154,7 +162,7 @@
             <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="pamDistributionUnit.cpp">
-            <Form>pam2DistributionForm</Form>
+            <Form>pam2ROIForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>pamDistributionUnit.h</DependentOn>
             <BuildOrder>7</BuildOrder>
@@ -211,6 +219,10 @@
             <DependentOn>pamResultUnit.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamROI.cpp">
+            <DependentOn>pamROI.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamScriptDocUnit.cpp">
             <DependentOn>pamScriptDocUnit.h</DependentOn>
             <BuildOrder>20</BuildOrder>
@@ -237,18 +249,18 @@
             <DependentOn>PhTime.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <FormResources Include="pamResultUnit.dfm"/>
         <FormResources Include="pamOptionsUnit.dfm"/>
         <FormResources Include="pamMainUnit.dfm"/>
         <FormResources Include="pamLongProcessUnit.dfm"/>
-        <FormResources Include="pamResultUnit.dfm"/>
         <FormResources Include="pamTimeLineUnit.dfm"/>
+        <FormResources Include="pamSplashUnit.dfm"/>
         <FormResources Include="pamScriptUnit.dfm"/>
-        <FormResources Include="pamHardwareUnit.dfm"/>
+        <FormResources Include="pamDistributionUnit.dfm"/>
         <FormResources Include="pamConsoleUnit.dfm"/>
         <FormResources Include="pamAboutUnit.dfm"/>
-        <FormResources Include="pamDistributionUnit.dfm"/>
+        <FormResources Include="pamHardwareUnit.dfm"/>
         <FormResources Include="pamExperimentUnit.dfm"/>
-        <FormResources Include="pamSplashUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

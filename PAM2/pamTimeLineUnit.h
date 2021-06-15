@@ -21,10 +21,6 @@ class Tpam2TimeLineForm : public TForm
 __published:	// IDE-managed Components
 	TPanel *Panel1;
 	TStatusBar *StatusBar1;
-	TChart *Chart1;
-	TFastLineSeries *Series2;
-	TFastLineSeries *Series1;
-	TSpeedButton *SpeedButton1;
 private:	// User declarations
 public:		// User declarations
 	__fastcall Tpam2TimeLineForm(TComponent* Owner);

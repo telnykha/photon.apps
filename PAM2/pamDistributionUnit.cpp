@@ -7,9 +7,9 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-Tpam2DistributionForm *pam2DistributionForm;
+Tpam2ROIForm *pam2ROIForm;
 //---------------------------------------------------------------------------
-__fastcall Tpam2DistributionForm::Tpam2DistributionForm(TComponent* Owner)
+__fastcall Tpam2ROIForm::Tpam2ROIForm(TComponent* Owner)
 	: TForm(Owner)
 {
 }

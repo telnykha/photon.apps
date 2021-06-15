@@ -73,6 +73,7 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	m_ladd = 50;
 	m_lflash = 20;
 
+	m_hardware_ready = false;
 
 	m_initCommands = new TStringList();
 	m_initCommands->Add("EXP=" + IntToStr(m_exposure));
@@ -84,6 +85,8 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	m_initCommands->Add("LACT=" + IntToStr(m_lact));
 	m_initCommands->Add("LADD=" + IntToStr(m_ladd));
 	m_initCommands->Add("LFLASH=" + IntToStr(m_lflash));
+
+    m_roiTool = new TPhPam2RoiTool(NULL);
 }
 void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
 {
@@ -196,7 +199,7 @@ void __fastcall TpamMainForm::BottomDocPanelUnDock(TObject *Sender, TControl *Cl
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 {
-	bool hardware_ready = true;
+	m_hardware_ready = true;
 	try
 	{
 		Comm1->DeviceName = L"COM8";
@@ -207,19 +210,13 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 	catch(Exception& e)
 	{
 		ShowMessage(e.Message);
-		hardware_ready = false;
+		m_hardware_ready = false;
 	}
 	if (!OpenCamera())
 	{
 		ShowMessage("Не подключена видеокамера!");
-		hardware_ready = false;
+		m_hardware_ready = false;
 	}
-	/*	Устанавливаем режим настройки, в случае когда все оборудование
-		обнаружено и работает без ошибок.
-	*/
-	SetMode(hardware_ready?pam2Tuning:pam2Analysis);
-	SetVideoMode(pam2videoCommands);
-	SetViewSource(pam2viewFrame);
 }
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
@@ -289,6 +286,7 @@ void __fastcall TpamMainForm::windowScriptActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::windowScriptActionUpdate(TObject *Sender)
 {
+    windowScriptAction->Enabled = m_mode != pam2Analysis;
 	windowScriptAction->Checked = pam2ScriptForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -301,19 +299,21 @@ void __fastcall TpamMainForm::windowResultActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::windowResultActionUpdate(TObject *Sender)
 {
+    windowResultAction->Enabled = m_mode == pam2Analysis;
 	windowResultAction->Checked = pam2ResultForm->Visible;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::windowDistributionActionExecute(TObject *Sender)
+void __fastcall TpamMainForm::windowROIActionExecute(TObject *Sender)
 {
-    pam2DistributionForm->Visible = !pam2DistributionForm->Visible;
+	pam2ROIForm->Visible = !pam2ROIForm->Visible;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TpamMainForm::windowDistributionActionUpdate(TObject *Sender)
+void __fastcall TpamMainForm::windowROIActionUpdate(TObject *Sender)
 {
-	windowDistributionAction->Checked = pam2DistributionForm->Visible;
+	windowROIAction->Enabled = !PhImage1->Empty;
+	windowROIAction->Checked = pam2ROIForm->Visible;
 }
 //---------------------------------------------------------------------------
 
@@ -325,6 +325,7 @@ void __fastcall TpamMainForm::windowTimeLineActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::windowTimeLineActionUpdate(TObject *Sender)
 {
+    windowTimeLineAction->Enabled = m_mode == pam2Analysis;
 	windowTimeLineAction->Checked = pam2TimeLineForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -515,6 +516,7 @@ void __fastcall TpamMainForm::fileSaveExperimentActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::windowConsoleActionUpdate(TObject *Sender)
 {
+	windowConsoleAction->Enabled = m_mode != pam2Analysis;
 	windowConsoleAction->Checked = ConsoleForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -594,8 +596,13 @@ void __fastcall TpamMainForm::SetPicture(awpImage* img)
 
 void __fastcall TpamMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
-    this->ExecuteCommand(L"OFF");
-	BUFCCDUSB_UnInitDevice();
+	if (this->m_hardware_ready) {
+		ExecuteCommand(L"OFF");
+		BUFCCDUSB_StopFrameGrab();
+		BUFCCDUSB_StopFrameGrab();
+		BUFCCDUSB_UnInitDevice();
+	}
+
 }
 //---------------------------------------------------------------------------
 
@@ -669,6 +676,8 @@ void __fastcall TpamMainForm::SetMode(EPam2Modes mode)
 			Panel2->Visible = true;
 			pam2HardwareForm->Visible = false;
 			pam2ExperimentForm->Visible = false;
+			ConsoleForm->Visible = false;
+            pam2ScriptForm->Visible = false;
 			PhTrackBar1->Min = 1;
 			PhTrackBar1->Max = m_pam2Doc.NumFrames;
 			PhTrackBar1->Frequency = m_pam2Doc.NumFrames / 20;
@@ -1607,7 +1616,136 @@ UnicodeString  __fastcall TpamMainForm::NextCommand()
 }
 void __fastcall TpamMainForm::FormShow(TObject *Sender)
 {
-	InitHardware();
+	/*	Устанавливаем режим настройки, в случае когда все оборудование
+		обнаружено и работает без ошибок.
+	*/
+	SetMode(m_hardware_ready?pam2Tuning:pam2Analysis);
+	SetVideoMode(pam2videoCommands);
+	SetViewSource(pam2viewFrame);
+	if (m_hardware_ready) {
+		InitHardware();
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageBestFitActionExecute(TObject *Sender)
+{
+    PhImage1->BestFit();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageBestFitActionUpdate(TObject *Sender)
+{
+	imageBestFitAction->Enabled = !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageActualSizeActionExecute(TObject *Sender)
+{
+    PhImage1->ActualSize();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageActualSizeActionUpdate(TObject *Sender)
+{
+	imageActualSizeAction->Enabled = !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageZoomInActionExecute(TObject *Sender)
+{
+    PhImage1->ZoomIn(0,0);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageZoomInActionUpdate(TObject *Sender)
+{
+	imageZoomInAction->Enabled = !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageZoomOutActionExecute(TObject *Sender)
+{
+    PhImage1->ZoomOut(0,0);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageZoomOutActionUpdate(TObject *Sender)
+{
+	imageZoomOutAction->Enabled = !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageAddRectActionExecute(TObject *Sender)
+{
+	m_roiTool->PhImage = PhImage1;
+	m_roiTool->Mode = TMRect;
+	PhImage1->SelectPhTool(m_roiTool);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageAddRectActionUpdate(TObject *Sender)
+{
+	imageAddRectAction->Enabled =  !PhImage1->Empty;
+	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+	imageAddRectAction->Checked = tool != NULL && tool->Mode == TMRect;
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageAddCircleActionExecute(TObject *Sender)
+{
+	m_roiTool->PhImage = PhImage1;
+	m_roiTool->Mode = TMCircle;
+	PhImage1->SelectPhTool(m_roiTool);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageAddCircleActionUpdate(TObject *Sender)
+{
+	imageAddCircleAction->Enabled = !PhImage1->Empty;
+	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+	imageAddCircleAction->Checked = tool != NULL && tool->Mode == TMCircle;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageAddPolygonActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageAddPolygonActionUpdate(TObject *Sender)
+{
+	imageAddPolygonAction->Enabled =  !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageSaveActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageSaveActionUpdate(TObject *Sender)
+{
+	imageSaveAction->Enabled = !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageZoomPaneActionExecute(TObject *Sender)
+{
+	PhImage1->SelectPhTool(PhPaneTool1);
+    PhImage1->Paint();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::imageZoomPaneActionUpdate(TObject *Sender)
+{
+	imageZoomPaneAction->Enabled = !PhImage1->Empty;
+	TPhPaneTool* tool = dynamic_cast< TPhPaneTool*>(PhImage1->PhTool);
+	imageZoomPaneAction->Checked = tool != NULL;// && tool->Mode == TMCircle;
+
 }
 //---------------------------------------------------------------------------
 
