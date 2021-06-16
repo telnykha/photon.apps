@@ -54,11 +54,11 @@ bool TPam2ROI::Calculate(awpImage* image)
 			area += 1;
 			avg  += f[i];
 			std  += (f[i]*f[i]);
-			if (min < f[0]) {
-				min = f[0];
+			if (f[i] < min) {
+				min = f[i];
 			}
-			if (max > f[0]) {
-			   max = f[0];
+			if (f[i] > max) {
+			   max = f[i];
 			}
 		}
 	 }
@@ -72,7 +72,7 @@ bool TPam2ROI::Calculate(awpImage* image)
 	 m_min = min;
 	 m_max = max;
 	 m_std = std/area;
-     m_std = std - m_avg*m_avg;
+     m_std = sqrt(m_std - m_avg*m_avg);
 }
 
 void  TPam2ROI::CreateMask()

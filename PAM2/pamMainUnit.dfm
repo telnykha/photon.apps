@@ -800,17 +800,17 @@ object pamMainForm: TpamMainForm
       OnUpdate = imageZoomOutActionUpdate
     end
     object imageAddRectAction: TAction
-      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1087#1088#1103#1084#1086#1091#1075#1086#1083#1100#1085#1080#1082#1080
+      Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1087#1088#1103#1084#1086#1091#1075#1086#1083#1100#1085#1080#1082#1086#1074
       OnExecute = imageAddRectActionExecute
       OnUpdate = imageAddRectActionUpdate
     end
     object imageAddCircleAction: TAction
-      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1086#1082#1088#1091#1078#1085#1086#1089#1090#1080
+      Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1086#1082#1088#1091#1078#1085#1086#1089#1090#1077#1081
       OnExecute = imageAddCircleActionExecute
       OnUpdate = imageAddCircleActionUpdate
     end
     object imageAddPolygonAction: TAction
-      Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1084#1085#1086#1075#1086#1091#1075#1086#1083#1100#1085#1080#1082#1080
+      Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1084#1085#1086#1075#1086#1091#1075#1086#1083#1100#1085#1080#1082#1086#1074
       OnExecute = imageAddPolygonActionExecute
       OnUpdate = imageAddPolygonActionUpdate
     end
@@ -820,7 +820,7 @@ object pamMainForm: TpamMainForm
       OnUpdate = imageSaveActionUpdate
     end
     object imageZoomPaneAction: TAction
-      Caption = #1055#1088#1086#1089#1084#1086#1090#1088' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1103
+      Caption = #1056#1077#1078#1080#1084' '#1087#1088#1086#1089#1084#1086#1090#1088#1072
       OnExecute = imageZoomPaneActionExecute
       OnUpdate = imageZoomPaneActionUpdate
     end
@@ -3414,17 +3414,11 @@ object pamMainForm: TpamMainForm
     object N52: TMenuItem
       Caption = '-'
     end
-    object N53: TMenuItem
-      Action = imageAddRectAction
-    end
-    object N54: TMenuItem
-      Action = imageAddCircleAction
-    end
-    object N55: TMenuItem
-      Action = imageAddPolygonAction
-    end
     object N58: TMenuItem
       Action = imageZoomPaneAction
+    end
+    object N53: TMenuItem
+      Action = windowROIAction
     end
     object N56: TMenuItem
       Caption = '-'

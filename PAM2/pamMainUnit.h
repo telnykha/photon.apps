@@ -207,13 +207,11 @@ __published:	// IDE-managed Components
 	TAction *imageAddCircleAction;
 	TAction *imageAddPolygonAction;
 	TAction *imageSaveAction;
-	TMenuItem *N53;
-	TMenuItem *N54;
-	TMenuItem *N55;
 	TMenuItem *N56;
 	TMenuItem *N57;
 	TAction *imageZoomPaneAction;
 	TMenuItem *N58;
+	TMenuItem *N53;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -404,7 +402,7 @@ private:	// User declarations
 	bool             m_hardware_ready;
 
 	// редактор roi
-    TPhPam2RoiTool*  m_roiTool;
+	TPhPam2RoiTool*  m_roiTool;
 protected:
 	BEGIN_MESSAGE_MAP
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
@@ -421,8 +419,8 @@ protected:
 
 	void __fastcall InitHardware();
 	UnicodeString  __fastcall NextCommand();
-
-
+	void __fastcall AddRoi(TObject* sender, TPam2ROI* item);
+	void __fastcall ChangeRoi(TObject* sender,  int index);
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
@@ -459,6 +457,8 @@ public:		// User declarations
 	__property int LAct = {read = m_lact, write = SetAct};
 	__property int LAdd = {read = m_ladd, write = SetAdd};
 	__property int LFlash = {read= m_lflash, write = SetFlash};
+
+	__property TPhPam2RoiTool* RoiTool = {read = m_roiTool};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;

@@ -3,7 +3,6 @@
 #pragma hdrstop
 
 #include "pam2ROIEditor.h"
-#include "pamROI.h"
 #include "ImageUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -16,6 +15,7 @@ __fastcall TPhPam2RoiTool::TPhPam2RoiTool(TComponent* Owner): TPhImageTool(Owner
 	m_selected = -1;
 	m_newZone = NULL;
 	m_mode = TMRect;
+    m_OnAddRoi = NULL;
 }
 
 __fastcall TPhPam2RoiTool::~TPhPam2RoiTool()
@@ -190,7 +190,10 @@ void __fastcall TPhPam2RoiTool::SetVertex(int x, int y)
 			}
 
 	 }
-     item->SetZone(z);
+	 item->SetZone(z);
+	 if (this->m_OnChangeRoi) {
+		 this->OnChangeRoi(this, m_si);
+	 }
 	 delete z;
    }
 }
@@ -214,10 +217,15 @@ void TPhPam2RoiTool::Draw(TCanvas* Canvas)
 		TPam2ROI* item = (TPam2ROI*)m_rois.Get(i);
 		TColor color = clWhite;//GetItemColor(item);
 		if (i == m_selected)
-			Canvas->Pen->Width = 2;
-		else
+		{
 			Canvas->Pen->Width = 1;
-		Canvas->Pen->Color = color;
+            Canvas->Pen->Color = clLime;
+		}
+		else
+		{
+			Canvas->Pen->Width = 1;
+			Canvas->Pen->Color = color;
+        }
 
 		TEZoneTypes zt =  item->zone->GetZoneType();//GetItemZoneType(item);
 		if (zt == ZTRect)
@@ -424,7 +432,9 @@ void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 		 TPam2ROI* roi = new TPam2ROI() ;
 		 roi->SetZone(m_newZone);
 		 this->m_rois.Add(roi);
-
+		 if (m_OnAddRoi) {
+            m_OnAddRoi(this, roi);
+		 }
 		 delete  m_newZone;
          m_newZone = NULL;
 
@@ -488,3 +498,43 @@ void TPhPam2RoiTool::Reset()
 {
 
 }
+
+int __fastcall TPhPam2RoiTool::GetRoiCount()
+{
+	return m_rois.GetCount();
+}
+
+TPam2ROI* __fastcall TPhPam2RoiTool::GetRoi(int index)
+{
+	if (index < 0 || index >= m_rois.GetCount()) {
+		return NULL;
+	}
+
+	TPam2ROI* roi = (TPam2ROI*)m_rois.Get(index);
+	return roi;
+
+}
+
+void __fastcall TPhPam2RoiTool::SetSelected(int value)
+{
+	m_selected = value;
+	m_pImage->Paint();
+}
+
+void __fastcall TPhPam2RoiTool::Clear()
+{
+	 m_selected = -1;
+	 m_rois.Clear();
+     m_pImage->Paint();
+}
+
+void __fastcall TPhPam2RoiTool::DeleteRoi(int index)
+{
+	if (index <0 || index >= m_rois.GetCount()) {
+		return;
+	}
+	m_rois.Delete(index);
+    m_pImage->Paint();
+}
+
+

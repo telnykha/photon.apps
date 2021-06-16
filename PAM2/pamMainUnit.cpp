@@ -86,7 +86,9 @@ __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	m_initCommands->Add("LADD=" + IntToStr(m_ladd));
 	m_initCommands->Add("LFLASH=" + IntToStr(m_lflash));
 
-    m_roiTool = new TPhPam2RoiTool(NULL);
+	m_roiTool = new TPhPam2RoiTool(NULL);
+	m_roiTool->OnAddRoi = AddRoi;
+    m_roiTool->OnChangeRoi = ChangeRoi;
 }
 void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client)
 {
@@ -1420,9 +1422,13 @@ void __fastcall TpamMainForm::UpdateScreen()
 
 		awpCopyImage(img, &_img);
 		awpCopyImage(img, &this->m_screenSource);
+		//
+
 
 		awpConvert(_img, AWP_CONVERT_TO_BYTE_WITH_NORM);
 		this->SetPicture(_img);
+
+		pam2ROIForm->NewImage(m_screenSource);
 
 		awpReleaseImage(&_img);
 		awpReleaseImage(&img);
@@ -1748,4 +1754,25 @@ void __fastcall TpamMainForm::imageZoomPaneActionUpdate(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
+void __fastcall TpamMainForm::AddRoi(TObject* sender, TPam2ROI* item)
+{
+	if (item == NULL) {
+		return;
+	}
+	// получим информацию с изображения
+	item->Calculate(m_screenSource);
+
+	pam2ROIForm->AddItem(item);
+}
+
+void __fastcall TpamMainForm::ChangeRoi(TObject* sender, int index)
+{
+   TPam2ROI* roi = RoiTool->GetRoi(index);
+	if (roi == NULL) {
+		return;
+	}
+	// получим информацию с изображения
+	roi->Calculate(m_screenSource);
+	pam2ROIForm->ChangeItem(index);
+}
 

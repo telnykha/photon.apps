@@ -25,7 +25,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		TStyleManager::TrySetStyle("Carbon");
 		Application->CreateForm(__classid(TpamMainForm), &pamMainForm);
 		Application->CreateForm(__classid(TConsoleForm), &ConsoleForm);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
