@@ -150,7 +150,7 @@ void __fastcall Tpam2ROIForm::SetItem(int idx, TPam2ROI* item)
 	UnicodeString strRoiType = L"";
 	switch(item->zone->GetZoneType())
 	{
-		case ZTLineSegment:
+		case ZTCircle:
 			strRoiType = L"Окружность";
 		break;
 		case ZTRect:

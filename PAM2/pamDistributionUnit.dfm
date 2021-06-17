@@ -86,11 +86,13 @@ object pam2ROIForm: Tpam2ROIForm
     Top = 72
     object roiDeleteAction: TAction
       Caption = #1059#1076#1072#1083#1080#1090#1100' '#1086#1073#1098#1077#1082#1090
+      ShortCut = 8238
       OnExecute = roiDeleteActionExecute
       OnUpdate = roiDeleteActionUpdate
     end
     object roiClearAction: TAction
       Caption = #1054#1095#1080#1089#1090#1080#1090#1100' '#1086#1073#1083#1072#1089#1090#1080' '#1080#1085#1090#1077#1088#1089#1072
+      ShortCut = 16430
       OnExecute = roiClearActionExecute
       OnUpdate = roiClearActionUpdate
     end

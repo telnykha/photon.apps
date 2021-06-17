@@ -95,7 +95,7 @@ bool   TPhPam2RoiTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 						}
 					}
 				 }
-				 else if (z->GetZoneType() == ZTLineSegment && m_mode == TMCircle)
+				 else if (z->GetZoneType() == ZTCircle && m_mode == TMCircle)
 				 {
 					 awp2DPoint p1;
 					 awp2DPoint p2;
@@ -145,7 +145,7 @@ void __fastcall TPhPam2RoiTool::SetVertex(int x, int y)
 	 TLFZone* z = new TLFZone(*item->zone);
 	 if (z == NULL || (z->GetZoneType() == ZTRect && m_mode == TMRect))
 	 {
-		 TRect rect = this->GetBoundsRect(z); //awpRect2TRect(item->GetBounds()->GetRect());
+		 TRect rect = this->GetBoundsRect(z);
 		 if (m_sv == 0)
 		 {
 			rect.Left = p.x;
@@ -175,7 +175,7 @@ void __fastcall TPhPam2RoiTool::SetVertex(int x, int y)
 		 y2 = 100.*_rect.bottom / (double)m_pImage->Bitmap->Height;
 		 _r->SetVertexes(x1,x2,y1,y2);
 	 }
-	 else if (z->GetZoneType() == ZTLineSegment && m_mode == TMCircle)
+	 else if (z->GetZoneType() == ZTCircle && m_mode == TMCircle)
 	 {
 		   awp2DPoint p1;
 		   p1.X = 100.0*p.x /(double) m_pImage->Bitmap->Width;
@@ -213,45 +213,47 @@ void TPhPam2RoiTool::Draw(TCanvas* Canvas)
 	for (int i = 0; i < m_rois.GetCount(); i++)
 	{
 		Canvas->Brush->Style = bsSolid;
-		//TLFDetectedItem* item = (TLFDetectedItem*)m_descriptor.Get(i);
 		TPam2ROI* item = (TPam2ROI*)m_rois.Get(i);
-		TColor color = clWhite;//GetItemColor(item);
+		TColor color = clWhite;
 		if (i == m_selected)
 		{
 			Canvas->Pen->Width = 1;
-            Canvas->Pen->Color = clLime;
+			Canvas->Pen->Color = clLime;
+            Canvas->Brush->Color = clLime;
 		}
 		else
 		{
 			Canvas->Pen->Width = 1;
 			Canvas->Pen->Color = color;
+			Canvas->Brush->Color = color;
         }
 
-		TEZoneTypes zt =  item->zone->GetZoneType();//GetItemZoneType(item);
+		TEZoneTypes zt =  item->zone->GetZoneType();
 		if (zt == ZTRect)
 		{
-			TRect rect = this->GetBoundsRect(item->zone);//awpRect2TRect(item->GetBounds()->GetRect());
+			TRect rect = this->GetBoundsRect(item->zone);
 			TRect rect1 = this->m_pImage->GetScreenRect(rect);
-			Canvas->Brush->Color = color;
+			//Canvas->Brush->Color = color;
 
 			TPoint p1 = rect1.TopLeft();
 			TPoint p2 = rect1.BottomRight();
+			if (i == m_selected) {
+				Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
+				Canvas->Ellipse(p2.x-delta, p2.y - delta, p2.x + delta, p2.y + delta);
 
-			Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
-			Canvas->Ellipse(p2.x-delta, p2.y - delta, p2.x + delta, p2.y + delta);
 
-
-			p1.x = p2.x;
-			Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
-			p1 = rect1.TopLeft();
-			p1.y = p2.y;
-			Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
+				p1.x = p2.x;
+				Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
+				p1 = rect1.TopLeft();
+				p1.y = p2.y;
+				Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
+			}
 
 
 			Canvas->Brush->Style = bsClear;
 			Canvas->Rectangle(rect1);
 		}
-		else if (zt == ZTLineSegment)
+		else if (zt == ZTCircle)
 		{
 			awp2DPoint s = item->zone->GetLineSegmnet()->GetStart();
 			awp2DPoint f = item->zone->GetLineSegmnet()->GetFinish();
@@ -269,22 +271,51 @@ void TPhPam2RoiTool::Draw(TCanvas* Canvas)
 			p2 = m_pImage->GetScreenPoint(p2.x, p2.y);
 
 			double r = sqrt(double(p1.x - p2.x)*(p1.x - p2.x) + (double)(p1.y - p2.y)*(p1.y-p2.y));
-            Canvas->Brush->Style = bsClear;
+			Canvas->Brush->Style = bsClear;
 			Canvas->Ellipse(p1.x-r, p1.y - r, p1.x + r, p1.y + r);
 
 			Canvas->MoveTo(p1.x, p1.y);
 			Canvas->LineTo(p2.x, p2.y);
-			Canvas->Brush->Color = clRed;
-			Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
-			Canvas->Brush->Color = clBlue;
-			Canvas->Ellipse(p2.x-delta, p2.y - delta, p2.x + delta, p2.y + delta);
-
+			if (i == m_selected) {
+				Canvas->Brush->Color = clRed;
+				Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
+				Canvas->Brush->Color = clBlue;
+				Canvas->Ellipse(p2.x-delta, p2.y - delta, p2.x + delta, p2.y + delta);
+			}
+		}
+		else if (zt == ZTContour)
+		{
+			//Canvas->Brush->Style = bsClear;
+			//Canvas->Brush->Color = color;
+			awp2DPoint s = item->zone->GetContour()->GetPoint(0);
+			TPoint p,p1;
+			p.x = s.X * m_pImage->Bitmap->Width / 100;
+			p.y = s.Y * m_pImage->Bitmap->Height / 100;
+			p1 = m_pImage->GetScreenPoint(p.x, p.y);
+			Canvas->MoveTo(p1.x, p1.y);
+			for (int j = 0; j < item->zone->GetContour()->GetNumPoints(); j++)
+			{
+				s = item->zone->GetContour()->GetPoint(j);
+				p.x = s.X * m_pImage->Bitmap->Width / 100;
+				p.y = s.Y * m_pImage->Bitmap->Height / 100;
+				p1 = m_pImage->GetScreenPoint(p.x, p.y);
+				Canvas->LineTo(p1.x, p1.y);
+				if (i == m_selected) {
+					Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
+				}
+			}
+			s = item->zone->GetContour()->GetPoint(0);
+			p.x = s.X * m_pImage->Bitmap->Width / 100;
+			p.y = s.Y * m_pImage->Bitmap->Height / 100;
+			p1 = m_pImage->GetScreenPoint(p.x, p.y);
+			Canvas->LineTo(p1.x, p1.y);
+			Canvas->Brush->Style = bsClear;
 		}
 	}
 
 	if (m_newZone != NULL)
 	{
-		if (m_newZone->IsLineSegment())
+		if (m_newZone->IsCircle())
 		{
 			Canvas->Pen->Color = clLime;
 			Canvas->Brush->Style = bsClear;
@@ -344,9 +375,41 @@ void TPhPam2RoiTool::Draw(TCanvas* Canvas)
 			Canvas->Brush->Color = oldColor;
 			Canvas->Brush->Style = oldStyle;
 		 }
+		 else if (m_newZone->IsContour())
+		 {
+			Canvas->Pen->Color = clLime;
+			Canvas->Brush->Color = clLime;
+
+			awp2DPoint s = m_newZone->GetContour()->GetPoint(0);
+			TPoint p,p1;
+			p.x = s.X * m_pImage->Bitmap->Width / 100;
+			p.y = s.Y * m_pImage->Bitmap->Height / 100;
+			p1 = m_pImage->GetScreenPoint(p.x, p.y);
+			Canvas->MoveTo(p1.x, p1.y);
+			for (int i = 0; i < m_newZone->GetContour()->GetNumPoints(); i++)
+			{
+				s = m_newZone->GetContour()->GetPoint(i);
+				p.x = s.X * m_pImage->Bitmap->Width / 100;
+				p.y = s.Y * m_pImage->Bitmap->Height / 100;
+				p1 = m_pImage->GetScreenPoint(p.x, p.y);
+				Canvas->LineTo(p1.x, p1.y);
+				Canvas->Ellipse(p1.x-delta, p1.y - delta, p1.x + delta, p1.y + delta);
+			}
+
+		 }
 	}
 
 }
+
+awp2DPoint __fastcall TPhPam2RoiTool::Get2DPoint(int X, int Y)
+{
+	  TPoint p = m_pImage->GetImagePoint(X, Y);
+	  awp2DPoint p2d;
+	  p2d.X = 100.0*(double)p.x/(double)m_pImage->Bitmap->Width;
+	  p2d.Y = 100.0*(double)p.y/(double)m_pImage->Bitmap->Height;
+	  return p2d;
+}
+
 void TPhPam2RoiTool::MouseDown(int X, int Y, TMouseButton Button)
 {
    if (m_pImage == NULL)
@@ -373,28 +436,39 @@ void TPhPam2RoiTool::MouseDown(int X, int Y, TMouseButton Button)
 			  y2 = 100.*p.y /(double)m_pImage->Bitmap->Height;
 
               m_newZone->GetRect()->SetVertexes(x1, x2, y1, y2);
-
-/*			m_newZone->GetRect()->GetLeftTop().X = 100.*p.x / (double)m_pImage->Bitmap->Width;
-			m_newZone->GetRect()->GetLeftTop().Y = 100.*p.y / (double)m_pImage->Bitmap->Height;
-			m_newZone->GetRect()->GetRightBottom().X = 100.*p.x / (double)m_pImage->Bitmap->Width;
-			m_newZone->GetRect()->GetRightBottom().Y = 100.*p.y / (double)m_pImage->Bitmap->Height;*/
 		}
 		else if (m_mode == TMCircle)
 		{
-		  m_newZone = new TLFZone(ZTLineSegment);
-		  TPoint p = m_pImage->GetImagePoint(X, Y);
-		  awp2DPoint p2d;
-		  p2d.X = 100.0*(double)p.x/(double)m_pImage->Bitmap->Width;
-		  p2d.Y = 100.0*(double)p.y/(double)m_pImage->Bitmap->Height;
-
+		  m_newZone = new TLFZone(ZTCircle);
+		  awp2DPoint p2d = this->Get2DPoint(X,Y);
 		  m_newZone->GetLineSegmnet()->SetStart(p2d);
+		}
+		else if (m_mode == TMContour && m_newZone == NULL)
+		{
+		   m_newZone = new TLFZone(ZTContour);
 		}
 
 	  }
-	 // m_edited = true;
 	  m_down = true;
    }
 }
+void __fastcall TPhPam2RoiTool::AddNewRoi()
+{
+	 if (m_newZone == NULL) {
+        return;
+	 }
+
+	 TPam2ROI* roi = new TPam2ROI() ;
+	 roi->SetZone(m_newZone);
+	 this->m_rois.Add(roi);
+	 if (m_OnAddRoi) {
+		m_OnAddRoi(this, roi);
+	 }
+	 delete  m_newZone;
+	 m_newZone = NULL;
+}
+
+
 void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 {
    if (m_pImage == NULL)
@@ -418,26 +492,19 @@ void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 		 }
 		 else if (m_mode == TMCircle)
 		 {
-
-				TPoint p = m_pImage->GetImagePoint(X, Y);
-				awp2DPoint p2d;
-				p2d.X = 100.0*(double)p.x/m_pImage->Bitmap->Width;
-				p2d.Y = 100.0*(double)p.y/m_pImage->Bitmap->Height;
-
+				awp2DPoint p2d = this->Get2DPoint(X,Y);
 				m_newZone->GetLineSegmnet()->SetFihish(p2d);
-			   //	DoPopup(X, Y);
 		 }
-
-		 // добавляем новый элемент
-		 TPam2ROI* roi = new TPam2ROI() ;
-		 roi->SetZone(m_newZone);
-		 this->m_rois.Add(roi);
-		 if (m_OnAddRoi) {
-            m_OnAddRoi(this, roi);
+		 if (m_mode != TMContour) {
+			 // добавляем новый элемент, ли это не контур
+			 this->AddNewRoi();
 		 }
-		 delete  m_newZone;
-         m_newZone = NULL;
-
+		 else
+		 {
+			// добавляем точку контура
+			awp2DPoint p2d = this->Get2DPoint(X,Y);
+			m_newZone->GetContour()->AddPoint(p2d);
+		 }
 	  }
 	  else
 	  {
@@ -446,9 +513,16 @@ void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 		//if (this->m_OnChange != NULL)
         //    m_OnChange(this);
 	  }
+
 	  m_pImage->Paint();
 	  m_down = false;
    }
+  else if (Button == mbRight && m_mode == TMContour)
+  {
+	 // Добавляем контур
+	 this->AddNewRoi();
+     m_pImage->Paint();
+  }
 }
 void TPhPam2RoiTool::MouseMove(int X, int Y, TShiftState Shift)
 {
@@ -536,5 +610,4 @@ void __fastcall TPhPam2RoiTool::DeleteRoi(int index)
 	m_rois.Delete(index);
     m_pImage->Paint();
 }
-
 

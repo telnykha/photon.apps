@@ -22,7 +22,8 @@ protected:
 	TLFObjectList 		m_rois;
 	TPhAddRoiEvent      m_OnAddRoi;
 	TPhChangeRoiEvent   m_OnChangeRoi;
-
+	void __fastcall AddNewRoi();
+	awp2DPoint __fastcall Get2DPoint(int X, int Y);
 	double _2D_Dist(double x1,double y1,double x2,double y2);
 	bool   _is_near_vertex(int X, int Y, int& idx1, int& idx2);
 	TPoint GetRectPoint(int index, TRect& rect);

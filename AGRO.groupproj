@@ -27,6 +27,9 @@
         <Projects Include="..\..\awplflib\borland\awplflibb.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\photon.research\ZonesEditor\ZonesEditor.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -107,14 +110,23 @@
     <Target Name="awplflibb:Make">
         <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="ZonesEditor">
+        <MSBuild Projects="..\photon.research\ZonesEditor\ZonesEditor.cbproj"/>
+    </Target>
+    <Target Name="ZonesEditor:Clean">
+        <MSBuild Projects="..\photon.research\ZonesEditor\ZonesEditor.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ZonesEditor:Make">
+        <MSBuild Projects="..\photon.research\ZonesEditor\ZonesEditor.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML;ObjectsMarker;awplflibb"/>
+        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML;ObjectsMarker;awplflibb;ZonesEditor"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean;ObjectsMarker:Clean;awplflibb:Clean"/>
+        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean;ObjectsMarker:Clean;awplflibb:Clean;ZonesEditor:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make;ObjectsMarker:Make;awplflibb:Make"/>
+        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make;ObjectsMarker:Make;awplflibb:Make;ZonesEditor:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

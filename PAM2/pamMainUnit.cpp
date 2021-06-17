@@ -1687,6 +1687,8 @@ void __fastcall TpamMainForm::imageAddRectActionExecute(TObject *Sender)
 	m_roiTool->PhImage = PhImage1;
 	m_roiTool->Mode = TMRect;
 	PhImage1->SelectPhTool(m_roiTool);
+	PhImage1->PopupMenu = this->PopupMenu2;
+
 }
 //---------------------------------------------------------------------------
 
@@ -1704,6 +1706,7 @@ void __fastcall TpamMainForm::imageAddCircleActionExecute(TObject *Sender)
 	m_roiTool->PhImage = PhImage1;
 	m_roiTool->Mode = TMCircle;
 	PhImage1->SelectPhTool(m_roiTool);
+	PhImage1->PopupMenu = this->PopupMenu2;
 }
 //---------------------------------------------------------------------------
 
@@ -1712,18 +1715,24 @@ void __fastcall TpamMainForm::imageAddCircleActionUpdate(TObject *Sender)
 	imageAddCircleAction->Enabled = !PhImage1->Empty;
 	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
 	imageAddCircleAction->Checked = tool != NULL && tool->Mode == TMCircle;
+
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::imageAddPolygonActionExecute(TObject *Sender)
 {
-//
+	m_roiTool->PhImage = PhImage1;
+	m_roiTool->Mode = TMContour;
+	PhImage1->PopupMenu = NULL;
+	PhImage1->SelectPhTool(m_roiTool);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TpamMainForm::imageAddPolygonActionUpdate(TObject *Sender)
 {
 	imageAddPolygonAction->Enabled =  !PhImage1->Empty;
+	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+	imageAddPolygonAction->Checked = tool != NULL && tool->Mode == TMContour;
 }
 //---------------------------------------------------------------------------
 
@@ -1742,6 +1751,7 @@ void __fastcall TpamMainForm::imageSaveActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::imageZoomPaneActionExecute(TObject *Sender)
 {
 	PhImage1->SelectPhTool(PhPaneTool1);
+	PhImage1->PopupMenu = this->PopupMenu2;
     PhImage1->Paint();
 }
 //---------------------------------------------------------------------------
