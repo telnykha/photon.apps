@@ -1769,9 +1769,9 @@ void __fastcall TpamMainForm::AddRoi(TObject* sender, TPam2ROI* item)
 	if (item == NULL) {
 		return;
 	}
-	// получим информацию с изображения
+	// получим информацию с текущего изображения изображения
 	item->Calculate(m_screenSource);
-
+	this->m_pam2Doc.ProcessRoi(item);
 	pam2ROIForm->AddItem(item);
 }
 
@@ -1784,5 +1784,6 @@ void __fastcall TpamMainForm::ChangeRoi(TObject* sender, int index)
 	// получим информацию с изображения
 	roi->Calculate(m_screenSource);
 	pam2ROIForm->ChangeItem(index);
+	this->m_pam2Doc.ProcessRoi(roi);
 }
 

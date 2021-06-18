@@ -13,11 +13,11 @@ USEFORM("pamLongProcessUnit.cpp", LongProcessForm);
 USEFORM("pamTimeLineUnit.cpp", pam2TimeLineForm);
 USEFORM("pamSplashUnit.cpp", pamSplashForm);
 USEFORM("pamScriptUnit.cpp", pam2ScriptForm);
-USEFORM("pamDistributionUnit.cpp", pam2ROIForm);
-USEFORM("pamConsoleUnit.cpp", ConsoleForm);
-USEFORM("pamAboutUnit.cpp", AboutBox);
 USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
+USEFORM("pamAboutUnit.cpp", AboutBox);
+USEFORM("pamConsoleUnit.cpp", ConsoleForm);
 USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
+USEFORM("pamDistributionUnit.cpp", pam2ROIForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

@@ -223,6 +223,10 @@
             <DependentOn>pamROI.h</DependentOn>
             <BuildOrder>20</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamRoiProcessThread.cpp">
+            <DependentOn>pamRoiProcessThread.h</DependentOn>
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamScriptDocUnit.cpp">
             <DependentOn>pamScriptDocUnit.h</DependentOn>
             <BuildOrder>20</BuildOrder>

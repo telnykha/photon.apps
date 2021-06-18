@@ -4,6 +4,8 @@
 #pragma hdrstop
 #include "pamMainUnit.h"
 #include "pamDistributionUnit.h"
+#include "pamResultUnit.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -70,11 +72,31 @@ void __fastcall Tpam2ROIForm::ChangeItem(int index)
 	this->SetItem(idx, roi);
 }
 
+void __fastcall Tpam2ROIForm::ChangeItem(TPam2ROI* item)
+{
+	int index = -1;
+	for (int i = 0; i < pamMainForm->RoiTool->RoiCount; i++) {
+		TPam2ROI* roi = pamMainForm->RoiTool->GetRoi(i);
+		if (item == roi) {
+			index = i;
+			break;
+		}
+	}
+	if (index < 0) {
+		return;
+	}
+	this->SetItem(index+1, item);
+}
+
+
 void __fastcall Tpam2ROIForm::StringGrid1Click(TObject *Sender)
 {
 	int index =  StringGrid1->Row;
 	TPhPam2RoiTool* rt = pamMainForm->RoiTool;
 	rt->Selected = index-1;
+
+	// обновим график результатов
+	pam2ResultForm->UpdateChart(rt->GetRoi(index-1));
 }
 //---------------------------------------------------------------------------
 
@@ -137,7 +159,7 @@ void __fastcall Tpam2ROIForm::DeleteRecord(int index)
       }
       __finally
       {
-        SNDMSG(m_grid->Handle, WM_SETREDRAW, true, 0);
+		SNDMSG(m_grid->Handle, WM_SETREDRAW, true, 0);
       }
 
       // update (repaint) the shifted cols
@@ -147,20 +169,7 @@ void __fastcall Tpam2ROIForm::DeleteRecord(int index)
 }
 void __fastcall Tpam2ROIForm::SetItem(int idx, TPam2ROI* item)
 {
-	UnicodeString strRoiType = L"";
-	switch(item->zone->GetZoneType())
-	{
-		case ZTCircle:
-			strRoiType = L"Окружность";
-		break;
-		case ZTRect:
-			strRoiType = L"Прямоугольник";
-		break;
-		case ZTContour:
-			strRoiType = L"Многоугольник";
-		break;
-
-	}
+	UnicodeString strRoiType = item->RoiType;
 	StringGrid1->Cells[1][idx] = strRoiType;
 	StringGrid1->Cells[2][idx] = FormatFloat("####.##",item->Area);
 	StringGrid1->Cells[3][idx] = FormatFloat("####.##",item->Min);

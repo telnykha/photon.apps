@@ -14,6 +14,7 @@ TPam2ROI::TPam2ROI()
    m_max = 0;
    m_avg = 0;
    m_std = 0;
+   m_locked = false;
 }
 TPam2ROI::~TPam2ROI()
 {
@@ -100,4 +101,52 @@ void     TPam2ROI::SetZone(TLFZone* zone)
 	// например в Calculate?
 	CreateMask();
 }
+UnicodeString __fastcall TPam2ROI::GetRoiType()
+{
+   if (m_locked) {
+        return "Вычисление....";
+   }
+
+	if (m_zone == NULL) {
+		return L"Неизвестный объект";
+	}
+	UnicodeString strRoiType = L"";
+	switch(m_zone->GetZoneType())
+	{
+		case ZTCircle:
+			strRoiType = L"Окружность";
+		break;
+		case ZTRect:
+			strRoiType = L"Прямоугольник";
+		break;
+		case ZTContour:
+			strRoiType = L"Многоугольник";
+		break;
+
+	}
+	return  strRoiType;
+}
+
+int __fastcall TPam2ROI::GetCount()
+{
+	return m_matrix.GetCount();
+}
+
+void __fastcall TPam2ROI::GlearData()
+{
+	m_matrix.Clear();
+}
+void __fastcall TPam2ROI::AddData(TPam2ROIData* data)
+{
+	m_matrix.Add(data);
+}
+TPam2ROIData* __fastcall TPam2ROI::GetData(int index)
+{
+	if (index < 0 || index >= m_matrix.GetCount()) {
+		 return NULL;
+	}
+	return (TPam2ROIData*)m_matrix.Get(index);
+}
+
+
 

@@ -14,20 +14,19 @@
 #include <VclTee.TeeGDIPlus.hpp>
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
+#include "pamROI.h"
 //---------------------------------------------------------------------------
 class Tpam2ResultForm : public TForm
 {
 __published:	// IDE-managed Components
 	TPanel *Panel1;
-	TPanel *Panel2;
-	TSplitter *Splitter1;
 	TPanel *Panel3;
 	TChart *Chart1;
 	TLineSeries *Series1;
-	TCheckListBox *CheckListBox1;
 private:	// User declarations
 public:		// User declarations
 	__fastcall Tpam2ResultForm(TComponent* Owner);
+	void __fastcall UpdateChart(TPam2ROI* roi);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE Tpam2ResultForm *pam2ResultForm;

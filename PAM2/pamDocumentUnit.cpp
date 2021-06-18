@@ -6,6 +6,9 @@
 #include "pamConsoleUnit.h"
 #include "System.IOUtils.hpp"
 #include "pamEventUnit.h"
+#include "pamRoiProcessThread.h"
+#include "pamDistributionUnit.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "TinyXML.lib"
@@ -69,6 +72,7 @@ TPam2Document::TPam2Document(HWND wnd)
 
 	m_doc.SaveFile(_ansi.c_str());
 
+	m_threads = new TList();
 	m_notSaved = false;
 }
 
@@ -735,4 +739,65 @@ void __fastcall TPam2Document::GoFrame(int index)
 	this->m_currentFrame = index;
 	this->LoadFtFm1();
 }
+
+void __fastcall TPam2Document::ProcessRoi(TPam2ROI* roi)
+{
+	if (roi == NULL) {
+		return;
+	}
+
+   Tpam2RoiProcessThread* t = new Tpam2RoiProcessThread(true);
+   t->FreeOnTerminate = true;
+   roi->Locked = true;
+   t->roi = roi;
+   t->doc = this;
+   t->OnTerminate = TrminateThread;
+   m_threads->Add(t);
+   t->Start();
+}
+
+void __fastcall TPam2Document::TrminateThread(TObject* sender)
+{
+	Tpam2RoiProcessThread* t = (Tpam2RoiProcessThread*)sender;
+    t->roi->Locked = false;
+    pam2ROIForm->ChangeItem(t->roi);
+	m_threads->Remove(t);
+}
+
+UnicodeString __fastcall TPam2Document::GetFoName()
+{
+	UnicodeString srcPath = GetDataPath();
+	TPam2Event* e = (TPam2Event*)m_frames.Get(0);
+	AnsiString ftFileName = srcPath + e->GetAttribute("FT");
+	UnicodeString result = ftFileName;
+	return result;
+}
+
+UnicodeString __fastcall TPam2Document::GetFmName()
+{
+	UnicodeString srcPath = GetDataPath();
+	TPam2Event* e = (TPam2Event*)m_frames.Get(0);
+	AnsiString ftFileName = srcPath + e->GetAttribute("FM");
+	UnicodeString result = ftFileName;
+	return result;
+
+}
+UnicodeString __fastcall TPam2Document::GetFtName(int index)
+{
+	UnicodeString srcPath = GetDataPath();
+	TPam2Event* e = (TPam2Event*)m_frames.Get(index);
+	AnsiString ftFileName = srcPath + e->GetAttribute("FT");
+	UnicodeString result = ftFileName;
+	return result;
+}
+UnicodeString __fastcall TPam2Document::GetFm1Name(int index)
+{
+	UnicodeString srcPath = GetDataPath();
+	TPam2Event* e = (TPam2Event*)m_frames.Get(index);
+	AnsiString ftFileName = srcPath + e->GetAttribute("FM");
+	UnicodeString result = ftFileName;
+	return result;
+}
+
+
 

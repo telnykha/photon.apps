@@ -3,9 +3,11 @@
 #define pamDocumentUnitH
 //---------------------------------------------------------------------------
 #include <system.hpp>
+#include <System.Classes.hpp>
 #include "pamImageBufferUnit.h"
 #include "pamFrameUnit.h"
 #include "TinyXml.h"
+#include "pamROI.h"
 
 class TPam2Document
 {
@@ -26,7 +28,9 @@ protected:
 	int m_currentFrame;
 
 	TLFObjectList m_events;
-    TLFObjectList m_frames;
+	TLFObjectList m_frames;
+
+	TList*  m_threads;
 
 	bool __fastcall LoadFrames();
 	void __fastcall LoadFtFm1();
@@ -42,6 +46,7 @@ protected:
 	void __fastcall SetFtFm1Buffer(TPamImageBuffer* buffer);
 
 	void __fastcall ClearDocument();
+	void __fastcall TrminateThread(TObject* sender);
 
 public:
 	TPam2Document(HWND wnd = NULL);
@@ -62,12 +67,22 @@ public:
 
 	static bool __fastcall DeleteDocument(const UnicodeString& fileName);
 
+	void __fastcall ProcessRoi(TPam2ROI* roi);
+
 	//Навигация по фреймам
 	void __fastcall First();
 	void __fastcall Previous();
 	void __fastcall Next();
 	void __fastcall Last();
 	void __fastcall GoFrame(int index);
+
+	// имена фреймов
+	UnicodeString __fastcall GetFoName();
+	UnicodeString __fastcall GetFmName();
+	UnicodeString __fastcall GetFtName(int index);
+	UnicodeString __fastcall GetFm1Name(int index);
+
+
 
 	// получение визуализых данных из документа.
 	awpImage* GetFrame();

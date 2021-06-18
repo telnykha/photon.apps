@@ -17,14 +17,6 @@ object pam2ResultForm: Tpam2ResultForm
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object Splitter1: TSplitter
-    Left = 185
-    Top = 33
-    Height = 127
-    ExplicitLeft = 224
-    ExplicitTop = 104
-    ExplicitHeight = 100
-  end
   object Panel1: TPanel
     Left = 0
     Top = 0
@@ -33,51 +25,40 @@ object pam2ResultForm: Tpam2ResultForm
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-  end
-  object Panel2: TPanel
-    Left = 0
-    Top = 33
-    Width = 185
-    Height = 127
-    Align = alLeft
-    BevelOuter = bvNone
-    TabOrder = 1
     Visible = False
-    object CheckListBox1: TCheckListBox
-      AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 179
-      Height = 121
-      Align = alClient
-      ItemHeight = 13
-      TabOrder = 0
-      Visible = False
-    end
   end
   object Panel3: TPanel
-    Left = 188
+    Left = 0
     Top = 33
-    Width = 387
+    Width = 575
     Height = 127
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 2
+    TabOrder = 1
+    ExplicitLeft = 188
+    ExplicitWidth = 387
     object Chart1: TChart
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 381
+      Width = 569
       Height = 121
       Legend.Visible = False
-      Title.Text.Strings = (
-        'TChart')
+      BottomAxis.Axis.Color = clGray
+      BottomAxis.Grid.Visible = False
+      BottomAxis.LabelsFormat.Font.Color = clGray
+      BottomAxis.LabelsFormat.Frame.Color = clGray
+      LeftAxis.Axis.Color = clGray
+      LeftAxis.Grid.Visible = False
+      LeftAxis.LabelsFormat.Font.Color = clGray
       View3D = False
       Align = alClient
       BevelOuter = bvNone
+      Color = clBlack
       TabOrder = 0
+      ExplicitWidth = 381
       DefaultCanvas = 'TGDIPlusCanvas'
-      ColorPaletteIndex = 13
+      ColorPaletteIndex = 10
       object Series1: TLineSeries
         Brush.BackColor = clDefault
         Pointer.InflateMargins = True

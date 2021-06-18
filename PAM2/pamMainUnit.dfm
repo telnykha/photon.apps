@@ -2,8 +2,8 @@ object pamMainForm: TpamMainForm
   Left = 0
   Top = 0
   Caption = '[/|\] Photon PAM Fluorescence Analyser  '
-  ClientHeight = 484
-  ClientWidth = 787
+  ClientHeight = 541
+  ClientWidth = 760
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,23 +23,25 @@ object pamMainForm: TpamMainForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 787
-    Height = 465
+    Width = 760
+    Height = 522
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 0
+    ExplicitWidth = 787
+    ExplicitHeight = 465
     object Splitter1: TSplitter
       Left = 6
-      Top = 57
-      Height = 357
+      Top = 111
+      Height = 360
       ExplicitLeft = 272
       ExplicitTop = 152
       ExplicitHeight = 100
     end
     object Splitter2: TSplitter
-      Left = 695
-      Top = 57
-      Height = 357
+      Left = 668
+      Top = 111
+      Height = 360
       Align = alRight
       ExplicitLeft = 384
       ExplicitTop = 152
@@ -47,8 +49,8 @@ object pamMainForm: TpamMainForm
     end
     object Splitter3: TSplitter
       Left = 1
-      Top = 414
-      Width = 785
+      Top = 471
+      Width = 758
       Height = 2
       Cursor = crVSplit
       Align = alBottom
@@ -59,8 +61,8 @@ object pamMainForm: TpamMainForm
       AlignWithMargins = True
       Left = 4
       Top = 4
-      Width = 779
-      Height = 50
+      Width = 752
+      Height = 104
       AutoSize = True
       ButtonHeight = 46
       ButtonWidth = 47
@@ -71,6 +73,8 @@ object pamMainForm: TpamMainForm
       List = True
       TabOrder = 0
       Visible = False
+      ExplicitWidth = 779
+      ExplicitHeight = 50
       object ToolButton17: TToolButton
         Left = 0
         Top = 0
@@ -98,92 +102,93 @@ object pamMainForm: TpamMainForm
         Action = fileSaveExperimentAction
       end
       object ToolButton12: TToolButton
-        Left = 149
+        Left = 0
         Top = 0
         Width = 8
         Caption = 'ToolButton12'
         ImageIndex = 11
+        Wrap = True
         Style = tbsSeparator
       end
       object ToolButton1: TToolButton
         AlignWithMargins = True
-        Left = 157
-        Top = 0
+        Left = 0
+        Top = 54
         Action = viewFrameAction
       end
       object ToolButton2: TToolButton
         AlignWithMargins = True
-        Left = 204
-        Top = 0
+        Left = 47
+        Top = 54
         Action = viewFoAction
       end
       object ToolButton3: TToolButton
         AlignWithMargins = True
-        Left = 251
-        Top = 0
+        Left = 94
+        Top = 54
         Action = viewFmAction
       end
       object ToolButton4: TToolButton
         AlignWithMargins = True
-        Left = 298
-        Top = 0
+        Left = 141
+        Top = 54
         Action = viewFtAction
       end
       object ToolButton5: TToolButton
         AlignWithMargins = True
-        Left = 345
-        Top = 0
+        Left = 188
+        Top = 54
         Action = viewFm1Action
       end
       object ToolButton6: TToolButton
         AlignWithMargins = True
-        Left = 392
-        Top = 0
+        Left = 235
+        Top = 54
         Action = viewFvAction
       end
       object ToolButton7: TToolButton
         AlignWithMargins = True
-        Left = 439
-        Top = 0
+        Left = 282
+        Top = 54
         Action = viewFv1Action
       end
       object ToolButton8: TToolButton
         AlignWithMargins = True
-        Left = 486
-        Top = 0
+        Left = 329
+        Top = 54
         Action = viewFq1Action
       end
       object ToolButton9: TToolButton
         AlignWithMargins = True
-        Left = 533
-        Top = 0
+        Left = 376
+        Top = 54
         Action = viewFo1Action
       end
       object ToolButton10: TToolButton
         AlignWithMargins = True
-        Left = 580
-        Top = 0
+        Left = 423
+        Top = 54
         Action = viewFvFm1Action
       end
       object ToolButton11: TToolButton
         AlignWithMargins = True
-        Left = 627
-        Top = 0
+        Left = 470
+        Top = 54
         Action = viewYII1Action
       end
       object ToolButton18: TToolButton
-        Left = 674
-        Top = 0
+        Left = 517
+        Top = 54
         Action = viewNPQ1Action
       end
       object ToolButton19: TToolButton
-        Left = 721
-        Top = 0
+        Left = 564
+        Top = 54
         Action = viewqN1Action
       end
       object ToolButton13: TToolButton
-        Left = 768
-        Top = 0
+        Left = 611
+        Top = 54
         Width = 8
         Caption = 'ToolButton13'
         ImageIndex = 11
@@ -192,21 +197,23 @@ object pamMainForm: TpamMainForm
     end
     object LeftDocPanel: TPanel
       Left = 1
-      Top = 57
+      Top = 111
       Width = 5
-      Height = 357
+      Height = 360
       Align = alLeft
       DockSite = True
       TabOrder = 1
       OnDockDrop = LeftDocPanelDockDrop
       OnDockOver = LeftDocPanelDockOver
       OnUnDock = LeftDocPanelUnDock
+      ExplicitTop = 57
+      ExplicitHeight = 357
     end
     object PhImage1: TPhImage
       Left = 9
-      Top = 57
-      Width = 686
-      Height = 357
+      Top = 111
+      Width = 659
+      Height = 360
       AutoMosaic = True
       ThumbWidht = 128
       ThumbHeight = 128
@@ -215,23 +222,29 @@ object pamMainForm: TpamMainForm
       ParentColor = False
       PopupMenu = PopupMenu2
       OnMouseMove = PhImage1MouseMove
+      ExplicitTop = 57
+      ExplicitWidth = 686
+      ExplicitHeight = 357
     end
     object RightDocPanel: TPanel
-      Left = 698
-      Top = 57
+      Left = 671
+      Top = 111
       Width = 5
-      Height = 357
+      Height = 360
       Align = alRight
       DockSite = True
       TabOrder = 3
       OnDockDrop = RightDocPanelDockDrop
       OnDockOver = RightDocPanelDockOver
       OnUnDock = RightDocPanelUnDock
+      ExplicitLeft = 698
+      ExplicitTop = 57
+      ExplicitHeight = 357
     end
     object BottomDocPanel: TPanel
       Left = 1
-      Top = 456
-      Width = 785
+      Top = 513
+      Width = 758
       Height = 8
       Align = alBottom
       DockSite = True
@@ -239,44 +252,52 @@ object pamMainForm: TpamMainForm
       OnDockDrop = BottomDocPanelDockDrop
       OnDockOver = BottomDocPanelDockOver
       OnUnDock = BottomDocPanelUnDock
+      ExplicitTop = 456
+      ExplicitWidth = 785
     end
     object PhPalette1: TPhPalette
-      Left = 703
-      Top = 57
+      Left = 676
+      Top = 111
       Width = 83
-      Height = 357
+      Height = 360
       Align = alRight
       PopupMenu = PopupMenu1
       Color = clGray
       MaxValue = 4096.000000000000000000
       TicksVisible = True
       PaletteType = phpalGrayscale
+      ExplicitLeft = 703
+      ExplicitTop = 57
+      ExplicitHeight = 357
     end
     object Panel2: TPanel
       Left = 1
-      Top = 416
-      Width = 785
+      Top = 473
+      Width = 758
       Height = 40
       Align = alBottom
       TabOrder = 6
       Visible = False
+      ExplicitTop = 416
+      ExplicitWidth = 785
       object PhTrackBar1: TPhTrackBar
         Left = 1
         Top = 1
-        Width = 783
+        Width = 756
         Height = 38
         Align = alClient
         ShowSelRange = False
         TabOrder = 0
         TickMarks = tmBoth
         OnChange = PhTrackBar1Change
+        ExplicitWidth = 783
       end
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 465
-    Width = 787
+    Top = 522
+    Width = 760
     Height = 19
     Panels = <
       item
@@ -298,6 +319,8 @@ object pamMainForm: TpamMainForm
         Bevel = pbRaised
         Width = 50
       end>
+    ExplicitTop = 465
+    ExplicitWidth = 787
   end
   object MainMenu1: TMainMenu
     Left = 528

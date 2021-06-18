@@ -53,6 +53,7 @@ public:		// User declarations
 	void __fastcall AddItem(TPam2ROI* item);
 	void __fastcall NewImage(awpImage* image);
 	void __fastcall ChangeItem(int index);
+	void __fastcall ChangeItem(TPam2ROI* item);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE Tpam2ROIForm *pam2ROIForm;

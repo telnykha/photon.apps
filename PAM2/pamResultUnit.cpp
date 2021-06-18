@@ -14,3 +14,13 @@ __fastcall Tpam2ResultForm::Tpam2ResultForm(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+void __fastcall Tpam2ResultForm::UpdateChart(TPam2ROI* roi)
+{
+	if (roi == NULL) {
+		return;
+	}
+	Series1->Clear();
+    Chart1->Title->Text->Clear();
+	Chart1->Title->Text->Add(roi->RoiType + L" : " + FormatFloat(L"####.#",roi->Area));
+}
+
