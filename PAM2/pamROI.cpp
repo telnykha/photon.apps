@@ -129,23 +129,23 @@ UnicodeString __fastcall TPam2ROI::GetRoiType()
 
 int __fastcall TPam2ROI::GetCount()
 {
-	return m_matrix.GetCount();
+	return m_Ft.GetCount();
 }
 
 void __fastcall TPam2ROI::GlearData()
 {
-	m_matrix.Clear();
+	m_Ft.Clear();
 }
 void __fastcall TPam2ROI::AddData(TPam2ROIData* data)
 {
-	m_matrix.Add(data);
+	m_Ft.Add(data);
 }
 TPam2ROIData* __fastcall TPam2ROI::GetData(int index)
 {
-	if (index < 0 || index >= m_matrix.GetCount()) {
+	if (index < 0 || index >= m_Ft.GetCount()) {
 		 return NULL;
 	}
-	return (TPam2ROIData*)m_matrix.Get(index);
+	return (TPam2ROIData*)m_Ft.Get(index);
 }
 
 

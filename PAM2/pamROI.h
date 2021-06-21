@@ -36,7 +36,20 @@ class TPam2ROI : public TLFObject
 protected:
 	TLFZone* 	m_zone;
 	TLFImage    m_mask;
-	TLFObjectList m_matrix;
+
+	TLFObjectList m_Fo;
+	TLFObjectList m_Fm;
+	TLFObjectList m_Ft;
+	TLFObjectList m_Fm1;
+	TLFObjectList m_Fv;
+	TLFObjectList m_Fv1;
+	TLFObjectList m_Fq1;
+	TLFObjectList m_Fo1;
+	TLFObjectList m_FvFm1;
+	TLFObjectList m_YII1;
+	TLFObjectList m_NPQ1;
+	TLFObjectList m_qN1;
+
 	// параметры
 	double       m_area;
 	double       m_min;
@@ -58,10 +71,11 @@ public:
 
    void __fastcall GlearData();
    void __fastcall AddData(TPam2ROIData* data);
+
    TPam2ROIData* __fastcall GetData(int index);
 
    __property TLFZone* zone = {read = m_zone};
-
+   // значения на текущем изображении
    __property double Area = {read = m_area};
    __property double Min = {read = m_min};
    __property double Max = {read = m_max};

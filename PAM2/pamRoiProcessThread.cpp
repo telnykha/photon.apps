@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "pamRoiProcessThread.h"
+#include "pamImageProcessor.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 
@@ -37,11 +38,14 @@ void __fastcall Tpam2RoiProcessThread::Execute()
 	awpImage* fo = NULL;
 	awpImage* fm = NULL;
 
+	TPam2ImageProcessor proc;
+
 	AnsiString strfo = m_pdoc->GetFoName();
 	AnsiString strfm = m_pdoc->GetFmName();
 
 	awpLoadImage(strfo.c_str(), &fo);
 	awpLoadImage(strfm.c_str(), &fm);
+	proc.SetFoFm(fo,fm);
 
 	for(int i = 0; i < m_pdoc->NumFrames; i++)
 	{
@@ -52,6 +56,37 @@ void __fastcall Tpam2RoiProcessThread::Execute()
 
 		awpLoadImage(strfo.c_str(), &ft);
 		awpLoadImage(strfm.c_str(), &fm1);
+		proc.SetFtFm1(ft,fm1);
+
+		awpImage* img = proc.GetFo();
+		awpReleaseImage(&img);
+
+		img = proc.GetFm();
+		awpReleaseImage(&img);
+
+		img = proc.GetFt();
+		awpReleaseImage(&img);
+
+		img = proc.GetFm1();
+		awpReleaseImage(&img);
+
+		img = proc.GetFv();
+		awpReleaseImage(&img);
+
+		img = proc.GetFv1();
+		awpReleaseImage(&img);
+
+		img = proc.GetFq1();
+		awpReleaseImage(&img);
+
+		img = proc.GetFo1();
+		awpReleaseImage(&img);
+
+		img = proc.GetYII1();
+		awpReleaseImage(&img);
+
+		img = proc.GetNPQ1();
+		awpReleaseImage(&img);
 
 
 		awpReleaseImage(&ft);

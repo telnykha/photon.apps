@@ -7,7 +7,7 @@
 //---------------------------------------------------------------------------
 typedef enum {TMRect, TMCircle, TMContour} EPam2ToolModes;
 typedef void __fastcall (__closure *TPhAddRoiEvent)(System::TObject* Sender, TPam2ROI* item);
-typedef void __fastcall (__closure *TPhChangeRoiEvent)(System::TObject* Sender, int index);
+typedef void __fastcall (__closure *TPhChangeRoiEvent)(System::TObject* Sender, int index, bool update);
 
 class PACKAGE TPhPam2RoiTool : public TPhImageTool
 {
@@ -27,7 +27,7 @@ protected:
 	double _2D_Dist(double x1,double y1,double x2,double y2);
 	bool   _is_near_vertex(int X, int Y, int& idx1, int& idx2);
 	TPoint GetRectPoint(int index, TRect& rect);
-	void __fastcall SetVertex(int x, int y);
+	void __fastcall SetVertex(int x, int y, bool update);
 	TRect __fastcall GetBoundsRect(TLFZone* zone);
 	int __fastcall GetRoiCount();
 	void __fastcall SetSelected(int value);

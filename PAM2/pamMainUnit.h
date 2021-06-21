@@ -420,7 +420,7 @@ protected:
 	void __fastcall InitHardware();
 	UnicodeString  __fastcall NextCommand();
 	void __fastcall AddRoi(TObject* sender, TPam2ROI* item);
-	void __fastcall ChangeRoi(TObject* sender,  int index);
+	void __fastcall ChangeRoi(TObject* sender,  int index, bool update);
 public:		// User declarations
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);

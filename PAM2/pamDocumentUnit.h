@@ -8,6 +8,8 @@
 #include "pamFrameUnit.h"
 #include "TinyXml.h"
 #include "pamROI.h"
+#include "pamImageProcessor.h"
+
 
 class TPam2Document
 {
@@ -23,6 +25,8 @@ protected:
 	TPam2Frame  m_FoFm;
 	TPam2Frame  m_FtFm1;
 	TiXmlDocument m_doc;
+
+    TPam2ImageProcessor m_proc;
 
 	int m_numFrames;
 	int m_currentFrame;

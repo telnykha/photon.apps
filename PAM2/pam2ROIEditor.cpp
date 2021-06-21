@@ -136,7 +136,7 @@ bool   TPhPam2RoiTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 	return res;
 }
 
-void __fastcall TPhPam2RoiTool::SetVertex(int x, int y)
+void __fastcall TPhPam2RoiTool::SetVertex(int x, int y, bool update)
 {
    TPam2ROI* item = (TPam2ROI*)m_rois.Get(m_si);
    TPoint p = m_pImage->GetImagePoint(x, y);
@@ -192,7 +192,7 @@ void __fastcall TPhPam2RoiTool::SetVertex(int x, int y)
 	 }
 	 item->SetZone(z);
 	 if (this->m_OnChangeRoi) {
-		 this->OnChangeRoi(this, m_si);
+		 this->OnChangeRoi(this, m_si, update);
 	 }
 	 delete z;
    }
@@ -495,7 +495,8 @@ void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 				awp2DPoint p2d = this->Get2DPoint(X,Y);
 				m_newZone->GetLineSegmnet()->SetFihish(p2d);
 		 }
-		 if (m_mode != TMContour) {
+		 if (m_mode != TMContour)
+		 {
 			 // добавляем новый элемент, ли это не контур
 			 this->AddNewRoi();
 		 }
@@ -505,23 +506,25 @@ void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 			awp2DPoint p2d = this->Get2DPoint(X,Y);
 			m_newZone->GetContour()->AddPoint(p2d);
 		 }
+
+		  m_pImage->Paint();
+		  m_down = false;
+
 	  }
 	  else
 	  {
 		// process vertex
 		//m_descriptor.SaveXML(m_strName.c_str());
-		//if (this->m_OnChange != NULL)
-        //    m_OnChange(this);
+		 if (this->m_OnChangeRoi) {
+			 this->OnChangeRoi(this, m_si, true);
 	  }
-
-	  m_pImage->Paint();
-	  m_down = false;
+   }
    }
   else if (Button == mbRight && m_mode == TMContour)
   {
 	 // Добавляем контур
 	 this->AddNewRoi();
-     m_pImage->Paint();
+	 m_pImage->Paint();
   }
 }
 void TPhPam2RoiTool::MouseMove(int X, int Y, TShiftState Shift)
@@ -563,7 +566,7 @@ void TPhPam2RoiTool::MouseMove(int X, int Y, TShiftState Shift)
 	   else
 	   {
 			// process vertex
-			this->SetVertex(X,Y);
+			this->SetVertex(X,Y, false);
 	   }
 	   m_pImage->Paint();
    }

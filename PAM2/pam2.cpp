@@ -6,17 +6,17 @@
 //---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
-USEFORM("pamResultUnit.cpp", pam2ResultForm);
 USEFORM("pamOptionsUnit.cpp", pam2OptionsForm);
-USEFORM("pamMainUnit.cpp", pamMainForm);
+USEFORM("pamResultUnit.cpp", pam2ResultForm);
 USEFORM("pamLongProcessUnit.cpp", LongProcessForm);
-USEFORM("pamTimeLineUnit.cpp", pam2TimeLineForm);
+USEFORM("pamMainUnit.cpp", pamMainForm);
 USEFORM("pamSplashUnit.cpp", pamSplashForm);
+USEFORM("pamTimeLineUnit.cpp", pam2TimeLineForm);
 USEFORM("pamScriptUnit.cpp", pam2ScriptForm);
-USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
 USEFORM("pamAboutUnit.cpp", AboutBox);
 USEFORM("pamConsoleUnit.cpp", ConsoleForm);
 USEFORM("pamExperimentUnit.cpp", pam2ExperimentForm);
+USEFORM("pamHardwareUnit.cpp", pam2HardwareForm);
 USEFORM("pamDistributionUnit.cpp", pam2ROIForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)

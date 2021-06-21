@@ -281,31 +281,35 @@ awpImage* TPam2Document::GetFrame()
 
 awpImage* TPam2Document::GetFo()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 	awpCopyImage(m_FoFm.Frame0, &result);
-	return result;
+	return result;*/
+	return m_proc.GetFo();
 }
 awpImage* TPam2Document::GetFm()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 	awpCopyImage(m_FoFm.Frame1, &result);
-	return result;
+	return result;*/
+	return m_proc.GetFm();
 }
 awpImage* TPam2Document::GetFt()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 	awpCopyImage(m_FtFm1.Frame0, &result);
-	return result;
+	return result;*/
+	return m_proc.GetFt();
 }
 awpImage* TPam2Document::GetFm1()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 	awpCopyImage(m_FtFm1.Frame1, &result);
-	return result;
+	return result;*/
+    return m_proc.GetFm1();
 }
 awpImage* TPam2Document::GetFv()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 
 	awpImage* Fo = m_FoFm.Frame0;
 	awpImage* Fm = m_FoFm.Frame1;
@@ -320,11 +324,12 @@ awpImage* TPam2Document::GetFv()
 		_result[i] = _Fm[i] - _Fo[i];
 	}
 
-	return result;
+	return result;*/
+	return m_proc.GetFv();
 }
 awpImage* TPam2Document::GetFv1()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 
 	awpImage* Fo = this->GetFo1();
 	awpImage* Fm = m_FtFm1.Frame1;
@@ -339,11 +344,12 @@ awpImage* TPam2Document::GetFv1()
 		_result[i] = _Fm[i] - _Fo[i];
 	}
 	awpReleaseImage(&Fo);
-	return result;
+	return result; */
+	return m_proc.GetFv1();
 }
 awpImage* TPam2Document::GetFq1()
 {
-	awpImage* result = NULL;
+ /*	awpImage* result = NULL;
 
 	awpImage* Ft = m_FtFm1.Frame0;
 	awpImage* Fm1 = m_FtFm1.Frame1;
@@ -358,11 +364,12 @@ awpImage* TPam2Document::GetFq1()
 		_result[i] = _Fm1[i] - _Ft[i];
 	}
 
-	return result;
+	return result;        */
+	return m_proc.GetFq1();
 }
 awpImage* TPam2Document::GetFo1()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 
 	awpImage* Fo = m_FoFm.Frame0;
 	awpImage* Fm = m_FoFm.Frame1;
@@ -389,11 +396,12 @@ awpImage* TPam2Document::GetFo1()
 		_result[i] = _Fo[i] /c;
 	}
 	awpReleaseImage(&Fv);
-	return result;
+	return result;  */
+	return m_proc.GetFo1();
 }
 awpImage* TPam2Document::GetFvFm1()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 
 	awpImage* Fv1 = this->GetFv1();
 	awpImage* Fm1 = m_FtFm1.Frame1;
@@ -408,11 +416,12 @@ awpImage* TPam2Document::GetFvFm1()
 		_result[i] = _Fv1[i] / (_Fm1[i] + 0.0001);
 	}
 	awpReleaseImage(&Fv1);
-	return result;
+	return result;     */
+	return m_proc.GetFvFm1();
 }
 awpImage* TPam2Document::GetYII1()
 {
-	awpImage* result = NULL;
+ /*	awpImage* result = NULL;
 
 	awpImage* Fq1 = this->GetFq1();
 	awpImage* Fm1 = m_FtFm1.Frame1;
@@ -429,13 +438,14 @@ awpImage* TPam2Document::GetYII1()
 		_result[i] = _Fq1[i] / a;
 	}
 	awpReleaseImage(&Fq1);
-	return result;
+	return result;  */
+	return m_proc.GetYII1();
 
 }
 
 awpImage* TPam2Document::GetNPQ1()
 {
-	awpImage* result = NULL;
+/*	awpImage* result = NULL;
 
 	awpImage* Fm = m_FoFm.Frame1;
 	awpImage* Fm1 = m_FtFm1.Frame1;
@@ -451,10 +461,12 @@ awpImage* TPam2Document::GetNPQ1()
 		if (a == 0) a = 0.1;
 		_result[i] = (_Fm[i] - _Fm1[i])/a;
 	}
-	return result;
+	return result; */
+	return m_proc.GetNPQ1();
 }
 awpImage* TPam2Document::GetqN1()
 {
+ /*
 	awpImage* result = NULL;
 
 	awpImage* Fm = m_FoFm.Frame1;
@@ -472,7 +484,8 @@ awpImage* TPam2Document::GetqN1()
 		_result[i] = (_Fm[i] - _Fm1[i])/(_Fm[i] - _Fo1[i]);
 	}
     awpReleaseImage(&Fo1);
-	return result;
+	return result;*/
+    return m_proc.GetqN1();
 }
 
 
@@ -535,6 +548,7 @@ void __fastcall TPam2Document::SetFoFmBuffer(TPamImageBuffer* buffer)
 	}
 	m_fofmBuffer = new TPamImageBuffer(*buffer);
 	m_FoFm.SetBuffer(m_fofmBuffer);
+	m_proc.FoFm = &m_FoFm;
 	::SendMessage(pamMainForm->Handle, WM_USER+1, 0,0);
 	m_numFrames = 1;
 }
@@ -547,6 +561,7 @@ void __fastcall TPam2Document::SetFtFm1Buffer(TPamImageBuffer* buffer)
 	}
 	m_ftfm1Buffer = new TPamImageBuffer(*buffer);
 	m_FtFm1.SetBuffer(m_ftfm1Buffer);
+    m_proc.FtFm1 = &m_FtFm1;
 	if (m_numFrames == 1)
 	{
 		m_numFrames = 2;
@@ -656,6 +671,7 @@ void __fastcall TPam2Document::First()
    awpLoadImage(ftFileName.c_str(), &img0);
    awpLoadImage(fmFileName.c_str(), &img1);
    m_FoFm.SetFrames(img0, img1);
+   m_proc.SetFoFm(img0, img1);
 
    _AWP_SAFE_RELEASE_(img0)
    _AWP_SAFE_RELEASE_(img1)
@@ -669,6 +685,7 @@ void __fastcall TPam2Document::First()
    awpLoadImage(ftFileName.c_str(), &img0);
    awpLoadImage(fmFileName.c_str(), &img1);
    m_FtFm1.SetFrames(img0, img1);
+   m_proc.SetFtFm1(img0, img1);
 
    _AWP_SAFE_RELEASE_(img0)
    _AWP_SAFE_RELEASE_(img1)
@@ -724,6 +741,7 @@ void __fastcall TPam2Document::LoadFtFm1()
    awpLoadImage(ftFileName.c_str(), &img0);
    awpLoadImage(fmFileName.c_str(), &img1);
    m_FtFm1.SetFrames(img0, img1);
+   m_proc.SetFtFm1(img0, img1);
 
    _AWP_SAFE_RELEASE_(img0)
    _AWP_SAFE_RELEASE_(img1)

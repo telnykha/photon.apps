@@ -195,6 +195,10 @@
             <DependentOn>pamImageBufferUnit.h</DependentOn>
             <BuildOrder>16</BuildOrder>
         </CppCompile>
+        <CppCompile Include="pamImageProcessor.cpp">
+            <DependentOn>pamImageProcessor.h</DependentOn>
+            <BuildOrder>24</BuildOrder>
+        </CppCompile>
         <CppCompile Include="pamLongProcessUnit.cpp">
             <Form>LongProcessForm</Form>
             <FormType>dfm</FormType>
@@ -253,17 +257,17 @@
             <DependentOn>PhTime.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
-        <FormResources Include="pamResultUnit.dfm"/>
         <FormResources Include="pamOptionsUnit.dfm"/>
-        <FormResources Include="pamMainUnit.dfm"/>
+        <FormResources Include="pamResultUnit.dfm"/>
         <FormResources Include="pamLongProcessUnit.dfm"/>
-        <FormResources Include="pamTimeLineUnit.dfm"/>
+        <FormResources Include="pamMainUnit.dfm"/>
         <FormResources Include="pamSplashUnit.dfm"/>
+        <FormResources Include="pamTimeLineUnit.dfm"/>
         <FormResources Include="pamScriptUnit.dfm"/>
-        <FormResources Include="pamHardwareUnit.dfm"/>
         <FormResources Include="pamAboutUnit.dfm"/>
         <FormResources Include="pamConsoleUnit.dfm"/>
         <FormResources Include="pamExperimentUnit.dfm"/>
+        <FormResources Include="pamHardwareUnit.dfm"/>
         <FormResources Include="pamDistributionUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
