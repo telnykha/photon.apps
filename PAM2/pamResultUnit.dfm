@@ -44,6 +44,8 @@ object pam2ResultForm: Tpam2ResultForm
       Width = 569
       Height = 121
       Legend.Visible = False
+      Title.Text.Strings = (
+        'TChart')
       BottomAxis.Axis.Color = clGray
       BottomAxis.Grid.Visible = False
       BottomAxis.LabelsFormat.Font.Color = clGray

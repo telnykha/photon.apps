@@ -62,6 +62,9 @@ void __fastcall Tpam2ROIForm::NewImage(awpImage* image)
 		int idx = i+1;
 		this->SetItem(idx, roi);
 	}
+	// обновим график результатов
+    int index =  StringGrid1->Row;
+	pam2ResultForm->UpdateChart(rt->GetRoi(index-1));
 }
 
 void __fastcall Tpam2ROIForm::ChangeItem(int index)

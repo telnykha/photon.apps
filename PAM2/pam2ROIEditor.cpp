@@ -517,8 +517,9 @@ void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 		//m_descriptor.SaveXML(m_strName.c_str());
 		 if (this->m_OnChangeRoi) {
 			 this->OnChangeRoi(this, m_si, true);
+		 }
+         m_down = false;
 	  }
-   }
    }
   else if (Button == mbRight && m_mode == TMContour)
   {

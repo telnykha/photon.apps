@@ -598,6 +598,16 @@ void __fastcall TpamMainForm::SetPicture(awpImage* img)
 
 void __fastcall TpamMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
+	if (m_pam2Doc.notSaved)
+	{
+		if (Application->MessageBoxW(L"Документ содержит измерения, которые не были сохранены.\n\
+		 Сохранить документ?", L"PAM2",  MB_YESNO) == IDYES)
+		{
+			//save helper
+			this->SaveAsHelper();
+		}
+	}
+
 	if (this->m_hardware_ready) {
 		ExecuteCommand(L"OFF");
 		BUFCCDUSB_StopFrameGrab();
@@ -1365,6 +1375,7 @@ void __fastcall TpamMainForm::SetViewSource(EPam2ViewSource source)
 {
    m_viewSource = source;
    // обновляем экран
+
   UpdateScreen();
 }
 
@@ -1423,7 +1434,13 @@ void __fastcall TpamMainForm::UpdateScreen()
 		awpCopyImage(img, &_img);
 		awpCopyImage(img, &this->m_screenSource);
 		//
-
+		double* min = NULL;
+		double* max = NULL;
+		awpMinMax(m_screenSource, &min, &max);
+		PhPalette1->MinValue = min[0];
+		PhPalette1->MaxValue = max[0] ;
+		free(min);
+		free(max);
 
 		awpConvert(_img, AWP_CONVERT_TO_BYTE_WITH_NORM);
 		this->SetPicture(_img);
@@ -1783,9 +1800,14 @@ void __fastcall TpamMainForm::ChangeRoi(TObject* sender, int index, bool update)
 	}
 	// получим информацию с изображения
 	roi->Calculate(m_screenSource);
-	pam2ROIForm->ChangeItem(index);
+
 	if (update) {
+        roi->Locked = true;
+		pam2ROIForm->ChangeItem(index);
 		this->m_pam2Doc.ProcessRoi(roi);
 	}
+	else
+		pam2ROIForm->ChangeItem(index);
+
 }
 

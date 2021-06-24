@@ -53,7 +53,6 @@ object pam2ExperimentForm: Tpam2ExperimentForm
       Action = pamMainForm.toolsStopExperimentAction
       Align = alBottom
       TabOrder = 0
-      OnClick = Button1Click
     end
     object Button2: TButton
       AlignWithMargins = True
@@ -128,10 +127,10 @@ object pam2ExperimentForm: Tpam2ExperimentForm
         Width = 131
         Height = 46
         Align = alClient
-        Max = 30
-        Min = 2
-        Frequency = 5
-        Position = 2
+        Max = 500
+        Min = 5
+        Frequency = 50
+        Position = 5
         ShowSelRange = False
         TabOrder = 0
         TickMarks = tmBoth
@@ -151,8 +150,8 @@ object pam2ExperimentForm: Tpam2ExperimentForm
           Top = 16
           Width = 53
           Height = 22
-          MaxValue = 30
-          MinValue = 2
+          MaxValue = 500
+          MinValue = 5
           TabOrder = 0
           Value = 2
           OnChange = SpinEdit1Change

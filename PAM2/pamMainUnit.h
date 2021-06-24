@@ -459,6 +459,7 @@ public:		// User declarations
 	__property int LFlash = {read= m_lflash, write = SetFlash};
 
 	__property TPhPam2RoiTool* RoiTool = {read = m_roiTool};
+	__property EPam2ViewSource ViewSource = {read = m_viewSource};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TpamMainForm *pamMainForm;
