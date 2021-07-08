@@ -63,7 +63,7 @@ void __fastcall Tpam2ROIForm::NewImage(awpImage* image)
 		this->SetItem(idx, roi);
 	}
 	// обновим график результатов
-    int index =  StringGrid1->Row;
+	int index =  StringGrid1->Row;
 	pam2ResultForm->UpdateChart(rt->GetRoi(index-1));
 }
 
@@ -149,23 +149,23 @@ void __fastcall Tpam2ROIForm::DeleteRecord(int index)
 	  SNDMSG(m_grid->Handle, WM_SETREDRAW, false, 0);
       try
       {
-        const int row_count = m_grid->RowCount;
+		const int row_count = m_grid->RowCount;
 
-        // (1) shift the contents of the trailing columns
-        for (int row = index; row < row_count - 1; ++row)
-        {
-          m_grid->Rows[row] = m_grid->Rows[row + 1];
-        }
+		// (1) shift the contents of the trailing columns
+		for (int row = index; row < row_count - 1; ++row)
+		{
+		  m_grid->Rows[row] = m_grid->Rows[row + 1];
+		}
 
-        // (2) remove the last column
-        m_grid->RowCount = row_count -1;
-      }
-      __finally
-      {
+		// (2) remove the last column
+		m_grid->RowCount = row_count -1;
+	  }
+	  __finally
+	  {
 		SNDMSG(m_grid->Handle, WM_SETREDRAW, true, 0);
-      }
+	  }
 
-      // update (repaint) the shifted cols
+	  // update (repaint) the shifted cols
       RECT R = m_grid->CellRect(0, index);
       InflateRect(&R, m_grid->Width, m_grid->Height);
 	  InvalidateRect(m_grid->Handle, &R, false);

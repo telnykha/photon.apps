@@ -69,18 +69,21 @@ bool   TPhPam2RoiTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 
    if (m_pImage == NULL)
 		return res;
+   if (m_selected == -1) {
+	   return res;
+   }
 
    TPoint p = m_pImage->GetImagePoint(X, Y);
 
-	for (int i = 0; i < m_rois.GetCount(); i++)
+//	for (int i = 0; i < m_rois.GetCount(); i++)
 	{
-		TPam2ROI* item = (TPam2ROI*)m_rois.Get(i);
+		TPam2ROI* item = (TPam2ROI*)m_rois.Get(m_selected);
 		if (item != NULL)
 		{
 			TLFZone* z = item->zone;
 			if (z != NULL)
 			{
-				 if (z->GetZoneType() == ZTRect && m_mode == TMRect)
+				 if (z->GetZoneType() == ZTRect/* && m_mode == TMRect*/)
 				 {
 					TRect rect = GetBoundsRect(z);
 					for (int j = 0; j < 4; j++)
@@ -89,13 +92,13 @@ bool   TPhPam2RoiTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 						if  (_2D_Dist(vertex.x, vertex.y, p.x, p.y) < 4)//
 						{
 						   res = true;
-						   idx1 = i;
+						   idx1 = m_selected;
 						   idx2 = j;
 						   break;
 						}
 					}
 				 }
-				 else if (z->GetZoneType() == ZTCircle && m_mode == TMCircle)
+				 else if (z->GetZoneType() == ZTCircle/* && m_mode == TMCircle*/)
 				 {
 					 awp2DPoint p1;
 					 awp2DPoint p2;
@@ -114,20 +117,39 @@ bool   TPhPam2RoiTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 						if  (_2D_Dist(_p1.x, _p1.y, p.x, p.y) < 4)//
 						{
 						   res = true;
-						   idx1 = i;
+						   idx1 = m_selected;
 						   idx2 = 0;
-						   break;
+						   //break;
 						}
 
 						if  (_2D_Dist(_p2.x, _p2.y, p.x, p.y) < 4)//
 						{
 						   res = true;
-						   idx1 = i;
+						   idx1 = m_selected;
 						   idx2 = 1;
-						   break;
+						   // break;
 						}
 
-					 res = false;
+					// res = false;
+				 }
+				 else if (z->GetZoneType() == ZTContour)
+				 {
+
+					for (int j = 0; j < z->GetContour()->GetNumPoints(); j++)
+					{
+						awp2DPoint s = z->GetContour()->GetPoint(j);
+						TPoint _p;
+						_p.x = s.X * m_pImage->Bitmap->Width / 100;
+						_p.y = s.Y * m_pImage->Bitmap->Height / 100;
+						if  (_2D_Dist(_p.x, _p.y, p.x, p.y) < 4)//
+						{
+						   res = true;
+						   idx1 = m_selected;
+						   idx2 = j;
+						   // break;
+						}
+
+					}
 				 }
 				// delete z;
 			}
@@ -143,7 +165,7 @@ void __fastcall TPhPam2RoiTool::SetVertex(int x, int y, bool update)
    if (item)
    {
 	 TLFZone* z = new TLFZone(*item->zone);
-	 if (z == NULL || (z->GetZoneType() == ZTRect && m_mode == TMRect))
+	 if (z == NULL || (z->GetZoneType() == ZTRect /*&& m_mode == TMRect*/))
 	 {
 		 TRect rect = this->GetBoundsRect(z);
 		 if (m_sv == 0)
@@ -175,7 +197,7 @@ void __fastcall TPhPam2RoiTool::SetVertex(int x, int y, bool update)
 		 y2 = 100.*_rect.bottom / (double)m_pImage->Bitmap->Height;
 		 _r->SetVertexes(x1,x2,y1,y2);
 	 }
-	 else if (z->GetZoneType() == ZTCircle && m_mode == TMCircle)
+	 else if (z->GetZoneType() == ZTCircle /*&& m_mode == TMCircle*/)
 	 {
 		   awp2DPoint p1;
 		   p1.X = 100.0*p.x /(double) m_pImage->Bitmap->Width;
@@ -190,7 +212,13 @@ void __fastcall TPhPam2RoiTool::SetVertex(int x, int y, bool update)
 			}
 
 	 }
-	 item->SetZone(z);
+	 else if (z->GetZoneType() == ZTContour) {
+		   awp2DPoint p1;
+		   p1.X = 100.0*p.x /(double) m_pImage->Bitmap->Width;
+		   p1.Y = 100.0*p.y /(double) m_pImage->Bitmap->Height;
+           z->GetContour()->SetPoint(m_sv, p1);
+		  }
+	 item->SetZone(z, update);
 	 if (this->m_OnChangeRoi) {
 		 this->OnChangeRoi(this, m_si, update);
 	 }
@@ -219,7 +247,7 @@ void TPhPam2RoiTool::Draw(TCanvas* Canvas)
 		{
 			Canvas->Pen->Width = 1;
 			Canvas->Pen->Color = clLime;
-            Canvas->Brush->Color = clLime;
+			Canvas->Brush->Color = clLime;
 		}
 		else
 		{
@@ -455,7 +483,7 @@ void TPhPam2RoiTool::MouseDown(int X, int Y, TMouseButton Button)
 void __fastcall TPhPam2RoiTool::AddNewRoi()
 {
 	 if (m_newZone == NULL) {
-        return;
+		return;
 	 }
 
 	 TPam2ROI* roi = new TPam2ROI() ;
@@ -518,7 +546,7 @@ void TPhPam2RoiTool::MouseUp(int X, int Y, TMouseButton Button)
 		 if (this->m_OnChangeRoi) {
 			 this->OnChangeRoi(this, m_si, true);
 		 }
-         m_down = false;
+		 m_down = false;
 	  }
    }
   else if (Button == mbRight && m_mode == TMContour)
@@ -612,6 +640,54 @@ void __fastcall TPhPam2RoiTool::DeleteRoi(int index)
 		return;
 	}
 	m_rois.Delete(index);
-    m_pImage->Paint();
+	m_pImage->Paint();
 }
+
+bool __fastcall TPhPam2RoiTool::SaveRois(const UnicodeString fileName)
+{
+	TiXmlDocument doc;
+	doc.Clear();
+	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "windows-1251", "" );
+	doc.LinkEndChild( decl );
+	TiXmlNode* node = new TiXmlElement("pam2roi");
+	doc.LinkEndChild( node );
+	TiXmlElement* e = node->ToElement();
+
+	for (int i = 0; i < m_rois.GetCount(); i++)
+	{
+		TPam2ROI* roi = (TPam2ROI*)m_rois.Get(i);
+		TLFZone* z = roi->zone;
+		if (z != NULL)
+		{
+            z->SaveXML(e);
+		}
+	}
+
+
+	AnsiString _ansi = fileName;
+	doc.SaveFile(_ansi.c_str());
+}
+
+bool __fastcall TPhPam2RoiTool::LoadRoi(const UnicodeString fileName)
+{
+	AnsiString _ansi = fileName;
+	TiXmlDocument doc;
+
+	if (!doc.LoadFile(_ansi.c_str()))
+		return false;
+	TiXmlNode* node = doc.GetDocument()->FirstChild("pam2roi");
+	if (node == NULL)
+		return false;
+	m_rois.Clear();
+
+	for(TiXmlNode* child = node->FirstChild("TLFZone"); child; child = child->NextSibling() )
+	{
+		m_newZone = new TLFZone();
+		if (m_newZone->LoadXML(child->ToElement())) {
+			this->AddNewRoi();
+		}
+	}
+
+}
+
 

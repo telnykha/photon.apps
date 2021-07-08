@@ -1304,7 +1304,7 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 {
 	ModePaneActionExecute(NULL);
 	AnsiString str = DirectoryListBox1->Directory;
-/*
+
 	// open database
 
 	OpenDatabase(str.c_str());
@@ -1312,7 +1312,7 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 	{
 		FragmentForm->ChangeDictonary();
 	}
-*/
+
 }
 //---------------------------------------------------------------------------
 

@@ -204,7 +204,7 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 	m_hardware_ready = true;
 	try
 	{
-		Comm1->DeviceName = L"COM8";
+		Comm1->DeviceName = L"COM5";
 		Comm1->Open();
 		Comm1->SetRTSState(true);
 		Comm1->SetDTRState(true);
@@ -301,7 +301,7 @@ void __fastcall TpamMainForm::windowResultActionExecute(TObject *Sender)
 
 void __fastcall TpamMainForm::windowResultActionUpdate(TObject *Sender)
 {
-    windowResultAction->Enabled = m_mode == pam2Analysis;
+//    windowResultAction->Enabled = m_mode == pam2Analysis;
 	windowResultAction->Checked = pam2ResultForm->Visible;
 }
 //---------------------------------------------------------------------------
@@ -396,10 +396,13 @@ void __fastcall TpamMainForm::toolsStartExperimetActionUpdate(TObject *Sender)
 
 void __fastcall TpamMainForm::toolsStopExperimentActionExecute(TObject *Sender)
 {
+	m_pam2Doc.EndRecording();
+	SaveAsHelper();
+
 	pam2ExperimentForm->Gauge1->Progress = 0;
 	this->SetMode(pam2Tuning);
 	Timer1->Enabled = false;
-    m_pam2Doc.AbortRecording();
+	m_pam2Doc.AbortRecording();
 }
 //---------------------------------------------------------------------------
 
@@ -785,8 +788,24 @@ void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
 		this->ExecuteCommand(L"FTFM1");
 	m_currentFlash++;
 	pam2ExperimentForm->Gauge1->Progress = (100*m_currentFlash)/m_numFlashes;
+
+	if (pamMainForm->Mode == pam2Capture)
+	{
+		TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+		if (tool != NULL)
+		{
+			int index =  pam2ROIForm->StringGrid1->Row-1;
+			if (index >= 0) {
+				pam2ResultForm->Chart1->Series[0]->Add(tool->GetRoi(index)->Avg);
+				pam2ResultForm->Chart1->Refresh();
+			}
+		}
+	}
+
+
 	if (m_currentFlash > m_numFlashes)
 	{
+        this->ExecuteCommand(L"OFF");
 		Timer1->Enabled = false;
 		ConsoleForm->Memo1->Lines->Add("[PAM2@INFO:] Завершение измерений.");
 		pam2ExperimentForm->Gauge1->Progress = 0;
@@ -1547,7 +1566,7 @@ void __fastcall TpamMainForm::PhTrackBar1Change(TObject *Sender)
 
 void __fastcall TpamMainForm::fileSaveAsActionExecute(TObject *Sender)
 {
-    SaveAsHelper();
+	SaveAsHelper();
 }
 //---------------------------------------------------------------------------
 
@@ -1810,4 +1829,44 @@ void __fastcall TpamMainForm::ChangeRoi(TObject* sender, int index, bool update)
 		pam2ROIForm->ChangeItem(index);
 
 }
+
+void __fastcall TpamMainForm::fileSaveRoiActionExecute(TObject *Sender)
+{
+	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+	if (tool == NULL) {
+		return;
+	}
+
+	if (SaveDialog2->Execute()) {
+		tool->SaveRois(SaveDialog2->FileName);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::fileSaveRoiActionUpdate(TObject *Sender)
+{
+	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+	fileSaveRoiAction->Enabled = tool != NULL && !PhImage1->Bitmap->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::fileLoadRoiActionExecute(TObject *Sender)
+{
+	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+	if (tool == NULL) {
+		return;
+	}
+	if(OpenDialog2->Execute())
+	{
+		tool->LoadRoi(OpenDialog2->FileName);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TpamMainForm::fileLoadRoiActionUpdate(TObject *Sender)
+{
+	TPhPam2RoiTool* tool = dynamic_cast< TPhPam2RoiTool*>(PhImage1->PhTool);
+	fileLoadRoiAction->Enabled = tool != NULL && !PhImage1->Bitmap->Empty;
+}
+//---------------------------------------------------------------------------
 

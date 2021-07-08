@@ -212,6 +212,16 @@ __published:	// IDE-managed Components
 	TAction *imageZoomPaneAction;
 	TMenuItem *N58;
 	TMenuItem *N53;
+	TAction *fileSaveRoiAction;
+	TSaveDialog *SaveDialog2;
+	TOpenDialog *OpenDialog2;
+	TAction *fileLoadRoiAction;
+	TMenuItem *N54;
+	TMenuItem *ROI1;
+	TMenuItem *ROI2;
+	TMenuItem *N55;
+	TMenuItem *ROI3;
+	TMenuItem *ROI4;
 	void __fastcall filesCloseActionExecute(TObject *Sender);
 	void __fastcall LeftDocPanelDockOver(TObject *Sender, TDragDockObject *Source, int X,
           int Y, TDragState State, bool &Accept);
@@ -354,6 +364,10 @@ __published:	// IDE-managed Components
 	void __fastcall imageSaveActionUpdate(TObject *Sender);
 	void __fastcall imageZoomPaneActionExecute(TObject *Sender);
 	void __fastcall imageZoomPaneActionUpdate(TObject *Sender);
+	void __fastcall fileSaveRoiActionExecute(TObject *Sender);
+	void __fastcall fileSaveRoiActionUpdate(TObject *Sender);
+	void __fastcall fileLoadRoiActionExecute(TObject *Sender);
+	void __fastcall fileLoadRoiActionUpdate(TObject *Sender);
 
 
 
@@ -415,7 +429,6 @@ protected:
 	TPam2Document* __fastcall GetDocument();
 	void __fastcall SetDutyСycle(int value);
 	int __fastcall GetCaptureDuration();
-	bool __fastcall SaveAsHelper();
 
 	void __fastcall InitHardware();
 	UnicodeString  __fastcall NextCommand();
@@ -439,6 +452,10 @@ public:		// User declarations
 	void __fastcall SetPicture(awpImage* img);
 	void __fastcall UpdateScreen();
 	void __fastcall CancelScript();
+
+	bool __fastcall SaveAsHelper();
+
+
 	__property TPam2Document* doc = {read = GetDocument};
 
 	// параметры эксперимента

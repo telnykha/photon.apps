@@ -324,6 +324,15 @@ object pamMainForm: TpamMainForm
         Action = fileCloseExperimentAction
         Visible = False
       end
+      object N54: TMenuItem
+        Caption = '-'
+      end
+      object ROI1: TMenuItem
+        Action = fileSaveRoiAction
+      end
+      object ROI2: TMenuItem
+        Action = fileLoadRoiAction
+      end
       object N25: TMenuItem
         Caption = '-'
       end
@@ -824,6 +833,18 @@ object pamMainForm: TpamMainForm
       Caption = #1056#1077#1078#1080#1084' '#1087#1088#1086#1089#1084#1086#1090#1088#1072
       OnExecute = imageZoomPaneActionExecute
       OnUpdate = imageZoomPaneActionUpdate
+    end
+    object fileSaveRoiAction: TAction
+      Category = 'Files'
+      Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' ROI...'
+      OnExecute = fileSaveRoiActionExecute
+      OnUpdate = fileSaveRoiActionUpdate
+    end
+    object fileLoadRoiAction: TAction
+      Category = 'Files'
+      Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' ROI...'
+      OnExecute = fileLoadRoiActionExecute
+      OnUpdate = fileLoadRoiActionUpdate
     end
   end
   object Comm1: TComm
@@ -3427,5 +3448,24 @@ object pamMainForm: TpamMainForm
     object N57: TMenuItem
       Action = imageSaveAction
     end
+    object N55: TMenuItem
+      Caption = '-'
+    end
+    object ROI3: TMenuItem
+      Action = fileLoadRoiAction
+    end
+    object ROI4: TMenuItem
+      Action = fileSaveRoiAction
+    end
+  end
+  object SaveDialog2: TSaveDialog
+    Filter = #1054#1073#1083#1072#1089#1090#1080' '#1080#1085#1090#1077#1088#1077#1089#1072'|*.pam2r'
+    Left = 496
+    Top = 208
+  end
+  object OpenDialog2: TOpenDialog
+    Filter = #1054#1073#1083#1072#1089#1090#1080' '#1080#1085#1090#1077#1088#1077#1089#1072'|*.pam2r'
+    Left = 536
+    Top = 208
   end
 end

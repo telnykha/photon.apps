@@ -140,7 +140,7 @@ protected:
 public:
    TPam2ROI();
    virtual ~TPam2ROI();
-   void     SetZone(TLFZone* zone);
+   void     SetZone(TLFZone* zone, bool update = true);
    bool     Calculate(awpImage* image);
 
    void __fastcall ClearFrames();

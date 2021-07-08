@@ -46,6 +46,11 @@ public:
 	void __fastcall Clear();
 	void __fastcall DeleteRoi(int index);
 
+	// сохрание roi в файл
+	bool __fastcall SaveRois(const UnicodeString fileName);
+	// загрузка roi из файла
+	bool __fastcall LoadRoi(const UnicodeString fileName);
+
 	__property EPam2ToolModes Mode = {read = m_mode, write = m_mode};
 	__property int RoiCount = {read = GetRoiCount};
 	__property int Selected = {read = m_selected, write = SetSelected};

@@ -228,7 +228,7 @@ void  TPam2ROI::CreateMask()
 
 }
 
-void     TPam2ROI::SetZone(TLFZone* zone)
+void     TPam2ROI::SetZone(TLFZone* zone, bool update)
 {
 	if (this->m_locked) {
         return;
@@ -240,7 +240,9 @@ void     TPam2ROI::SetZone(TLFZone* zone)
 	// маска пересчитывается всякий раз, когда устанавливается зона? может
 	// быть имеет смысл маску пересчитывать не так части, а только по необходимости
 	// например в Calculate?
-	CreateMask();
+	if (update ) {
+		CreateMask();
+	}
 }
 UnicodeString __fastcall TPam2ROI::GetRoiType()
 {

@@ -635,7 +635,7 @@ void __fastcall TPam2Document::EndRecording()
 }
 void __fastcall TPam2Document::AbortRecording()
 {
-   this->ClearDocument();
+	   this->ClearDocument();
 }
 
 bool __fastcall TPam2Document::LoadFrames()

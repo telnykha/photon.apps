@@ -17,7 +17,7 @@ __fastcall Tpam2ResultForm::Tpam2ResultForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall Tpam2ResultForm::UpdateChart(TPam2ROI* roi)
 {
-	if (roi == NULL) {
+	if (roi == NULL || pamMainForm->Mode == pam2Capture) {
 		return;
 	}
 	Series1->Clear();
