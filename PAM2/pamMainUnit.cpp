@@ -204,7 +204,7 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 	m_hardware_ready = true;
 	try
 	{
-		Comm1->DeviceName = L"COM5";
+		Comm1->DeviceName = L"COM3";
 		Comm1->Open();
 		Comm1->SetRTSState(true);
 		Comm1->SetDTRState(true);
@@ -1623,8 +1623,8 @@ void __fastcall TpamMainForm::InitHardware()
 {
 	 m_initArduino = true;
 	 m_currentCommand = 0;
-	 Timer4->Enabled = true;
-	 pamSplashForm->ShowModal();
+	 //Timer4->Enabled = true;
+	 //pamSplashForm->ShowModal();
 
 }
 void __fastcall TpamMainForm::Timer4Timer(TObject *Sender)
@@ -1637,7 +1637,7 @@ void __fastcall TpamMainForm::Timer4Timer(TObject *Sender)
 		if (cmd == L"END")
 		{
 			m_initArduino = false;
-            pamSplashForm->ModalResult = mrOk;
+			pamSplashForm->ModalResult = mrOk;
 		}
 		else
 		{

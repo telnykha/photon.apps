@@ -35,8 +35,6 @@ object pam2ResultForm: Tpam2ResultForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 188
-    ExplicitWidth = 387
     object Chart1: TChart
       AlignWithMargins = True
       Left = 3
@@ -50,6 +48,8 @@ object pam2ResultForm: Tpam2ResultForm
       BottomAxis.Grid.Visible = False
       BottomAxis.LabelsFormat.Font.Color = clGray
       BottomAxis.LabelsFormat.Frame.Color = clGray
+      LeftAxis.Automatic = False
+      LeftAxis.AutomaticMinimum = False
       LeftAxis.Axis.Color = clGray
       LeftAxis.Grid.Visible = False
       LeftAxis.LabelsFormat.Font.Color = clGray
@@ -58,7 +58,6 @@ object pam2ResultForm: Tpam2ResultForm
       BevelOuter = bvNone
       Color = clBlack
       TabOrder = 0
-      ExplicitWidth = 381
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 10
       object Series1: TLineSeries

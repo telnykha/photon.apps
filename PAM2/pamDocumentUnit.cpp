@@ -756,6 +756,7 @@ void __fastcall TPam2Document::GoFrame(int index)
 
 	this->m_currentFrame = index;
 	this->LoadFtFm1();
+    pamMainForm->StatusBar1->Panels->Items[3]->Text = L"Кадр:" + IntToStr(index);
 }
 
 void __fastcall TPam2Document::ProcessRoi(TPam2ROI* roi)

@@ -267,6 +267,7 @@ object pamMainForm: TpamMainForm
         Width = 756
         Height = 38
         Align = alClient
+        Position = 4
         ShowSelRange = False
         TabOrder = 0
         TickMarks = tmBoth
@@ -295,10 +296,11 @@ object pamMainForm: TpamMainForm
         Width = 150
       end
       item
-        Alignment = taCenter
         Bevel = pbRaised
+        Text = #1082#1072#1076#1088
         Width = 50
       end>
+    ExplicitTop = 519
   end
   object MainMenu1: TMainMenu
     Left = 528
