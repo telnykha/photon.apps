@@ -30,6 +30,9 @@
         <Projects Include="..\photon.research\ZonesEditor\ZonesEditor.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="PAM2\phserialport\Cosoletest1\serialtest.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -119,14 +122,23 @@
     <Target Name="ZonesEditor:Make">
         <MSBuild Projects="..\photon.research\ZonesEditor\ZonesEditor.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="serialtest">
+        <MSBuild Projects="PAM2\phserialport\Cosoletest1\serialtest.cbproj"/>
+    </Target>
+    <Target Name="serialtest:Clean">
+        <MSBuild Projects="PAM2\phserialport\Cosoletest1\serialtest.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="serialtest:Make">
+        <MSBuild Projects="PAM2\phserialport\Cosoletest1\serialtest.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML;ObjectsMarker;awplflibb;ZonesEditor"/>
+        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML;ObjectsMarker;awplflibb;ZonesEditor;serialtest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean;ObjectsMarker:Clean;awplflibb:Clean;ZonesEditor:Clean"/>
+        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean;ObjectsMarker:Clean;awplflibb:Clean;ZonesEditor:Clean;serialtest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make;ObjectsMarker:Make;awplflibb:Make;ZonesEditor:Make"/>
+        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make;ObjectsMarker:Make;awplflibb:Make;ZonesEditor:Make;serialtest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

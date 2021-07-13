@@ -48,3 +48,7 @@ PAM2/ComPort/Win32/debug/*.*
 PAM2/ComPort/Win32/release/*.*
 PAM2/~*.*
 PAM2/Nodes/__history/*.*
+PAM2/phserialport/cosoletest1/Win32/Debug/*.*
+PAM2/phserialport/cosoletest1/Win32/Release/*.*
+PAM2/phserialport/cosoletest1/__history/*.*
+PAM2/phserialport/__recovery/*.*

@@ -29,15 +29,5 @@ PHSERIALPORT_API void phserialPortHasVendorIdentifier(bool& value, int index);
 PHSERIALPORT_API void phserialPortHasProductIdentifier(bool& value, int index);
 PHSERIALPORT_API void phserialPortVendorIdentifier(unsigned short& value, int index);
 PHSERIALPORT_API void phserialPortProductIdentifier(unsigned short& value, int index);
-
-// arduino serial
-typedef void (* ArduinoCallback)(const char *BytePtr, int len);
-// arduino interface
-PHSERIALPORT_API HANDLE arduinoCreate(ArduinoCallback read, ArduinoCallback error);
-PHSERIALPORT_API void   arduinoFree(HANDLE arduino);
-PHSERIALPORT_API bool   arduinoWrite(HANDLE arduino, char* data, int len);
-
-
-
 }
 #endif // PHSERIALPORT_H

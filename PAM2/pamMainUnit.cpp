@@ -20,6 +20,8 @@
 #include "pamLongProcessUnit.h"
 #include "pamSplashUnit.h"
 #include "pamScriptDocUnit.h"
+#include "phserialport/phserialport.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -33,6 +35,10 @@
 
 #pragma link "BUF_USBCCDCamera_SDK_b.lib"
 #pragma link "awplflibb.lib"
+extern "C"
+{
+	#pragma link "phserialport/phserialport.lib"
+}
 
 TpamMainForm *pamMainForm;
 
@@ -202,9 +208,14 @@ void __fastcall TpamMainForm::BottomDocPanelUnDock(TObject *Sender, TControl *Cl
 void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 {
 	m_hardware_ready = true;
+	UnicodeString deviceName = FindDevice();
+	if (deviceName == L"") {
+		m_hardware_ready = false;
+		return;
+	}
 	try
 	{
-		Comm1->DeviceName = L"COM3";
+		Comm1->DeviceName = deviceName;//L"COM5";
 		Comm1->Open();
 		Comm1->SetRTSState(true);
 		Comm1->SetDTRState(true);
@@ -213,6 +224,7 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 	{
 		ShowMessage(e.Message);
 		m_hardware_ready = false;
+        return;
 	}
 	if (!OpenCamera())
 	{
@@ -1869,4 +1881,48 @@ void __fastcall TpamMainForm::fileLoadRoiActionUpdate(TObject *Sender)
 	fileLoadRoiAction->Enabled = tool != NULL && !PhImage1->Bitmap->Empty;
 }
 //---------------------------------------------------------------------------
+UnicodeString __fastcall TpamMainForm::FindDevice()
+{
+	UnicodeString result = L"";
+	phserialPortInit();
+    int c;
+	phserialPortCount(c);
+//	printf("Количество коммуникационных портов: %i \n", c);
+	for (int i = 0; i < c; i++)
+	{
+		char buf[PHSERIAL_BUF];
+//        printf("-------------------------------------------\n");
+//		printf("Имя порта: %s\n", phserialPortName(buf, i));
+		AnsiString _strLocation = phserialPortLocation(buf, i);
+		AnsiString _strDescription = phserialPortDescription(buf, i);
+			if (_strDescription == "Arduino Uno") {
+				 result =  _strLocation;
+				 break;
+			}
+	}
+//		printf("Системное расположение: %s\n", phserialPortLocation(buf, i));
+/*		printf("Описание: %s\n", phserialPortDescription(buf, i));
+		printf("Производитель: %s\n", phserialPortManufacturer(buf, i));
+		printf("Серийный номер: %s\n", phserialPortSerialNumber(buf, i));
+		bool value = false;
+		phserialPortHasVendorIdentifier(value, i);
+		printf("Имеется идентификатор поставщика: %s\n", value?"да":"нет");
+		unsigned short value1;
+		if (value) {
+
+			phserialPortVendorIdentifier(value1, i);
+			printf("Идентификатор поставщика: %hu \n", value1);
+		}
+		phserialPortHasProductIdentifier(value, i);
+		printf("Имеется идентификатор продукта: %s\n", value?"да":"нет");
+		if (value) {
+
+			phserialPortProductIdentifier(value1, i);
+			printf("Идентификатор продукта: %hu \n", value1);
+		}
+
+	}
+	phserialPortFree(); */
+    return result;
+}
 

@@ -300,7 +300,6 @@ object pamMainForm: TpamMainForm
         Text = #1082#1072#1076#1088
         Width = 50
       end>
-    ExplicitTop = 519
   end
   object MainMenu1: TMainMenu
     Left = 528

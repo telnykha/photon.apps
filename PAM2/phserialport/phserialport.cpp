@@ -6,8 +6,6 @@
 #include <QTextCodec>
 #include <QDebug>
 #include "phserialport.h"
-#include "ArduinoSerial.h"
-#include "arduinocontroller.h"
 #include <iostream>
 using namespace std;
 
@@ -19,7 +17,7 @@ using namespace std;
 // global
 int * argc = nullptr;
 char ** argv = nullptr;
-QApplication * app = nullptr;
+//QApplication * app = nullptr;
 
 const QList<QSerialPortInfo> *ginfos = NULL;
 void PHSERIALPORT_API phserialPortInit()
@@ -149,52 +147,6 @@ PHSERIALPORT_API void phserialPortProductIdentifier(unsigned short& value, int i
         return;
     value = ginfos->at(index).productIdentifier();
 }
-//////////
-PHSERIALPORT_API HANDLE arduinoCreate(ArduinoCallback read, ArduinoCallback error)
-{
-    if (app != nullptr)
-        return NULL;
-
-    argc = new int(1);
-    argv = new char*[1];
-    argv[0] = strdup("dummy");
-    app = new QApplication(*argc, argv);
-
-
-    ArduinoController* a = new ArduinoController(NULL);
-    if (!a->Connect())
-    {
-        delete a;
-        return NULL;
-    }
-    a->OnError = error;
-    a->OnRead  = read;
-
-//    app->processEvents();
-    return (HANDLE)a;
-}
-PHSERIALPORT_API void   arduinoFree(HANDLE arduino)
-{
-    if (arduino == NULL)
-        return;
-    ArduinoController* a = (ArduinoController*)arduino;
-    a->Disconnect();
-    delete a;
-
-    delete app;
-    delete argv[0];
-    delete [] argv;
-    delete argc;
-    argc = nullptr;
-    argv = nullptr;
-    app = nullptr;
-}
-PHSERIALPORT_API bool   arduinoWrite(HANDLE arduino, char* data, int len)
-{
-    ArduinoController* a = (ArduinoController*)arduino;
-    return a->writeData(data, len);
-}
-
 
 
 

@@ -15,6 +15,3 @@ phserialPortHasProductIdentifier @10
 phserialPortVendorIdentifier @11
 phserialPortProductIdentifier @12
 
-arduinoCreate @19
-arduinoFree @20
-arduinoWrite @21
