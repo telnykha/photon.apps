@@ -1895,7 +1895,17 @@ UnicodeString __fastcall TpamMainForm::FindDevice()
 //		printf("Имя порта: %s\n", phserialPortName(buf, i));
 		AnsiString _strLocation = phserialPortLocation(buf, i);
 		AnsiString _strDescription = phserialPortDescription(buf, i);
-			if (_strDescription == "Arduino Uno") {
+		bool value = false;
+		phserialPortHasVendorIdentifier(value, i);
+		//printf("Имеется идентификатор поставщика: %s\n", value?"да":"нет");
+		unsigned short value1;
+		if (value) {
+
+			phserialPortVendorIdentifier(value1, i);
+			//printf("Идентификатор поставщика: %hu \n", value1);
+		}
+
+			if (value1 == 9025) {
 				 result =  _strLocation;
 				 break;
 			}

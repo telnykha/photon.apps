@@ -852,8 +852,8 @@ object pamMainForm: TpamMainForm
     DeviceName = 'Com2'
     MonitorEvents = [evBreak, evCts, evDsr, evError, evRing, evRlsd, evRxChar, evRxFlag, evTxEmpty]
     OnRxChar = Comm1RxChar
-    Left = 528
-    Top = 96
+    Left = 328
+    Top = 168
   end
   object Timer1: TTimer
     Enabled = False

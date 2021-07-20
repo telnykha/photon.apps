@@ -60,8 +60,8 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>PAM</SanitizedProjectName>
-        <IncludePath>..\..\photon.research\common\;..\common\;$(PHOTON41)\photon;$(LF)\include;$(AWP)\include;$(TINY);..\common\Mightex\Mightex;..\..\photon.apps\common\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;$(TINY)\lib;$(AWP)\lib;$(PHOTON41)\lib;..\..\photon.apps\common\Mightex\Mightex;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\photon.research\common\;..\common\;$(LF)\include;$(AWP)\include;$(TINY);..\common\Mightex\Mightex;..\..\photon.apps\common\;$(PHOTON41);$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\photon.research\common\;..\common\;$(TINY)\lib;$(AWP)\lib;$(PHOTON41)\lib;..\..\photon.apps\common\Mightex\Mightex;$(JPEG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -99,8 +99,8 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Build>26</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.26;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>27</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.27;InternalName=;LegalCopyright=Copyright (c) 2004-2019 NN-Videlab.Net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Icon_MainIcon>PAM_Icon1.ico</Icon_MainIcon>
         <PreBuildEvent><![CDATA[del /Q /S  .\$(Platform)\$(Config)\*.*
 rmdir .\$(Platform)\$(Config)\sketch_jul18b\
