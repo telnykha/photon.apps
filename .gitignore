@@ -52,3 +52,5 @@ PAM2/phserialport/cosoletest1/Win32/Debug/*.*
 PAM2/phserialport/cosoletest1/Win32/Release/*.*
 PAM2/phserialport/cosoletest1/__history/*.*
 PAM2/phserialport/__recovery/*.*
+*.~1~
+LFMarker/common/__history/Histogramm2DUnit.cpp.~2~

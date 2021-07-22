@@ -179,7 +179,7 @@ void __fastcall TDbLabeledImages::SaveFragment(awpImage* img, SDbExportOptions& 
       {
 			return;
       }
-      awpConvert(pFragment, AWP_CONVERT_3TO1_BYTE);
+      //awpConvert(pFragment, AWP_CONVERT_3TO1_BYTE);
       AnsiString strFileName = MakeExportFileName(options, count, false, lpClassLabel);
 
       if (roid != NULL)
@@ -476,7 +476,7 @@ static AnsiString GetImageName(AnsiString& strFileName)
 void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 {
    TSearchRec sr;
-   AnsiString strPath = m_strDbName;
+   AnsiString strPath = Form1->DirectoryListBox1->Directory + "\\";// m_strDbName;
    TStringList* sl = new TStringList();
    strPath += "\\*.*";
    int iAttr =0;
@@ -568,7 +568,7 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 		  if (m_ProgressEvent != NULL)
 		  {
 			AnsiString _ansi = sr.Name;
-			m_ProgressEvent(int(100 *num / this->m_NumImages),_ansi );
+			m_ProgressEvent(int(100 *num / sl->Count),_ansi );
 		  }
 		}
 		Application->ProcessMessages();

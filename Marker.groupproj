@@ -24,6 +24,9 @@
         <Projects Include="..\..\awpipl2\borland\awpipl2b.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\photon.research\LandmarksEditor\LandmarksEditor.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -95,14 +98,23 @@
     <Target Name="awpipl2b:Make">
         <MSBuild Projects="..\..\awpipl2\borland\awpipl2b.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="LandmarksEditor">
+        <MSBuild Projects="..\photon.research\LandmarksEditor\LandmarksEditor.cbproj"/>
+    </Target>
+    <Target Name="LandmarksEditor:Clean">
+        <MSBuild Projects="..\photon.research\LandmarksEditor\LandmarksEditor.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="LandmarksEditor:Make">
+        <MSBuild Projects="..\photon.research\LandmarksEditor\LandmarksEditor.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41;TinyXML;Video_Marker;awpipl2b"/>
+        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41;TinyXML;Video_Marker;awpipl2b;LandmarksEditor"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean;TinyXML:Clean;Video_Marker:Clean;awpipl2b:Clean"/>
+        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean;TinyXML:Clean;Video_Marker:Clean;awpipl2b:Clean;LandmarksEditor:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make;TinyXML:Make;Video_Marker:Make;awpipl2b:Make"/>
+        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make;TinyXML:Make;Video_Marker:Make;awpipl2b:Make;LandmarksEditor:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
