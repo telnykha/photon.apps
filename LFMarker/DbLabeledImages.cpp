@@ -179,7 +179,7 @@ void __fastcall TDbLabeledImages::SaveFragment(awpImage* img, SDbExportOptions& 
       {
 			return;
       }
-      //awpConvert(pFragment, AWP_CONVERT_3TO1_BYTE);
+      awpConvert(pFragment, AWP_CONVERT_3TO1_BYTE);
       AnsiString strFileName = MakeExportFileName(options, count, false, lpClassLabel);
 
       if (roid != NULL)
@@ -537,7 +537,7 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 			  UUID id;
 			  LF_UUID_CREATE(id);
 			  std::string strUUID = LFGUIDToString(&id);
-			  AnsiString strFileName = m_strDbName + "\\";
+			  AnsiString strFileName = Form1->DirectoryListBox1->Directory + "\\";
 			  strFileName += strUUID.c_str();
 			  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
 			  strFileName += strExt;
@@ -556,7 +556,7 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 			  if (sd != NULL)
 				sd->SaveXML(strXml.c_str());
 			  // make new filename
-			  AnsiString strFileName = m_strDbName + "\\" + str;
+			  AnsiString strFileName = Form1->DirectoryListBox1->Directory + "\\" + str;
 			  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
 			  strFileName = ChangeFileExt(strFileName, strExt);
 			  if (strExt != ExtractFileExt(str))
