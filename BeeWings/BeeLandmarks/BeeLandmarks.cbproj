@@ -119,6 +119,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib</LinkPackageStatics>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <Debugger_DebugSourcePath>C:\_alt\_proj\awplflib\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -141,6 +142,12 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="beeLongProcessForm.cpp">
+            <Form>Form1</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>beeLongProcessForm.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <CppCompile Include="beeMain.cpp">
             <Form>Form10</Form>
             <FormType>dfm</FormType>
@@ -148,6 +155,7 @@
             <BuildOrder>2</BuildOrder>
         </CppCompile>
         <FormResources Include="beeMain.dfm"/>
+        <FormResources Include="beeLongProcessForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

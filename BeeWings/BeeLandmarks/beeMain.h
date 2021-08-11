@@ -20,6 +20,7 @@
 #include "PhZoomToRectTool.h"
 #include <Vcl.Buttons.hpp>
 #include "PhTriangleTool.h"
+#include "PhZonesTool.h"
 //---------------------------------------------------------------------------
 class TForm10 : public TForm
 {
@@ -90,6 +91,7 @@ __published:	// IDE-managed Components
 	TSpeedButton *SpeedButton3;
 	TSpeedButton *SpeedButton2;
 	TPhTriangleTool *PhTriangleTool1;
+	TPhZonesTool *PhZonesTool1;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -130,10 +132,21 @@ __published:	// IDE-managed Components
 	void __fastcall PhImage1MouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall PhImage1ToolChange(TObject *Sender);
+	void __fastcall PhImage1Paint(TObject *Sender);
+	void __fastcall PhImage1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall PhImage1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
 
 private:	// User declarations
+	HANDLE m_object;
+	TLFDBLandmarks* m_db;
+	TLFLandmarkFile* m_file;
+	bool __fastcall CreateLandmarks();
+	bool __fastcall IsNearPoint(int x, int y, int& idx);
 public:		// User declarations
 	__fastcall TForm10(TComponent* Owner);
+	void __fastcall ProcessImages();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm10 *Form10;

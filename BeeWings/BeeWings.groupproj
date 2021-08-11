@@ -6,10 +6,10 @@
         <Projects Include="landmarks\tps2landmarks.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="LandmarksEditor\LandmarksEditor.cbproj">
+        <Projects Include="MCTPoints\MCTPoins.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="MCTPoints\MCTPoins.cbproj">
+        <Projects Include="LandmarksEditor\LandmarksEditor.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="BeeLandmarks\BeeLandmarks.cbproj">
@@ -19,6 +19,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\photon41\Demo\PhotonDemo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\LFMarker\ObjectsMarker.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -38,15 +41,6 @@
     <Target Name="tps2landmarks:Make">
         <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="LandmarksEditor">
-        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj"/>
-    </Target>
-    <Target Name="LandmarksEditor:Clean">
-        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="LandmarksEditor:Make">
-        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="MCTPoins">
         <MSBuild Projects="MCTPoints\MCTPoins.cbproj"/>
     </Target>
@@ -55,6 +49,15 @@
     </Target>
     <Target Name="MCTPoins:Make">
         <MSBuild Projects="MCTPoints\MCTPoins.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="LandmarksEditor">
+        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj"/>
+    </Target>
+    <Target Name="LandmarksEditor:Clean">
+        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="LandmarksEditor:Make">
+        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj" Targets="Make"/>
     </Target>
     <Target Name="BeeLandmarks" DependsOnTargets="photon41">
         <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj"/>
@@ -83,14 +86,23 @@
     <Target Name="PhotonDemo:Make">
         <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="ObjectsMarker">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;LandmarksEditor;MCTPoins;BeeLandmarks;photon41;PhotonDemo"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;LandmarksEditor;BeeLandmarks;photon41;PhotonDemo;ObjectsMarker"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;LandmarksEditor:Clean;MCTPoins:Clean;BeeLandmarks:Clean;photon41:Clean;PhotonDemo:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;LandmarksEditor:Clean;BeeLandmarks:Clean;photon41:Clean;PhotonDemo:Clean;ObjectsMarker:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;LandmarksEditor:Make;MCTPoins:Make;BeeLandmarks:Make;photon41:Make;PhotonDemo:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;LandmarksEditor:Make;BeeLandmarks:Make;photon41:Make;PhotonDemo:Make;ObjectsMarker:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

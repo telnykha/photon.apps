@@ -309,7 +309,10 @@ object Form10: TForm10
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
+          OnMouseDown = PhImage1MouseDown
           OnMouseMove = PhImage1MouseMove
+          OnMouseUp = PhImage1MouseUp
+          OnPaint = PhImage1Paint
           AfterOpen = PhImage1AfterOpen
           OnScaleChange = PhImage1ScaleChange
           OnToolChange = PhImage1ToolChange
@@ -516,5 +519,10 @@ object Form10: TForm10
     PhImage = PhImage1
     Left = 713
     Top = 250
+  end
+  object PhZonesTool1: TPhZonesTool
+    PhImage = PhImage1
+    Left = 713
+    Top = 306
   end
 end

@@ -13,16 +13,16 @@
 
 #include <Rpc.h>
 typedef void* HANDLE;
-typedef struct beePoint{
+typedef struct {
   double x;
   double y;
   double q; // качество
-};
+}beePoint;
 
 extern "C"
 {
 
-BEEPOINTS_API HANDLE beeObjectCreate(const char* path);
+BEEPOINTS_API HANDLE  beeObjectCreate(const char* path);
 BEEPOINTS_API HRESULT beeImageProcess(HANDLE beeObject, int width, int height, unsigned char* data, int* num, beePoint* result);
 BEEPOINTS_API HRESULT beeObjectFree(HANDLE beeObject);
 

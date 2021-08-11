@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\..\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\..\..\awplflib\include;..\..\..\..\..\awpipl2\include;..\..\..\..\..\TinyXML\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\..\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include;..\..\..\..\..\awplflib\include;..\..\..\..\..\awpipl2\include;..\..\..\..\..\TinyXML\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -53,6 +53,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\BeeLandmarks\Win32\Debug\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -68,14 +70,28 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\beepoints.h" />
+    <ClInclude Include="..\MCTObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\beepoints.cpp" />
+    <ClCompile Include="..\MCTObject.cpp" />
     <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\awpipl2\vc\vc2013\awpipl2.vcxproj">
+      <Project>{eec6d9a5-396e-4388-bd84-193bef1657ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\awplflib\vc\vc2013\awplflib.vcxproj">
+      <Project>{e762d9a5-efc5-4d8b-9ed6-61831d615883}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\TinyXML\vc\vc2013\tinyxml_lib.vcxproj">
+      <Project>{505806d4-64fc-43a4-ad85-f1c94cbce59a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,6 +5,7 @@ BEEPOINTS_API HANDLE beeObjectCreate(const char* path)
 {
 	TMCTObject* mct = new TMCTObject();
 	if (!mct->CreateObject(path)) {
+		delete mct;
 		return NULL;
 	}
     return (HANDLE)mct;
