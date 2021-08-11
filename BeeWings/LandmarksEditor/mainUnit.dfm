@@ -66,7 +66,8 @@ object Form9: TForm9
       Mask = '*.jpg;*awp;*.png;*.bmp;*.tif;*.tiff'
       TabOrder = 2
       OnChange = FileListBox1Change
-      ExplicitHeight = 292
+      ExplicitLeft = 0
+      ExplicitTop = 183
     end
   end
   object Panel2: TPanel
@@ -98,7 +99,20 @@ object Form9: TForm9
       ParentColor = False
       OnPaint = PhImage1Paint
       AfterOpen = PhImage1AfterOpen
-      ExplicitLeft = 5
     end
+  end
+  object PageSetupDialog1: TPageSetupDialog
+    MinMarginLeft = 0
+    MinMarginTop = 0
+    MinMarginRight = 0
+    MinMarginBottom = 0
+    MarginLeft = 2500
+    MarginTop = 2500
+    MarginRight = 2500
+    MarginBottom = 2500
+    PageWidth = 21000
+    PageHeight = 29700
+    Left = 481
+    Top = 240
   end
 end

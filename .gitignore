@@ -54,3 +54,15 @@ PAM2/phserialport/cosoletest1/__history/*.*
 PAM2/phserialport/__recovery/*.*
 *.~1~
 LFMarker/common/__history/Histogramm2DUnit.cpp.~2~
+BeeWings/BeeLandmarks/Win32/
+BeeWings/BeeLandmarks/__history/
+BeeWings/include/__history/
+BeeWings/landmarks/Win32/
+BeeWings/landmarks/__history/
+BeeWings/LandmarksEditor/Win32/
+BeeWings/LandmarksEditor/__history/
+BeeWings/MCTPoints/__history/
+BeeWings/MCTPoints/Win32/
+BeeWings/MCTPoints/MCTPoints/Debug/
+BeeWings/MCTPoints/MCTPoints/Release/
+*.opensdf

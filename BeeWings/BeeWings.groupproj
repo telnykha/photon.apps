@@ -1,0 +1,96 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2CD2E734-8850-45B0-A356-CE28B2FCEBD3}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="landmarks\tps2landmarks.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="LandmarksEditor\LandmarksEditor.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MCTPoints\MCTPoins.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="BeeLandmarks\BeeLandmarks.cbproj">
+            <Dependencies>..\..\photon41\photon41.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="..\..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon41\Demo\PhotonDemo.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="tps2landmarks">
+        <MSBuild Projects="landmarks\tps2landmarks.cbproj"/>
+    </Target>
+    <Target Name="tps2landmarks:Clean">
+        <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="tps2landmarks:Make">
+        <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="LandmarksEditor">
+        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj"/>
+    </Target>
+    <Target Name="LandmarksEditor:Clean">
+        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="LandmarksEditor:Make">
+        <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="MCTPoins">
+        <MSBuild Projects="MCTPoints\MCTPoins.cbproj"/>
+    </Target>
+    <Target Name="MCTPoins:Clean">
+        <MSBuild Projects="MCTPoints\MCTPoins.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MCTPoins:Make">
+        <MSBuild Projects="MCTPoints\MCTPoins.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="BeeLandmarks" DependsOnTargets="photon41">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj"/>
+    </Target>
+    <Target Name="BeeLandmarks:Clean" DependsOnTargets="photon41:Clean">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BeeLandmarks:Make" DependsOnTargets="photon41:Make">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PhotonDemo">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj"/>
+    </Target>
+    <Target Name="PhotonDemo:Clean">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PhotonDemo:Make">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="tps2landmarks;LandmarksEditor;MCTPoins;BeeLandmarks;photon41;PhotonDemo"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="tps2landmarks:Clean;LandmarksEditor:Clean;MCTPoins:Clean;BeeLandmarks:Clean;photon41:Clean;PhotonDemo:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="tps2landmarks:Make;LandmarksEditor:Make;MCTPoins:Make;BeeLandmarks:Make;photon41:Make;PhotonDemo:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

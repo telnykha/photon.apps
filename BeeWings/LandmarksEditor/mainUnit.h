@@ -11,6 +11,7 @@
 #include <Vcl.FileCtrl.hpp>
 #include "FImage41.h"
 #include "_LF.h"
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TForm9 : public TForm
 {
@@ -24,6 +25,7 @@ __published:	// IDE-managed Components
 	TDriveComboBox *DriveComboBox1;
 	TFileListBox *FileListBox1;
 	TSplitter *Splitter2;
+	TPageSetupDialog *PageSetupDialog1;
 	void __fastcall FileListBox1Change(TObject *Sender);
 	void __fastcall PhImage1AfterOpen(TObject *Sender);
 	void __fastcall DirectoryListBox1Change(TObject *Sender);
