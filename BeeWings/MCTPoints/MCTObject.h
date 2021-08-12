@@ -8,15 +8,7 @@ class TMCTObject : public IBeeObject
 {
 protected:
 	TLFZones m_zones;
-	TLFDetectEngine m_e1;
-	TLFDetectEngine m_e2;
-	TLFDetectEngine m_e3;
-	TLFDetectEngine m_e4;
-	TLFDetectEngine m_e5;
-	TLFDetectEngine m_e6;
-	TLFDetectEngine m_e7;
-	TLFDetectEngine m_e8;
-
+	TLFDetectEngine m_e[8];
 public:
 	TMCTObject();
 	virtual bool CreateObject(const char* path);

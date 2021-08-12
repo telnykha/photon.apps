@@ -12,6 +12,7 @@ object Form10: TForm10
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnResize = FormResize
   PixelsPerInch = 96
@@ -309,9 +310,7 @@ object Form10: TForm10
           SlideShowInterval = 500
           Align = alClient
           ParentColor = False
-          OnMouseDown = PhImage1MouseDown
           OnMouseMove = PhImage1MouseMove
-          OnMouseUp = PhImage1MouseUp
           OnPaint = PhImage1Paint
           AfterOpen = PhImage1AfterOpen
           OnScaleChange = PhImage1ScaleChange
@@ -524,5 +523,10 @@ object Form10: TForm10
     PhImage = PhImage1
     Left = 713
     Top = 306
+  end
+  object PhLandmarksTool1: TPhLandmarksTool
+    PhImage = PhImage1
+    Left = 713
+    Top = 362
   end
 end
