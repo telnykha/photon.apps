@@ -19,6 +19,7 @@
 #pragma link "PhLandmarksTool"
 #pragma resource "*.dfm"
 
+
 const TLFString ATTRUUIDS[8] =
 {
 "65FE75D4-B829-4117-8076-0A6D116F6EE5",
@@ -108,13 +109,21 @@ void __fastcall TForm10::filePrevActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::fileExportTPSActionExecute(TObject *Sender)
 {
-//
+	if (SaveDialog1->Execute()) {
+		if (!ExportTPS(ChangeFileExt(SaveDialog1->FileName, L".tps")))
+			ShowMessage(L"Не могу сохранить файл: " +SaveDialog1->FileName);
+		else
+		{
+			AnsiString _ansi = "notepad.exe " + ChangeFileExt(SaveDialog1->FileName, L".tps");
+			WinExec(_ansi.c_str(), SW_SHOW);
+		}
+	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm10::fileExportTPSActionUpdate(TObject *Sender)
 {
-    fileExportTPSAction->Enabled = false;
+	fileExportTPSAction->Enabled = PhLandmarksTool1->db->Files()->Count() > 0;
 }
 //---------------------------------------------------------------------------
 
@@ -403,10 +412,20 @@ void __fastcall TForm10::ProcessImages()
 			awpReleaseImage(&img);
 		}
 	}
+	//
+	if (PhLandmarksTool1->SelectFile(FileListBox1->FileName))
+      PhImage1->Paint();
 }
 
 bool __fastcall TForm10::CreateLandmarks()
 {
+	PhLandmarksTool1->Close();
+	AnsiString _ansi = DirectoryListBox1->Directory + "\\beelandmarks.xml";
+	if (FileExists(_ansi, false))
+	{
+	   DeleteFile(_ansi);
+	}
+
 	TLFLandmarkAttributes attrs;
 	//1
 	TLFString strID = ATTRUUIDS[0];
@@ -457,7 +476,8 @@ bool __fastcall TForm10::CreateLandmarks()
 	awpRGBtoWeb(0,0,255,&color);
 	wing = new TLFLandmarkAttr(strID, color, className.c_str());
 	attrs.Append(wing);
-	AnsiString _ansi = DirectoryListBox1->Directory + "\\beelandmarks.xml";
+
+
 	TLFDBLandmarks* db = TLFDBLandmarks::CreateDatabase(attrs, _ansi.c_str());
 	delete db;
 	return PhLandmarksTool1->Connect(_ansi);
@@ -489,8 +509,8 @@ void __fastcall TForm10::PhImage1Paint(TObject *Sender)
 					   TRect rr;
 
 
-					   cnv->Brush->Color = ll->Color();
-					   cnv->Pen->Color = ll->Color();
+					   cnv->Brush->Color = (TColor)ll->Color();
+					   cnv->Pen->Color = (TColor)ll->Color();
 					   r.init(xx - 8, yy-8,xx+8, yy+8 );
 					   rr= PhImage1->GetScreenRect(r);
 					   cnv->Ellipse(rr);
@@ -505,6 +525,36 @@ void __fastcall TForm10::ChangeRoi(TObject* sender,  int index, bool update)
 	UnicodeString str = ExtractFilePath(Application->ExeName);
 	this->PhZonesTool1->SaveZones(str + "\\output.xml");
 }
+
+bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
+{
+	AnsiString _ansi = strFileName;
+	FILE* f = fopen(_ansi.c_str(), "w+t");
+	if (f != NULL)
+	{
+		TLFDBLandmarks* db = PhLandmarksTool1->db;
+		for (int i = 0; i < db->Files()->Count(); i++)
+		{
+			TLFLandmarkFile* file = db->Files()->File(i);
+			if (file != NULL)
+			{
+				fprintf(f, "LM=8\n");
+				for (int j = 0; j < 8; j++)
+				{
+					TLFLandmark* ll = file->Landmark(j);
+					fprintf(f, "%lf %lf\n", 1920*ll->x()/100, 1080*(100-ll->y())/100.);
+				}
+				fprintf(f, "IMAGE=%s\n", file->FileName());
+			}
+			else
+				return false;
+		}
+		fclose(f);
+        return true;
+	}
+	return false;
+}
+
 
 
 

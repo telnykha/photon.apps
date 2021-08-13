@@ -529,4 +529,9 @@ object Form10: TForm10
     Left = 713
     Top = 362
   end
+  object SaveDialog1: TSaveDialog
+    Filter = #1060#1072#1081#1083#1099' TPS|*.tps'
+    Left = 721
+    Top = 418
+  end
 end

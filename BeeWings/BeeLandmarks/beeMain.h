@@ -22,6 +22,7 @@
 #include "PhTriangleTool.h"
 #include "PhZonesTool.h"
 #include "PhLandmarksTool.h"
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TForm10 : public TForm
 {
@@ -94,6 +95,7 @@ __published:	// IDE-managed Components
 	TPhTriangleTool *PhTriangleTool1;
 	TPhZonesTool *PhZonesTool1;
 	TPhLandmarksTool *PhLandmarksTool1;
+	TSaveDialog *SaveDialog1;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -140,6 +142,7 @@ private:	// User declarations
 	HANDLE m_object;
 	bool __fastcall CreateLandmarks();
 	void __fastcall ChangeRoi(TObject* sender,  int index, bool update);
+	bool __fastcall ExportTPS(const UnicodeString& strFileName);
 public:		// User declarations
 	__fastcall TForm10(TComponent* Owner);
 	void __fastcall ProcessImages();

@@ -20,6 +20,14 @@
 #pragma hdrstop
 #pragma argsused
 
+ extern "C"
+{
+    #pragma link "awpipl2b.lib"
+	#pragma link "JPEGLIB.lib"
+}
+#pragma link "awplflibb.lib"
+#pragma link "TinyXML.lib"
+
 extern "C" int _libmain(unsigned long reason)
 {
 	return 1;
