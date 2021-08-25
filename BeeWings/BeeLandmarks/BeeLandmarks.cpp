@@ -15,7 +15,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		TStyleManager::TrySetStyle("Carbon");
 		Application->CreateForm(__classid(TForm10), &Form10);
 		Application->CreateForm(__classid(TForm1), &Form1);
 		Application->Run();

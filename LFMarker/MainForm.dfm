@@ -331,6 +331,10 @@ object Form1: TForm1
         object TabSheet3: TTabSheet
           Caption = 'Database'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Panel3: TPanel
             Left = 0
             Top = 0

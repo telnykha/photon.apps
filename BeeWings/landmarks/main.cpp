@@ -68,7 +68,7 @@ void ConvertTPSTolandmarks(const char* fileTPS, const char* fileXML)
 	TLFString strID = ATTRUUIDS[0];
 	TLFString className = "wing-1";
 	int color;
-	awpRGBtoWeb(128,128,128,&color);
+	awpRGBtoWeb(0,128,255,&color);
 	TLFLandmarkAttr* wing = new TLFLandmarkAttr(strID, color, className.c_str());
 	attrs.Append(wing);
 	//2
@@ -262,6 +262,7 @@ void LandmarksToSemantic(const char* fileName)
 	for (int i = 0; i < src.Attributes()->Count(); i++) {
 		TLFLandmarkAttr* a = src.Attributes()->Attribute(i);
 		TLFSemanticDictinaryItem* item = new TLFSemanticDictinaryItem(a->ClassName());
+
 		item->SetColor(a->Color());
 		dict.AddWordToDictinary(item);
 	}
@@ -284,7 +285,7 @@ void LandmarksToSemantic(const char* fileName)
 			TLFSemanticDictinaryItem* dict_item = dict.GetWordFromDictinary(f->Landmark(j)->ClassName());
 			awpRect 	rect;
 			awp2DPoint  p = f->Landmark(j)->landmark();
-            p.Y = 100 - p.Y;
+			//p.Y = 100 - p.Y;
 			awpPoint    pp;
 			pp.X = p.X*image.GetImage()->sSizeX / 100.;
 			pp.Y = p.Y*image.GetImage()->sSizeY / 100.;

@@ -24,6 +24,9 @@
         <Projects Include="..\LFMarker\ObjectsMarker.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -95,14 +98,23 @@
     <Target Name="ObjectsMarker:Make">
         <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;LandmarksEditor;BeeLandmarks;photon41;PhotonDemo;ObjectsMarker"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;LandmarksEditor;BeeLandmarks;photon41;PhotonDemo;ObjectsMarker;awplflibb"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;LandmarksEditor:Clean;BeeLandmarks:Clean;photon41:Clean;PhotonDemo:Clean;ObjectsMarker:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;LandmarksEditor:Clean;BeeLandmarks:Clean;photon41:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;LandmarksEditor:Make;BeeLandmarks:Make;photon41:Make;PhotonDemo:Make;ObjectsMarker:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;LandmarksEditor:Make;BeeLandmarks:Make;photon41:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

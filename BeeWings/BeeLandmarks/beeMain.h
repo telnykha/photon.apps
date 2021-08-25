@@ -29,17 +29,8 @@ class TForm10 : public TForm
 __published:	// IDE-managed Components
 	TStatusBar *StatusBar1;
 	TPanel *Panel1;
-	TPanel *Panel2;
-	TSplitter *Splitter1;
 	TPanel *Panel3;
 	TActionList *ActionList1;
-	TPanel *Panel4;
-	TPanel *Panel5;
-	TSplitter *Splitter2;
-	TPanel *Panel6;
-	TDriveComboBox *DriveComboBox1;
-	TDirectoryListBox *DirectoryListBox1;
-	TFileListBox *FileListBox1;
 	TPageControl *PageControl1;
 	TTabSheet *TabSheet1;
 	TPhImage *PhImage1;
@@ -96,6 +87,27 @@ __published:	// IDE-managed Components
 	TPhZonesTool *PhZonesTool1;
 	TPhLandmarksTool *PhLandmarksTool1;
 	TSaveDialog *SaveDialog1;
+	TPageControl *PageControl2;
+	TTabSheet *TabSheet2;
+	TTabSheet *TabSheet3;
+	TPanel *Panel7;
+	TSplitter *Splitter3;
+	TPanel *Panel8;
+	TDirectoryListBox *DirectoryListBox1;
+	TPanel *Panel9;
+	TDriveComboBox *DriveComboBox1;
+	TPanel *Panel10;
+	TFileListBox *FileListBox1;
+	TSplitter *Splitter1;
+	TSpeedButton *SpeedButton5;
+	TSpeedButton *SpeedButton6;
+	TSpeedButton *SpeedButton7;
+	TSpeedButton *SpeedButton8;
+	TSpeedButton *SpeedButton9;
+	TSpeedButton *SpeedButton10;
+	TSpeedButton *SpeedButton11;
+	TAction *viewActualSizeAction;
+	TMenuItem *N24;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -137,6 +149,9 @@ __published:	// IDE-managed Components
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall PhImage1ToolChange(TObject *Sender);
 	void __fastcall PhImage1Paint(TObject *Sender);
+	void __fastcall viewActualSizeActionExecute(TObject *Sender);
+	void __fastcall viewActualSizeActionUpdate(TObject *Sender);
+	void __fastcall viewBestFitActionUpdate(TObject *Sender);
 
 private:	// User declarations
 	HANDLE m_object;

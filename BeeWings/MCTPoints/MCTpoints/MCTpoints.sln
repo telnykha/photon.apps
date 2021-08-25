@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awplflib", "..\..\..\..\..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "..\..\..\..\..\TinyXML\vc\vc2013\tinyxml_lib.vcxproj", "{505806D4-64FC-43A4-AD85-F1C94CBCE59A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JPEGLIB", "..\..\..\..\..\jpeg-6b\vc\vc2010\JPEGLIB.vcxproj", "{D22F6666-746D-4436-8EAD-481C2C37AF55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +51,14 @@ Global
 		{505806D4-64FC-43A4-AD85-F1C94CBCE59A}.Release|Win32.Build.0 = Release|Win32
 		{505806D4-64FC-43A4-AD85-F1C94CBCE59A}.Release|x64.ActiveCfg = Release|x64
 		{505806D4-64FC-43A4-AD85-F1C94CBCE59A}.Release|x64.Build.0 = Release|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|Win32.Build.0 = Debug|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|x64.ActiveCfg = Debug|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Debug|x64.Build.0 = Debug|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|Win32.ActiveCfg = Release|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|Win32.Build.0 = Release|Win32
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|x64.ActiveCfg = Release|x64
+		{D22F6666-746D-4436-8EAD-481C2C37AF55}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

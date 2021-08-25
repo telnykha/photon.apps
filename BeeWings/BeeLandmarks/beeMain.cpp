@@ -169,13 +169,13 @@ void __fastcall TForm10::viewToolbarActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::viewFilePanelActionExecute(TObject *Sender)
 {
-	Panel2->Visible = !Panel2->Visible;
+	PageControl2->Visible = !PageControl2->Visible;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm10::viewFilePanelActionUpdate(TObject *Sender)
 {
-	viewFilePanelAction->Checked = Panel2->Visible;
+	viewFilePanelAction->Checked = PageControl2->Visible;
 }
 //---------------------------------------------------------------------------
 
@@ -193,12 +193,12 @@ void __fastcall TForm10::viewStatusBarActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::viewBestFitActionExecute(TObject *Sender)
 {
-	viewBestFitAction->Checked = !viewBestFitAction->Checked;
-	if (viewBestFitAction->Checked) {
+//	viewBestFitAction->Checked = !viewBestFitAction->Checked;
+//	if (viewBestFitAction->Checked) {
 	   PhImage1->BestFit();
-	}
-	else
-		PhImage1->Paint();
+//	}
+//	else
+//		PhImage1->Paint();
 }
 //---------------------------------------------------------------------------
 
@@ -213,11 +213,7 @@ void __fastcall TForm10::FileListBox1Change(TObject *Sender)
 void __fastcall TForm10::PhImage1AfterOpen(TObject *Sender)
 {
 	PhLandmarksTool1->SelectFile(FileListBox1->FileName);
-	if (viewBestFitAction->Checked) {
-	   PhImage1->BestFit();
-	}
-	else
-		PhImage1->ActualSize();
+	PhImage1->BestFit();
 	StatusBar1->Panels->Items[1]->Text = L"Размер: " + IntToStr(PhImage1->Bitmap->Width) + L"x" + IntToStr(PhImage1->Bitmap->Height);
 }
 //---------------------------------------------------------------------------
@@ -333,6 +329,13 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	this->SpeedButton2->Caption = L"";
 	this->SpeedButton3->Caption = L"";
 	this->SpeedButton4->Caption = L"";
+	this->SpeedButton5->Caption = L"";
+	this->SpeedButton6->Caption = L"";
+	this->SpeedButton7->Caption = L"";
+	this->SpeedButton8->Caption = L"";
+	this->SpeedButton9->Caption = L"";
+	this->SpeedButton10->Caption = L"";
+	this->SpeedButton11->Caption = L"";
 
 	AnsiString _ansi = ExtractFilePath(Application->ExeName);
 	PhZonesTool1->LoadZones(_ansi + "\\output.xml");
@@ -431,7 +434,7 @@ bool __fastcall TForm10::CreateLandmarks()
 	TLFString strID = ATTRUUIDS[0];
 	TLFString className = "wing-1";
 	int color;
-	awpRGBtoWeb(128,128,128,&color);
+	awpRGBtoWeb(0,128,255,&color);
 	TLFLandmarkAttr* wing = new TLFLandmarkAttr(strID, color, className.c_str());
 	attrs.Append(wing);
 	//2
@@ -557,4 +560,24 @@ bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
 
 
 
+
+
+
+void __fastcall TForm10::viewActualSizeActionExecute(TObject *Sender)
+{
+    PhImage1->ActualSize();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::viewActualSizeActionUpdate(TObject *Sender)
+{
+    viewActualSizeAction->Enabled = !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::viewBestFitActionUpdate(TObject *Sender)
+{
+	viewBestFitAction->Enabled = !PhImage1->Empty;
+}
+//---------------------------------------------------------------------------
 

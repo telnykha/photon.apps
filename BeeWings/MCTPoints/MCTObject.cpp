@@ -46,7 +46,8 @@ bool TMCTObject::ProcessImage(int width, int height, unsigned char* data, int* n
 	awpImage* image = NULL;
 	awpCreateGrayImage(&image, width, height, 3, data);
 	awpResizeBilinear(image, 480, 270);
-	
+	double rx = (double)width / 480.;
+	double ry = (double)height / 270.;
 	TLFImage img;
 	img.SetImage(image);
 	awpReleaseImage(&image);
@@ -130,8 +131,8 @@ bool TMCTObject::ProcessImage(int width, int height, unsigned char* data, int* n
 			result[i].y = (r.top + r.bottom) / 2;
 		}
 
-		result[i].x *= 4;
-		result[i].y *= 4;
+		result[i].x *= rx;
+		result[i].y *= ry;
 	}
 	
 	return true;
