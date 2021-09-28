@@ -84,6 +84,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       Spacing = 0
       Transparent = False
       ExplicitLeft = 218
@@ -123,6 +125,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       ExplicitLeft = 241
       ExplicitTop = -2
       ExplicitHeight = 39
@@ -160,6 +164,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       ExplicitLeft = 177
       ExplicitTop = -2
       ExplicitHeight = 39
@@ -197,6 +203,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       ExplicitLeft = 49
       ExplicitTop = -2
       ExplicitHeight = 39
@@ -208,6 +216,8 @@ object Form10: TForm10
       Height = 47
       Action = toolsZoomPaneAction
       Align = alLeft
+      GroupIndex = 1
+      Down = True
       Flat = True
       Glyph.Data = {
         76040000424D7604000000000000760000002800000040000000200000000100
@@ -248,6 +258,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       Spacing = 0
       Transparent = False
       ExplicitLeft = 297
@@ -300,6 +312,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       Spacing = 0
       Transparent = False
       ExplicitLeft = 263
@@ -310,8 +324,10 @@ object Form10: TForm10
       Top = 1
       Width = 64
       Height = 47
+      Hint = #1048#1079#1084#1077#1088#1080#1090#1077#1083#1100#1085#1072#1103' '#1083#1080#1085#1077#1081#1082#1072
       Action = toolsRulerAction
       Align = alLeft
+      GroupIndex = 1
       Flat = True
       Glyph.Data = {
         76040000424D7604000000000000760000002800000040000000200000000100
@@ -352,6 +368,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       Spacing = 0
       Transparent = False
       ExplicitLeft = 263
@@ -362,8 +380,10 @@ object Form10: TForm10
       Top = 1
       Width = 64
       Height = 47
+      Hint = #1048#1079#1084#1077#1088#1080#1090#1100' '#1091#1075#1086#1083
       Action = toolsAngleAction
       Align = alLeft
+      GroupIndex = 1
       Flat = True
       Glyph.Data = {
         76040000424D7604000000000000760000002800000040000000200000000100
@@ -404,6 +424,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       Spacing = 0
       Transparent = False
       ExplicitLeft = 263
@@ -414,8 +436,10 @@ object Form10: TForm10
       Top = 1
       Width = 64
       Height = 47
+      Hint = #1056#1077#1076#1082#1072#1090#1080#1088#1086#1074#1072#1090#1100' '#1090#1086#1095#1082#1080
       Action = toolsBeeLandmarksAction
       Align = alLeft
+      GroupIndex = 1
       Flat = True
       Glyph.Data = {
         76040000424D7604000000000000760000002800000040000000200000000100
@@ -456,6 +480,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       Layout = blGlyphTop
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       Spacing = 0
       Transparent = False
       ExplicitLeft = 263
@@ -466,8 +492,10 @@ object Form10: TForm10
       Top = 1
       Width = 64
       Height = 47
+      Hint = #1059#1074#1077#1083#1080#1095#1077#1085#1080#1077' '#1092#1088#1072#1075#1084#1077#1085#1090#1072' '#1080#1079#1086#1086#1073#1088#1072#1078#1077#1085#1080#1103
       Action = toolsZoomToRectAction
       Align = alLeft
+      GroupIndex = 1
       Flat = True
       Glyph.Data = {
         76040000424D7604000000000000760000002800000040000000200000000100
@@ -507,6 +535,8 @@ object Form10: TForm10
         CCCCCCCCCCCCCCCCCCCFFFFFFFFFFFF88888888888888888888FFFFFFFFFFFFF
         CCCCCCCCCCCCCCCCCCFFFFFFFFFFFFFF888888888888888888FF}
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       ExplicitLeft = 481
       ExplicitTop = -3
     end
@@ -556,6 +586,8 @@ object Form10: TForm10
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
       NumGlyphs = 2
+      ParentShowHint = False
+      ShowHint = True
       ExplicitLeft = 315
       ExplicitTop = -3
     end
@@ -687,6 +719,21 @@ object Form10: TForm10
           object TabSheet3: TTabSheet
             Caption = 'TPS'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
+            object StringGrid1: TStringGrid
+              Left = 0
+              Top = 0
+              Width = 266
+              Height = 437
+              Align = alClient
+              ColCount = 3
+              FixedCols = 0
+              Options = [goFixedHorzLine, goRangeSelect, goRowSelect]
+              TabOrder = 0
+            end
           end
         end
       end
@@ -703,24 +750,28 @@ object Form10: TForm10
     object fileFirstAction: TAction
       Category = 'File'
       Caption = #1055#1077#1088#1074#1099#1081' '#1092#1072#1081#1083
+      Hint = #1055#1077#1088#1074#1099#1081' '#1092#1072#1081#1083' '#1087#1088#1086#1073#1099
       OnExecute = fileFirstActionExecute
       OnUpdate = fileFirstActionUpdate
     end
     object fileLastAction: TAction
       Category = 'File'
       Caption = #1055#1086#1089#1083#1077#1076#1085#1080#1081' '#1092#1072#1081#1083
+      Hint = #1055#1086#1089#1083#1077#1076#1085#1080#1081' '#1092#1072#1081#1083' '#1087#1088#1086#1073#1099
       OnExecute = fileLastActionExecute
       OnUpdate = fileLastActionUpdate
     end
     object fileNextAction: TAction
       Category = 'File'
       Caption = #1057#1083#1077#1076#1091#1102#1097#1080#1081' '#1092#1072#1081#1083
+      Hint = #1057#1083#1077#1076#1091#1102#1097#1080#1081' '#1092#1072#1081#1083
       OnExecute = fileNextActionExecute
       OnUpdate = fileNextActionUpdate
     end
     object filePrevAction: TAction
       Category = 'File'
       Caption = #1055#1088#1077#1076#1099#1076#1091#1097#1080#1081' '#1092#1072#1081#1083
+      Hint = #1055#1088#1077#1076#1099#1076#1091#1097#1080#1081' '#1092#1072#1081#1083
       OnExecute = filePrevActionExecute
       OnUpdate = filePrevActionUpdate
     end
@@ -757,12 +808,14 @@ object Form10: TForm10
     object viewBestFitAction: TAction
       Category = 'View'
       Caption = #1042#1087#1080#1089#1072#1090#1100' '#1074' '#1086#1082#1085#1086
+      Hint = #1042#1087#1080#1089#1072#1090#1100' '#1074' '#1086#1082#1085#1086
       OnExecute = viewBestFitActionExecute
       OnUpdate = viewBestFitActionUpdate
     end
     object toolsZoomPaneAction: TAction
       Category = 'Tools'
       Caption = #1059#1074#1077#1083#1080#1095' - '#1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1077
+      Hint = #1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1077' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1103
       OnExecute = toolsZoomPaneActionExecute
       OnUpdate = toolsZoomPaneActionUpdate
     end
@@ -799,6 +852,7 @@ object Form10: TForm10
     object viewActualSizeAction: TAction
       Category = 'View'
       Caption = #1048#1089#1093#1086#1076#1085#1099#1081' '#1088#1072#1079#1084#1077#1088
+      Hint = #1048#1089#1093#1086#1076#1085#1099#1081' '#1088#1072#1079#1084#1077#1088
       OnExecute = viewActualSizeActionExecute
       OnUpdate = viewActualSizeActionUpdate
     end

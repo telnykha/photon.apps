@@ -23,6 +23,7 @@
 #include "PhZonesTool.h"
 #include "PhLandmarksTool.h"
 #include <Vcl.Dialogs.hpp>
+#include <Vcl.Grids.hpp>
 //---------------------------------------------------------------------------
 class TForm10 : public TForm
 {
@@ -108,6 +109,7 @@ __published:	// IDE-managed Components
 	TSpeedButton *SpeedButton11;
 	TAction *viewActualSizeAction;
 	TMenuItem *N24;
+	TStringGrid *StringGrid1;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -158,6 +160,7 @@ private:	// User declarations
 	bool __fastcall CreateLandmarks();
 	void __fastcall ChangeRoi(TObject* sender,  int index, bool update);
 	bool __fastcall ExportTPS(const UnicodeString& strFileName);
+	void __fastcall UpdateTPSGrid();
 public:		// User declarations
 	__fastcall TForm10(TComponent* Owner);
 	void __fastcall ProcessImages();

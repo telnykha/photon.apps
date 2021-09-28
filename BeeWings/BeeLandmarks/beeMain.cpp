@@ -142,16 +142,21 @@ void __fastcall TForm10::fileAnalysisActionUpdate(TObject *Sender)
 void __fastcall TForm10::DirectoryListBox1Change(TObject *Sender)
 {
 	StatusBar1->Panels->Items[0]->Text = L"×èñëî ôàéëîâ: " + IntToStr(FileListBox1->Items->Count);
+	PhImage1->Close();
+	PhImage1->Paint();
+
 	UnicodeString str = DirectoryListBox1->Directory;
 	str += "\\beelandmarks.xml";
 	 if (FileExists(str)) {
 		if (!PhLandmarksTool1->Connect(str))
 		{
-			ShowMessage(L"Error");
+			ShowMessage(L"Íå ìîãó îòêðûòü áàçó äàííûõ.");
 		}
 	 }
 	 else
 		this->PhLandmarksTool1->Close();
+
+	UpdateTPSGrid();
 }
 //---------------------------------------------------------------------------
 
@@ -339,11 +344,17 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 
 	AnsiString _ansi = ExtractFilePath(Application->ExeName);
 	PhZonesTool1->LoadZones(_ansi + "\\output.xml");
-    PhZonesTool1->OnChangeRoi = ChangeRoi;
+	PhZonesTool1->OnChangeRoi = ChangeRoi;
 	m_object = beeObjectCreate(_ansi.c_str());
 	if (m_object == NULL) {
 		ShowMessage(L"Íå ìîãó çàãðóçèòü äåòåêòîð îñîáûõ òî÷åê.");
 	}
+	PhImage1->Cursor = TCursor(crHandPoint);
+	StringGrid1->ColWidths[0] = 128;
+	StringGrid1->Cells[0][0] = L"Ñòàòóñ";
+	StringGrid1->Cells[1][0] = L"X";
+	StringGrid1->Cells[2][0] = L"Y";
+
 }
 //---------------------------------------------------------------------------
 
@@ -353,27 +364,33 @@ void __fastcall TForm10::PhImage1ToolChange(TObject *Sender)
 	   UnicodeString strText = L"";
 	   if (PhImage1->PhTool->ToolName == L"RULER") {
 		  strText = L"ËÈÍÅÉÊÀ";
+		  PhImage1->Cursor = TCursor(crDefault);
 	   }
 	   else if (PhImage1->PhTool->ToolName == L"ZOOM/PANE") {
 		  strText = L"ÓÂÅËÈ×ÍÅÍÈÅ/ÏÅÐÅÌÅÙÅÍÈÅ";
+		  PhImage1->Cursor = TCursor(crHandPoint);
 	   }
 	   else if (PhImage1->PhTool->ToolName == L"ZOOM TO RECT") {
 		  strText = L"ÓÂÅËÈ×ÍÅÍÈÅ ÏÐßÌÎÓÃÎËÜÍÈÊÀ";
+		  PhImage1->Cursor = TCursor(crDefault);
 	   }
 	   else if (PhImage1->PhTool->ToolName == L"TRIANGLE") {
 		  strText = L"ÈÇÌÅÐÅÍÈÅ ÓÃËÀ";
+		  PhImage1->Cursor = TCursor(crDefault);
 	   }
 	   else if (PhImage1->PhTool->ToolName == L"ZONES EDITOR") {
 		  strText = L"ÎÁËÀÑÒÈ ÏÎÈÑÊÀ";
+		  PhImage1->Cursor = TCursor(crDefault);
 	   }
 	   else if (PhImage1->PhTool->ToolName == L"LANDMARKS") {
 		  strText = L"ÎÑÎÁÛÅ ÒÎ×ÊÈ";
+		  PhImage1->Cursor = TCursor(crDefault);
 	   }
 	   StatusBar1->Panels->Items[4]->Text = L"Èíñòðóìåíò: " + strText;
 	}
 	else
 		   StatusBar1->Panels->Items[4]->Text = L"Èíñòðóìåíò: ÍÅ ÂÛÁÐÀÍ";
-    PhImage1->Paint();
+	PhImage1->Paint();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm10::ProcessImages()
@@ -393,6 +410,9 @@ void __fastcall TForm10::ProcessImages()
 		awpImage* img = NULL;
 		AnsiString _ansi = FileListBox1->Items->Strings[i];
 		awpLoadImage(_ansi.c_str(), &img);
+		AWPBYTE* data = NULL;
+		AWPDWORD l = 0;
+		awpImageToJpeg(img, &data, &l, 100);
 		if (img)
 		{
 			if (beeImageProcess(m_object, img->sSizeX, img->sSizeY,  (AWPBYTE*)img->pPixels,&num,  bp) == S_OK)
@@ -403,7 +423,7 @@ void __fastcall TForm10::ProcessImages()
 				   awp2DPoint p;
 				   p.X = 100.f*bp[i].x/(double)img->sSizeX;
 				   p.Y = 100.f*bp[i].y/(double)img->sSizeY;
-				   TLFLandmark* land = new TLFLandmark(attr, p);
+				   TLFLandmark* land = new TLFLandmark(attr, p, bp[i].q);
 				   file->Append(land);
 				}
                 files->Append(file);
@@ -417,7 +437,10 @@ void __fastcall TForm10::ProcessImages()
 	}
 	//
 	if (PhLandmarksTool1->SelectFile(FileListBox1->FileName))
-      PhImage1->Paint();
+	{
+	  PhImage1->Paint();
+	}
+	UpdateTPSGrid();
 }
 
 bool __fastcall TForm10::CreateLandmarks()
@@ -527,6 +550,20 @@ void __fastcall TForm10::ChangeRoi(TObject* sender,  int index, bool update)
 {
 	UnicodeString str = ExtractFilePath(Application->ExeName);
 	this->PhZonesTool1->SaveZones(str + "\\output.xml");
+	if (update) {
+		AnsiString _ansi = str;
+		if (m_object != NULL) {
+			beeObjectFree(m_object);
+			m_object = NULL;
+		}
+		m_object = beeObjectCreate(_ansi.c_str());
+		if (m_object == NULL) {
+			ShowMessage(L"Íå ìîãó çàãðóçèòü äåòåêòîð îñîáûõ òî÷åê.");
+		}
+	}
+
+
+	ShowMessage("îáíîâëåíèå output.xml");
 }
 
 bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
@@ -580,4 +617,29 @@ void __fastcall TForm10::viewBestFitActionUpdate(TObject *Sender)
 	viewBestFitAction->Enabled = !PhImage1->Empty;
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm10::UpdateTPSGrid()
+{
+   if (!PhLandmarksTool1->Connected)
+   {
+		StringGrid1->RowCount = 2;
+		StringGrid1->Cells[0][1] = L"";
+   }
+   else
+   {
+		StringGrid1->RowCount = 1+9*PhLandmarksTool1->db->Files()->Count();
+		for (int i = 0; i < PhLandmarksTool1->db->Files()->Count(); i++)
+		{
+			 TLFLandmarkFile* file = PhLandmarksTool1->db->Files()->File(i);
+			 int index = 1+9*i;
+			 StringGrid1->Cells[0][index] = file->FileName();
+			 for (int j = 1; j <= 8; j++)
+			 {
+				  StringGrid1->Cells[0][index +j ] = FormatFloat("##0.00", file->Landmark(j-1)->Status());
+				  StringGrid1->Cells[1][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->x());
+				  StringGrid1->Cells[2][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->y());
+			 }
+		}
+   }
+}
+
 

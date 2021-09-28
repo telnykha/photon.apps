@@ -12,11 +12,11 @@
         <Projects Include="LandmarksEditor\LandmarksEditor.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="BeeLandmarks\BeeLandmarks.cbproj">
-            <Dependencies>..\..\photon41\photon41.cbproj</Dependencies>
-        </Projects>
         <Projects Include="..\..\photon41\photon41.cbproj">
             <Dependencies/>
+        </Projects>
+        <Projects Include="BeeLandmarks\BeeLandmarks.cbproj">
+            <Dependencies>..\..\photon41\photon41.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\..\photon41\Demo\PhotonDemo.cbproj">
             <Dependencies/>
@@ -62,15 +62,6 @@
     <Target Name="LandmarksEditor:Make">
         <MSBuild Projects="LandmarksEditor\LandmarksEditor.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="BeeLandmarks" DependsOnTargets="photon41">
-        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj"/>
-    </Target>
-    <Target Name="BeeLandmarks:Clean" DependsOnTargets="photon41:Clean">
-        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BeeLandmarks:Make" DependsOnTargets="photon41:Make">
-        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="photon41">
         <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
     </Target>
@@ -79,6 +70,15 @@
     </Target>
     <Target Name="photon41:Make">
         <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="BeeLandmarks" DependsOnTargets="photon41">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj"/>
+    </Target>
+    <Target Name="BeeLandmarks:Clean" DependsOnTargets="photon41:Clean">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BeeLandmarks:Make" DependsOnTargets="photon41:Make">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Make"/>
     </Target>
     <Target Name="PhotonDemo">
         <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj"/>
@@ -108,13 +108,13 @@
         <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;LandmarksEditor;BeeLandmarks;photon41;PhotonDemo;ObjectsMarker;awplflibb"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;LandmarksEditor;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;LandmarksEditor:Clean;BeeLandmarks:Clean;photon41:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;LandmarksEditor:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;LandmarksEditor:Make;BeeLandmarks:Make;photon41:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;LandmarksEditor:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
