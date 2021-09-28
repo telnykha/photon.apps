@@ -591,6 +591,13 @@ object Form10: TForm10
       ExplicitLeft = 315
       ExplicitTop = -3
     end
+    object Label1: TLabel
+      Left = 728
+      Top = 8
+      Width = 31
+      Height = 13
+      Caption = 'Label1'
+    end
   end
   object Panel3: TPanel
     Left = 0
@@ -719,20 +726,18 @@ object Form10: TForm10
           object TabSheet3: TTabSheet
             Caption = 'TPS'
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object StringGrid1: TStringGrid
               Left = 0
               Top = 0
               Width = 266
               Height = 437
               Align = alClient
-              ColCount = 3
+              ColCount = 4
               FixedCols = 0
               Options = [goFixedHorzLine, goRangeSelect, goRowSelect]
               TabOrder = 0
+              OnClick = StringGrid1Click
+              OnDrawCell = StringGrid1DrawCell
             end
           end
         end

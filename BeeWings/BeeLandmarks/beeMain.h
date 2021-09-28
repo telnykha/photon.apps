@@ -110,6 +110,7 @@ __published:	// IDE-managed Components
 	TAction *viewActualSizeAction;
 	TMenuItem *N24;
 	TStringGrid *StringGrid1;
+	TLabel *Label1;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -154,6 +155,9 @@ __published:	// IDE-managed Components
 	void __fastcall viewActualSizeActionExecute(TObject *Sender);
 	void __fastcall viewActualSizeActionUpdate(TObject *Sender);
 	void __fastcall viewBestFitActionUpdate(TObject *Sender);
+	void __fastcall StringGrid1Click(TObject *Sender);
+	void __fastcall StringGrid1DrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
+          TGridDrawState State);
 
 private:	// User declarations
 	HANDLE m_object;
@@ -161,6 +165,8 @@ private:	// User declarations
 	void __fastcall ChangeRoi(TObject* sender,  int index, bool update);
 	bool __fastcall ExportTPS(const UnicodeString& strFileName);
 	void __fastcall UpdateTPSGrid();
+
+    UnicodeString m_selectedFile;
 public:		// User declarations
 	__fastcall TForm10(TComponent* Owner);
 	void __fastcall ProcessImages();

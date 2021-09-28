@@ -40,6 +40,7 @@ __fastcall TForm10::TForm10(TComponent* Owner)
 	: TForm(Owner)
 {
    m_object = NULL;
+   m_selectedFile = L"";
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm10::fileExitActionExecute(TObject *Sender)
@@ -209,15 +210,16 @@ void __fastcall TForm10::viewBestFitActionExecute(TObject *Sender)
 
 void __fastcall TForm10::FileListBox1Change(TObject *Sender)
 {
+	m_selectedFile = FileListBox1->FileName;
 	if (FileListBox1->FileName != "") {
-		PhImage1->InitFile(FileListBox1->FileName);
+		PhImage1->InitFile(m_selectedFile);
 	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm10::PhImage1AfterOpen(TObject *Sender)
 {
-	PhLandmarksTool1->SelectFile(FileListBox1->FileName);
+	PhLandmarksTool1->SelectFile(m_selectedFile);
 	PhImage1->BestFit();
 	StatusBar1->Panels->Items[1]->Text = L"Размер: " + IntToStr(PhImage1->Bitmap->Width) + L"x" + IntToStr(PhImage1->Bitmap->Height);
 }
@@ -350,10 +352,14 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 		ShowMessage(L"Не могу загрузить детектор особых точек.");
 	}
 	PhImage1->Cursor = TCursor(crHandPoint);
-	StringGrid1->ColWidths[0] = 128;
-	StringGrid1->Cells[0][0] = L"Статус";
-	StringGrid1->Cells[1][0] = L"X";
-	StringGrid1->Cells[2][0] = L"Y";
+	StringGrid1->ColWidths[0] = 40;
+	StringGrid1->ColWidths[1] = 96;
+	StringGrid1->ColWidths[2] = 40;
+	StringGrid1->ColWidths[3] = 40;
+    StringGrid1->Cells[0][0] = L"№";
+	StringGrid1->Cells[1][0] = L"Статус";
+	StringGrid1->Cells[2][0] = L"X";
+	StringGrid1->Cells[3][0] = L"Y";
 
 }
 //---------------------------------------------------------------------------
@@ -412,7 +418,6 @@ void __fastcall TForm10::ProcessImages()
 		awpLoadImage(_ansi.c_str(), &img);
 		AWPBYTE* data = NULL;
 		AWPDWORD l = 0;
-		awpImageToJpeg(img, &data, &l, 100);
 		if (img)
 		{
 			if (beeImageProcess(m_object, img->sSizeX, img->sSizeY,  (AWPBYTE*)img->pPixels,&num,  bp) == S_OK)
@@ -511,9 +516,25 @@ bool __fastcall TForm10::CreateLandmarks()
 
 void __fastcall TForm10::PhImage1Paint(TObject *Sender)
 {
+	int delta = 8;
+	int idx =  -1;
+	if (this->PageControl2->ActivePage == this->TabSheet3) {
+		UnicodeString str = StringGrid1->Cells[0][StringGrid1->Row];
+		try
+		{
+			idx = StrToInt(str);
+			idx--;
+		}
+		catch(EConvertError& e)
+		{
+			idx = -1;
+		}
+	}
+
+
 	if (PhLandmarksTool1->Connected &&  dynamic_cast<TPhLandmarksTool*>(PhImage1->PhTool) == NULL)
 	{
-		 AnsiString _ansi = ExtractFileName(FileListBox1->FileName.LowerCase());
+		 AnsiString _ansi = ExtractFileName(this->m_selectedFile.LowerCase());
 		 TLFLandmarkFile* f = PhLandmarksTool1->db->Files()->File(_ansi.c_str());
 		 int w = PhImage1->Bitmap->Width;
 		 int h = PhImage1->Bitmap->Height;
@@ -537,7 +558,11 @@ void __fastcall TForm10::PhImage1Paint(TObject *Sender)
 
 					   cnv->Brush->Color = (TColor)ll->Color();
 					   cnv->Pen->Color = (TColor)ll->Color();
-					   r.init(xx - 8, yy-8,xx+8, yy+8 );
+					   if (i == idx)
+						  delta = 24;
+					   else
+						  delta = 8;
+					   r.init(xx - delta, yy-delta,xx+delta, yy+delta );
 					   rr= PhImage1->GetScreenRect(r);
 					   cnv->Ellipse(rr);
 				 }
@@ -608,7 +633,7 @@ void __fastcall TForm10::viewActualSizeActionExecute(TObject *Sender)
 
 void __fastcall TForm10::viewActualSizeActionUpdate(TObject *Sender)
 {
-    viewActualSizeAction->Enabled = !PhImage1->Empty;
+	viewActualSizeAction->Enabled = !PhImage1->Empty;
 }
 //---------------------------------------------------------------------------
 
@@ -622,7 +647,7 @@ void __fastcall TForm10::UpdateTPSGrid()
    if (!PhLandmarksTool1->Connected)
    {
 		StringGrid1->RowCount = 2;
-		StringGrid1->Cells[0][1] = L"";
+		StringGrid1->Cells[0][1] = L"№";
    }
    else
    {
@@ -631,15 +656,49 @@ void __fastcall TForm10::UpdateTPSGrid()
 		{
 			 TLFLandmarkFile* file = PhLandmarksTool1->db->Files()->File(i);
 			 int index = 1+9*i;
-			 StringGrid1->Cells[0][index] = file->FileName();
+			 StringGrid1->Cells[0][index] = L"IMG=";
+			 StringGrid1->Cells[1][index] = file->FileName();
 			 for (int j = 1; j <= 8; j++)
 			 {
-				  StringGrid1->Cells[0][index +j ] = FormatFloat("##0.00", file->Landmark(j-1)->Status());
-				  StringGrid1->Cells[1][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->x());
-				  StringGrid1->Cells[2][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->y());
+				  StringGrid1->Cells[0][index +j ] = IntToStr(j);
+				  StringGrid1->Cells[1][index +j ] = FormatFloat("##0.00", file->Landmark(j-1)->Status());
+				  StringGrid1->Cells[2][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->x());
+				  StringGrid1->Cells[3][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->y());
 			 }
 		}
    }
 }
 
+
+void __fastcall TForm10::StringGrid1Click(TObject *Sender)
+{
+	int idx = StringGrid1->Row;
+	if (idx == 0) {
+		return;
+	}
+	else
+	{
+		while(idx > 0 && StringGrid1->Cells[0][idx] != L"IMG=")
+			idx--;
+		// Open Image
+		if (StringGrid1->Cells[1][idx] != PhImage1->FileName) {
+			m_selectedFile = StringGrid1->Cells[1][idx];
+			PhImage1->InitFile(m_selectedFile);
+		}
+        PhImage1->Paint();
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::StringGrid1DrawCell(TObject *Sender, int ACol, int ARow,
+		  TRect &Rect, TGridDrawState State)
+{
+	UnicodeString str = StringGrid1->Cells[ACol][ARow];
+	if (str == L"0.00") {
+		StringGrid1->Canvas->Brush->Color = clYellow;
+	 StringGrid1->Canvas->FillRect(Rect); // применяем изменения
+	 StringGrid1->Canvas->TextOut(Rect.Left, Rect.Top, StringGrid1->Cells[ACol][ARow]);
+	}
+}
+//---------------------------------------------------------------------------
 
