@@ -111,6 +111,11 @@ __published:	// IDE-managed Components
 	TMenuItem *N24;
 	TStringGrid *StringGrid1;
 	TLabel *Label1;
+	TPopupMenu *PopupMenu1;
+	TMenuItem *PS2;
+	TMenuItem *N25;
+	TAction *viewHideSuccessAction;
+	TMenuItem *N26;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -158,6 +163,8 @@ __published:	// IDE-managed Components
 	void __fastcall StringGrid1Click(TObject *Sender);
 	void __fastcall StringGrid1DrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
           TGridDrawState State);
+	void __fastcall viewHideSuccessActionExecute(TObject *Sender);
+	void __fastcall viewHideSuccessActionUpdate(TObject *Sender);
 
 private:	// User declarations
 	HANDLE m_object;

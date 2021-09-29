@@ -644,26 +644,41 @@ void __fastcall TForm10::viewBestFitActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm10::UpdateTPSGrid()
 {
-   if (!PhLandmarksTool1->Connected)
+	StringGrid1->RowCount = 2;
+	StringGrid1->Cells[0][1] = L"№";
+   if (PhLandmarksTool1->Connected)
    {
-		StringGrid1->RowCount = 2;
-		StringGrid1->Cells[0][1] = L"№";
-   }
-   else
-   {
-		StringGrid1->RowCount = 1+9*PhLandmarksTool1->db->Files()->Count();
 		for (int i = 0; i < PhLandmarksTool1->db->Files()->Count(); i++)
 		{
 			 TLFLandmarkFile* file = PhLandmarksTool1->db->Files()->File(i);
-			 int index = 1+9*i;
+			 int index = StringGrid1->RowCount - 1;
+			 StringGrid1->RowCount +=1;
 			 StringGrid1->Cells[0][index] = L"IMG=";
 			 StringGrid1->Cells[1][index] = file->FileName();
+
 			 for (int j = 1; j <= 8; j++)
 			 {
-				  StringGrid1->Cells[0][index +j ] = IntToStr(j);
-				  StringGrid1->Cells[1][index +j ] = FormatFloat("##0.00", file->Landmark(j-1)->Status());
-				  StringGrid1->Cells[2][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->x());
-				  StringGrid1->Cells[3][index +j ] = FormatFloat("###.##", file->Landmark(j-1)->y());
+				  if (viewHideSuccessAction->Checked){
+					if (file->Landmark(j-1)->Status() == 0)
+					{
+					  index = StringGrid1->RowCount -1;
+					  StringGrid1->RowCount +=1;
+					  StringGrid1->Cells[0][index] = IntToStr(j);
+					  StringGrid1->Cells[1][index] = FormatFloat("##0.00", file->Landmark(j-1)->Status());
+					  StringGrid1->Cells[2][index] = FormatFloat("###.##", file->Landmark(j-1)->x());
+					  StringGrid1->Cells[3][index] = FormatFloat("###.##", file->Landmark(j-1)->y());
+					}
+				  }
+				  else
+				  {
+					  index = StringGrid1->RowCount -1;
+					  StringGrid1->RowCount +=1;
+					  StringGrid1->Cells[0][index] = IntToStr(j);
+					  StringGrid1->Cells[1][index] = FormatFloat("##0.00", file->Landmark(j-1)->Status());
+					  StringGrid1->Cells[2][index] = FormatFloat("###.##", file->Landmark(j-1)->x());
+					  StringGrid1->Cells[3][index] = FormatFloat("###.##", file->Landmark(j-1)->y());
+				  }
+
 			 }
 		}
    }
@@ -685,7 +700,7 @@ void __fastcall TForm10::StringGrid1Click(TObject *Sender)
 			m_selectedFile = StringGrid1->Cells[1][idx];
 			PhImage1->InitFile(m_selectedFile);
 		}
-        PhImage1->Paint();
+		PhImage1->Paint();
 	}
 }
 //---------------------------------------------------------------------------
@@ -699,6 +714,24 @@ void __fastcall TForm10::StringGrid1DrawCell(TObject *Sender, int ACol, int ARow
 	 StringGrid1->Canvas->FillRect(Rect); // применяем изменения
 	 StringGrid1->Canvas->TextOut(Rect.Left, Rect.Top, StringGrid1->Cells[ACol][ARow]);
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::viewHideSuccessActionExecute(TObject *Sender)
+{
+	viewHideSuccessAction->Checked = !viewHideSuccessAction->Checked;
+	if (viewHideSuccessAction->Checked) {
+		viewHideSuccessAction->Caption = L"Показать все";
+	}
+	else
+		viewHideSuccessAction->Caption = L"Скрыть найденные";
+    UpdateTPSGrid();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::viewHideSuccessActionUpdate(TObject *Sender)
+{
+//
 }
 //---------------------------------------------------------------------------
 

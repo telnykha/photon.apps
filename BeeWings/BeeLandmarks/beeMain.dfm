@@ -644,8 +644,9 @@ object Form10: TForm10
           Top = 0
           Width = 274
           Height = 463
-          ActivePage = TabSheet2
+          ActivePage = TabSheet3
           Align = alLeft
+          PopupMenu = PopupMenu1
           TabOrder = 1
           TabPosition = tpBottom
           object TabSheet2: TTabSheet
@@ -861,6 +862,12 @@ object Form10: TForm10
       OnExecute = viewActualSizeActionExecute
       OnUpdate = viewActualSizeActionUpdate
     end
+    object viewHideSuccessAction: TAction
+      Category = 'View'
+      Caption = #1057#1082#1088#1099#1090#1100' '#1085#1072#1081#1076#1077#1085#1085#1099#1077' '
+      OnExecute = viewHideSuccessActionExecute
+      OnUpdate = viewHideSuccessActionUpdate
+    end
   end
   object MainMenu1: TMainMenu
     Left = 545
@@ -975,5 +982,18 @@ object Form10: TForm10
     Filter = #1060#1072#1081#1083#1099' TPS|*.tps'
     Left = 721
     Top = 418
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 605
+    Top = 154
+    object PS2: TMenuItem
+      Action = fileExportTPSAction
+    end
+    object N25: TMenuItem
+      Caption = '-'
+    end
+    object N26: TMenuItem
+      Action = viewHideSuccessAction
+    end
   end
 end
