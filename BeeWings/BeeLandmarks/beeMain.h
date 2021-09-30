@@ -24,6 +24,7 @@
 #include "PhLandmarksTool.h"
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.Grids.hpp>
+#include <Vcl.ValEdit.hpp>
 //---------------------------------------------------------------------------
 class TForm10 : public TForm
 {
@@ -110,12 +111,16 @@ __published:	// IDE-managed Components
 	TAction *viewActualSizeAction;
 	TMenuItem *N24;
 	TStringGrid *StringGrid1;
-	TLabel *Label1;
 	TPopupMenu *PopupMenu1;
 	TMenuItem *PS2;
 	TMenuItem *N25;
 	TAction *viewHideSuccessAction;
 	TMenuItem *N26;
+	TTabSheet *TabSheet4;
+	TValueListEditor *ValueListEditor1;
+	TLabel *Label2;
+	TLabel *Label3;
+	TValueListEditor *ValueListEditor2;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -165,14 +170,17 @@ __published:	// IDE-managed Components
           TGridDrawState State);
 	void __fastcall viewHideSuccessActionExecute(TObject *Sender);
 	void __fastcall viewHideSuccessActionUpdate(TObject *Sender);
+	void __fastcall PhLandmarksTool1Change(TObject *Sender);
+	void __fastcall TabSheet4Show(TObject *Sender);
 
 private:	// User declarations
 	HANDLE m_object;
+	TLFDBLandmarks m_db;
 	bool __fastcall CreateLandmarks();
 	void __fastcall ChangeRoi(TObject* sender,  int index, bool update);
 	bool __fastcall ExportTPS(const UnicodeString& strFileName);
 	void __fastcall UpdateTPSGrid();
-
+	void __fastcall MakeReport();
     UnicodeString m_selectedFile;
 public:		// User declarations
 	__fastcall TForm10(TComponent* Owner);

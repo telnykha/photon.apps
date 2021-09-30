@@ -591,13 +591,6 @@ object Form10: TForm10
       ExplicitLeft = 315
       ExplicitTop = -3
     end
-    object Label1: TLabel
-      Left = 728
-      Top = 8
-      Width = 31
-      Height = 13
-      Caption = 'Label1'
-    end
   end
   object Panel3: TPanel
     Left = 0
@@ -644,7 +637,7 @@ object Form10: TForm10
           Top = 0
           Width = 274
           Height = 463
-          ActivePage = TabSheet3
+          ActivePage = TabSheet2
           Align = alLeft
           PopupMenu = PopupMenu1
           TabOrder = 1
@@ -739,6 +732,71 @@ object Form10: TForm10
               TabOrder = 0
               OnClick = StringGrid1Click
               OnDrawCell = StringGrid1DrawCell
+            end
+          end
+          object TabSheet4: TTabSheet
+            Caption = #1054#1090#1095#1077#1090
+            ImageIndex = 2
+            OnShow = TabSheet4Show
+            object Label2: TLabel
+              Left = 0
+              Top = 0
+              Width = 266
+              Height = 13
+              Align = alTop
+              Caption = #1063#1080#1089#1083#1086' '#1085#1072#1081#1076#1077#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
+              ExplicitWidth = 123
+            end
+            object Label3: TLabel
+              Left = 0
+              Top = 185
+              Width = 266
+              Height = 13
+              Align = alTop
+              Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1086#1090#1088#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
+              Visible = False
+              ExplicitWidth = 201
+            end
+            object ValueListEditor1: TValueListEditor
+              Left = 0
+              Top = 198
+              Width = 266
+              Height = 172
+              Align = alTop
+              Strings.Strings = (
+                'Wing-1=0%'
+                'Wing-2=0%'
+                'Wnig-3=0%'
+                'Wing-4=0%'
+                'Wing-5=0%'
+                'Wing-6=0%'
+                'Wing-7=0%'
+                'Wing-8=0%')
+              TabOrder = 0
+              Visible = False
+              ColWidths = (
+                67
+                176)
+            end
+            object ValueListEditor2: TValueListEditor
+              Left = 0
+              Top = 13
+              Width = 266
+              Height = 172
+              Align = alTop
+              Strings.Strings = (
+                'Wing-1=0%'
+                'Wing-2=0%'
+                'Wnig-3=0%'
+                'Wing-4=0%'
+                'Wing-5=0%'
+                'Wing-6=0%'
+                'Wing-7=0%'
+                'Wing-8=0%')
+              TabOrder = 1
+              ColWidths = (
+                67
+                176)
             end
           end
         end
@@ -975,6 +1033,7 @@ object Form10: TForm10
   end
   object PhLandmarksTool1: TPhLandmarksTool
     PhImage = PhImage1
+    OnChange = PhLandmarksTool1Change
     Left = 713
     Top = 362
   end

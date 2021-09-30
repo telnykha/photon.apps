@@ -153,9 +153,17 @@ void __fastcall TForm10::DirectoryListBox1Change(TObject *Sender)
 		{
 			ShowMessage(L"Ќе могу открыть базу данных.");
 		}
+		else
+		{
+			AnsiString _ansi = DirectoryListBox1->Directory + "\\beelandmarks0.xml";
+			m_db.Connect(_ansi.c_str());
+		}
 	 }
 	 else
+	 {
 		this->PhLandmarksTool1->Close();
+		m_db.Close();
+	 }
 
 	UpdateTPSGrid();
 }
@@ -441,8 +449,13 @@ void __fastcall TForm10::ProcessImages()
 		}
 	}
 	//
+	PhLandmarksTool1->Close();
+	PhLandmarksTool1->Connect(L"beelandmarks.xml");
+	CopyFile(L"beelandmarks.xml",L"beelandmarks0.xml", false);
 	if (PhLandmarksTool1->SelectFile(FileListBox1->FileName))
 	{
+	  AnsiString _ansi = DirectoryListBox1->Directory + "\\beelandmarks0.xml";
+	  m_db.Connect(_ansi.c_str());
 	  PhImage1->Paint();
 	}
 	UpdateTPSGrid();
@@ -534,8 +547,11 @@ void __fastcall TForm10::PhImage1Paint(TObject *Sender)
 
 	if (PhLandmarksTool1->Connected &&  dynamic_cast<TPhLandmarksTool*>(PhImage1->PhTool) == NULL)
 	{
-		 AnsiString _ansi = ExtractFileName(this->m_selectedFile.LowerCase());
+		 AnsiString _ansi = ExtractFileName(this->m_selectedFile);
 		 TLFLandmarkFile* f = PhLandmarksTool1->db->Files()->File(_ansi.c_str());
+		 TLFLandmarkFile* f0 = NULL;
+		 if (m_db.Files() != NULL)
+			f0 =  m_db.Files()->File(_ansi.c_str());
 		 int w = PhImage1->Bitmap->Width;
 		 int h = PhImage1->Bitmap->Height;
 		 if (f) {
@@ -565,6 +581,25 @@ void __fastcall TForm10::PhImage1Paint(TObject *Sender)
 					   r.init(xx - delta, yy-delta,xx+delta, yy+delta );
 					   rr= PhImage1->GetScreenRect(r);
 					   cnv->Ellipse(rr);
+					   if (ll->Status() == 0.5 && f0 != NULL)
+					   {
+						 TBrushStyle s = cnv->Brush->Style;
+						 cnv->Brush->Style = bsClear;
+						 TLFLandmark* ll0 = f0->Landmark(i);
+						 double x0,y0;
+						 x0 = ll0->x();
+						 y0 = ll0->y();
+						 int xx0 = x0*w / 100;
+						 int yy0 = y0*h / 100;
+						 TRect r0;
+						 TRect rr0;
+						 r0.init(xx0 - delta, yy0-delta,xx0+delta, yy0+delta );
+						 rr0= PhImage1->GetScreenRect(r0);
+						 cnv->Ellipse(rr0);
+						 cnv->MoveTo(PhImage1->GetScreenPoint(xx,yy).x, PhImage1->GetScreenPoint(xx,yy).y);
+						 cnv->LineTo(PhImage1->GetScreenPoint(xx0,yy0).x, PhImage1->GetScreenPoint(xx0,yy0).y);
+                         cnv->Brush->Style = s;
+					   }
 				 }
 			 }
 		 }
@@ -619,10 +654,6 @@ bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
 	}
 	return false;
 }
-
-
-
-
 
 
 void __fastcall TForm10::viewActualSizeActionExecute(TObject *Sender)
@@ -709,11 +740,17 @@ void __fastcall TForm10::StringGrid1DrawCell(TObject *Sender, int ACol, int ARow
 		  TRect &Rect, TGridDrawState State)
 {
 	UnicodeString str = StringGrid1->Cells[ACol][ARow];
-	if (str == L"0.00") {
-		StringGrid1->Canvas->Brush->Color = clYellow;
+	if (str == L"0.00")
+	{
+	 StringGrid1->Canvas->Brush->Color = clYellow;
 	 StringGrid1->Canvas->FillRect(Rect); // примен€ем изменени€
 	 StringGrid1->Canvas->TextOut(Rect.Left, Rect.Top, StringGrid1->Cells[ACol][ARow]);
 	}
+	else if (str == "0.50") {
+	 StringGrid1->Canvas->Brush->Color = clLime;
+	 StringGrid1->Canvas->FillRect(Rect); // примен€ем изменени€
+	 StringGrid1->Canvas->TextOut(Rect.Left, Rect.Top, StringGrid1->Cells[ACol][ARow]);
+	 }
 }
 //---------------------------------------------------------------------------
 
@@ -725,13 +762,55 @@ void __fastcall TForm10::viewHideSuccessActionExecute(TObject *Sender)
 	}
 	else
 		viewHideSuccessAction->Caption = L"—крыть найденные";
-    UpdateTPSGrid();
+	UpdateTPSGrid();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm10::viewHideSuccessActionUpdate(TObject *Sender)
 {
 //
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::PhLandmarksTool1Change(TObject *Sender)
+{
+	if (dynamic_cast<TPhLandmarksTool*>(PhImage1->PhTool) == NULL) {
+		return;
+	}
+   int row = StringGrid1->Row;
+   UpdateTPSGrid();
+   StringGrid1->Row = row;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm10::MakeReport()
+{
+	if (m_db.Files()->Count() == 0) {
+		return;
+	}
+	double err[8];
+	memset(err,0, sizeof(err));
+	double count = m_db.Files()->Count();
+	for (int i = 0; i < m_db.Files()->Count(); i++) {
+	   TLFLandmarkFile* f= m_db.Files()->File(i);
+	   for (int j = 0; j < f->Count(); j++) {
+		   TLFLandmark* ll = f->Landmark(j);
+		   if (ll->Status() == 0) {
+			   err[j]++;
+		   }
+	   }
+	}
+	for (int i = 0; i < 8; i++) {
+		 err[i] /= count;
+		 err[i] *= 100;
+         err[i] = 100 - err[i];
+		 ValueListEditor2->Strings->ValueFromIndex[i] = FormatFloat("###.##", err[i]) + L"%";
+	}
+}
+
+
+void __fastcall TForm10::TabSheet4Show(TObject *Sender)
+{
+MakeReport();
 }
 //---------------------------------------------------------------------------
 
