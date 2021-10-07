@@ -10,6 +10,7 @@ object Form10: TForm10
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
@@ -880,6 +881,7 @@ object Form10: TForm10
       Category = 'Tools'
       Caption = #1059#1074#1077#1083#1080#1095' - '#1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1077
       Hint = #1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1077' '#1080#1079#1086#1073#1088#1072#1078#1077#1085#1080#1103
+      ShortCut = 8205
       OnExecute = toolsZoomPaneActionExecute
       OnUpdate = toolsZoomPaneActionUpdate
     end
@@ -904,6 +906,7 @@ object Form10: TForm10
     object toolsBeeLandmarksAction: TAction
       Category = 'Tools'
       Caption = #1054#1089#1086#1073#1099#1077' '#1090#1086#1095#1082#1080
+      ShortCut = 32781
       OnExecute = toolsBeeLandmarksActionExecute
       OnUpdate = toolsBeeLandmarksActionUpdate
     end
