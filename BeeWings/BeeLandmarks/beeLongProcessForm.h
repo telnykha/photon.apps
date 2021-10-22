@@ -20,8 +20,11 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 private:	// User declarations
+	bool    m_replace;
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
+    __property bool replace = {read = m_replace, write= m_replace};
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm1 *Form1;

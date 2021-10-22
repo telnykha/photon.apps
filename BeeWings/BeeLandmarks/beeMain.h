@@ -103,8 +103,6 @@ __published:	// IDE-managed Components
 	TSplitter *Splitter1;
 	TSpeedButton *SpeedButton5;
 	TSpeedButton *SpeedButton6;
-	TSpeedButton *SpeedButton7;
-	TSpeedButton *SpeedButton8;
 	TSpeedButton *SpeedButton9;
 	TSpeedButton *SpeedButton10;
 	TSpeedButton *SpeedButton11;
@@ -121,6 +119,13 @@ __published:	// IDE-managed Components
 	TLabel *Label2;
 	TLabel *Label3;
 	TValueListEditor *ValueListEditor2;
+	TAction *helpAboutAction;
+	TMenuItem *N27;
+	TMenuItem *N28;
+	TAction *fileImportTPSAction;
+	TMenuItem *PS3;
+	TOpenDialog *OpenDialog1;
+	TMenuItem *qq1;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -172,6 +177,9 @@ __published:	// IDE-managed Components
 	void __fastcall viewHideSuccessActionUpdate(TObject *Sender);
 	void __fastcall PhLandmarksTool1Change(TObject *Sender);
 	void __fastcall TabSheet4Show(TObject *Sender);
+	void __fastcall helpAboutActionExecute(TObject *Sender);
+	void __fastcall fileImportTPSActionExecute(TObject *Sender);
+	void __fastcall qq1Click(TObject *Sender);
 
 private:	// User declarations
 	HANDLE m_object;
@@ -184,7 +192,7 @@ private:	// User declarations
     UnicodeString m_selectedFile;
 public:		// User declarations
 	__fastcall TForm10(TComponent* Owner);
-	void __fastcall ProcessImages();
+	void __fastcall ProcessImages(bool replace = true);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm10 *Form10;
