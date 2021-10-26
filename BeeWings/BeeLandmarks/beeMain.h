@@ -125,7 +125,8 @@ __published:	// IDE-managed Components
 	TAction *fileImportTPSAction;
 	TMenuItem *PS3;
 	TOpenDialog *OpenDialog1;
-	TMenuItem *qq1;
+	TAction *toolsOptionsAction;
+	TMenuItem *N29;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -179,7 +180,7 @@ __published:	// IDE-managed Components
 	void __fastcall TabSheet4Show(TObject *Sender);
 	void __fastcall helpAboutActionExecute(TObject *Sender);
 	void __fastcall fileImportTPSActionExecute(TObject *Sender);
-	void __fastcall qq1Click(TObject *Sender);
+	void __fastcall toolsOptionsActionExecute(TObject *Sender);
 
 private:	// User declarations
 	HANDLE m_object;

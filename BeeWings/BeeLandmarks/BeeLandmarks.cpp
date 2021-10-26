@@ -6,9 +6,15 @@
 //---------------------------------------------------------------------------
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
+#include "BeeIniParamsUnit.h"
+
 USEFORM("beeMain.cpp", Form10);
 USEFORM("beeLongProcessForm.cpp", Form1);
 USEFORM("BeeAboutForm.cpp", AboutBox);
+USEFORM("BeeOptionsForm.cpp", OptionsForm);
+
+TBeeIniParams gBeeIniParams;
+TBeeIniParams* beeIni = &gBeeIniParams;
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -16,10 +22,11 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		TStyleManager::TrySetStyle("Carbon");
+		TStyleManager::TrySetStyle(gBeeIniParams.UITheme);
 		Application->CreateForm(__classid(TForm10), &Form10);
 		Application->CreateForm(__classid(TForm1), &Form1);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
+		Application->CreateForm(__classid(TOptionsForm), &OptionsForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

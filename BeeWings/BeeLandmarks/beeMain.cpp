@@ -9,6 +9,8 @@
 #include "VerInfoUnit.h"
 #include "..\include\beepoints.h"
 #include "tpsUnit.h"
+#include "BeeOptionsForm.h"
+#include "BeeIniParamsUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -27,6 +29,8 @@ const UnicodeString c_strDbFile0 = L"\\beelandmarks0.xml";
 
 const UnicodeString c_strDbFile1 = L"beelandmarks.xml";
 const UnicodeString c_strDbFile2 = L"beelandmarks0.xml";
+
+extern TBeeIniParams* beeIni;
 
 //---------------------------------------------------------------------------
 __fastcall TForm10::TForm10(TComponent* Owner)
@@ -842,7 +846,7 @@ void __fastcall TForm10::fileImportTPSActionExecute(TObject *Sender)
 		_xml  =  DirectoryListBox1->Directory + c_strDbFile0;
 		if (!FileExists(_xml, true)) {
 			 // включить обработчик изображений
-             Form1->replace = false;
+			 Form1->replace = false;
 			 Form1->ShowModal();
 		}
 
@@ -858,10 +862,22 @@ void __fastcall TForm10::fileImportTPSActionExecute(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm10::qq1Click(TObject *Sender)
+void __fastcall TForm10::toolsOptionsActionExecute(TObject *Sender)
 {
-   	TStyleManager::TrySetStyle("Windows");
+	OptionsForm->RadioGroup1->ItemIndex = beeIni->LandmarkSkin;
+	OptionsForm->CheckBox1->Checked = beeIni->NeedAnalysis;
+	OptionsForm->RadioGroup2->ItemIndex = beeIni->UITheme == L"Windows"?0:1;
+
+	if (OptionsForm->ShowModal() == mrOk) {
+		beeIni->LandmarkSkin = OptionsForm->RadioGroup1->ItemIndex;
+		beeIni->NeedAnalysis = OptionsForm->CheckBox1->Checked;
+		beeIni->UITheme  = OptionsForm->RadioGroup2->ItemIndex==0?L"Windows":L"Carbon";
+		if (OptionsForm->RadioGroup2->ItemIndex == 0)
+			TStyleManager::SetStyle("Windows");
+		else
+			TStyleManager::SetStyle("Carbon");
+		PhLandmarksTool1->Skin = OptionsForm->RadioGroup1->ItemIndex;
+	}
 }
 //---------------------------------------------------------------------------
 

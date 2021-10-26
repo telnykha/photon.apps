@@ -147,6 +147,10 @@
             <DependentOn>BeeAboutForm.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="BeeIniParamsUnit.cpp">
+            <DependentOn>BeeIniParamsUnit.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <CppCompile Include="BeeLandmarks.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -166,6 +170,15 @@
             <DependentOn>beeMain.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <CppCompile Include="BeeOptionsForm.cpp">
+            <Form>OptionsForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>BeeOptionsForm.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <None Include="Readme.txt">
+            <ModuleName>New1</ModuleName>
+        </None>
         <CppCompile Include="..\landmarks\tpsUnit.cpp">
             <DependentOn>..\landmarks\tpsUnit.h</DependentOn>
             <BuildOrder>6</BuildOrder>
@@ -177,6 +190,7 @@
         <FormResources Include="beeMain.dfm"/>
         <FormResources Include="beeLongProcessForm.dfm"/>
         <FormResources Include="BeeAboutForm.dfm"/>
+        <FormResources Include="BeeOptionsForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -266,6 +280,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="Readme.txt" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
@@ -273,6 +293,12 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c260mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Win32\Debug\BeeLandmarks.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>BeeLandmarks.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
