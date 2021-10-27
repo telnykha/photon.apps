@@ -584,7 +584,7 @@ object Form10: TForm10
                   Height = 164
                   Align = alClient
                   ItemHeight = 13
-                  Mask = '*.jpg'
+                  Mask = '*.jpg;*.awp'
                   TabOrder = 0
                   OnChange = FileListBox1Change
                 end

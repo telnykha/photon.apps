@@ -28,6 +28,8 @@ extern "C"
 	tps2landmarks -m filename1.xml filename2.xml - слияние двух файлов TLFDBLandmarks
 	tps2landmarks -s filename.xml преобразование TLFDBLandmarks в TLFDBLabeledImages
 	tps2landmarks -d filename.xml image.jpg отрисовка  TLFDBLandmarks на image.jpg и сохрание найденных зон в image.xml
+	tps2landmarks -f filename.xml - отражение TLFDBLandmarks по вертикали
+    tps2landmarks -e filename.xml options.xml - экспорт изображений особой точки
 */
 void Usage()
 {
@@ -38,6 +40,7 @@ void Usage()
 	 printf("Set unique names to files    : tps2landmarks -r filename.xml\n");
 	 printf("Merge two files              : tps2landmarks -m filename1.xml filename2.xml\n");
 	 printf("Convert landmarks to semantic: tps2landmarks -s filename.xml\n");
+	 printf("Flip landmarks vertical: tps2landmarks -f filename.xml\n");
 }
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -88,6 +91,20 @@ int _tmain(int argc, _TCHAR* argv[])
 			else
 				DrawLandmarks(argv[2], argv[3]);
 	}
+	else if (key == "-f") {
+			if (argc != 3) {
+				Usage();
+				return 0;
+			}
+		  FlipLandmarks(argv[2]);
+		 }
+	else if (key == "-e") {
+			if (argc != 4) {
+				Usage();
+				return 0;
+			}
+		  ExportLandmarks(argv[2], argv[3]);
+		 }
 	else
 		Usage();
 

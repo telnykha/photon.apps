@@ -74,6 +74,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <ILINK_LibraryPath>..\landmarks\;..\..\common\;..\..\..\photon41\photon\;$(AWPLIB);$(PHOTON41)\lib\;$(AWP)\lib;$(TINY)\lib;$(LF)\lib;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Custom_Styles>Carbon|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Carbon.vsf</Custom_Styles>
+        <Defines>TIXML_USE_STL ;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;ComPort;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;photon;photon41;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -120,6 +121,7 @@
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib</LinkPackageStatics>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Debugger_DebugSourcePath>C:\_alt\_proj\awplflib\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_RunParams>-f beelandmarks.xml</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -176,9 +178,8 @@
             <DependentOn>BeeOptionsForm.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <None Include="Readme.txt">
-            <ModuleName>New1</ModuleName>
-        </None>
+        <None Include="database.txt"/>
+        <None Include="Readme.txt"/>
         <CppCompile Include="..\landmarks\tpsUnit.cpp">
             <DependentOn>..\landmarks\tpsUnit.h</DependentOn>
             <BuildOrder>6</BuildOrder>
@@ -187,10 +188,10 @@
             <DependentOn>..\..\common\VerInfoUnit.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
-        <FormResources Include="beeMain.dfm"/>
-        <FormResources Include="beeLongProcessForm.dfm"/>
-        <FormResources Include="BeeAboutForm.dfm"/>
         <FormResources Include="BeeOptionsForm.dfm"/>
+        <FormResources Include="beeMain.dfm"/>
+        <FormResources Include="BeeAboutForm.dfm"/>
+        <FormResources Include="beeLongProcessForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -281,6 +282,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="Readme.txt" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="New1.txt" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

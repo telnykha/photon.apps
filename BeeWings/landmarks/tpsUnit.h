@@ -29,6 +29,8 @@ void RenameLandmarks(const char* fileName);
 void Mergelandmarks(const char* dbSrc, const char* dbDst);
 void LandmarksToSemantic(const char* fileName);
 void DrawLandmarks(const char* fileName, const char* imageFileName);
+void FlipLandmarks(const char* fileName);
+void ExportLandmarks(const char* fileName, const char* optionsFile);
 
 //---------------------------------------------------------------------------
 #endif

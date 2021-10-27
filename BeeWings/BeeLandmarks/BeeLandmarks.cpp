@@ -9,10 +9,10 @@
 #include "BeeIniParamsUnit.h"
 
 USEFORM("beeMain.cpp", Form10);
-USEFORM("beeLongProcessForm.cpp", Form1);
-USEFORM("BeeAboutForm.cpp", AboutBox);
 USEFORM("BeeOptionsForm.cpp", OptionsForm);
-
+USEFORM("BeeAboutForm.cpp", AboutBox);
+USEFORM("beeLongProcessForm.cpp", Form1);
+//---------------------------------------------------------------------------
 TBeeIniParams gBeeIniParams;
 TBeeIniParams* beeIni = &gBeeIniParams;
 //---------------------------------------------------------------------------

@@ -141,6 +141,25 @@ void ConvertTPSTolandmarks(const char* fileTPS, const char* fileXML)
 	delete db;
 }
 
+void FlipLandmarks(const char* fileName)
+{
+	TLFDBLandmarks src;
+	if (!src.Connect(fileName)) {
+		printf("cannot connet to database: %s\n", fileName);
+		return;
+	}
+	for (int i = 0; i < src.Files()->Count(); i++) {
+	  TLFLandmarkFile* f = src.Files()->File(i);
+	  for (int j = 0; j < f->Count(); j++) {
+		  TLFLandmark* lm = f->Landmark(j);
+		  awp2DPoint  p = lm->landmark();
+		  p.Y = 100 - p.Y;
+		  lm->SetPoint(p);
+	  }
+	}
+	src.Close();
+}
+
 /*
 	переименование базы данных landmarks
 */
@@ -355,8 +374,139 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 	// сохран€ем зоны в файл.
 	TLFString str = imageFileName;
 	str = LFChangeFileExt(str, ".xml");
-    zones.Save(str.c_str());
+	zones.Save(str.c_str());
 }
+/*
+	Ёкспорт производитс€ в папки
+	export/className/
+	export/className/bg
 
+	параметры экспорта:
+	ImageWidth   - ширина изображени€ дл€ экспорта
+	ImageHeight  - высота изображени€ дл€ экспорта
+	Radius       - максимальное рассто€ние от особой точки
+	при котором осуществл€етс€ экспорт
+	ClassName    - им€ класса дл€ экспорта
+*/
+void ExportLandmarks(const char* fileName, const char* optionsFile)
+{
+	TLFDBLandmarks src;
+	if (!src.Connect(fileName)) {
+		printf("cannot connet to database: %s\n", fileName);
+		return;
+	}
+	TiXmlDocument doc;
+	if(!doc.LoadFile(optionsFile))
+	{
+		printf("Cannot load options file: + %s\n", optionsFile);
+	}
+	TiXmlHandle hDoc(&doc);
+	TiXmlElement* pElem = NULL;
+	pElem = hDoc.FirstChildElement().Element();
+	if (!pElem)
+	{
+		printf("error: invalid configuration file.\n");
+		return;
+	}
+	const char* name = pElem->Value();
+	if (strcmp(name, "LFDbExport") != 0)
+	{
+		printf("error: invalid configuration file.\n");
+		return;
+	}
+	int ImageWidth = 240;
+	int ImageHeight = 135;
+	int Width = 24;
+	int Height = 24;
+	string ClassName = "Wing-1";
+	double Radius = 0;
+
+	pElem->QueryIntAttribute("ImageWidth", &ImageWidth);
+	pElem->QueryIntAttribute("ImageHeight", &ImageHeight);
+	pElem->QueryIntAttribute("width", &Width);
+	pElem->QueryIntAttribute("height", &Height);
+	pElem->QueryDoubleAttribute("Radius", &Radius);
+	ClassName=  pElem->Attribute("ClassName");
+
+	printf("Export landmark images\n");
+	printf("for class = %s\n", ClassName.c_str());
+	printf("with radius: %i\n", Radius);
+	printf("landmark width = %i landmark height = %i\n", Width, Height);
+	printf("source resize to: %i x %i\n", ImageWidth, ImageHeight);
+	printf("\n\n");
+	TLFAllScanner scanner;
+	scanner.SetBaseWidth(Width);
+	scanner.SetBaseHeight(Height);
+	scanner.Scan(ImageWidth, ImageHeight);
+	printf("image has %i fragments.\n", scanner.GetFragmentsCount());
+
+	LFCreateDir("export");
+	TLFString exportDir = "export\\" + ClassName;
+	TLFString exportBgDir = exportDir + "\\bg";
+	LFRemoveDir(exportDir.c_str());
+	LFCreateDir(exportDir.c_str());
+    LFRemoveDir(exportBgDir.c_str());
+	LFCreateDir(exportBgDir.c_str());
+
+	for (int i = 0; i < src.Files()->Count(); i++) {
+	  TLFLandmarkFile* f = src.Files()->File(i);
+	  awpImage* img = NULL;
+	  printf("Load image: %s .........", f->FileName());
+	  if (awpLoadImage(f->FileName(), &img) != AWP_OK) {
+		printf("error.\n");
+		continue;
+	  }
+	  else
+		printf("done.\n");
+	  awpResizeBilinear(img, ImageWidth, ImageHeight);
+	  awpConvert(img, AWP_CONVERT_3TO1_BYTE);
+	  for (int j = 0; j < f->Count(); j++) {
+		  TLFLandmark* lm = f->Landmark(j);
+		  awp2DPoint  p = lm->landmark();
+		  string lmClassName = lm->ClassName();
+		  if (lmClassName == ClassName)
+		  {
+			awpPoint p1;
+			p1.X = ImageWidth*p.X/ 100.;
+			p1.Y = ImageHeight*p.Y/100.;
+			// поиск пересечеий
+			for (int k = 0; k < scanner.GetFragmentsCount(); k++)
+			{
+				awpRect  r = scanner.GetFragmentRect(k);
+				awpPoint p2;
+				p2.X = (r.left+r.right)/2;
+				p2.Y = (r.top + r.bottom)/2;
+				if (sqrt(float((p1.X-p2.X)*(p1.X-p2.X)+(p1.Y-p2.Y)*(p1.Y-p2.Y))) <= Radius)
+				{
+					//printf("............Save image around landmark.\n");
+					awpImage* fgt = NULL;
+					awpCopyRect(img, &fgt, &r);
+					//awpFillRect(img, &r, 0, 128);
+					UUID id;
+					LF_UUID_CREATE(id)
+					TLFString strUUID = LFGUIDToString(&id);
+					TLFString strNewFileName = exportDir + "\\" + strUUID + ".awp";
+					awpSaveImage(strNewFileName.c_str(), fgt);
+					awpReleaseImage(&fgt);
+
+				}
+			}
+			awpRect r;
+			r.left = p1.X - Width / 2;
+			r.right = p1.X + Width /2;
+			r.top = p1.Y - Height /2 ;
+			r.bottom = p1.Y + Height / 2;
+            awpFillRect(img, &r, 0, 128);
+		  }
+	  }
+	  // save image
+	  UUID id;
+	  LF_UUID_CREATE(id)
+	  TLFString strUUID = LFGUIDToString(&id);
+	  TLFString strNewFileName = exportBgDir + "\\" + strUUID + ".awp";
+	  awpSaveImage(strNewFileName.c_str(), img);
+	  awpReleaseImage(&img);
+	}
+}
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
