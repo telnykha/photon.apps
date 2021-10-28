@@ -419,6 +419,7 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	int Width = 24;
 	int Height = 24;
 	string ClassName = "Wing-1";
+	string Path = "1";
 	double Radius = 0;
 
 	pElem->QueryIntAttribute("ImageWidth", &ImageWidth);
@@ -427,6 +428,7 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	pElem->QueryIntAttribute("height", &Height);
 	pElem->QueryDoubleAttribute("Radius", &Radius);
 	ClassName=  pElem->Attribute("ClassName");
+	Path = LFGetFilePath(fileName);//pElem->Attribute("src");
 
 	printf("Export landmark images\n");
 	printf("for class = %s\n", ClassName.c_str());
@@ -443,16 +445,17 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	LFCreateDir("export");
 	TLFString exportDir = "export\\" + ClassName;
 	TLFString exportBgDir = exportDir + "\\bg";
-	LFRemoveDir(exportDir.c_str());
+	//LFRemoveDir(exportDir.c_str());
 	LFCreateDir(exportDir.c_str());
-    LFRemoveDir(exportBgDir.c_str());
+	//LFRemoveDir(exportBgDir.c_str());
 	LFCreateDir(exportBgDir.c_str());
 
 	for (int i = 0; i < src.Files()->Count(); i++) {
 	  TLFLandmarkFile* f = src.Files()->File(i);
 	  awpImage* img = NULL;
-	  printf("Load image: %s .........", f->FileName());
-	  if (awpLoadImage(f->FileName(), &img) != AWP_OK) {
+	  string fileName = Path + "\\" + f->FileName();
+	  printf("Load image: %s .........", fileName.c_str());
+	  if (awpLoadImage(fileName.c_str(), &img) != AWP_OK) {
 		printf("error.\n");
 		continue;
 	  }
