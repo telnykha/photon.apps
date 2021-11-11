@@ -5,7 +5,12 @@
 
 #include "beeMain.h"
 #include "beeLongProcessForm.h"
+#include "BeeAboutForm.h"
+#include "VerInfoUnit.h"
 #include "..\include\beepoints.h"
+#include "tpsUnit.h"
+#include "BeeOptionsForm.h"
+#include "BeeIniParamsUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -18,23 +23,15 @@
 #pragma link "MCTPoints.lib"
 #pragma link "PhLandmarksTool"
 #pragma resource "*.dfm"
-
-
-const TLFString ATTRUUIDS[8] =
-{
-"65FE75D4-B829-4117-8076-0A6D116F6EE5",
-"AAF4E336-75AE-4802-BF5B-5A054968DC84",
-"DA50F8EA-E59A-480D-98F9-55710235D1B7",
-"5F86768E-E0BA-45B2-BE5E-BB5A1F28C919",
-"B3CF6567-2FEA-4169-B9EA-229652889D69",
-"2C9C044F-73B6-4D31-B3B3-4645493B3745",
-"CD5DE575-CD69-4349-89E4-2DCEFC47930E",
-"7BFF3331-C358-461B-968E-F8ABB18A4C97"
-};
-
-
-
 TForm10 *Form10;
+const UnicodeString c_strDbFile = L"\\beelandmarks.xml";
+const UnicodeString c_strDbFile0 = L"\\beelandmarks0.xml";
+
+const UnicodeString c_strDbFile1 = L"beelandmarks.xml";
+const UnicodeString c_strDbFile2 = L"beelandmarks0.xml";
+
+extern TBeeIniParams* beeIni;
+
 //---------------------------------------------------------------------------
 __fastcall TForm10::TForm10(TComponent* Owner)
 	: TForm(Owner)
@@ -130,6 +127,7 @@ void __fastcall TForm10::fileExportTPSActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::fileAnalysisActionExecute(TObject *Sender)
 {
+   Form1->replace = true;
    Form1->ShowModal();
 }
 //---------------------------------------------------------------------------
@@ -147,7 +145,7 @@ void __fastcall TForm10::DirectoryListBox1Change(TObject *Sender)
 	PhImage1->Paint();
 
 	UnicodeString str = DirectoryListBox1->Directory;
-	str += "\\beelandmarks.xml";
+	str += c_strDbFile;
 	 if (FileExists(str)) {
 		if (!PhLandmarksTool1->Connect(str))
 		{
@@ -155,7 +153,7 @@ void __fastcall TForm10::DirectoryListBox1Change(TObject *Sender)
 		}
 		else
 		{
-			AnsiString _ansi = DirectoryListBox1->Directory + "\\beelandmarks0.xml";
+			AnsiString _ansi = DirectoryListBox1->Directory + c_strDbFile0;
 			m_db.Connect(_ansi.c_str());
 		}
 	 }
@@ -346,8 +344,8 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	this->SpeedButton4->Caption = L"";
 	this->SpeedButton5->Caption = L"";
 	this->SpeedButton6->Caption = L"";
-	this->SpeedButton7->Caption = L"";
-	this->SpeedButton8->Caption = L"";
+	//this->SpeedButton7->Caption = L"";
+	//this->SpeedButton8->Caption = L"";
 	this->SpeedButton9->Caption = L"";
 	this->SpeedButton10->Caption = L"";
 	this->SpeedButton11->Caption = L"";
@@ -407,7 +405,7 @@ void __fastcall TForm10::PhImage1ToolChange(TObject *Sender)
 	PhImage1->Paint();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm10::ProcessImages()
+void __fastcall TForm10::ProcessImages(bool replace)
 {
 	if (m_object == NULL)
 		return;
@@ -439,7 +437,7 @@ void __fastcall TForm10::ProcessImages()
 				   TLFLandmark* land = new TLFLandmark(attr, p, bp[i].q);
 				   file->Append(land);
 				}
-                files->Append(file);
+				files->Append(file);
 			}
 
 			Application->ProcessMessages();
@@ -450,11 +448,13 @@ void __fastcall TForm10::ProcessImages()
 	}
 	//
 	PhLandmarksTool1->Close();
-	PhLandmarksTool1->Connect(L"beelandmarks.xml");
-	CopyFile(L"beelandmarks.xml",L"beelandmarks0.xml", false);
+	PhLandmarksTool1->Connect(c_strDbFile1);
+	if (replace) {
+		CopyFile(c_strDbFile1.c_str(),c_strDbFile2.c_str(), false);
+	}
 	if (PhLandmarksTool1->SelectFile(FileListBox1->FileName))
 	{
-	  AnsiString _ansi = DirectoryListBox1->Directory + "\\beelandmarks0.xml";
+	  AnsiString _ansi = DirectoryListBox1->Directory + c_strDbFile0;
 	  m_db.Connect(_ansi.c_str());
 	  PhImage1->Paint();
 	}
@@ -464,7 +464,7 @@ void __fastcall TForm10::ProcessImages()
 bool __fastcall TForm10::CreateLandmarks()
 {
 	PhLandmarksTool1->Close();
-	AnsiString _ansi = DirectoryListBox1->Directory + "\\beelandmarks.xml";
+	AnsiString _ansi = DirectoryListBox1->Directory + c_strDbFile;
 	if (FileExists(_ansi, false))
 	{
 	   DeleteFile(_ansi);
@@ -621,9 +621,6 @@ void __fastcall TForm10::ChangeRoi(TObject* sender,  int index, bool update)
 			ShowMessage(L"Не могу загрузить детектор особых точек.");
 		}
 	}
-
-
-	ShowMessage("обновление output.xml");
 }
 
 bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
@@ -811,6 +808,76 @@ void __fastcall TForm10::MakeReport()
 void __fastcall TForm10::TabSheet4Show(TObject *Sender)
 {
 MakeReport();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::helpAboutActionExecute(TObject *Sender)
+{
+  TVersionInfo* vi = new TVersionInfo(NULL);
+  AboutBox->ProductName->Caption = vi->ProductName;
+  AboutBox->Version->Caption = vi->FileVersion;
+  AboutBox->Copyright->Caption = vi->LegalCopyright;
+  AboutBox->Comments->Caption = vi->Comments;
+  AboutBox->ShowModal();
+  delete vi;
+
+}
+//---------------------------------------------------------------------------
+/*
+Загрузка данных из tps файла.
+TPS файл может находиться в любом месте на диске, он конвертируется в beelandmarks.xml
+beelandmarks.xml записывается в папку, определяемую переменной DirectoryListBox1->Directory
+*/
+void __fastcall TForm10::fileImportTPSActionExecute(TObject *Sender)
+{
+	OpenDialog1->InitialDir =  DirectoryListBox1->Directory;
+	if (OpenDialog1->Execute()) {
+		AnsiString _ansi = OpenDialog1->FileName;
+		AnsiString _xml  =  DirectoryListBox1->Directory + c_strDbFile;
+		if (FileExists(_xml, true)) {
+		   int result = Application->MessageBoxW(L"База данных точек на крыльях уже существует. Заменить ее?",
+		   ExtractFileName(Application->ExeName).c_str(), MB_YESNO);
+		   if (result == IDNO) {
+				return;
+		   }
+		}
+		ConvertTPSTolandmarks(_ansi.c_str(), _xml.c_str());
+		//
+		_xml  =  DirectoryListBox1->Directory + c_strDbFile0;
+		if (!FileExists(_xml, true)) {
+			 // включить обработчик изображений
+			 Form1->replace = false;
+			 Form1->ShowModal();
+		}
+
+		// connect to database
+		PhLandmarksTool1->Close();
+		PhLandmarksTool1->Connect(c_strDbFile1);
+		if (PhLandmarksTool1->SelectFile(FileListBox1->FileName))
+		{
+		  AnsiString _ansi = DirectoryListBox1->Directory + c_strDbFile0;
+		  m_db.Connect(_ansi.c_str());
+		  PhImage1->Paint();
+		}
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm10::toolsOptionsActionExecute(TObject *Sender)
+{
+	OptionsForm->RadioGroup1->ItemIndex = beeIni->LandmarkSkin;
+	OptionsForm->CheckBox1->Checked = beeIni->NeedAnalysis;
+	OptionsForm->RadioGroup2->ItemIndex = beeIni->UITheme == L"Windows"?0:1;
+
+	if (OptionsForm->ShowModal() == mrOk) {
+		beeIni->LandmarkSkin = OptionsForm->RadioGroup1->ItemIndex;
+		beeIni->NeedAnalysis = OptionsForm->CheckBox1->Checked;
+		beeIni->UITheme  = OptionsForm->RadioGroup2->ItemIndex==0?L"Windows":L"Carbon";
+		if (OptionsForm->RadioGroup2->ItemIndex == 0)
+			TStyleManager::SetStyle("Windows");
+		else
+			TStyleManager::SetStyle("Carbon");
+		PhLandmarksTool1->Skin = OptionsForm->RadioGroup1->ItemIndex;
+	}
 }
 //---------------------------------------------------------------------------
 
