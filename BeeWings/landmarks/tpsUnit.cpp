@@ -165,27 +165,35 @@ void FlipLandmarks(const char* fileName)
 */
 void RenameLandmarks(const char* fileName)
 {
+	TLFString strPath = "";
+	strPath = LFGetFilePath(fileName);
+	if (strPath == fileName) {
+		strPath = "";
+	}
+	else
+		strPath += c_separator;
 	TLFDBLandmarks db;
 	if (!db.Connect(fileName)) {
 		printf("cannot connet to database: %s\n", fileName);
 		return;
 	}
+
 	for (int i = 0; i < db.Files()->Count(); i++)
 	{
 		TLFLandmarkFile* f = db.Files()->File(i);
-		TLFString strFileName =    f->FileName();
-
+		TLFString strFileName = strPath + f->FileName();
+        printf("filename = %s\n", strFileName.c_str());
 		UUID id;
 		LF_UUID_CREATE(id)
 		TLFString strUUID = LFGUIDToString(&id);
-		TLFString strNewFileName = strUUID + ".jpg";
-		//std::transform(strNewFileName.begin(), strNewFileName.end(), strNewFileName.begin(), asciitolower);
+		TLFString strNewFileName = strPath +  strUUID + ".jpg";
 		if (rename(strFileName.c_str(), strNewFileName.c_str())!=0)
 		{
 			printf("cannot rename file: %s\n", strFileName.c_str());
 			continue;
 		}
-		f->SetFileName(strNewFileName.c_str());
+		TLFString strName = strUUID + ".jpg";
+		f->SetFileName(strName.c_str());
 		remove( strFileName.c_str());
 	}
 }
@@ -279,10 +287,72 @@ void LandmarksToSemantic(const char* fileName)
 		printf(" - done.\n");
 	}
 }
+void DrawFix5landmarks(TLFDBLandmarks &src, awpImage* dst)
+{
+	for (int i = 0; i < src.Files()->Count(); i++) {
+	  TLFLandmarkFile* f = src.Files()->File(i);
+	  TLFLandmark* lm = f->Landmark(4);
+	  awp2DPoint  p0 = lm->landmark();
+	  for (int j = 0; j < f->Count(); j++) {
+		  TLFLandmark* lm = f->Landmark(j);
+		  awp2DPoint  p = lm->landmark();
+		  p.X = 50 + (p.X - p0.X);
+		  p.Y = 50 + (p.Y - p0.Y);
+		  awpPoint    pp;
+		  pp.X = p.X*dst->sSizeX / 100;
+		  pp.Y = p.Y*dst->sSizeY / 100;
+		  AWPBYTE R,G,B;
+		  awpWebtoRGB(lm->Color(), &R, &G, &B);
+		  awpRect cross;
+		  cross.left = pp.X - 8;
+		  cross.right = pp.X + 8;
+		  cross.top = pp.Y - 8;
+		  cross.bottom = pp.Y+8;
+		  awpDrawCCross(dst, &cross, R,G,B,1);
+	  }
+	}
+}
+
+void DrawFix58Landmarks(TLFDBLandmarks &src, awpImage* dst)
+{
+	for (int i = 0; i < src.Files()->Count(); i++) {
+	  TLFLandmarkFile* f = src.Files()->File(i);
+	  TLFLandmark* lm4 = f->Landmark(4);
+	  awp2DPoint  p4 = lm4->landmark();
+	  TLFLandmark* lm7 = f->Landmark(7);
+	  awp2DPoint  p7 = lm7->landmark();
+	  double tanfi = (p7.X - p4.X) / (p7.Y - p4.Y);
+	  //printf("tabfi = %lf\n", tanfi);
+	  double fi = atan(tanfi);
+	  double L = sqrt((p7.X - p4.X)*(p7.X - p4.X) + (p7.Y - p4.Y)*(p7.Y - p4.Y));
+
+
+	  for (int j = 0; j < f->Count(); j++) {
+		  TLFLandmark* lm = f->Landmark(j);
+		  awp2DPoint  p = lm->landmark();
+		  double a =  50 + 25*(cos(fi)*(p.X - p4.X)/L - sin(fi)*(p.Y - p4.Y)/L);
+		  double b =  50 + 25*(sin(fi)*(p.X - p4.X)/L + cos(fi)*(p.Y - p4.Y)/L);
+		  p.X = a;
+          p.Y = b;
+
+		  awpPoint    pp;
+		  pp.X = p.X*dst->sSizeX / 100;
+		  pp.Y = p.Y*dst->sSizeY / 100;
+		  AWPBYTE R,G,B;
+		  awpWebtoRGB(lm->Color(), &R, &G, &B);
+		  awpRect cross;
+		  cross.left = pp.X - 8;
+		  cross.right = pp.X + 8;
+		  cross.top = pp.Y - 8;
+		  cross.bottom = pp.Y+8;
+		  awpDrawCCross(dst, &cross, R,G,B,1);
+	  }
+	}
+}
 
 void DrawLandmarks(const char* fileName, const char* imageFileName)
 {
-	const image_scale = 4;
+	const image_scale = 1;
 	const image_width = 1980 / image_scale;
 	const image_height = 1080 / image_scale;
 
@@ -297,6 +367,8 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 		printf("cannot create image\n");
 		return;
 	}
+ //    DrawFix5landmarks(src, dst);
+
 	TLF2DRect rects[8];
 	for (int i = 0; i < 8; i++) {
 		rects[i].SetVertexes(-1,-1,-1,-1);
@@ -306,7 +378,6 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 	  for (int j = 0; j < f->Count(); j++) {
 		  TLFLandmark* lm = f->Landmark(j);
 		  awp2DPoint  p = lm->landmark();
-		  p.Y = 100 - p.Y;
 		  if (rects[j].left() < 0) {
 			   rects[j].SetVertexes(p.X, p.X +1, p.Y, p.Y+1);
 		  }else
@@ -342,7 +413,7 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 		  cross.right = pp.X + 8;
 		  cross.top = pp.Y - 8;
 		  cross.bottom = pp.Y+8;
-		  awpDrawCCross(dst, &cross, B,G,R,2);
+		  awpDrawCCross(dst, &cross, R,G,B,1);
 	  }
 	}
 	// отрисовка пр€моугольников и создание файла зон
@@ -356,7 +427,7 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 	   r.top  = image_height*rects[i].top() / 100 - 48/image_scale;
 	   r.right = image_width*rects[i].right() / 100 + 48/image_scale;
 	   r.bottom  = image_height*rects[i].bottom() / 100 + 48/image_scale;
-	   awpDrawCRect(dst, &r, 128,128,128,2);
+	  // awpDrawCRect(dst, &r, 128,128,128,2);
 	   TLFAllScanner s;
 	   s.Scan(image_width,image_height);
 	   printf("%d wing index, total items = %d", i, s.GetFragmentsCount());
@@ -367,14 +438,15 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 	   else
 		   printf(" items to test = %d \n", s.GetFragmentsCount());
 	}
+
 	if (awpSaveImage(imageFileName, dst) != AWP_OK) {
 		printf("cannot save image %s:\n", imageFileName);
 	}
 	awpReleaseImage(&dst);
 	// сохран€ем зоны в файл.
-	TLFString str = imageFileName;
-	str = LFChangeFileExt(str, ".xml");
-	zones.Save(str.c_str());
+	//TLFString str = imageFileName;
+	//str = LFChangeFileExt(str, ".xml");
+	//zones.Save(str.c_str());
 }
 /*
 	Ёкспорт производитс€ в папки
