@@ -8,8 +8,8 @@
 #include <Vcl.Themes.hpp>
 #include "BeeIniParamsUnit.h"
 
-USEFORM("beeMain.cpp", Form10);
 USEFORM("BeeOptionsForm.cpp", OptionsForm);
+USEFORM("beeMain.cpp", Form10);
 USEFORM("BeeAboutForm.cpp", AboutBox);
 USEFORM("beeLongProcessForm.cpp", Form1);
 //---------------------------------------------------------------------------
