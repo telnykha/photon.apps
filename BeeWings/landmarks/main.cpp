@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "_LF.h"
 #include "tpsUnit.h"
+//#include "BeeFeatures.h"
 
 extern "C"
 {
@@ -29,7 +30,8 @@ extern "C"
 	tps2landmarks -s filename.xml преобразование TLFDBLandmarks в TLFDBLabeledImages
 	tps2landmarks -d filename.xml image.jpg отрисовка  TLFDBLandmarks на image.jpg и сохрание найденных зон в image.xml
 	tps2landmarks -f filename.xml - отражение TLFDBLandmarks по вертикали
-    tps2landmarks -e filename.xml options.xml - экспорт изображений особой точки
+	tps2landmarks -e filename.xml options.xml - экспорт изображений особой точки
+	tps2landmarks -t filename.xml - посчитанные признаки для изображения
 */
 void Usage()
 {
@@ -41,6 +43,7 @@ void Usage()
 	 printf("Merge two files              : tps2landmarks -m filename1.xml filename2.xml\n");
 	 printf("Convert landmarks to semantic: tps2landmarks -s filename.xml\n");
 	 printf("Flip landmarks vertical: tps2landmarks -f filename.xml\n");
+	 printf("Return signs: tps2landmarks -t filename.xml\n");
 }
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -82,6 +85,14 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 			else
 				LandmarksToSemantic(argv[2]);
+	}
+	else if (key == "-t") {
+		if (argc != 3) {
+			Usage();
+			return 0;
+		}
+		else
+			takeSigns(argv[2]);
 	}
 	else if (key == "-d") {
 			if (argc != 4) {

@@ -3,6 +3,12 @@
 
 #include "tpsUnit.h"
 
+//#include <stdio.h>
+//#include "_LF.h"
+#include "BeeFeatures.h"
+
+
+
 static char asciitolower(char in) {
 	if (in <= 'Z' && in >= 'A')
 		return in - ('Z' - 'z');
@@ -140,6 +146,31 @@ void ConvertTPSTolandmarks(const char* fileTPS, const char* fileXML)
 	fclose(f);
 	delete db;
 }
+
+/*
+   Вывод признаков
+*/
+void takeSigns(const char* fileName)
+{
+	/*double ptsX[8], ptsY[8];
+	double DE, CD, CE, AB, X, Y, Xab, Yab, Xcd, Ycd;
+	const double PI = 3.141592653589793; */
+	double DsA, Ci, Hi;
+	TLFDBLandmarks kd;
+
+	if (!kd.Connect(fileName)) {
+		printf("cannot connet to database: %s\n", fileName);
+		return;
+	}
+	for (int i = 0; i < kd.Files()->Count(); i++) {
+		//TLFLandmarkFile* f = src.Files()->File(i);
+		GetBeeFeatures(kd.Files()->File(i), Ci, DsA, Hi);
+		printf("Ci=%lf DsA=%lf Hi=%lf\n", Ci, DsA, Hi);
+	}
+	kd.Close();
+}
+
+
 
 void FlipLandmarks(const char* fileName)
 {

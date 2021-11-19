@@ -24,6 +24,9 @@
         <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="C:\Users\Admin\Documents\Embarcadero\Studio\Projects\Sings.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -95,14 +98,23 @@
     <Target Name="awplflibb:Make">
         <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="Sings">
+        <MSBuild Projects="C:\Users\Admin\Documents\Embarcadero\Studio\Projects\Sings.cbproj"/>
+    </Target>
+    <Target Name="Sings:Clean">
+        <MSBuild Projects="C:\Users\Admin\Documents\Embarcadero\Studio\Projects\Sings.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Sings:Make">
+        <MSBuild Projects="C:\Users\Admin\Documents\Embarcadero\Studio\Projects\Sings.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;Sings"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;Sings:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;Sings:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
