@@ -42,6 +42,10 @@ public:
    int    GetColor();
    void   SetColor(const int color);
 
+   const char* GetKindName();
+
+   void SetKindName(const char* value);
+
 };
 
 //---------------------------------------------------------------------------

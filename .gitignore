@@ -66,3 +66,6 @@ BeeWings/MCTPoints/Win32/
 BeeWings/MCTPoints/MCTPoints/Debug/
 BeeWings/MCTPoints/MCTPoints/Release/
 *.opensdf
+BeeWings/BeeKindEditor/__history/
+BeeWings/BeeKindEditor/__recovery/
+BeeWings/BeeKindEditor/Win32/
