@@ -591,7 +591,7 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 					UUID id;
 					LF_UUID_CREATE(id)
 					TLFString strUUID = LFGUIDToString(&id);
-					TLFString strNewFileName = exportDir + "\\" + strUUID + ".awp";
+					TLFString strNewFileName = exportDir + "\\" + strUUID + ".jpg";
 					awpSaveImage(strNewFileName.c_str(), fgt);
 					awpReleaseImage(&fgt);
 
