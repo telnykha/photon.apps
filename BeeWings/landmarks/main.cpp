@@ -44,6 +44,7 @@ void Usage()
 	 printf("Convert landmarks to semantic: tps2landmarks -s filename.xml\n");
 	 printf("Flip landmarks vertical: tps2landmarks -f filename.xml\n");
 	 printf("Return signs: tps2landmarks -t filename.xml\n");
+	 printf("Export image of landmark -e filename1.xml exportname.xml\n");
 }
 int _tmain(int argc, _TCHAR* argv[])
 {

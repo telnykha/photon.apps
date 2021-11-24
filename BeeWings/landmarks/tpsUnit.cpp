@@ -524,6 +524,7 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	string ClassName = "Wing-1";
 	string Path = "1";
 	double Radius = 0;
+	string format = ".awp";
 
 	pElem->QueryIntAttribute("ImageWidth", &ImageWidth);
 	pElem->QueryIntAttribute("ImageHeight", &ImageHeight);
@@ -532,10 +533,12 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	pElem->QueryDoubleAttribute("Radius", &Radius);
 	ClassName=  pElem->Attribute("ClassName");
 	Path = LFGetFilePath(fileName);//pElem->Attribute("src");
+	format = pElem->Attribute("format");
 
 	printf("Export landmark images\n");
 	printf("for class = %s\n", ClassName.c_str());
-	printf("with radius: %i\n", Radius);
+	printf("with format: %s\n", format.c_str());
+	printf("with radius: %lf\n", Radius);
 	printf("landmark width = %i landmark height = %i\n", Width, Height);
 	printf("source resize to: %i x %i\n", ImageWidth, ImageHeight);
 	printf("\n\n");
@@ -556,7 +559,7 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	for (int i = 0; i < src.Files()->Count(); i++) {
 	  TLFLandmarkFile* f = src.Files()->File(i);
 	  awpImage* img = NULL;
-	  string fileName = Path + "\\" + f->FileName();
+	  string fileName = /*Path + "\\" +*/ f->FileName();
 	  printf("Load image: %s .........", fileName.c_str());
 	  if (awpLoadImage(fileName.c_str(), &img) != AWP_OK) {
 		printf("error.\n");
@@ -591,7 +594,8 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 					UUID id;
 					LF_UUID_CREATE(id)
 					TLFString strUUID = LFGUIDToString(&id);
-					TLFString strNewFileName = exportDir + "\\" + strUUID + ".jpg";
+					TLFString strNewFileName = exportDir = "\\" + strUUID + format;
+
 					awpSaveImage(strNewFileName.c_str(), fgt);
 					awpReleaseImage(&fgt);
 
@@ -609,7 +613,7 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	  UUID id;
 	  LF_UUID_CREATE(id)
 	  TLFString strUUID = LFGUIDToString(&id);
-	  TLFString strNewFileName = exportBgDir + "\\" + strUUID + ".awp";
+	  TLFString strNewFileName = exportBgDir + "\\" + strUUID + format;
 	  awpSaveImage(strNewFileName.c_str(), img);
 	  awpReleaseImage(&img);
 	}
