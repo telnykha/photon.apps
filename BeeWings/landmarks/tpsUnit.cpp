@@ -525,6 +525,8 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	string Path = "1";
 	double Radius = 0;
 	string format = ".awp";
+	string background = "true";
+	string removeDir = "true";
 
 	pElem->QueryIntAttribute("ImageWidth", &ImageWidth);
 	pElem->QueryIntAttribute("ImageHeight", &ImageHeight);
@@ -534,6 +536,8 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	ClassName=  pElem->Attribute("ClassName");
 	Path = LFGetFilePath(fileName);//pElem->Attribute("src");
 	format = pElem->Attribute("format");
+	background = pElem->Attribute("background");
+	removeDir = pElem->Attribute("removeDir");
 
 	printf("Export landmark images\n");
 	printf("for class = %s\n", ClassName.c_str());
@@ -541,6 +545,8 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	printf("with radius: %lf\n", Radius);
 	printf("landmark width = %i landmark height = %i\n", Width, Height);
 	printf("source resize to: %i x %i\n", ImageWidth, ImageHeight);
+	printf("background = %s\n", background.c_str());
+	printf("remove directory = %s\n", removeDir.c_str());
 	printf("\n\n");
 	TLFAllScanner scanner;
 	scanner.SetBaseWidth(Width);
@@ -551,10 +557,16 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 	LFCreateDir("export");
 	TLFString exportDir = "export\\" + ClassName;
 	TLFString exportBgDir = exportDir + "\\bg";
-	//LFRemoveDir(exportDir.c_str());
+
+	if (removeDir == "true") {
+		LFRemoveDir(exportDir.c_str());
+		LFRemoveDir(exportBgDir.c_str());
+	}
+
 	LFCreateDir(exportDir.c_str());
-	//LFRemoveDir(exportBgDir.c_str());
 	LFCreateDir(exportBgDir.c_str());
+
+
 
 	for (int i = 0; i < src.Files()->Count(); i++) {
 	  TLFLandmarkFile* f = src.Files()->File(i);
@@ -594,8 +606,7 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 					UUID id;
 					LF_UUID_CREATE(id)
 					TLFString strUUID = LFGUIDToString(&id);
-					TLFString strNewFileName = exportDir = "\\" + strUUID + format;
-
+					TLFString strNewFileName = exportDir + "\\" + strUUID + format;
 					awpSaveImage(strNewFileName.c_str(), fgt);
 					awpReleaseImage(&fgt);
 
@@ -610,11 +621,14 @@ void ExportLandmarks(const char* fileName, const char* optionsFile)
 		  }
 	  }
 	  // save image
-	  UUID id;
-	  LF_UUID_CREATE(id)
-	  TLFString strUUID = LFGUIDToString(&id);
-	  TLFString strNewFileName = exportBgDir + "\\" + strUUID + format;
-	  awpSaveImage(strNewFileName.c_str(), img);
+	  if (background == "true") {
+		  UUID id;
+		  LF_UUID_CREATE(id)
+		  TLFString strUUID = LFGUIDToString(&id);
+		  TLFString strNewFileName = exportBgDir + "\\" + strUUID + format;
+		  awpSaveImage(strNewFileName.c_str(), img);
+
+	  }
 	  awpReleaseImage(&img);
 	}
 }

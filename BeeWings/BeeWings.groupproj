@@ -4,7 +4,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Projects Include="landmarks\tps2landmarks.cbproj">
-            <Dependencies/>
+            <Dependencies>..\..\..\awplflib\borland\awplflibb.cbproj</Dependencies>
         </Projects>
         <Projects Include="MCTPoints\MCTPoins.cbproj">
             <Dependencies/>
@@ -35,13 +35,13 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="tps2landmarks">
+    <Target Name="tps2landmarks" DependsOnTargets="awplflibb">
         <MSBuild Projects="landmarks\tps2landmarks.cbproj"/>
     </Target>
-    <Target Name="tps2landmarks:Clean">
+    <Target Name="tps2landmarks:Clean" DependsOnTargets="awplflibb:Clean">
         <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="tps2landmarks:Make">
+    <Target Name="tps2landmarks:Make" DependsOnTargets="awplflibb:Make">
         <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Make"/>
     </Target>
     <Target Name="MCTPoins">
