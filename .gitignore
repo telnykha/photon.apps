@@ -70,3 +70,6 @@ BeeWings/BeeKindEditor/__history/
 BeeWings/BeeKindEditor/__recovery/
 BeeWings/BeeKindEditor/Win32/
 BeeWings/FVLCore/borland/Debug_Build/
+*.#00
+*.pch
+*.#01
