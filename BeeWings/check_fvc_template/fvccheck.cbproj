@@ -53,17 +53,11 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
-        <Cfg_2_Win64>true</Cfg_2_Win64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <_TCHARMapping>char</_TCHARMapping>
-        <IncludePath>$(AWP)\include;$(TINY);$(LF)\include;..\..\..\..\FVLCore\src\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\..\..\FVLCore\src\;$(AWP)\lib;$(LF)\lib;$(TINY)\lib;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\FVLCore\src\;$(AWP)\include;$(TINY);$(LF)\include;..\..\..\..\FVLCore\src\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\FVLCore\src\;..\..\..\..\FVLCore\src\;$(AWP)\lib;$(LF)\lib;$(TINY)\lib;$(AWPLIB);$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ProjectType>CppConsoleApplication</ProjectType>
         <Multithreaded>true</Multithreaded>
         <SanitizedProjectName>fvccheck</SanitizedProjectName>
@@ -146,7 +140,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>adortl;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CustomIPTransport;DataSnapClient;DataSnapCommon;DataSnapConnectors;DatasnapConnectorsFreePascal;DataSnapFireDAC;DataSnapIndy10ServerTransport;DataSnapNativeClient;DataSnapProviderClient;DataSnapServer;DataSnapServerMidas;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXDb2Driver;DBXFirebirdDriver;DBXInformixDriver;DBXInterBaseDriver;DBXMSSQLDriver;DBXMySQLDriver;DBXOdbcDriver;DBXOracleDriver;DBXSqliteDriver;DBXSybaseASADriver;DBXSybaseASEDriver;dsnap;dsnapcon;dsnapxml;emsclient;emsclientfiredac;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACDb2Driver;FireDACDBXDriver;FireDACDSDriver;FireDACIBDriver;FireDACInfxDriver;FireDACMSAccDriver;FireDACMSSQLDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACOracleDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;Intraweb;MetropolisUILiveTile;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;vclribbon;VclSmp;vcltouch;vclx;xmlrtl;$(PackageImports)</PackageImports>
-        <BCC_PCHName_Clang>fvccheckPCH1.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -185,16 +178,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <BCC_PCHName_Clang>fvccheckPCH1.h</BCC_PCHName_Clang>
-    </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\..\..\FVLCore\src\awpeigenlib.cpp">
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\..\..\FVLCore\src\fvlcore.cpp">
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
         <None Include="fvccheck.xml"/>
         <PCHCompile Include="fvccheckPCH1.h">
             <BuildOrder>0</BuildOrder>
@@ -202,6 +186,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </PCHCompile>
         <CppCompile Include="main_fvcch.cpp">
             <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\FVLCore\src\awpeigenlib.cpp">
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\FVLCore\src\fvlcore.cpp">
+            <BuildOrder>4</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -233,7 +223,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32160mt.dll" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\bin\fvccheck.tds" Configuration="Debug" Class="DebugSymbols"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -290,9 +279,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="fvccheck.xml" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32160.dll" Class="DependencyModule"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Win32\Release\fvccheck.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>fvccheck.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -309,7 +310,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\Project2.tds" Configuration="Debug" Class="DebugSymbols"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
