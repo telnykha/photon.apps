@@ -4,7 +4,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Projects Include="landmarks\tps2landmarks.cbproj">
-            <Dependencies>..\..\..\awplflib\borland\awplflibb.cbproj</Dependencies>
+            <Dependencies/>
         </Projects>
         <Projects Include="MCTPoints\MCTPoins.cbproj">
             <Dependencies/>
@@ -30,6 +30,9 @@
         <Projects Include="create_fvc_template\fvccreate.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="check_fvc_template\fvccheck.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -38,13 +41,13 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="tps2landmarks" DependsOnTargets="awplflibb">
+    <Target Name="tps2landmarks">
         <MSBuild Projects="landmarks\tps2landmarks.cbproj"/>
     </Target>
-    <Target Name="tps2landmarks:Clean" DependsOnTargets="awplflibb:Clean">
+    <Target Name="tps2landmarks:Clean">
         <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="tps2landmarks:Make" DependsOnTargets="awplflibb:Make">
+    <Target Name="tps2landmarks:Make">
         <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Make"/>
     </Target>
     <Target Name="MCTPoins">
@@ -119,14 +122,23 @@
     <Target Name="fvccreate:Make">
         <MSBuild Projects="create_fvc_template\fvccreate.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="fvccheck">
+        <MSBuild Projects="check_fvc_template\fvccheck.cbproj"/>
+    </Target>
+    <Target Name="fvccheck:Clean">
+        <MSBuild Projects="check_fvc_template\fvccheck.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="fvccheck:Make">
+        <MSBuild Projects="check_fvc_template\fvccheck.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

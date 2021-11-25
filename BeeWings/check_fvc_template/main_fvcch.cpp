@@ -92,7 +92,7 @@ extern "C"
 		{
 			string name = path + filesInfo.name;
 			TLFImage image;
-			if (!image.LoadImage((char*)name.c_str()))
+			if (!image.LoadFromFile((char*)name.c_str()))
 			{
 				printf("cannot load image %s \n", name.c_str());
 				continue;
