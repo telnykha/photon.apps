@@ -33,6 +33,12 @@
         <Projects Include="check_fvc_template\fvccheck.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Signs\Sings.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Normalize\Normalize.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -131,14 +137,32 @@
     <Target Name="fvccheck:Make">
         <MSBuild Projects="check_fvc_template\fvccheck.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="Sings">
+        <MSBuild Projects="Signs\Sings.cbproj"/>
+    </Target>
+    <Target Name="Sings:Clean">
+        <MSBuild Projects="Signs\Sings.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Sings:Make">
+        <MSBuild Projects="Signs\Sings.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Normalize">
+        <MSBuild Projects="Normalize\Normalize.cbproj"/>
+    </Target>
+    <Target Name="Normalize:Clean">
+        <MSBuild Projects="Normalize\Normalize.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Normalize:Make">
+        <MSBuild Projects="Normalize\Normalize.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck;Sings;Normalize"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean;Sings:Clean;Normalize:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make;Sings:Make;Normalize:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

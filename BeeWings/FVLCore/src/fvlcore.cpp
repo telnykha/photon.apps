@@ -64,14 +64,14 @@ static double _fvcEuclidDistanceFLOAT(awpImage* img1, awpImage* img2)
         result += ((double)b1[i]-(double)b2[i])*((double)b1[i]-(double)b2[i]);
     }
     if (bb1 == 0 || bb2 == 0)
-        return 1;
-   // bb1 = sqrt(bb1);
-   // bb2 = sqrt(bb2);
-   // result = sqrt (result) / (bb1*bb2);
-   // return result;
-    //НОРМИРОВКА
-    result /= size;
-    return result;
+		return 1;
+	bb1 = sqrt(bb1);
+	bb2 = sqrt(bb2);
+	result = sqrt (result);// / (bb1*bb2);
+	return result;
+	//НОРМИРОВКА
+	//result /= size;
+	//return result;
 }
 static double _fvcEuclidDistanceBYTE(awpImage* img1, awpImage* img2)
 {
@@ -118,7 +118,7 @@ static double _fvcEuclidDistanceBYTE(awpImage* img1, awpImage* img2)
 /*вычисляет евклидово расстояние между изображениями*/
 static double _fvcEuclidDistance(awpImage* img1, awpImage* img2)
 {
-    if (img1 == NULL || img2 == NULL)
+	if (img1 == NULL || img2 == NULL)
         return -1;
     if (img1->sSizeX != img2->sSizeX && img1->sSizeY != img2->sSizeY)
         return -1;
@@ -238,18 +238,18 @@ static double _fvcSegmentedDistance(awpImage* img1, awpImage* img2, AWPBYTE bThr
     if (img1->dwType != AWP_BYTE)
         return result;
 
-    if (size == 0)
+	if (size == 0)
         return result;
     result = 0;
-    b1 = (AWPBYTE*)img1->pPixels;
-    b2 = (AWPBYTE*)img2->pPixels;
+	b1 = (AWPBYTE*)img1->pPixels;
+	b2 = (AWPBYTE*)img2->pPixels;
 
 	awpImage* distance = NULL;
 
     awpCreateImage(&distance,img1->sSizeX, img1->sSizeY, 1, AWP_BYTE);
 	d = (AWPBYTE*)distance->pPixels;
 	for (i = 0; i < size; i++)
-        d[i] = abs(b1[i]-b2[i]);// < bThreshold) ? 1 : 0;
+		d[i] = abs(b1[i]-b2[i]);// < bThreshold) ? 1 : 0;
 
 	for (i = 0; i < size; i++)
         result += (d[i] * ((double)b1[i]-(double)b2[i])*((double)b1[i]-(double)b2[i]));
@@ -263,15 +263,15 @@ static double _fvcSegmentedDistance(awpImage* img1, awpImage* img2, AWPBYTE bThr
 static void _fvcCompareVectors(awpImage* img, SClassInfo* class_info, int iCompareType, FvcTemplate* tmpl)
 {
     float* DecompCoeff = NULL;
-    awpImage* reconstruction = NULL;
-    class_info->m_dblDistance = 1;
+	awpImage* reconstruction = NULL;
+	class_info->m_dblDistance = 1;
 /*
     awpCreateImage(&reconstruction,img->sSizeX, img->sSizeY, 1, AWP_BYTE);
 */
     DecompCoeff = (float*)malloc(class_info->m_nCount*sizeof(float));
     // we shall find coef. projection of the initial image on
     // space of own vectors
-    // differently we shall spread out the initial image
+	// differently we shall spread out the initial image
     awpEigenDecomposite(img, class_info->m_nCount,class_info->m_pVectors,class_info->m_pAverage,DecompCoeff);
     if (img->dwType == AWP_BYTE)
     {
@@ -282,10 +282,7 @@ static void _fvcCompareVectors(awpImage* img, SClassInfo* class_info, int iCompa
         fvcBuildReconstructionFloat(tmpl, DecompCoeff, &reconstruction);
     }
 //    awpEigenProjection(class_info->m_nCount,class_info->m_pVectors,DecompCoeff,class_info->m_pAverage,reconstruction);
-#ifdef _DEBUG
-	awpSaveImage("src.jpg", img);
-	awpSaveImage("reconstruct.jpg", reconstruction);
-#endif
+
     AWPBYTE bThreshold = 100;
 	switch( iCompareType ) {
     case FVC_COMPARE_EUCLID:
@@ -300,12 +297,19 @@ static void _fvcCompareVectors(awpImage* img, SClassInfo* class_info, int iCompa
     case FVC_COMPARE_CORRELATION:
         class_info->m_dblDistance = _fvcCorrelationCoeff(img, reconstruction);
     break;
-    default:
+	default:
 		class_info->m_dblDistance = _fvcEuclidDistance(img, reconstruction);
     }
 
-    free(DecompCoeff);
-    awpReleaseImage(&reconstruction);
+	free(DecompCoeff);
+
+#ifdef _DEBUG
+	awpConvert(img, AWP_CONVERT_TO_BYTE_WITH_NORM);
+	awpSaveImage("src.jpg", img);
+	awpConvert(reconstruction, AWP_CONVERT_TO_BYTE_WITH_NORM);
+	awpSaveImage("reconstruct.jpg", reconstruction);
+#endif
+	awpReleaseImage(&reconstruction);
 }
 
 int fvcFastCompare(awpImage* pImage, SClassInfo* pInfo)
@@ -621,10 +625,10 @@ int fvcCompare(awpImage* pImage, FvcTemplate* pTemplate, double* Error, int iCom
         memcpy(class_info.m_pVectors[i]->pPixels, (AWPBYTE*)fdata, w*h*sizeof(float));
     }
     fdata = pTemplate->pVectors + (pTemplate->nNumVectors-1)*w*h;
-    memcpy(class_info.m_pAverage->pPixels, (AWPBYTE*)fdata, w*h*sizeof(float));
+	memcpy(class_info.m_pAverage->pPixels, (AWPBYTE*)fdata, w*h*sizeof(float));
 
-    _fvcCompareVectors(pImage, &class_info, iCompareType, pTemplate);
-    *Error = class_info.m_dblDistance;
+	_fvcCompareVectors(pImage, &class_info, iCompareType, pTemplate);
+	*Error = class_info.m_dblDistance;
 
     // cleanup
     awpReleaseImage(&class_info.m_pAverage);

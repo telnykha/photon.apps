@@ -27,7 +27,7 @@ extern "C"
 
  void Usage()
 {
-	printf("Usage: fvccheck fvccheck.xml\n");
+	printf("Usage:  reference.xml\n");
 }
  int _tmain(int argc, _TCHAR* argv[])
 {
@@ -38,6 +38,7 @@ extern "C"
 	}
 
 	// main program
+
 	TiXmlDocument doc;
 	if (!doc.LoadFile(argv[1]))
 	{
@@ -54,39 +55,32 @@ extern "C"
 		return 1;
 	}
    const char* name = pElem->Value();
-   if (strcmp(name, "fvcccheck") != 0)
+   if (strcmp(name, "Normalize") != 0)
 	{
 		printf("error: invalid configuration file.\n");
 		return 1;
 	}
 
-	string path 	     =  pElem->Attribute("in_database");
-	string outName       =  pElem->Attribute("out_name");
-	string tmplName      =  pElem->Attribute("tmpl_name");
+	string ClassName = "Wing-1";
+	string removeDir = "true";
 
+	ClassName=  pElem->Attribute("ClassName");
+	string path = pElem->Attribute("in_database");
+	removeDir = pElem->Attribute("removeDir");
 
-	printf("params:\n");
+	LFCreateDir("awpNormalize");
+	TLFString exportDir = "awpNormalize\\" + ClassName;
 
-	printf("input database: %s\n", path.c_str());
-	printf("out name: %s\n", outName.c_str());
-	printf("tmpl name: %s\n", tmplName.c_str());
-
-	FvcTemplate* tmpl = NULL;
-	if (fvcLoadTemplate(tmplName.c_str(), &tmpl) != FVC_OK)
-	{
-        printf("error: cannot load template.\n");
-		return 1;
+	if (removeDir == "true") {
+		LFRemoveDir(exportDir.c_str());;
 	}
-
-	printf("template width %i:\n", tmpl->nVectorWidth);
-	printf("template height %i:\n", tmpl->nVectorHeight);
-	printf("template num vectors %i:\n", tmpl->nNumVectors);
+	LFCreateDir(exportDir.c_str());
 
 	_finddata_t filesInfo;
 	int num_images = 0;
 	long handle = 0;
-	FILE* f = fopen(outName.c_str(), "w+t");
-	if ( (handle = _findfirst( (char*)((path+"*.awp").c_str()), &filesInfo)) != -1 )
+	FILE* f = fopen(path.c_str(), "w+t");
+	if ( (handle = _findfirst( (char*)((path+"*.jpg").c_str()), &filesInfo)) != -1 )
 	{
 		do
 		{
@@ -98,13 +92,51 @@ extern "C"
 				continue;
 			}
 			num_images++;
-			double ro = 0;
+			//double ro = 0;
 
 			awpImage* img = image.GetImage();
+			awpImage* norm = NULL;
+			awpImage* normalize = NULL;
+			/*UUID id;
+			LF_UUID_CREATE(id)
+			TLFString strUUID = LFGUIDToString(&id);
+			TLFString strNewFileName = exportDir + "\\" + strUUID + ".jpg";
+			awpSaveImage(strNewFileName.c_str(), img);  */
+
+			if (awpNorm(img, &norm, AWP_NORM_L2) != AWP_OK) {
+				printf("error.\n");
+				continue;
+			}
+
+			if (awpNormalize(img, &normalize, AWP_NORM_L2) != AWP_OK) {
+				printf("error.\n");
+				continue;
+			}
+
+			awpNormalize(img, &normalize, AWP_NORM_L2);
+			//awpConvert(normalize, AWP_CONVERT_TO_BYTE_WITH_NORM);
+			awpConvert(normalize, AWP_CONVERT_TO_FLOAT);
+			UUID id;
+			LF_UUID_CREATE(id)
+			TLFString strUUID = LFGUIDToString(&id);
+			TLFString strNewFileName = exportDir + "\\" + strUUID + ".awp";
+			awpSaveImage(strNewFileName.c_str(), normalize);
+
+			//awpNorm(normalize, &norm, AWP_NORM_L2);
+			//awpConvert(normalize, AWP_CONVERT_TO_FLOAT);
+
+			//double* ddd = (double*)norm->pPixels;
+			//printf("norm = %lf\n", ddd[0]);
+			//double* nnn = (double*)normalize->pPixels;
+			//printf("normalize = %lf\n", nnn[0]);
+
+			awpReleaseImage(&normalize);
+			awpReleaseImage(&norm);
+			//awpReleaseImage(&img);
 			//awpConvert(img, AWP_CONVERT_TO_FLOAT);
-			fvcCompare(img, tmpl, &ro, FVC_COMPARE_EUCLID);
-			float ro1 = ro;
-			fprintf(f, "%s\t%f\n", filesInfo.name, ro1);
+			//fvcCompare(img, tmpl, &ro, FVC_COMPARE_EUCLID);
+			//float ro1 = ro;
+			//fprintf(f, "%s\t%f\n", filesInfo.name, ro1);
 /*			awpImage* rec = NULL;
 			if (fvcGetReconstruction(tmpl, img, &rec) != FVC_OK)
 				printf("reconstruction error.\n");

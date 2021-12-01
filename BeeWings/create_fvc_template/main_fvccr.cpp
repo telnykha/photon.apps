@@ -112,7 +112,7 @@ void Usage()
 		fileName = path + filesInfo.name;
 
 		AWPRESULT load_res = awpLoadImage( fileName.c_str(), &sourceImages[i] );
-		awpConvert(sourceImages[i], AWP_CONVERT_TO_FLOAT);
+	   //	awpConvert(sourceImages[i], AWP_CONVERT_TO_FLOAT);
 		if( load_res )
 			cout << load_res;
 		if( sourceImages[i]->sSizeX != width && sourceImages[i]->sSizeY != height){
