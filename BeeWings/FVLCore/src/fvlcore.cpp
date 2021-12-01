@@ -24,7 +24,7 @@ static int _fvcCheckTemplate(FvcTemplate* pTemplate)
     if (pTemplate->nSize !=     sizeof(FvcTemplate))
         return FVC_INVALIDTEMPL;
     if (pTemplate->nVectorHeight < 0 || pTemplate->nVectorWidth < 0)
-        return FVC_INVALIDTEMPL;
+		return FVC_INVALIDTEMPL;
     // check the size
     size = pTemplate->nNumVectors*pTemplate->nVectorHeight*pTemplate->nVectorWidth*sizeof(float);
     size_with_eigval = (pTemplate->nNumVectors*(pTemplate->nVectorHeight*pTemplate->nVectorWidth+1)-1)*sizeof(float);
@@ -41,7 +41,7 @@ static double _fvcEuclidDistanceFLOAT(awpImage* img1, awpImage* img2)
     int i;
     double result = -1;
     int size = img1->sSizeX*img1->sSizeY;
-    if (img1 == NULL || img2 == NULL)
+	if (img1 == NULL || img2 == NULL)
         return result;
     if (img1->sSizeX != img2->sSizeX && img1->sSizeY != img2->sSizeY)
         return result;
@@ -50,7 +50,7 @@ static double _fvcEuclidDistanceFLOAT(awpImage* img1, awpImage* img2)
     if (img1->dwType != AWP_FLOAT)
         return result;
 
-    if (size == 0)
+	if (size == 0)
         return result;
     result = 0;
     b1 = (float*)img1->pPixels;
@@ -76,7 +76,7 @@ static double _fvcEuclidDistanceFLOAT(awpImage* img1, awpImage* img2)
 static double _fvcEuclidDistanceBYTE(awpImage* img1, awpImage* img2)
 {
     AWPBYTE* b1;
-    AWPBYTE* b2;
+	AWPBYTE* b2;
     int i;
     double result = -1;
     int size = img1->sSizeX*img1->sSizeY;
@@ -102,7 +102,7 @@ static double _fvcEuclidDistanceBYTE(awpImage* img1, awpImage* img2)
         bb2 += b2[i]*b2[i];
         result += ((double)b1[i]-(double)b2[i])*((double)b1[i]-(double)b2[i]);
     }
-    if (bb1 == 0 || bb2 == 0)
+	if (bb1 == 0 || bb2 == 0)
         return 1;
    // bb1 = sqrt(bb1);
    // bb2 = sqrt(bb2);
@@ -128,7 +128,7 @@ static double _fvcEuclidDistance(awpImage* img1, awpImage* img2)
         return _fvcEuclidDistanceBYTE(img1, img2);
     else if (img1->dwType == AWP_FLOAT)
         return _fvcEuclidDistanceFLOAT(img1, img2);
-    else
+	else
         return -1;
 }
 
@@ -154,7 +154,7 @@ static double _fvcEuclidDistanceNorm(awpImage* img1, awpImage* img2)
         return result;
     result = 0;
     b1 = (AWPBYTE*)img1->pPixels;
-    b2 = (AWPBYTE*)img2->pPixels;
+	b2 = (AWPBYTE*)img2->pPixels;
     double a1 = 0;
     double a2 = 0;
     for (i = 0; i < size; i++)
@@ -180,12 +180,12 @@ static double _fvcCorrelationCoeff(awpImage* img1, awpImage* img2)
     int size = img1->sSizeX*img1->sSizeY;
     if (img1 == NULL || img2 == NULL)
         return result;
-    if (img1->sSizeX != img2->sSizeX && img1->sSizeY != img2->sSizeY)
+	if (img1->sSizeX != img2->sSizeX && img1->sSizeY != img2->sSizeY)
         return result;
     if (img1->dwType != img2->dwType)
         return result;
     if (img1->dwType != AWP_BYTE)
-        return result;
+		return result;
 
     if (size == 0)
         return result;
@@ -206,7 +206,7 @@ static double _fvcCorrelationCoeff(awpImage* img1, awpImage* img2)
     // вычисление коэф. коррел€ции
     double c = 0;
     double f = 0;
-    double g = 0;
+	double g = 0;
     for( i = 0; i < size; i++)
     {
       c += (b1[i] - a1)*(b2[i] - a2);
@@ -232,7 +232,7 @@ static double _fvcSegmentedDistance(awpImage* img1, awpImage* img2, AWPBYTE bThr
     if (img1 == NULL || img2 == NULL)
         return result;
     if (img1->sSizeX != img2->sSizeX && img1->sSizeY != img2->sSizeY)
-        return result;
+		return result;
     if (img1->dwType != img2->dwType)
         return result;
     if (img1->dwType != AWP_BYTE)
@@ -279,7 +279,7 @@ static void _fvcCompareVectors(awpImage* img, SClassInfo* class_info, int iCompa
     }
     else if (img->dwType == AWP_FLOAT)
     {
-        fvcBuildReconstructionFloat(tmpl, DecompCoeff, &reconstruction);
+		fvcBuildReconstructionFloat(tmpl, DecompCoeff, &reconstruction);
     }
 //    awpEigenProjection(class_info->m_nCount,class_info->m_pVectors,DecompCoeff,class_info->m_pAverage,reconstruction);
 
@@ -336,7 +336,7 @@ static void _fvcConvertFloatAwp2GrayscaleAwp(awpImage* pflt, awpImage* pgray)
     if (fl_max == fl_min) return;
     for(i = 0 ; i < s; i++)
     {
-        dst[i] = (AWPBYTE)(255*(src[i] - fl_min)/(fl_max - fl_min));
+		dst[i] = (AWPBYTE)(255*(src[i] - fl_min)/(fl_max - fl_min));
     }
 
 }
@@ -362,7 +362,7 @@ static int _fvcTemplate2Images(FvcTemplate* pTemplate, awpImage* pAverage, awpIm
         return FVC_INCOMPATIBLE;
     // check all images in the ppObjects
     for (i = 0; i < *num-1; i++)
-    {
+	{
         if (pTemplate->nVectorHeight != ppObjects[i]->sSizeY || pTemplate->nVectorWidth != ppObjects[i]->sSizeX ||
                 ppObjects[i]->dwType != AWP_FLOAT)
             return FVC_INCOMPATIBLE;
@@ -414,7 +414,7 @@ int fvcBuildTemplate(awpImage** ppImages, int count, FvcTemplate* pTemplate)
     // alloc memory for eigen array
     eigenObjects		= (awpImage**)malloc(num*sizeof(awpImage*));
     if (eigenObjects == NULL)
-        return FVC_OUTOFMEMORY;
+		return FVC_OUTOFMEMORY;
 
     // alloc memory for objects
     for(i = 0; i < num; i++)
@@ -440,7 +440,7 @@ int fvcBuildTemplate(awpImage** ppImages, int count, FvcTemplate* pTemplate)
         return FVC_OUTOFMEMORY;
     }
     // alloc memory for eigen values
-    eigVals = (float*)malloc(num*sizeof(float));
+	eigVals = (float*)malloc(num*sizeof(float));
     if (eigVals == NULL)
     {
         // cleanup
@@ -466,7 +466,7 @@ int fvcBuildTemplate(awpImage** ppImages, int count, FvcTemplate* pTemplate)
     {
         pData = pTemplate->pVectors + i*w*h;
         memcpy(pData, eigenObjects[i]->pPixels, h*w*sizeof(float));
-    }
+	}
     // copy average
     memcpy(pTemplate->pVectors + num*h*w, avg->pPixels, h*w*sizeof(float));
 
@@ -518,7 +518,7 @@ int fvcBuildTemplateLDA(FvcImages* Images, FvcTemplate** pTemplate)
         avg_data[i] = 0;
 
     for( i=0; i<numClasses; i++ )
-    {
+	{
         for( j = 0; j < Data[i].totalInClass; j++ )
         {
             awpImage* img = Data[i].ppImages[j];
@@ -544,7 +544,7 @@ int fvcBuildTemplateLDA(FvcImages* Images, FvcTemplate** pTemplate)
         return FVC_CANNOTBUILD;
     }
     result = _fvcCheckTemplate(*pTemplate);
-    if (result != FVC_OK)
+	if (result != FVC_OK)
         return result;
     w   = (*pTemplate)->nVectorWidth;
     h	= (*pTemplate)->nVectorHeight;
@@ -596,7 +596,7 @@ int fvcCompare(awpImage* pImage, FvcTemplate* pTemplate, double* Error, int iCom
 
     res = awpCreateImage(&class_info.m_pAverage, (AWPWORD)w, (AWPWORD)h, 1, AWP_FLOAT);
     if (res != AWP_OK)
-        return FVC_OUTOFMEMORY;
+		return FVC_OUTOFMEMORY;
 
     class_info.m_pVectors = (awpImage**)malloc(class_info.m_nCount*sizeof(awpImage*));
     if (class_info.m_pVectors == NULL)
@@ -610,7 +610,7 @@ int fvcCompare(awpImage* pImage, FvcTemplate* pTemplate, double* Error, int iCom
     {
         // create eigen vector
         res = awpCreateImage(&class_info.m_pVectors[i], (AWPWORD)w, (AWPWORD)h, 1, AWP_FLOAT);
-        if (res != AWP_OK)
+		if (res != AWP_OK)
         {
             // cleanup
             for (j = 0; j < i; j++)
@@ -622,7 +622,7 @@ int fvcCompare(awpImage* pImage, FvcTemplate* pTemplate, double* Error, int iCom
         }
         // copy eigen vector
         fdata = pTemplate->pVectors + i*w*h;
-        memcpy(class_info.m_pVectors[i]->pPixels, (AWPBYTE*)fdata, w*h*sizeof(float));
+		memcpy(class_info.m_pVectors[i]->pPixels, (AWPBYTE*)fdata, w*h*sizeof(float));
     }
     fdata = pTemplate->pVectors + (pTemplate->nNumVectors-1)*w*h;
 	memcpy(class_info.m_pAverage->pPixels, (AWPBYTE*)fdata, w*h*sizeof(float));
@@ -648,7 +648,7 @@ int fvcCompare(awpImage* pImage, FvcTemplate* pTemplate, double* Error, int iCom
 ============================================================================*/
 int fvcCreateTemplate(FvcTemplate** ppTemplate, int Width, int Height, int NumVectors, bool with_eigvals)
 {
-    // check arguments
+	// check arguments
     int size;
     if (ppTemplate == NULL)
         return FVC_INVALIDARG;
@@ -674,7 +674,7 @@ int fvcCreateTemplate(FvcTemplate** ppTemplate, int Width, int Height, int NumVe
     (*ppTemplate)->nDataSize	 = size;
     (*ppTemplate)->pVectors = NULL;
     // alloc memory for vectors
-    (*ppTemplate)->pVectors = (float*)malloc(size);
+	(*ppTemplate)->pVectors = (float*)malloc(size);
     if ((*ppTemplate)->pVectors == NULL)
     {
         free(*ppTemplate);
@@ -700,7 +700,7 @@ int fvcFreeTemplate(FvcTemplate** ppTemplate)
     // check template
     result = _fvcCheckTemplate(*ppTemplate);
     if (result != FVC_OK)
-        return result;
+		return result;
     if ((*ppTemplate)->pVectors != NULL)
         free((*ppTemplate)->pVectors);
     free(*ppTemplate);
@@ -726,7 +726,7 @@ int fvcSaveTemplateAsImage(const char* pFileName, FvcTemplate*pTemplate)
     AWPWORD i,w,h;				// helpers
     AWPWORD ht,wt,j,k;			// helpers too
     int res = AWP_OK;		// result of awpipl's calls
-    int result = FVC_OK;	// result of this
+	int result = FVC_OK;	// result of this
     awpImage* pTile = NULL;	// tiled image
     awpImage* pGray = NULL;	// temprary grayscale
     awpImage** pObjects = NULL;	// array of eigen objects
@@ -752,7 +752,7 @@ int fvcSaveTemplateAsImage(const char* pFileName, FvcTemplate*pTemplate)
 
     pObjects = (awpImage**)malloc((pTemplate->nNumVectors - 1)*sizeof(awpImage*));
     memset(pObjects, 0, (pTemplate->nNumVectors - 1)*sizeof(awpImage*));
-    if (pObjects == NULL)
+	if (pObjects == NULL)
     {
         result = FVC_OUTOFMEMORY;
         goto cleanup;
@@ -778,7 +778,7 @@ int fvcSaveTemplateAsImage(const char* pFileName, FvcTemplate*pTemplate)
     wt = w*n;
     res = awpCreateImage(&pTile, wt, ht, 1, AWP_BYTE);
     if (res != AWP_OK)
-    {
+	{
         result = FVC_OUTOFMEMORY;
         goto cleanup;
     }
@@ -804,7 +804,7 @@ int fvcSaveTemplateAsImage(const char* pFileName, FvcTemplate*pTemplate)
     }
     // save all eigen objects to tiled image
     for (k = 0; k < n-1; k++)
-    {
+	{
         _fvcConvertFloatAwp2GrayscaleAwp(pObjects[k], pGray);
         src = (AWPBYTE*)pGray->pPixels;
         dst = (AWPBYTE*)pTile->pPixels;
@@ -830,7 +830,7 @@ cleanup:
         awpReleaseImage(&pTile);
     if (pGray != NULL)
         awpReleaseImage(&pGray);
-    if (pAverage != NULL)
+	if (pAverage != NULL)
         awpReleaseImage(&pAverage);
     if (pObjects != NULL)
     {
@@ -856,7 +856,7 @@ int fvcPack(FvcTemplate* pTemplate,char** ppData,int *piLen)
     int result = FVC_OK;	// result of this
     char* pD = NULL;
     int j = 0;//,w,h;
-    /*check arguments*/
+	/*check arguments*/
     if (pTemplate == NULL || ppData == NULL || piLen == NULL)
         return FVC_INVALIDARG;
     result = _fvcCheckTemplate(pTemplate);
@@ -882,7 +882,7 @@ int fvcPack(FvcTemplate* pTemplate,char** ppData,int *piLen)
     //copy data
     memcpy(&pD[j],&pTemplate->nSize,sizeof(pTemplate->nSize));
     j+=sizeof(pTemplate->nSize);
-    memcpy(&pD[j],&pTemplate->nDataSize,sizeof(pTemplate->nDataSize));
+	memcpy(&pD[j],&pTemplate->nDataSize,sizeof(pTemplate->nDataSize));
     j+=sizeof(pTemplate->nDataSize);
     memcpy(&pD[j],&pTemplate->nNumVectors,sizeof(pTemplate->nNumVectors));
     j+=sizeof(pTemplate->nNumVectors);
@@ -908,7 +908,7 @@ int fvcPack(FvcTemplate* pTemplate,char** ppData,int *piLen)
 int fvcUnPack(char* pData,int iLen, FvcTemplate** pTemplate)
 {
     int result = FVC_OK;	// result of this
-    int iWidth,iHeight;
+	int iWidth,iHeight;
     int iNumVectors = 0;
     int iSize = 0;
     int iDataSize =0;
@@ -1142,7 +1142,7 @@ int fvcLoadTemplate(const char* pFileName, FvcTemplate** ppTemplate)
         if (fvcCreateTemplate(ppTemplate, VectorWidth, VectorHeight, NumVectors-1) != FVC_OK)
 	    {
 		    fclose(f);
-		    return FVC_CANNOTLOAD;
+			return FVC_CANNOTLOAD;
 	    }
     }
 	if (DataSize != (*ppTemplate)->nDataSize)
@@ -1168,7 +1168,7 @@ int fvcConvertTemplateToImage(FvcTemplate* pTemplate, awpImage** ppImage)
 {
     // variables
     AWPBYTE* src;				// pointers to pixels
-    AWPBYTE* dst;
+	AWPBYTE* dst;
     int n;
     AWPWORD i,w,h;				// helpers
     AWPWORD ht,wt,j,k;			// helpers too
@@ -1194,7 +1194,7 @@ int fvcConvertTemplateToImage(FvcTemplate* pTemplate, awpImage** ppImage)
     // alloc memory for all objects
 
     res = awpCreateImage(&pAverage, w, h, 1, AWP_FLOAT);
-    if (res != AWP_OK)
+	if (res != AWP_OK)
         return FVC_OUTOFMEMORY;
 
     pObjects = (awpImage**)malloc((pTemplate->nNumVectors - 1)*sizeof(awpImage*));
@@ -1220,7 +1220,7 @@ int fvcConvertTemplateToImage(FvcTemplate* pTemplate, awpImage** ppImage)
     if (result != FVC_OK)
         goto cleanup;
 
-    // create tiled image
+	// create tiled image
     ht = h;
     wt = w*(n+1);
     res = awpCreateImage(&pTile, wt, ht, 1, AWP_BYTE);
@@ -1246,7 +1246,7 @@ int fvcConvertTemplateToImage(FvcTemplate* pTemplate, awpImage** ppImage)
     {
         for (j = 0; j < w; j++)
         {
-            dst[i*wt + j] = src[i*pGray->sSizeX + j];
+			dst[i*wt + j] = src[i*pGray->sSizeX + j];
         }
     }
     // save all eigen objects to tiled image
@@ -1272,7 +1272,7 @@ cleanup:
         awpReleaseImage(&pAverage);
     if (pObjects != NULL)
     {
-        for (i = 0; i < n; i++)
+		for (i = 0; i < n; i++)
         {
             if (pObjects[i] != NULL)
                 awpReleaseImage(&pObjects[i]);
@@ -1298,7 +1298,7 @@ int fvcResampleTemplate(FvcTemplate* pTemplate, int NumVectors)
     if (pTemplate->nNumVectors < NumVectors+1)
         return FVC_INVALIDARG;
     /*скопируем первые NumVectors векторов в буфер*/
-    if( pTemplate->nDataSize == (pTemplate->nNumVectors*(pTemplate->nVectorWidth*pTemplate->nVectorHeight+1)-1)*sizeof(float) )
+	if( pTemplate->nDataSize == (pTemplate->nNumVectors*(pTemplate->nVectorWidth*pTemplate->nVectorHeight+1)-1)*sizeof(float) )
         Size = ((NumVectors+1)*(pTemplate->nVectorWidth*pTemplate->nVectorHeight + 1)-1)*sizeof(float);
     else
         Size = (NumVectors+1)*pTemplate->nVectorWidth*pTemplate->nVectorHeight*sizeof(float);
@@ -1324,7 +1324,7 @@ int fvcResampleTemplate(FvcTemplate* pTemplate, int NumVectors)
         memcpy((void*)ptr,(void*)ptrSrc, NumVectors*sizeof(float));
     }
 
-    /*преобразуем шаблон*/
+	/*преобразуем шаблон*/
     pTemplate->nDataSize = Size;
 
     pTemplate->nNumVectors = NumVectors+1;
@@ -1350,7 +1350,7 @@ int fvcGetReconstruction(FvcTemplate* pTemplate, awpImage* pImage, awpImage** pp
         return FVC_INVALIDARG;
     // prepare eigen vectors and average object
     class_info.m_nCount		= pTemplate->nNumVectors-1;
-    class_info.m_pAverage	= NULL;
+	class_info.m_pAverage	= NULL;
     class_info.m_pVectors	= NULL;
 
     w = pTemplate->nVectorWidth;
@@ -1376,7 +1376,7 @@ int fvcGetReconstruction(FvcTemplate* pTemplate, awpImage* pImage, awpImage** pp
         {
             // cleanup
             for (j = 0; j < i; j++)
-                awpReleaseImage(&class_info.m_pVectors[j]);
+				awpReleaseImage(&class_info.m_pVectors[j]);
 
             awpReleaseImage(&class_info.m_pAverage);
             free(class_info.m_pVectors);
@@ -1402,7 +1402,7 @@ int fvcGetReconstruction(FvcTemplate* pTemplate, awpImage* pImage, awpImage** pp
 
 	free(DecompCoeff);
     // cleanup
-    awpReleaseImage(&class_info.m_pAverage);
+	awpReleaseImage(&class_info.m_pAverage);
     for (j = 0; j < class_info.m_nCount; j++)
         awpReleaseImage(&class_info.m_pVectors[j]);
     free(class_info.m_pVectors);
@@ -1454,7 +1454,7 @@ float* pCoeff)
             for (j = 0; j < i; j++)
                 awpReleaseImage(&class_info.m_pVectors[j]);
 
-            awpReleaseImage(&class_info.m_pAverage);
+			awpReleaseImage(&class_info.m_pAverage);
             free(class_info.m_pVectors);
             return FVC_OUTOFMEMORY;
         }
@@ -1480,7 +1480,7 @@ float* pCoeff)
     free(DecompCoeff);
     // cleanup
     awpReleaseImage(&class_info.m_pAverage);
-    for (j = 0; j < class_info.m_nCount; j++)
+	for (j = 0; j < class_info.m_nCount; j++)
         awpReleaseImage(&class_info.m_pVectors[j]);
     free(class_info.m_pVectors);
     return Result;
@@ -1506,7 +1506,7 @@ int fvcTemplateToClassInfo(FvcTemplate* pTemplate, SClassInfo* pInfo)
 
     pInfo->m_nCount		= pTemplate->nNumVectors-1;
 
-    pInfo->m_pAverage	= NULL;
+	pInfo->m_pAverage	= NULL;
     pInfo->m_pVectors	= NULL;
 
     if (awpCreateImage(&pInfo->m_pAverage, (AWPWORD)w, (AWPWORD)h, 1, AWP_FLOAT) != AWP_OK)
@@ -1532,7 +1532,7 @@ int fvcTemplateToClassInfo(FvcTemplate* pTemplate, SClassInfo* pInfo)
             return FVC_OUTOFMEMORY;
         }
         // copy eigen vector
-        fdata = pTemplate->pVectors + i*w*h;
+		fdata = pTemplate->pVectors + i*w*h;
         memcpy(pInfo->m_pVectors[i]->pPixels, (AWPBYTE*)fdata, w*h*sizeof(float));
     }
     fdata = pTemplate->pVectors + (pTemplate->nNumVectors-1)*w*h;
@@ -1562,7 +1562,7 @@ int fvcTemplateToClassInfoFloat(FvcTemplate* pTemplate, SClassInfo* pInfo)
     w = pTemplate->nVectorWidth;
     h = pTemplate->nVectorHeight;
 
-    pInfo->m_nCount		= pTemplate->nNumVectors-1;
+	pInfo->m_nCount		= pTemplate->nNumVectors-1;
 
     pInfo->m_pAverage	= NULL;
     pInfo->m_pVectors	= NULL;
@@ -1588,7 +1588,7 @@ int fvcTemplateToClassInfoFloat(FvcTemplate* pTemplate, SClassInfo* pInfo)
             awpReleaseImage(&pInfo->m_pAverage);
             free(pInfo->m_pVectors);
             return FVC_OUTOFMEMORY;
-        }
+		}
         // copy eigen vector
         fdata = pTemplate->pVectors + i*w*h;
         memcpy(pInfo->m_pVectors[i]->pPixels, fdata, w*h*sizeof(float));
@@ -1614,7 +1614,7 @@ int fvcTemplateToClassInfoFloat(FvcTemplate* pTemplate, SClassInfo* pInfo)
 */
 int fvcClassInfoToTemplate(FvcTemplate** ppTemplate, SClassInfo* pInfo)
 {
-      int Result = FVC_OK;
+	  int Result = FVC_OK;
       return Result;
 }
 
@@ -1636,11 +1636,11 @@ int fvcFreeClassInfo(SClassInfo* pInfo)
       awpReleaseImage(&pInfo->m_pAverage);
   pInfo->m_pAverage = NULL;
   if( pInfo->m_eigVals!=NULL )
-    free( pInfo->m_eigVals );
+	free( pInfo->m_eigVals );
   return Result;
 }
 /*
-    строит рекострукцию изображени€ по коэф. разложени€
+	строит рекострукцию изображени€ по коэф. разложени€
     количество коэф. в массиве pCoeff должно быть точно
     равно количеству векторов в pTemplate
 */
@@ -1662,11 +1662,11 @@ int fvcBuildReconstruction(FvcTemplate* pTemplate, float* pCoeff, awpImage** ppR
         return Result;
 
     Result = awpEigenProjection(class_info.m_nCount, class_info.m_pVectors, pCoeff, class_info.m_pAverage, *ppReconstruction);
-    if(Result!= AWP_OK)
+	if(Result!= AWP_OK)
         return Result;
     fvcFreeClassInfo (&class_info);
 
-    return Result;
+	return Result;
 }
 
 int fvcBuildReconstructionFloat(FvcTemplate* pTemplate, float* pCoeff, awpImage** ppReconstruction)
@@ -1688,7 +1688,7 @@ int fvcBuildReconstructionFloat(FvcTemplate* pTemplate, float* pCoeff, awpImage*
 
     Result = awpEigenProjectionFloat(class_info.m_nCount, class_info.m_pVectors, pCoeff, class_info.m_pAverage, *ppReconstruction);
     if(Result!= AWP_OK)
-        return Result;
+		return Result;
 //    fvcFreeClassInfo (&class_info);
 
     return Result;

@@ -149,7 +149,7 @@ static int _awpEigenProjectionFloat(int    nEigObjs,				//
     if( size.width == restStep && size.width == eigStep && size.width == avgStep )
     {
         size.width *= size.height;
-        size.height = 1;
+		size.height = 1;
         restStep = eigStep = avgStep = size.width;
     }
 
@@ -158,7 +158,7 @@ static int _awpEigenProjectionFloat(int    nEigObjs,				//
     b = buf;
     for( i=0; i<size.height; i++, avg+=avgStep, b+=size.width )
         for( j=0; j<size.width; j++ )
-            b[j] = 0;//avg[j];
+			b[j] = avg[j];
 
     for(k=0; k<nEigObjs; k++)
     {
