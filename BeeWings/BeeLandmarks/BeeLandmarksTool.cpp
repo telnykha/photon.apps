@@ -81,15 +81,15 @@ void TPhBeeLandmarksTool::Draw(TCanvas* Canvas)
 		awpImage* src = NULL;
 		awpCreateImage(&src, 1,2,1,AWP_DOUBLE);
 		double* psrc = (double*)src->pPixels;
-		psrc[0] = m_points[i].X;
-		psrc[1] = m_points[i].Y;
+		psrc[0] = m_points[i].X - m_points[4].X;
+		psrc[1] = m_points[i].Y - m_points[4].Y;
 		awpMulMatrix(imtx, src, &dst);
 		double* pdst = (double*)dst->pPixels;
 		m_out[i].X = pdst[0];
 		m_out[i].Y = pdst[1];
 		awp2DPoint p;
-		p.X = w*alfa*(m_out[i].X) / 100;
-		p.Y = h*alfa*(m_out[i].Y) / 100;
+		p.X = w*alfa*(m_p4.X + m_out[i].X) / 100;
+		p.Y = h*alfa*(m_p4.Y + m_out[i].Y) / 100;
 		awpReleaseImage(&dst);
 
 		TPoint pp = m_pImage->GetScreenPoint((int)p.X, (int)p.Y);
@@ -134,6 +134,8 @@ void TPhBeeLandmarksTool::MouseDown(int X, int Y, TMouseButton Button)
 		pp.Y = 100.*p.y/ (double)h;
 		if (m_selected == 4) {
 		   m_p4 = pp;
+		   m_p7.X = m_points[7].X + (m_p4.X - m_points[4].X);
+		   m_p7.Y = m_points[7].Y + (m_p4.Y - m_points[4].Y);
 		}
 		else if (m_selected == 7) {
 		   m_p7 = pp;
@@ -161,6 +163,8 @@ void TPhBeeLandmarksTool::MouseMove(int X, int Y, TShiftState Shift)
 		pp.Y = 100.*p.y/ (double)h;
 		if (m_selected == 4) {
 		   m_p4 = pp;
+		   m_p7.X = m_points[7].X + (m_p4.X - m_points[4].X);
+		   m_p7.Y = m_points[7].Y + (m_p4.Y - m_points[4].Y);
 		}
 		else if (m_selected == 7) {
 		   m_p7 = pp;
