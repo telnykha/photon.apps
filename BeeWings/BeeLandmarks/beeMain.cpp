@@ -38,6 +38,7 @@ __fastcall TForm10::TForm10(TComponent* Owner)
 {
    m_object = NULL;
    m_selectedFile = L"";
+   m_beeTool = NULL;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm10::fileExitActionExecute(TObject *Sender)
@@ -164,6 +165,7 @@ void __fastcall TForm10::DirectoryListBox1Change(TObject *Sender)
 	 }
 
 	UpdateTPSGrid();
+	beeIni->LastPath = DirectoryListBox1->Directory;
 }
 //---------------------------------------------------------------------------
 
@@ -313,14 +315,20 @@ void __fastcall TForm10::toolsBeeLandmarksActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::toolsEditROIActionExecute(TObject *Sender)
 {
-	PhImage1->SelectPhTool(PhZonesTool1);
+  //	PhImage1->SelectPhTool(PhZonesTool1);
+  if (m_beeTool != NULL) {
+	  delete m_beeTool;
+  }
+  m_beeTool = new TPhBeeLandmarksTool(NULL);
+  m_beeTool->PhImage = PhImage1;
+  PhImage1->SelectPhTool(m_beeTool);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm10::toolsEditROIActionUpdate(TObject *Sender)
 {
 	toolsEditROIAction->Enabled = !PhImage1->Empty;
-	toolsEditROIAction->Checked = dynamic_cast<TPhZonesTool*>(PhImage1->PhTool) != NULL;
+	toolsEditROIAction->Checked = dynamic_cast<TPhBeeLandmarksTool*>(PhImage1->PhTool) != NULL;
 }
 //---------------------------------------------------------------------------
 
@@ -344,8 +352,6 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	this->SpeedButton4->Caption = L"";
 	this->SpeedButton5->Caption = L"";
 	this->SpeedButton6->Caption = L"";
-	//this->SpeedButton7->Caption = L"";
-	//this->SpeedButton8->Caption = L"";
 	this->SpeedButton9->Caption = L"";
 	this->SpeedButton10->Caption = L"";
 	this->SpeedButton11->Caption = L"";
@@ -366,6 +372,8 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	StringGrid1->Cells[1][0] = L"Статус";
 	StringGrid1->Cells[2][0] = L"X";
 	StringGrid1->Cells[3][0] = L"Y";
+
+	DirectoryListBox1->Directory =  beeIni->LastPath;
 
 }
 //---------------------------------------------------------------------------

@@ -6,6 +6,7 @@
 class TBeeIniParams
 {
 protected:
+	UnicodeString m_strLastPath;
 	bool m_NeedAnalysis;
 	UnicodeString  m_UITheme;
 	int  m_LandmarkSkin;
@@ -15,12 +16,14 @@ protected:
 	void __fastcall SetNeedAnaysis(const bool value);
 	void __fastcall SetUITheme(const UnicodeString value);
 	void __fastcall SetLandmarkSkin(const int value);
+	void __fastcall SetLastPath(const UnicodeString& value);
 public:
 	TBeeIniParams();
 
 	__property bool NeedAnalysis = {read = m_NeedAnalysis, write = SetNeedAnaysis};
 	__property UnicodeString UITheme = {read = m_UITheme, write = SetUITheme};
 	__property int LandmarkSkin = {read = m_LandmarkSkin, write = SetLandmarkSkin};
+	__property UnicodeString LastPath = {read = m_strLastPath, write = SetLastPath};
 };
 
 #endif

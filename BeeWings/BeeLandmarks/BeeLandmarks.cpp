@@ -10,8 +10,8 @@
 
 USEFORM("BeeOptionsForm.cpp", OptionsForm);
 USEFORM("beeMain.cpp", Form10);
-USEFORM("BeeAboutForm.cpp", AboutBox);
 USEFORM("beeLongProcessForm.cpp", Form1);
+USEFORM("BeeAboutForm.cpp", AboutBox);
 //---------------------------------------------------------------------------
 TBeeIniParams gBeeIniParams;
 TBeeIniParams* beeIni = &gBeeIniParams;

@@ -346,6 +346,12 @@ void DrawFix5landmarks(TLFDBLandmarks &src, awpImage* dst)
 
 void DrawFix58Landmarks(TLFDBLandmarks &src, awpImage* dst)
 {
+	TiXmlDocument doc;
+	TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
+	doc.LinkEndChild(decl);
+	TiXmlElement* parent = new TiXmlElement("BeeCenters");
+	awp2DPoint cent[8];
+	memset(cent, 0, sizeof(cent));
 	for (int i = 0; i < src.Files()->Count(); i++) {
 	  TLFLandmarkFile* f = src.Files()->File(i);
 	  TLFLandmark* lm4 = f->Landmark(4);
@@ -364,7 +370,9 @@ void DrawFix58Landmarks(TLFDBLandmarks &src, awpImage* dst)
 		  double a =  50 + 25*(cos(fi)*(p.X - p4.X)/L - sin(fi)*(p.Y - p4.Y)/L);
 		  double b =  50 + 25*(sin(fi)*(p.X - p4.X)/L + cos(fi)*(p.Y - p4.Y)/L);
 		  p.X = a;
-          p.Y = b;
+		  p.Y = b;
+		  cent[j].X += a;
+		  cent[j].Y += b;
 
 		  awpPoint    pp;
 		  pp.X = p.X*dst->sSizeX / 100;
@@ -379,6 +387,18 @@ void DrawFix58Landmarks(TLFDBLandmarks &src, awpImage* dst)
 		  awpDrawCCross(dst, &cross, R,G,B,1);
 	  }
 	}
+	char buf[32];
+	for (int i = 0; i < 8; i++) {
+		cent[i].X /= src.Files()->Count();
+		cent[i].Y /= src.Files()->Count();
+		printf("wing %i x = %lf\ty = %lf\n", i, cent[i].X, cent[i].Y);
+		sprintf(buf, "x%i", i, cent[i].X);
+		parent->SetDoubleAttribute(buf, cent[i].X);
+		sprintf(buf, "y%i", i, cent[i].Y);
+		parent->SetDoubleAttribute(buf, cent[i].Y);
+	}
+    doc.LinkEndChild(parent);
+	doc.SaveFile("LandmarksCenters.xml");
 }
 
 void DrawLandmarks(const char* fileName, const char* imageFileName)
@@ -398,8 +418,8 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 		printf("cannot create image\n");
 		return;
 	}
- //    DrawFix5landmarks(src, dst);
-
+    DrawFix58Landmarks(src, dst);
+    //return;
 	TLF2DRect rects[8];
 	for (int i = 0; i < 8; i++) {
 		rects[i].SetVertexes(-1,-1,-1,-1);
@@ -444,7 +464,7 @@ void DrawLandmarks(const char* fileName, const char* imageFileName)
 		  cross.right = pp.X + 8;
 		  cross.top = pp.Y - 8;
 		  cross.bottom = pp.Y+8;
-		  awpDrawCCross(dst, &cross, R,G,B,1);
+		  //awpDrawCCross(dst, &cross, R,G,B,1);
 	  }
 	}
 	// отрисовка прямоугольников и создание файла зон

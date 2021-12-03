@@ -55,6 +55,7 @@ void __fastcall TBeeIniParams::LoadParams()
 	this->m_NeedAnalysis = ini->ReadBool(c_strSection, L"analysis", true);
 	this->m_UITheme      = ini->ReadString(c_strSection, L"theme", "Windows");
 	this->m_LandmarkSkin = ini->ReadInteger(c_strSection, L"skin", 0);
+	this->m_strLastPath = ini->ReadString(c_strSection, L"LastPath", "C:\\");
 	delete ini;
 }
 void __fastcall TBeeIniParams::SaveParams()
@@ -65,6 +66,7 @@ void __fastcall TBeeIniParams::SaveParams()
 	ini->WriteBool(c_strSection, L"analysis", m_NeedAnalysis);
 	ini->WriteString(c_strSection, L"theme", m_UITheme);
 	ini->WriteInteger(c_strSection, L"skin", m_LandmarkSkin);
+	ini->WriteString(c_strSection, L"LastPath", m_strLastPath);
 	delete ini;
 }
 
@@ -81,5 +83,12 @@ void __fastcall TBeeIniParams::SetUITheme(const UnicodeString value)
 void __fastcall TBeeIniParams::SetLandmarkSkin(const int value)
 {
 	this->m_LandmarkSkin = value;
+	SaveParams();
+}
+
+void __fastcall TBeeIniParams::SetLastPath(const UnicodeString& value)
+{
+	this->m_strLastPath = value;
     SaveParams();
 }
+

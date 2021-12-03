@@ -66,9 +66,10 @@
         <_TCHARMapping>char</_TCHARMapping>
         <IncludePath>..\include\;..\..\..\photon41\photon\;$(AWP);$(LF);$(JPEG);$(TINY);$(AWP)\include;$(LF)\include;$(PHOTON41)\photon;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>..\include\;..\..\..\photon41\photon\;$(AWPLIB);$(PHOTON41)\lib\;$(AWP)\lib;$(TINY)\lib;$(LF)\lib;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <Defines>BEEPOINTS_EXPORTS;WIN32;$(Defines)</Defines>
+        <Defines>BEEPOINTS_EXPORTS;WIN32;TIXML_USE_STL;$(Defines)</Defines>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DynamicRTL>true</DynamicRTL>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;ComPort;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;photon;photon41;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>

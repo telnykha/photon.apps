@@ -25,6 +25,8 @@
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.Grids.hpp>
 #include <Vcl.ValEdit.hpp>
+#include "BeeLandmarksTool.h"
+
 //---------------------------------------------------------------------------
 class TForm10 : public TForm
 {
@@ -185,6 +187,7 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	HANDLE m_object;
 	TLFDBLandmarks m_db;
+    TPhBeeLandmarksTool* m_beeTool;
 	bool __fastcall CreateLandmarks();
 	void __fastcall ChangeRoi(TObject* sender,  int index, bool update);
 	bool __fastcall ExportTPS(const UnicodeString& strFileName);

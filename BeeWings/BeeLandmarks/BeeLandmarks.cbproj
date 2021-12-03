@@ -168,6 +168,10 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="BeeLandmarksTool.cpp">
+            <DependentOn>BeeLandmarksTool.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
         <CppCompile Include="beeLongProcessForm.cpp">
             <Form>Form1</Form>
             <FormType>dfm</FormType>
