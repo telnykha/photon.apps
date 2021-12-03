@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include "_LF.h"
 #include "tpsUnit.h"
+#include "tpsPoint.h"
+//#include "fvlcore.h"
 //#include "BeeFeatures.h"
 
 extern "C"
@@ -32,6 +34,7 @@ extern "C"
 	tps2landmarks -f filename.xml - отражение TLFDBLandmarks по вертикали
 	tps2landmarks -e filename.xml options.xml - экспорт изображений особой точки
 	tps2landmarks -t filename.xml - посчитанные признаки для изображения
+	tps2landmarks -p filename.xml options.xml - экспорт изображений заданной точки
 */
 void Usage()
 {
@@ -45,6 +48,7 @@ void Usage()
 	 printf("Flip landmarks vertical: tps2landmarks -f filename.xml\n");
 	 printf("Return signs: tps2landmarks -t filename.xml\n");
 	 printf("Export image of landmark -e filename1.xml exportname.xml\n");
+	 printf("Detector -p filename1.xml exportname.xml\n");
 }
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -117,6 +121,14 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 		  ExportLandmarks(argv[2], argv[3]);
 		 }
+
+	else if (key == "-p") {
+			if (argc != 4) {
+				Usage();
+				return 0;
+			}
+		  Detector(argv[2], argv[3]);
+		}
 	else
 		Usage();
 
