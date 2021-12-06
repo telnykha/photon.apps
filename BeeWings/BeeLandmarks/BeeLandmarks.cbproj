@@ -62,7 +62,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;dbrtl.lib;dbexpress.lib;DbxCommonDriver.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -118,7 +118,7 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;dbrtl.lib;dbexpress.lib;DbxCommonDriver.lib</LinkPackageStatics>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Debugger_DebugSourcePath>C:\_alt\_proj\awplflib\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Debugger_RunParams>-f beelandmarks.xml</Debugger_RunParams>
@@ -157,6 +157,12 @@
             <DependentOn>BeeIniParamsUnit.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
+        <CppCompile Include="BeeKindEditor.cpp">
+            <Form>kindEditorForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>BeeKindEditor.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
         <CppCompile Include="BeeKinds.cpp">
             <DependentOn>BeeKinds.h</DependentOn>
             <BuildOrder>11</BuildOrder>
@@ -173,7 +179,7 @@
             <BuildOrder>13</BuildOrder>
         </CppCompile>
         <CppCompile Include="beeLongProcessForm.cpp">
-            <Form>Form1</Form>
+            <Form>longProcessForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>beeLongProcessForm.h</DependentOn>
             <BuildOrder>3</BuildOrder>
@@ -191,6 +197,12 @@
             <BuildOrder>7</BuildOrder>
         </CppCompile>
         <None Include="database.txt"/>
+        <CppCompile Include="DiaKIND.cpp">
+            <Form>KindEdit</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>DiaKIND.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
         <None Include="Readme.txt"/>
         <CppCompile Include="..\landmarks\tpsUnit.cpp">
             <DependentOn>..\landmarks\tpsUnit.h</DependentOn>
@@ -204,6 +216,8 @@
         <FormResources Include="beeMain.dfm"/>
         <FormResources Include="beeLongProcessForm.dfm"/>
         <FormResources Include="BeeAboutForm.dfm"/>
+        <FormResources Include="DiaKIND.dfm"/>
+        <FormResources Include="BeeKindEditor.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -252,8 +266,8 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c270.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -346,12 +360,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c270.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>

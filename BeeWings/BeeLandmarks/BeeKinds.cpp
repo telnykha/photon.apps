@@ -216,6 +216,7 @@ BeeKind* BeeKinds::GetBeeKind(int index)
 	BeeKind* Kind= (BeeKind* )Get(index);
 	return Kind;
 }
+
 BeeKind* BeeKinds::Classify(double Ci, double DsA, double Hi)
 {
 	BeeKind* result = NULL;
@@ -230,4 +231,49 @@ BeeKind* BeeKinds::Classify(double Ci, double DsA, double Hi)
 
 
 }
+
+void BeeKinds::New_Classify(double Ci, double DsA, double Hi, BeeKinds* kinds)
+{
+	kinds->Clear();
+	for (int i = 0; i < GetCount(); i++){
+		BeeKind* b = GetBeeKind(i);
+		if (Ci > b->GetMinCi() && Ci < b->GetMaxCi() && DsA > b->GetMinDsA() && DsA < b->GetMaxDsA() && Hi > b->GetMinHi() && Hi < b->GetMaxHi() ){
+			BeeKind* bb = new BeeKind(b->GetKindName(),b->GetMinCi(),b->GetMaxCi(),b->GetMinDsA(),b->GetMaxDsA(),b->GetMinHi(),b->GetMaxHi(),b->GetColor());
+			kinds->Add(bb);
+		}
+
+   }
+}
+
+/*
+BeeKind* BeeKinds::New_Classify(double Ci, double DsA, double Hi)
+{
+	BeeKind* result = NULL;
+	//result(clear);
+	//const n = GetCount();
+	//BeeKind* num[n];
+	//BeeKind* num[5];
+	//BeeKind* result = NULL;
+	//double result[];
+	 for (int i = 0; i < GetCount(); i++){
+		BeeKind* b = GetBeeKind(i);
+		if (Ci > b->GetMinCi() && Ci < b->GetMaxCi() && DsA > b->GetMinDsA() && DsA < b->GetMaxDsA() && Hi > b->GetMinHi() && Hi < b->GetMaxHi() ){
+			//BeeKind* res = new BeeKind;
+			//result.append(res->GetKindName);
+			//num[i] = 1;
+			num[i] = b;
+		}
+		//else{
+		//	num[i] = 0;
+		//}
+	 }
+	 //result = num;
+	 return num;
+}
+*/
+ /*
+int BeeKind::GetKindNum()
+{
+	return m_KindNum;
+} */
 

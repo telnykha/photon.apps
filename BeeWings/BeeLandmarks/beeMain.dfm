@@ -594,10 +594,6 @@ object Form10: TForm10
           object TabSheet3: TTabSheet
             Caption = 'TPS'
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object StringGrid1: TStringGrid
               Left = 0
               Top = 0
@@ -616,26 +612,24 @@ object Form10: TForm10
             Caption = #1054#1090#1095#1077#1090
             ImageIndex = 2
             OnShow = TabSheet4Show
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object Label2: TLabel
               Left = 0
               Top = 0
-              Width = 123
+              Width = 266
               Height = 13
               Align = alTop
               Caption = #1063#1080#1089#1083#1086' '#1085#1072#1081#1076#1077#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
+              ExplicitWidth = 123
             end
             object Label3: TLabel
               Left = 0
               Top = 185
-              Width = 201
+              Width = 266
               Height = 13
               Align = alTop
               Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1086#1090#1088#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
               Visible = False
+              ExplicitWidth = 201
             end
             object ValueListEditor1: TValueListEditor
               Left = 0
@@ -823,6 +817,11 @@ object Form10: TForm10
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1087#1072#1088#1072#1084#1077#1090#1088#1086#1074'...'
       OnExecute = toolsOptionsActionExecute
     end
+    object toolsKindEditorAction: TAction
+      Category = 'Tools'
+      Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1087#1086#1088#1086#1076'...'
+      OnExecute = toolsKindEditorActionExecute
+    end
   end
   object MainMenu1: TMainMenu
     Left = 545
@@ -906,6 +905,9 @@ object Form10: TForm10
       end
       object N29: TMenuItem
         Action = toolsOptionsAction
+      end
+      object N30: TMenuItem
+        Action = toolsKindEditorAction
       end
     end
     object N27: TMenuItem

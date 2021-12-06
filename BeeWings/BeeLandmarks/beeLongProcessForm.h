@@ -10,7 +10,7 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TlongProcessForm : public TForm
 {
 __published:	// IDE-managed Components
 	TLabel *Label1;
@@ -22,11 +22,11 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	bool    m_replace;
 public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
+	__fastcall TlongProcessForm(TComponent* Owner);
     __property bool replace = {read = m_replace, write= m_replace};
 
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TlongProcessForm *longProcessForm;
 //---------------------------------------------------------------------------
 #endif

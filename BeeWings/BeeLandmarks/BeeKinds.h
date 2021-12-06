@@ -16,6 +16,7 @@ protected:
 	int     m_color;
 public:
    BeeKind(const char* name, double minCi, double maxCi, double minDsA, double maxDsA, double minHi, double maxHi, int color);
+   BeeKind(BeeKind& Other);
 
    TiXmlElement* SaveXML();
    static BeeKind* LoadXML(TiXmlElement* parent);
@@ -63,5 +64,6 @@ public:
 
 	BeeKind* GetBeeKind(int index);
 	BeeKind* Classify(double Ci, double DsA, double Hi);
+	void New_Classify(double Ci, double DsA, double Hi, BeeKinds* kinds);
 };
 #endif
