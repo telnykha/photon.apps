@@ -88,15 +88,38 @@ void TPhBeeLandmarksTool::Draw(TCanvas* Canvas)
 		m_out[i].X = pdst[0];
 		m_out[i].Y = pdst[1];
 		awp2DPoint p;
-		p.X = w*alfa*(m_p4.X + m_out[i].X) / 100;
-		p.Y = h*alfa*(m_p4.Y + m_out[i].Y) / 100;
+
+		p.X = alfa*m_out[i].X;
+		p.Y = alfa*m_out[i].Y;
+		p.X += m_p4.X;
+		p.Y += m_p4.Y;
+
+		awp2DPoint lt;
+		awp2DPoint rb;
+		double radiusx = 7;
+		double radiusy = ((double)w/(double)h)*radiusx;
+
+		lt.X = p.X - radiusx;
+		lt.Y = p.Y - radiusy;
+		rb.X = p.X + radiusx;
+		rb.Y = p.Y + radiusy;
+
+		TRect srcRect;
+		srcRect.Left = w*lt.X / 100;
+		srcRect.top  = h*lt.Y / 100;
+		srcRect.bottom = h*rb.Y / 100;
+		srcRect.right = w*rb.X / 100;
+
+		p.X = w*p.X / 100.;
+		p.Y = h*p.Y / 100.;
+
 		awpReleaseImage(&dst);
 
 		TPoint pp = m_pImage->GetScreenPoint((int)p.X, (int)p.Y);
-		TRect rr;
-		rr.init(pp.X - 16, pp.y -16, pp.x+16, pp.y + 16);
+		TRect rr = m_pImage->GetScreenRect(srcRect);
 		Canvas->Brush->Style = bsClear;
 		Canvas->Pen->Color = clRed;
+        Canvas->Pen->Width = 2;
 		Canvas->Ellipse(rr);
 	}
 
