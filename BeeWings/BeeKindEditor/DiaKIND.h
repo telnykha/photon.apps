@@ -12,8 +12,8 @@
 #include <System.SysUtils.hpp>
 #include <Winapi.Windows.hpp>
 #include <System.hpp>
-#include "cgrid.h"
 #include <Vcl.ColorGrd.hpp>
+//#include <Vcl.ColorGrd.hpp>
 //----------------------------------------------------------------------------
 class TKindEdit : public TForm
 {

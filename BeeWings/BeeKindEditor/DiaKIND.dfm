@@ -3,7 +3,7 @@ object KindEdit: TKindEdit
   Top = 108
   BorderStyle = bsDialog
   Caption = 'Dialog'
-  ClientHeight = 357
+  ClientHeight = 337
   ClientWidth = 393
   Color = clBtnFace
   ParentFont = True
@@ -157,7 +157,6 @@ object KindEdit: TKindEdit
     Top = 213
     Width = 120
     Height = 100
-    BackgroundEnabled = False
     TabOrder = 10
   end
 end

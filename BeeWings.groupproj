@@ -1,0 +1,120 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2CD2E734-8850-45B0-A356-CE28B2FCEBD3}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="landmarks\tps2landmarks.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MCTPoints\MCTPoins.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\photon41\photon41.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="BeeLandmarks\BeeLandmarks.cbproj">
+            <Dependencies>..\..\photon41\photon41.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="..\..\photon41\Demo\PhotonDemo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\LFMarker\ObjectsMarker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="tps2landmarks">
+        <MSBuild Projects="landmarks\tps2landmarks.cbproj"/>
+    </Target>
+    <Target Name="tps2landmarks:Clean">
+        <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="tps2landmarks:Make">
+        <MSBuild Projects="landmarks\tps2landmarks.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="MCTPoins">
+        <MSBuild Projects="MCTPoints\MCTPoins.cbproj"/>
+    </Target>
+    <Target Name="MCTPoins:Clean">
+        <MSBuild Projects="MCTPoints\MCTPoins.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MCTPoins:Make">
+        <MSBuild Projects="MCTPoints\MCTPoins.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="photon41">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
+    </Target>
+    <Target Name="photon41:Clean">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="photon41:Make">
+        <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="BeeLandmarks" DependsOnTargets="photon41">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj"/>
+    </Target>
+    <Target Name="BeeLandmarks:Clean" DependsOnTargets="photon41:Clean">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BeeLandmarks:Make" DependsOnTargets="photon41:Make">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PhotonDemo">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj"/>
+    </Target>
+    <Target Name="PhotonDemo:Clean">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PhotonDemo:Make">
+        <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ObjectsMarker">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj"/>
+    </Target>
+    <Target Name="ObjectsMarker:Clean">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ObjectsMarker:Make">
+        <MSBuild Projects="..\LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="awplflibb">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj"/>
+    </Target>
+    <Target Name="awplflibb:Clean">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="awplflibb:Make">
+        <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="GrafCI">
+        <MSBuild Projects="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj"/>
+    </Target>
+    <Target Name="GrafCI:Clean">
+        <MSBuild Projects="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GrafCI:Make">
+        <MSBuild Projects="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;GrafCI"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;GrafCI:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;GrafCI:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

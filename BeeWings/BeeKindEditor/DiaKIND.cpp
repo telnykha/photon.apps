@@ -4,7 +4,7 @@
 
 #include "DiaKIND.h"
 //---------------------------------------------------------------------
-#pragma link "cgrid"
+//#pragma link "cgrid"
 #pragma resource "*.dfm"
 TKindEdit *KindEdit;
 //--------------------------------------------------------------------- 
@@ -16,7 +16,7 @@ __fastcall TKindEdit::TKindEdit(TComponent* AOwner)
 
 void __fastcall TKindEdit::Button1Click(TObject *Sender)
 {
-    ShowMessage(ColorGrid1->ForegroundColor);
+//   ShowMessage(ColorGrid1->ForegroundColor);
 }
 //---------------------------------------------------------------------------
 

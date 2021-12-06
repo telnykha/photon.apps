@@ -27,7 +27,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
 {
-	 //StringGrid1->RowCount++;
 	 KindEdit->Edit1->Text = "Kind Name";
 	 KindEdit->Edit2->Text = 0;
 	 KindEdit->Edit3->Text = 0;
@@ -48,7 +47,7 @@ void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
 		kind-> SetMinhi(StrToFloat(KindEdit->Edit6->Text));
 		kind->SetmaxHi(StrToFloat(KindEdit->Edit7->Text));
 		kind->SetColor(c);
-		//kind->SetColor(StrToInt(KindEdit->Edit8->Text));
+		kind->SetColor(StrToInt(KindEdit->Edit8->Text));
 		b.AddBeeKind(kind);
 		UpdateTable();
 		b.SaveXml("BeeKinds.xml");
@@ -58,7 +57,6 @@ void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
 
 void __fastcall TForm1::SpeedButton3Click(TObject *Sender)
 {
-	//StringGrid1->RowCount--;
 	b.Delete(StringGrid1->Row-1);
 
 	UpdateTable();
