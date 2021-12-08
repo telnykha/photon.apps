@@ -2,8 +2,8 @@
   Left = 0
   Top = 0
   Caption = 'Form2'
-  ClientHeight = 362
-  ClientWidth = 759
+  ClientHeight = 444
+  ClientWidth = 737
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,22 +17,26 @@
   object Unit1: TPageControl
     Left = 0
     Top = 0
-    Width = 759
-    Height = 362
+    Width = 737
+    Height = 444
     ActivePage = Индексы
     Align = alClient
     MultiLine = True
     TabOrder = 0
     TabPosition = tpBottom
+    ExplicitWidth = 759
+    ExplicitHeight = 362
     object Индексы: TTabSheet
       Caption = #1048#1085#1076#1077#1082#1089#1099
       object StringGrid1: TStringGrid
         Left = 0
         Top = 0
-        Width = 751
-        Height = 336
+        Width = 729
+        Height = 418
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 751
+        ExplicitHeight = 336
       end
     end
     object Результаты: TTabSheet

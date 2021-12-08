@@ -14,7 +14,7 @@ USEFORM("beeLongProcessForm.cpp", longProcessForm);
 USEFORM("DiaKIND.cpp", KindEdit);
 USEFORM("BeeKindEditor.cpp", kindEditorForm);
 USEFORM("BeeAboutForm.cpp", AboutBox);
-USEFORM("D:\Projects_RAD\Unit2.cpp", Form2);
+USEFORM("BeeAnalysisForm.cpp", Form2);
 //---------------------------------------------------------------------------
 TBeeIniParams gBeeIniParams;
 TBeeIniParams* beeIni = &gBeeIniParams;
