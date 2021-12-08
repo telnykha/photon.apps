@@ -11,9 +11,9 @@
 USEFORM("BeeOptionsForm.cpp", OptionsForm);
 USEFORM("beeMain.cpp", Form10);
 USEFORM("beeLongProcessForm.cpp", longProcessForm);
-USEFORM("BeeAboutForm.cpp", AboutBox);
 USEFORM("DiaKIND.cpp", KindEdit);
 USEFORM("BeeKindEditor.cpp", kindEditorForm);
+USEFORM("BeeAboutForm.cpp", AboutBox);
 //---------------------------------------------------------------------------
 TBeeIniParams gBeeIniParams;
 TBeeIniParams* beeIni = &gBeeIniParams;
@@ -30,6 +30,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->CreateForm(__classid(TOptionsForm), &OptionsForm);
 		Application->CreateForm(__classid(TKindEdit), &KindEdit);
+		Application->CreateForm(__classid(TkindEditorForm), &kindEditorForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

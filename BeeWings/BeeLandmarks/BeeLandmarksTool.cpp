@@ -34,10 +34,13 @@ __fastcall TPhBeeLandmarksTool::TPhBeeLandmarksTool(TComponent* Owner): TPhImage
 	m_points[7].Y = 75.0000;
 
 	memcpy(m_out, m_points, sizeof(m_out));
+
 	m_p4.X = 50;
 	m_p4.Y = 50;
 	m_p7.X = 50;
 	m_p7.Y = 75;
+
+
 	m_selected = -1;
 }
 __fastcall TPhBeeLandmarksTool::~TPhBeeLandmarksTool()
@@ -50,6 +53,16 @@ void TPhBeeLandmarksTool::Draw(TCanvas* Canvas)
 	if (this->m_pImage == NULL) {
 		return;
 	}
+
+	TBrushStyle oldStyle = Canvas->Brush->Style;
+	TColor oldColor = Canvas->Pen->Color;
+	int    oldWidth = Canvas->Pen->Width;
+
+
+	Canvas->Brush->Style = bsClear;
+	Canvas->Pen->Color = clRed;
+	Canvas->Pen->Width = 1;
+
 
 	int w = m_pImage->Bitmap->Width;
 	int h = m_pImage->Bitmap->Height;
@@ -96,7 +109,7 @@ void TPhBeeLandmarksTool::Draw(TCanvas* Canvas)
 
 		awp2DPoint lt;
 		awp2DPoint rb;
-		double radiusx = 7;
+		double radiusx = 8;
 		double radiusy = ((double)w/(double)h)*radiusx;
 
 		lt.X = p.X - radiusx;
@@ -109,22 +122,31 @@ void TPhBeeLandmarksTool::Draw(TCanvas* Canvas)
 		srcRect.top  = h*lt.Y / 100;
 		srcRect.bottom = h*rb.Y / 100;
 		srcRect.right = w*rb.X / 100;
+		double rx = 0.5;
+		if (i == 4 || i == 7) {
+			rx = 2;
+		}
+
+		DrawCross(p, Canvas, rx);
 
 		p.X = w*p.X / 100.;
 		p.Y = h*p.Y / 100.;
 
 		awpReleaseImage(&dst);
 
-		TPoint pp = m_pImage->GetScreenPoint((int)p.X, (int)p.Y);
+
+
 		TRect rr = m_pImage->GetScreenRect(srcRect);
-		Canvas->Brush->Style = bsClear;
-		Canvas->Pen->Color = clRed;
-        Canvas->Pen->Width = 2;
 		Canvas->Ellipse(rr);
 	}
 
 	awpReleaseImage(&mtx);
 	awpReleaseImage(&imtx);
+
+	Canvas->Brush->Style = oldStyle;
+	Canvas->Pen->Color = oldColor;
+	Canvas->Pen->Width = oldWidth;
+
 }
 int TPhBeeLandmarksTool::_is_near(int X, int Y)
 {
@@ -157,8 +179,6 @@ void TPhBeeLandmarksTool::MouseDown(int X, int Y, TMouseButton Button)
 		pp.Y = 100.*p.y/ (double)h;
 		if (m_selected == 4) {
 		   m_p4 = pp;
-		   m_p7.X = m_points[7].X + (m_p4.X - m_points[4].X);
-		   m_p7.Y = m_points[7].Y + (m_p4.Y - m_points[4].Y);
 		}
 		else if (m_selected == 7) {
 		   m_p7 = pp;
@@ -186,8 +206,6 @@ void TPhBeeLandmarksTool::MouseMove(int X, int Y, TShiftState Shift)
 		pp.Y = 100.*p.y/ (double)h;
 		if (m_selected == 4) {
 		   m_p4 = pp;
-		   m_p7.X = m_points[7].X + (m_p4.X - m_points[4].X);
-		   m_p7.Y = m_points[7].Y + (m_p4.Y - m_points[4].Y);
 		}
 		else if (m_selected == 7) {
 		   m_p7 = pp;
@@ -199,3 +217,67 @@ void TPhBeeLandmarksTool::Reset()
 {
 
 }
+
+void TPhBeeLandmarksTool::DrawCross(awp2DPoint& p, TCanvas* c, double radius)
+{
+	int w = m_pImage->Bitmap->Width;
+	int h = m_pImage->Bitmap->Height;
+
+	double rx = radius;
+	double ry = ((double)w/(double)h)*rx;
+
+	awp2DPoint p1;
+	awp2DPoint p2;
+	awp2DPoint p3;
+	awp2DPoint p4;
+
+	p1.X = p.X - rx;
+	p1.Y = p.Y;
+
+	p2.X = p.X + rx;
+	p2.Y = p.Y;
+
+	p3.X = p.X;
+	p3.Y = p.Y - ry;
+
+	p4.X = p.X;
+	p4.Y = p.Y + ry;
+
+	TPoint _p1;
+	TPoint _p2;
+	TPoint _p3;
+	TPoint _p4;
+
+	p1.X = w*p1.X / 100;
+	p1.Y = h*p1.Y / 100;
+
+	p2.X = w*p2.X / 100;
+	p2.Y = h*p2.Y / 100;
+
+	p3.X = w*p3.X / 100;
+	p3.Y = h*p3.Y / 100;
+
+	p4.X = w*p4.X / 100;
+	p4.Y = h*p4.Y / 100;
+
+	_p1 = m_pImage->GetScreenPoint((int)p1.X, (int)p1.Y);
+	_p2 = m_pImage->GetScreenPoint((int)p2.X, (int)p2.Y);
+	_p3 = m_pImage->GetScreenPoint((int)p3.X, (int)p3.Y);
+	_p4 = m_pImage->GetScreenPoint((int)p4.X, (int)p4.Y);
+
+	TColor oldColor = c->Pen->Color;
+	int    oldWidth = c->Pen->Width;
+
+	c->Pen->Color = clLime;
+	c->Pen->Width = 2;
+
+	c->MoveTo(_p1.x, _p1.Y);
+	c->LineTo(_p2.x, _p2.Y);
+
+	c->MoveTo(_p3.x, _p3.Y);
+	c->LineTo(_p4.x, _p4.Y);
+
+	c->Pen->Color = oldColor;
+	c->Pen->Width = oldWidth;
+}
+

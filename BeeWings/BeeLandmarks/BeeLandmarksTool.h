@@ -14,6 +14,7 @@ protected:
 	awp2DPoint m_p7;
 	int m_selected;
 	int _is_near(int X, int Y);
+	void DrawCross(awp2DPoint& p, TCanvas* c, double radius = 2);
 public:
 	__fastcall TPhBeeLandmarksTool(TComponent* Owner);
 	virtual __fastcall ~TPhBeeLandmarksTool();
