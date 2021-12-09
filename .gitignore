@@ -86,3 +86,6 @@ BeeWings/Normalize/Win32/
 *.#00
 *.pch
 *.#01
+BeeWings/BeDetect/Win32
+BeeWings/BeDetect/__history
+BeeWings/BeDetect/__recovery
