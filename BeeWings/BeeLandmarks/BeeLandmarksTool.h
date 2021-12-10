@@ -4,6 +4,7 @@
 #define BeeLandmarksToolH
 //---------------------------------------------------------------------------
 #include "PhImageTool.h"
+#include "PhPaneTool.h"
 #include "_LF.h"
 class PACKAGE TPhBeeLandmarksTool : public TPhPaneTool
 {
