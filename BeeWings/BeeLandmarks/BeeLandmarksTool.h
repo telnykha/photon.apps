@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 #include "PhImageTool.h"
 #include "_LF.h"
-class PACKAGE TPhBeeLandmarksTool : public TPhImageTool
+class PACKAGE TPhBeeLandmarksTool : public TPhPaneTool
 {
 protected:
 	awp2DPoint m_points[8];

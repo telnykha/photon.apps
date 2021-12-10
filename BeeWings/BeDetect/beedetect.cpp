@@ -49,44 +49,29 @@ awpImage* _preprocess(awpImage* img, awpRect& r)
 	return norm;
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+bool _detect(TSCObjectDetector& d, FvcTemplate* t, awpImage* img, awpRect& result)
 {
-	printf("beedetect.\n");
+	awpResize(img, 960, 540);
+	d.Init(img, true);
 
-	FvcTemplate* tmpl = NULL;
-	if (fvcLoadTemplate("tmplAWP5.fvc", &tmpl) != FVC_OK)
-	{
-		printf("error: cannot load template.\n");
-		return 1;
-	}
-
-	TSCObjectDetector detector;
-	if (!detector.LoadDetector("test5.xml"))
-	{
-		printf("cannot load detector.\n");
-		return 0;
-	}
-
-	TLFImage img;
-	img.LoadFromFile(argv[1]);
-	awpResize(img.GetImage(), 960, 540);
-	detector.Init(img.GetImage(), true);
 	int num = 0;
-	if (num = detector.Detect())
-			printf("num detected %d fragments %d \n ", num, detector.GetScanner()->GetFragmentsCount());
+	if (num = d.Detect())
+			printf("num detected %d fragments %d \n ", num, d.GetScanner()->GetFragmentsCount());
+	if (num == 0)
+		return false;
+
 	double min_ro = 1;
 	int min_idx = -1;
 	for (int i = 0; i < num; i++)
 	{
-		TLFDetectedItem* di = detector.GetItem(i);
+		TLFDetectedItem* di = d.GetItem(i);
 		awpRect r = di->GetBounds()->GetRect();
-  //		awpDrawRect(img.GetImage(), &r, 1, 255, 1);
-		awpImage* fragment = _preprocess(img.GetImage(), r);
+		awpImage* fragment = _preprocess(img, r);
 		if (fragment!= NULL)
 		{
 
 			 double ro = 1;
-			 fvcCompare(fragment, tmpl, &ro, FVC_COMPARE_EUCLID);
+			 fvcCompare(fragment, t, &ro, FVC_COMPARE_EUCLID);
 			 if (ro < min_ro)
 			 {
 				min_ro = ro;
@@ -96,17 +81,65 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 
 	}
-
-	printf ("index =  %d ro = %lf\n", min_idx, min_ro);
 	if (min_idx >= 0)
 	{
-		TLFDetectedItem* di = detector.GetItem(min_idx);
-		awpRect r = di->GetBounds()->GetRect();
-		awpDrawRect(img.GetImage(), &r, 1, 255, 1);
+		TLFDetectedItem* di = d.GetItem(min_idx);
+		result = di->GetBounds()->GetRect();
+	 //	awpDrawCross(img.GetImage(), &r, 1, 255, 1);
+	}
+	printf ("index =  %d ro = %lf\n", min_idx, min_ro);
+	return true;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	printf("beedetect.\n");
+
+	FvcTemplate* tmpl5 = NULL;
+	FvcTemplate* tmpl8 = NULL;
+	if (fvcLoadTemplate("tmplAWP5.fvc", &tmpl5) != FVC_OK)
+	{
+		printf("error: cannot load template.\n");
+		return 1;
+	}
+	if (fvcLoadTemplate("tmplAWP8.fvc", &tmpl8) != FVC_OK)
+	{
+		printf("error: cannot load template.\n");
+		return 1;
 	}
 
-	img.SaveToFile("out.jpg");
+	TSCObjectDetector detector5;
+	TSCObjectDetector detector8;
 
-	fvcFreeTemplate(&tmpl);
+	if (!detector5.LoadDetector("test5.xml"))
+	{
+		printf("cannot load detector.\n");
+		return 0;
+	}
+
+	if (!detector8.LoadDetector("test8.xml"))
+	{
+		printf("cannot load detector.\n");
+		return 0;
+	}
+
+	TLFImage img;
+	img.LoadFromFile(argv[1]);
+	awpRect r5;
+	awpRect r8;
+	if (_detect(detector5, tmpl5, img.GetImage(), r5) &&
+	_detect(detector8, tmpl8, img.GetImage(), r8))
+	{
+		awpDrawCross(img.GetImage(), &r5, 1, 255, 1);
+		awpDrawCross(img.GetImage(), &r8, 1, 255, 1);
+
+		img.SaveToFile("out.jpg");
+	}
+	else
+		printf("Object not found.\n");
+
+
+	fvcFreeTemplate(&tmpl5);
+	fvcFreeTemplate(&tmpl8);
 	return 0;
 }

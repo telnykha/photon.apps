@@ -39,6 +39,9 @@
         <Projects Include="Normalize\Normalize.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="BeDetect\beedetect.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -155,14 +158,23 @@
     <Target Name="Normalize:Make">
         <MSBuild Projects="Normalize\Normalize.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="beedetect">
+        <MSBuild Projects="BeDetect\beedetect.cbproj"/>
+    </Target>
+    <Target Name="beedetect:Clean">
+        <MSBuild Projects="BeDetect\beedetect.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="beedetect:Make">
+        <MSBuild Projects="BeDetect\beedetect.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck;Sings;Normalize"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck;Sings;Normalize;beedetect"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean;Sings:Clean;Normalize:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean;Sings:Clean;Normalize:Clean;beedetect:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make;Sings:Make;Normalize:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make;Sings:Make;Normalize:Make;beedetect:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

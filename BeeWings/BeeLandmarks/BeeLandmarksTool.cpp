@@ -7,7 +7,7 @@
 #pragma package(smart_init)
 
 
-__fastcall TPhBeeLandmarksTool::TPhBeeLandmarksTool(TComponent* Owner): TPhImageTool(Owner)
+__fastcall TPhBeeLandmarksTool::TPhBeeLandmarksTool(TComponent* Owner): TPhPaneTool(Owner)
 {
 	m_points[0].X = 26.630311;
 	m_points[0].Y = 29.036995;
@@ -184,10 +184,13 @@ void TPhBeeLandmarksTool::MouseDown(int X, int Y, TMouseButton Button)
 		   m_p7 = pp;
 		}
 	 }
+	 else
+		 TPhPaneTool::MouseDown(X, Y, Button);
 }
 void TPhBeeLandmarksTool::MouseUp(int X, int Y, TMouseButton Button)
 {
 	m_selected = -1;
+	TPhPaneTool::MouseUp(X, Y, Button);
 	m_pImage->Paint();
 }
 void TPhBeeLandmarksTool::MouseMove(int X, int Y, TShiftState Shift)
@@ -211,6 +214,8 @@ void TPhBeeLandmarksTool::MouseMove(int X, int Y, TShiftState Shift)
 		   m_p7 = pp;
 		}
 	}
+	else
+       	TPhPaneTool::MouseMove(X, Y, Shift);
 	m_pImage->Paint();
 }
 void TPhBeeLandmarksTool::Reset()
