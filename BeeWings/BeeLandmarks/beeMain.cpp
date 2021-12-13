@@ -369,10 +369,18 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	StringGrid1->ColWidths[1] = 96;
 	StringGrid1->ColWidths[2] = 40;
 	StringGrid1->ColWidths[3] = 40;
-    StringGrid1->Cells[0][0] = L"№";
+	StringGrid1->Cells[0][0] = L"№";
 	StringGrid1->Cells[1][0] = L"Статус";
 	StringGrid1->Cells[2][0] = L"X";
 	StringGrid1->Cells[3][0] = L"Y";
+
+	UnicodeString iniPath = beeIni->IniPath;
+	_ansi = iniPath;
+	_ansi += "BeeMorphology.xml";
+	if (!m_morphology.Init(_ansi.c_str()))
+	{
+		ShowMessage(L"Не могу загрузить детектор особых точек.");
+	}
 
 	DirectoryListBox1->Directory =  beeIni->LastPath;
 

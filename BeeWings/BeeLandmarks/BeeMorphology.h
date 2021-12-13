@@ -9,7 +9,8 @@ class TBeeMorphology
 protected:
 	TLFObjectList m_detectors;
 	awp2DPoint*   m_points;
-
+	int m_width;
+    int m_height;
 
 
 public:

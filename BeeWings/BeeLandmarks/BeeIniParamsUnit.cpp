@@ -89,6 +89,38 @@ void __fastcall TBeeIniParams::SetLandmarkSkin(const int value)
 void __fastcall TBeeIniParams::SetLastPath(const UnicodeString& value)
 {
 	this->m_strLastPath = value;
-    SaveParams();
+	SaveParams();
+}
+
+UnicodeString __fastcall TBeeIniParams::GetIniPath()
+{
+	LPITEMIDLIST pidl;
+	LPMALLOC pShellMalloc;
+	wchar_t szDir[MAX_PATH];
+	UnicodeString PathStr ;
+
+	if (SUCCEEDED(SHGetMalloc(&pShellMalloc)))
+	{
+		if (SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_APPDATA, &pidl)))
+		{
+			if (SHGetPathFromIDList(pidl, szDir))
+			{
+				PathStr = szDir ;
+				PathStr = PathStr + "\\" ;
+			}
+			pShellMalloc->Free(pidl);
+		}
+		pShellMalloc->Release();
+	}
+
+	PathStr += L"\\NNVideolab\\";
+	if (!DirectoryExists(PathStr))
+		CreateDir(PathStr);
+
+	PathStr += L"\\BeeLandmarks\\";
+	if (!DirectoryExists(PathStr))
+		CreateDir(PathStr);
+
+	return PathStr;
 }
 

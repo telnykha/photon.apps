@@ -26,6 +26,7 @@
 #include <Vcl.Grids.hpp>
 #include <Vcl.ValEdit.hpp>
 #include "BeeLandmarksTool.h"
+#include "BeeMorphology.h"
 
 //---------------------------------------------------------------------------
 class TForm10 : public TForm
@@ -189,6 +190,7 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 	HANDLE m_object;
+    TBeeMorphology m_morphology;
 	TLFDBLandmarks m_db;
     TPhBeeLandmarksTool* m_beeTool;
 	bool __fastcall CreateLandmarks();

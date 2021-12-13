@@ -5,9 +5,10 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-TBeePointDector::TBeePointDector()
+TBeePointDector::TBeePointDector(const char* className)
 {
    m_template = NULL;
+   m_strClassName = className;
 }
 
 TBeePointDector::~TBeePointDector()

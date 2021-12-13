@@ -11,8 +11,9 @@ protected:
 	TSCObjectDetector m_detector;
 	FvcTemplate*      m_template;
 	awpImage* Preprocess(awpImage* img, awpRect& r);
+    TLFString m_strClassName;
 public:
-	TBeePointDector();
+	TBeePointDector(const char* className);
 	virtual ~TBeePointDector();
 
 	bool Init(const char* lpDetectorName, const char* lpTemplateName);
