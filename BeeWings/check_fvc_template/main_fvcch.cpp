@@ -105,7 +105,6 @@ extern "C"
 			fvcCompare(img, tmpl, &ro, FVC_COMPARE_EUCLID);
 			float ro1 = ro;
 			fprintf(f, "%s\t%f\n", filesInfo.name, ro1);
-
 /*			awpImage* rec = NULL;
 			if (fvcGetReconstruction(tmpl, img, &rec) != FVC_OK)
 				printf("reconstruction error.\n");

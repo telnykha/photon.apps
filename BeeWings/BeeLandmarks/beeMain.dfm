@@ -489,6 +489,23 @@ object Form10: TForm10
           Width = 5
           Height = 463
         end
+        object PhImage1: TPhImage
+          Left = 279
+          Top = 0
+          Width = 495
+          Height = 463
+          AutoMosaic = True
+          ThumbWidht = 128
+          ThumbHeight = 128
+          SlideShowInterval = 500
+          Align = alClient
+          ParentColor = False
+          OnMouseMove = PhImage1MouseMove
+          OnPaint = PhImage1Paint
+          AfterOpen = PhImage1AfterOpen
+          OnScaleChange = PhImage1ScaleChange
+          OnToolChange = PhImage1ToolChange
+        end
         object PageControl2: TPageControl
           Left = 0
           Top = 0
@@ -497,7 +514,7 @@ object Form10: TForm10
           ActivePage = TabSheet2
           Align = alLeft
           PopupMenu = PopupMenu1
-          TabOrder = 0
+          TabOrder = 1
           TabPosition = tpBottom
           object TabSheet2: TTabSheet
             Caption = #1060#1072#1081#1083#1099
@@ -897,6 +914,37 @@ object Form10: TForm10
         Action = helpAboutAction
       end
     end
+  end
+  object PhPaneTool1: TPhPaneTool
+    PhImage = PhImage1
+    Left = 713
+    Top = 90
+  end
+  object PhRulerTool1: TPhRulerTool
+    PhImage = PhImage1
+    Left = 713
+    Top = 146
+  end
+  object PhZoomToRectTool1: TPhZoomToRectTool
+    PhImage = PhImage1
+    Left = 713
+    Top = 194
+  end
+  object PhTriangleTool1: TPhTriangleTool
+    PhImage = PhImage1
+    Left = 713
+    Top = 250
+  end
+  object PhZonesTool1: TPhZonesTool
+    PhImage = PhImage1
+    Left = 713
+    Top = 306
+  end
+  object PhLandmarksTool1: TPhLandmarksTool
+    PhImage = PhImage1
+    OnChange = PhLandmarksTool1Change
+    Left = 713
+    Top = 362
   end
   object SaveDialog1: TSaveDialog
     Filter = #1060#1072#1081#1083#1099' TPS|*.tps'

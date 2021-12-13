@@ -126,7 +126,7 @@ void Detector(const char* fileName, const char* optionsFile)
 		  //TLFLandmark* lm = f->Landmark(j);
 		  //awp2DPoint  p = lm->landmark();
 		  //string lmClassName = lm->ClassName();
-			// ïîèñê ïåðåñå÷åèé
+			// Ð¿Ð¾Ð¸ÑÐº Ð¿ÐµÑ€ÐµÑÐµÑ‡ÐµÐ¸Ð¹
 	  awpImage* outImg = NULL;
 	  awpCreateImage(&outImg, 960, 540, 1, AWP_DOUBLE);
 	  double* d = (double*)outImg->pPixels;
@@ -145,7 +145,7 @@ void Detector(const char* fileName, const char* optionsFile)
 		awpConvert(normalize, AWP_CONVERT_TO_FLOAT);
 		fvcCompare(normalize, tmpl, &ro, FVC_COMPARE_EUCLID);
 		d[p2.Y*960 + p2.X] = ro;
-		if (k % 10000 == 0)
+		if (k % 1000 == 0)
 			printf("%lf\n", ro);
 		awpConvert(normalize, AWP_CONVERT_TO_BYTE_WITH_NORM);
 

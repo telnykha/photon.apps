@@ -167,7 +167,6 @@
         <Manifest_File>(None)</Manifest_File>
         <Debugger_RunParams>-p beelandmarks.xml detect.xml</Debugger_RunParams>
         <Debugger_CWD>C:\Projects_repository\photon\photon.apps\BeeWings\landmarks\Win32\Debug</Debugger_CWD>
-        <Debugger_DebugSourcePath>C:\Projects_repository\awpipl2\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

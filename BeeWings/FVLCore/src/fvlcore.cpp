@@ -1663,7 +1663,7 @@ int fvcBuildReconstruction(FvcTemplate* pTemplate, float* pCoeff, awpImage** ppR
 
     Result = awpEigenProjection(class_info.m_nCount, class_info.m_pVectors, pCoeff, class_info.m_pAverage, *ppReconstruction);
 	if(Result!= AWP_OK)
-		return Result;
+        return Result;
     fvcFreeClassInfo (&class_info);
 
 	return Result;
@@ -1671,7 +1671,7 @@ int fvcBuildReconstruction(FvcTemplate* pTemplate, float* pCoeff, awpImage** ppR
 
 int fvcBuildReconstructionFloat(FvcTemplate* pTemplate, float* pCoeff, awpImage** ppReconstruction)
 {
-	int Result = FVC_OK;
+    int Result = FVC_OK;
     Result = _fvcCheckTemplate(pTemplate);
 
     if (Result != FVC_OK)
@@ -1687,9 +1687,9 @@ int fvcBuildReconstructionFloat(FvcTemplate* pTemplate, float* pCoeff, awpImage*
         return Result;
 
     Result = awpEigenProjectionFloat(class_info.m_nCount, class_info.m_pVectors, pCoeff, class_info.m_pAverage, *ppReconstruction);
-	if(Result!= AWP_OK)
+    if(Result!= AWP_OK)
 		return Result;
-	fvcFreeClassInfo (&class_info);
+//    fvcFreeClassInfo (&class_info);
 
     return Result;
 }
