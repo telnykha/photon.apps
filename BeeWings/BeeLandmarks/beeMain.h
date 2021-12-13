@@ -37,7 +37,6 @@ __published:	// IDE-managed Components
 	TActionList *ActionList1;
 	TPageControl *PageControl1;
 	TTabSheet *TabSheet1;
-	TPhImage *PhImage1;
 	TAction *fileExitAction;
 	TMainMenu *MainMenu1;
 	TMenuItem *N1;
@@ -80,16 +79,10 @@ __published:	// IDE-managed Components
 	TMenuItem *N21;
 	TMenuItem *N22;
 	TMenuItem *N23;
-	TPhPaneTool *PhPaneTool1;
-	TPhRulerTool *PhRulerTool1;
-	TPhZoomToRectTool *PhZoomToRectTool1;
 	TSpeedButton *SpeedButton1;
 	TSpeedButton *SpeedButton4;
 	TSpeedButton *SpeedButton3;
 	TSpeedButton *SpeedButton2;
-	TPhTriangleTool *PhTriangleTool1;
-	TPhZonesTool *PhZonesTool1;
-	TPhLandmarksTool *PhLandmarksTool1;
 	TSaveDialog *SaveDialog1;
 	TPageControl *PageControl2;
 	TTabSheet *TabSheet2;

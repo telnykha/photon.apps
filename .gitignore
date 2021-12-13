@@ -72,6 +72,7 @@ BeeWings/BeeKindEditor/Win32/
 BeeWings/FVLCore/borland/Debug_Build/
 BeeWings/check_fvc_template/Win32/
 BeeWings/check_fvc_template/__recovery/
+BeeWings/landmarks/__recovery/
 BeeWings/check_fvc_template/__history/
 BeeWings/create_fvc_template/__recovery/
 BeeWings/create_fvc_template/__history/
@@ -83,6 +84,9 @@ BeeWings/Normalize/__history/
 BeeWings/Signs/__history/
 BeeWings/Signs/Win32/
 BeeWings/Normalize/Win32/
+BeeWings/landmarks/__recovery
+BeeWings/Schedule/__history
+BeeWings/Schedule/Win32
 *.#00
 *.pch
 *.#01

@@ -1,0 +1,3 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+ <schedule in_database = "C:\Projects_repository\photon\photon.apps\BeeWings\Normalize\Win32\Release\awpNormalize\wing-8\"  tmpl_name = "tmplAWP8.fvc" out_schedule = "scheduleAWP8.txt">
+ </schedule>
