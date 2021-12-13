@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<BeeKinds>
+    <BeeKind KindName="Mellifera111" MinCi="0.761110" MaxCi="2.161110" MinDsA="0.761110" MaxDsA="2.161110" MinHi="0.616000" MaxHi="0.923000" color="0" />
+    <BeeKind KindName="Caucasica&#x0D;&#x0A;" MinCi="1.730000" MaxCi="2.750000" MinDsA="1.730000" MaxDsA="2.750000" MinHi="0.704000" MaxHi="1.027000" color="0" />
+    <BeeKind KindName="Ligustica" MinCi="2.000000" MaxCi="3.290000" MinDsA="2.000000" MaxDsA="3.290000" MinHi="0.923000" MaxHi="1.206000" color="0" />
+    <BeeKind KindName="Carnica" MinCi="2.160000" MaxCi="5.670000" MinDsA="2.160000" MaxDsA="5.670000" MinHi="0.923000" MaxHi="1.420000" color="0" />
+</BeeKinds>

@@ -8,13 +8,13 @@
 #include <Vcl.Themes.hpp>
 #include "BeeIniParamsUnit.h"
 
+USEFORM("DiaKIND.cpp", KindEdit);
 USEFORM("BeeOptionsForm.cpp", OptionsForm);
 USEFORM("beeMain.cpp", Form10);
-USEFORM("beeLongProcessForm.cpp", longProcessForm);
-USEFORM("DiaKIND.cpp", KindEdit);
 USEFORM("BeeKindEditor.cpp", kindEditorForm);
-USEFORM("BeeAboutForm.cpp", AboutBox);
 USEFORM("BeeAnalysisForm.cpp", Form2);
+USEFORM("BeeAboutForm.cpp", AboutBox);
+USEFORM("beeLongProcessForm.cpp", longProcessForm);
 //---------------------------------------------------------------------------
 TBeeIniParams gBeeIniParams;
 TBeeIniParams* beeIni = &gBeeIniParams;

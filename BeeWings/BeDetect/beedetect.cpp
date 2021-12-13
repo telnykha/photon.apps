@@ -76,39 +76,6 @@ void _findPoints(awp2DPoint p4, awp2DPoint p7, awp2DPoint* out)
 		out[i].Y = alfa*out[i].Y;
 		out[i].X += p4.X;
 		out[i].Y += p4.Y;
-/*
-		awp2DPoint lt;
-		awp2DPoint rb;
-		double radiusx = 7;
-		double radiusy = ((double)w/(double)h)*radiusx;
-
-		lt.X = p.X - radiusx;
-		lt.Y = p.Y - radiusy;
-		rb.X = p.X + radiusx;
-		rb.Y = p.Y + radiusy;
-
-		TRect srcRect;
-		srcRect.Left = w*lt.X / 100;
-		srcRect.top  = h*lt.Y / 100;
-		srcRect.bottom = h*rb.Y / 100;
-		srcRect.right = w*rb.X / 100;
-		double rx = 0.5;
-		if (i == 4 || i == 7) {
-			rx = 2;
-		}
-
-		DrawCross(p, Canvas, rx);
-
-		p.X = w*p.X / 100.;
-		p.Y = h*p.Y / 100.;
-
-		awpReleaseImage(&dst);
-
-
-
-		TRect rr = m_pImage->GetScreenRect(srcRect);
-		Canvas->Ellipse(rr);
-*/
 	}
 
 	awpReleaseImage(&mtx);

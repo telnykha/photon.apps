@@ -63,10 +63,10 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>BeeLandmarks</SanitizedProjectName>
-        <IncludePath>..\landmarks\;..\..\common\;..\..\..\photon41\photon\;$(AWP);$(LF);$(JPEG);$(TINY);$(AWP)\include;$(LF)\include;$(PHOTON41)\photon;$(IncludePath)</IncludePath>
+        <IncludePath>..\FVLCore\src\;..\landmarks\;..\..\common\;..\..\..\photon41\photon\;$(AWP);$(LF);$(JPEG);$(TINY);$(AWP)\include;$(LF)\include;$(PHOTON41)\photon;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1049</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <ILINK_LibraryPath>..\landmarks\;..\..\common\;..\..\..\photon41\photon\;$(AWPLIB);$(PHOTON41)\lib\;$(AWP)\lib;$(TINY)\lib;$(LF)\lib;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\FVLCore\src\;..\landmarks\;..\..\common\;..\..\..\photon41\photon\;$(AWPLIB);$(PHOTON41)\lib\;$(AWP)\lib;$(TINY)\lib;$(LF)\lib;$(PHOTON41)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Custom_Styles>Carbon|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Carbon.vsf</Custom_Styles>
         <Defines>TIXML_USE_STL ;$(Defines)</Defines>
     </PropertyGroup>
@@ -126,9 +126,9 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Release>2</VerInfo_Release>
-        <VerInfo_Build>73</VerInfo_Build>
+        <VerInfo_Build>75</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
-        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.2.73;InternalName=;LegalCopyright=Copyright (c) 2021 NN-Videolab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Автоматическое определение породы пчел по изображению крыльев.</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.2.75;InternalName=;LegalCopyright=Copyright (c) 2021 NN-Videolab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Автоматическое определение породы пчел по изображению крыльев.</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="BeeAboutForm.cpp">
@@ -184,11 +184,19 @@
             <DependentOn>beeMain.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <CppCompile Include="BeeMorphology.cpp">
+            <DependentOn>BeeMorphology.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
         <CppCompile Include="BeeOptionsForm.cpp">
             <Form>OptionsForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>BeeOptionsForm.h</DependentOn>
             <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="BeePointDetector.cpp">
+            <DependentOn>BeePointDetector.h</DependentOn>
+            <BuildOrder>17</BuildOrder>
         </CppCompile>
         <None Include="database.txt"/>
         <CppCompile Include="DiaKIND.cpp">
@@ -198,6 +206,12 @@
             <BuildOrder>14</BuildOrder>
         </CppCompile>
         <None Include="Readme.txt"/>
+        <CppCompile Include="..\FVLCore\src\awpeigenlib.cpp">
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\FVLCore\src\fvlcore.cpp">
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\landmarks\tpsUnit.cpp">
             <DependentOn>..\landmarks\tpsUnit.h</DependentOn>
             <BuildOrder>6</BuildOrder>
@@ -206,13 +220,13 @@
             <DependentOn>..\..\common\VerInfoUnit.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <FormResources Include="DiaKIND.dfm"/>
         <FormResources Include="BeeOptionsForm.dfm"/>
         <FormResources Include="beeMain.dfm"/>
-        <FormResources Include="beeLongProcessForm.dfm"/>
-        <FormResources Include="DiaKIND.dfm"/>
+        <FormResources Include="BeeKindEditor.dfm"/>
         <FormResources Include="BeeAnalysisForm.dfm"/>
         <FormResources Include="BeeAboutForm.dfm"/>
-        <FormResources Include="BeeKindEditor.dfm"/>
+        <FormResources Include="beeLongProcessForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -261,8 +275,8 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -329,6 +343,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="Readme.txt" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64270.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
@@ -344,19 +364,19 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\BeeLandmarks.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>BeeLandmarks.tds</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64270mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
+                <DeployFile LocalName="database.txt" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

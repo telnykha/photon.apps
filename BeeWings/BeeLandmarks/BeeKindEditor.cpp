@@ -77,28 +77,13 @@ void __fastcall TkindEditorForm::FormCreate(TObject *Sender)
 	StringGrid1->Cells[3][0] = "DsA";
 	StringGrid1->Cells[4][0] = "Hi";
 
+	UnicodeString strName = ExtractFilePath(Application->ExeName);
+	strName += L"\\BeeKinds.xml";
+	AnsiString _ansi = strName;
 
-	if (!b.LoadXml("BeeKinds.XML"))
+	if (!b.LoadXml(_ansi.c_str()))
 		ShowMessage("Не могу загрузить породы пчел.");
-	/*
-	BeeKind* bk1 = new BeeKind("Mellifera", 0.76, 2.16, -15.31,0, 0.616, 0.923, 0);
 
-	b.AddBeeKind(bk1);
-	UpdateTable();
-
-	BeeKind* bk2 = new BeeKind("Caucasica",1.73,2.75,-2.88,2.88,0.704,1.027,0);
-	//BeeKind* bk = new BeeKind("Caucasica", 1.73, 2.75, -2.88,2.88, 0.704, 1.027, 0);
-	b.AddBeeKind(bk2);
-	UpdateTable();
-
-	BeeKind* bk3 = new BeeKind("Ligustica",2.00,3.29,0.00,4.81,0.923,1.206,0);
-	//BeeKind* bk = new BeeKind("Caucasica", 1.73, 2.75, -2.88,2.88, 0.704, 1.027, 0);
-	b.AddBeeKind(bk3);
-	UpdateTable();
-
-	BeeKind* bk4 = new BeeKind("Carnica",2.16,5.67,0.00,12.39,0.923,1.420,0);
-	//BeeKind* bk = new BeeKind("Caucasica", 1.73, 2.75, -2.88,2.88, 0.704, 1.027, 0);
-	b.AddBeeKind(bk4);*/
 	UpdateTable();
 
 }
@@ -120,7 +105,6 @@ void TkindEditorForm::UpdateTable(){
 	   str = L"("+FormatFloat("0.###", bk->GetMinHi())+ L":" + FormatFloat("0.###", bk->GetMaxHi()) + L")";
 	   StringGrid1->Cells[4][i+1] = str;
 	   //StringGrid1->Cells[2][i+1] = bk->GetMinCi();
-
 	}
    StringGrid1->Cells[0][0] = "№";
    StringGrid1->Cells[1][0] = "Порода";

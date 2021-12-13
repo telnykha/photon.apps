@@ -2,9 +2,6 @@
 #pragma hdrstop
 
 #include "tpsUnit.h"
-
-//#include <stdio.h>
-//#include "_LF.h"
 #include "BeeFeatures.h"
 
 
