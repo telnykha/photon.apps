@@ -56,6 +56,7 @@ PAM2/phserialport/__recovery/*.*
 LFMarker/common/__history/Histogramm2DUnit.cpp.~2~
 BeeWings/BeeLandmarks/Win32/
 BeeWings/BeeLandmarks/__history/
+BeeWings/BeeLandmarks/__recovery/
 BeeWings/include/__history/
 BeeWings/landmarks/Win32/
 BeeWings/landmarks/__history/
@@ -90,3 +91,6 @@ BeeWings/Schedule/Win32
 *.#00
 *.pch
 *.#01
+BeeWings/BeDetect/Win32
+BeeWings/BeDetect/__history
+BeeWings/BeDetect/__recovery

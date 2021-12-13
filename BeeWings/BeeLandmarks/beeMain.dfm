@@ -798,6 +798,11 @@ object Form10: TForm10
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1087#1072#1088#1072#1084#1077#1090#1088#1086#1074'...'
       OnExecute = toolsOptionsActionExecute
     end
+    object toolsKindEditorAction: TAction
+      Category = 'Tools'
+      Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1087#1086#1088#1086#1076'...'
+      OnExecute = toolsKindEditorActionExecute
+    end
   end
   object MainMenu1: TMainMenu
     Left = 545
@@ -881,6 +886,9 @@ object Form10: TForm10
       end
       object N29: TMenuItem
         Action = toolsOptionsAction
+      end
+      object N30: TMenuItem
+        Action = toolsKindEditorAction
       end
     end
     object N27: TMenuItem

@@ -24,22 +24,7 @@
         <Projects Include="..\..\..\awplflib\borland\awplflibb.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="FVLCore\borland\FVLCB.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="create_fvc_template\fvccreate.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="check_fvc_template\fvccheck.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="Signs\Sings.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="Normalize\Normalize.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="BeDetect\beedetect.cbproj">
+        <Projects Include="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -113,68 +98,23 @@
     <Target Name="awplflibb:Make">
         <MSBuild Projects="..\..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="FVLCB">
-        <MSBuild Projects="FVLCore\borland\FVLCB.cbproj"/>
+    <Target Name="GrafCI">
+        <MSBuild Projects="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj"/>
     </Target>
-    <Target Name="FVLCB:Clean">
-        <MSBuild Projects="FVLCore\borland\FVLCB.cbproj" Targets="Clean"/>
+    <Target Name="GrafCI:Clean">
+        <MSBuild Projects="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="FVLCB:Make">
-        <MSBuild Projects="FVLCore\borland\FVLCB.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="fvccreate">
-        <MSBuild Projects="create_fvc_template\fvccreate.cbproj"/>
-    </Target>
-    <Target Name="fvccreate:Clean">
-        <MSBuild Projects="create_fvc_template\fvccreate.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="fvccreate:Make">
-        <MSBuild Projects="create_fvc_template\fvccreate.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="fvccheck">
-        <MSBuild Projects="check_fvc_template\fvccheck.cbproj"/>
-    </Target>
-    <Target Name="fvccheck:Clean">
-        <MSBuild Projects="check_fvc_template\fvccheck.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="fvccheck:Make">
-        <MSBuild Projects="check_fvc_template\fvccheck.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="Sings">
-        <MSBuild Projects="Signs\Sings.cbproj"/>
-    </Target>
-    <Target Name="Sings:Clean">
-        <MSBuild Projects="Signs\Sings.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Sings:Make">
-        <MSBuild Projects="Signs\Sings.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="Normalize">
-        <MSBuild Projects="Normalize\Normalize.cbproj"/>
-    </Target>
-    <Target Name="Normalize:Clean">
-        <MSBuild Projects="Normalize\Normalize.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Normalize:Make">
-        <MSBuild Projects="Normalize\Normalize.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="beedetect">
-        <MSBuild Projects="BeDetect\beedetect.cbproj"/>
-    </Target>
-    <Target Name="beedetect:Clean">
-        <MSBuild Projects="BeDetect\beedetect.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="beedetect:Make">
-        <MSBuild Projects="BeDetect\beedetect.cbproj" Targets="Make"/>
+    <Target Name="GrafCI:Make">
+        <MSBuild Projects="C:\Users\Андрей\Documents\Embarcadero\Studio\Projects\GrafCI.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck;Sings;Normalize;beedetect"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;GrafCI"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean;Sings:Clean;Normalize:Clean;beedetect:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;GrafCI:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make;Sings:Make;Normalize:Make;beedetect:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;GrafCI:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

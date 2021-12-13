@@ -11,6 +11,7 @@
 #include "tpsUnit.h"
 #include "BeeOptionsForm.h"
 #include "BeeIniParamsUnit.h"
+#include "BeeKindEditor.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -128,8 +129,8 @@ void __fastcall TForm10::fileExportTPSActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::fileAnalysisActionExecute(TObject *Sender)
 {
-   Form1->replace = true;
-   Form1->ShowModal();
+   longProcessForm->replace = true;
+   longProcessForm->ShowModal();
 }
 //---------------------------------------------------------------------------
 
@@ -449,8 +450,8 @@ void __fastcall TForm10::ProcessImages(bool replace)
 			}
 
 			Application->ProcessMessages();
-			Form1->Label1->Caption = _ansi;
-			Form1->ProgressBar1->Position = 100*i/FileListBox1->Items->Count;
+			longProcessForm->Label1->Caption = _ansi;
+			longProcessForm->ProgressBar1->Position = 100*i/FileListBox1->Items->Count;
 			awpReleaseImage(&img);
 		}
 	}
@@ -854,8 +855,8 @@ void __fastcall TForm10::fileImportTPSActionExecute(TObject *Sender)
 		_xml  =  DirectoryListBox1->Directory + c_strDbFile0;
 		if (!FileExists(_xml, true)) {
 			 // включить обработчик изображений
-			 Form1->replace = false;
-			 Form1->ShowModal();
+			 longProcessForm->replace = false;
+			 longProcessForm->ShowModal();
 		}
 
 		// connect to database
@@ -888,4 +889,11 @@ void __fastcall TForm10::toolsOptionsActionExecute(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm10::toolsKindEditorActionExecute(TObject *Sender)
+{
+    kindEditorForm->ShowModal();
+}
+//---------------------------------------------------------------------------
+
 

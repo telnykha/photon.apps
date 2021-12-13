@@ -8,6 +8,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 #include "DiaKIND.h"
+#include <string>
+//using namespase std;
 extern "C"
 {
 	#pragma link "awpipl2b.lib"
@@ -16,16 +18,16 @@ extern "C"
 #pragma link "awplflibb.lib"
 #pragma link "tinyxml.lib"
 
-TForm1 *Form1;
+TkindEditorForm *kindEditorForm;
 //---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner)
+__fastcall TkindEditorForm::TkindEditorForm(TComponent* Owner)
 	: TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
 
 
-void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
+void __fastcall TkindEditorForm::SpeedButton2Click(TObject *Sender)
 {
 	 KindEdit->Edit1->Text = "Kind Name";
 	 KindEdit->Edit2->Text = 0;
@@ -47,7 +49,7 @@ void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
 		kind-> SetMinhi(StrToFloat(KindEdit->Edit6->Text));
 		kind->SetmaxHi(StrToFloat(KindEdit->Edit7->Text));
 		kind->SetColor(c);
-		kind->SetColor(StrToInt(KindEdit->Edit8->Text));
+		//kind->SetColor(StrToInt(KindEdit->Edit8->Text));
 		b.AddBeeKind(kind);
 		UpdateTable();
 		b.SaveXml("BeeKinds.xml");
@@ -55,7 +57,7 @@ void __fastcall TForm1::SpeedButton2Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::SpeedButton3Click(TObject *Sender)
+void __fastcall TkindEditorForm::SpeedButton3Click(TObject *Sender)
 {
 	b.Delete(StringGrid1->Row-1);
 
@@ -66,7 +68,7 @@ void __fastcall TForm1::SpeedButton3Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-void __fastcall TForm1::FormCreate(TObject *Sender)
+void __fastcall TkindEditorForm::FormCreate(TObject *Sender)
 {
 
 	StringGrid1->Cells[0][0] = "№";
@@ -101,7 +103,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-void TForm1::UpdateTable(){
+void TkindEditorForm::UpdateTable(){
 
 	StringGrid1->RowCount = b.GetCount() + 1;
 	for (int i = 0; i<b.GetCount();i++)
@@ -128,29 +130,13 @@ void TForm1::UpdateTable(){
    //UpdateTable();
 }
 
-void __fastcall TForm1::SpeedButton1Click(TObject *Sender)
-{
-	double Ci = Edit1->Text.ToDouble();
-	double DsA = Edit2->Text.ToDouble();
-	double Hi = Edit3->Text.ToDouble();
-	BeeKind* result = b.Classify(Ci,DsA,Hi);
-	if (result == NULL){
-		ShowMessage("Порода не определена!");
-	}
-	else{
-		UnicodeString str = "Ппринадлежность к породе: ";
-		str+=result->GetKindName();
-		ShowMessage(str);
-	}
-}
-//---------------------------------------------------------------------------
 
 
 
 
 
 
-void __fastcall TForm1::Button1Click(TObject *Sender)
+void __fastcall TkindEditorForm::Button1Click(TObject *Sender)
 {
 	int index = StringGrid1->Row-1;
 	BeeKind* kind = b.GetBeeKind(index);
@@ -183,4 +169,36 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 	 }
 }
 //---------------------------------------------------------------------------
+
+
+
+void __fastcall TkindEditorForm::ПородаClick(TObject *Sender)
+{
+	double C = StrToFloat(Ci->Text);
+	double D = StrToFloat(DsA->Text);
+	double H = StrToFloat(Hi->Text);
+	string str = "";
+	BeeKinds result;// = new Beekinds();
+	b.New_Classify(C,D,H,&result);
+	//delete result;
+	if (result.GetCount() == 0){
+		ShowMessage("Порода не отпределена!");
+	}
+	else
+	{
+		UnicodeString str = L"";
+		//string str = "";
+		for (int i = 0; i < result.GetCount(); i++){
+			str += result.GetBeeKind(i)->GetKindName();
+			if (i<result.GetCount()-1){
+				str+=L", ";
+			}
+
+		}
+	ShowMessage(str);
+	}
+
+}
+//---------------------------------------------------------------------------
+
 

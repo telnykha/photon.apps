@@ -4,8 +4,9 @@
 #define BeeLandmarksToolH
 //---------------------------------------------------------------------------
 #include "PhImageTool.h"
+#include "PhPaneTool.h"
 #include "_LF.h"
-class PACKAGE TPhBeeLandmarksTool : public TPhImageTool
+class PACKAGE TPhBeeLandmarksTool : public TPhPaneTool
 {
 protected:
 	awp2DPoint m_points[8];
@@ -14,6 +15,7 @@ protected:
 	awp2DPoint m_p7;
 	int m_selected;
 	int _is_near(int X, int Y);
+	void DrawCross(awp2DPoint& p, TCanvas* c, double radius = 1);
 public:
 	__fastcall TPhBeeLandmarksTool(TComponent* Owner);
 	virtual __fastcall ~TPhBeeLandmarksTool();

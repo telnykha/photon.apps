@@ -20,3 +20,4 @@ void __fastcall TKindEdit::Button1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+

@@ -122,6 +122,8 @@ __published:	// IDE-managed Components
 	TOpenDialog *OpenDialog1;
 	TAction *toolsOptionsAction;
 	TMenuItem *N29;
+	TAction *toolsKindEditorAction;
+	TMenuItem *N30;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -176,6 +178,7 @@ __published:	// IDE-managed Components
 	void __fastcall helpAboutActionExecute(TObject *Sender);
 	void __fastcall fileImportTPSActionExecute(TObject *Sender);
 	void __fastcall toolsOptionsActionExecute(TObject *Sender);
+	void __fastcall toolsKindEditorActionExecute(TObject *Sender);
 
 private:	// User declarations
 	HANDLE m_object;

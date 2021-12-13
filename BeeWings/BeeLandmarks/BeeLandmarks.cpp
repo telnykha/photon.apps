@@ -10,8 +10,11 @@
 
 USEFORM("BeeOptionsForm.cpp", OptionsForm);
 USEFORM("beeMain.cpp", Form10);
-USEFORM("beeLongProcessForm.cpp", Form1);
+USEFORM("beeLongProcessForm.cpp", longProcessForm);
+USEFORM("DiaKIND.cpp", KindEdit);
+USEFORM("BeeKindEditor.cpp", kindEditorForm);
 USEFORM("BeeAboutForm.cpp", AboutBox);
+USEFORM("BeeAnalysisForm.cpp", Form2);
 //---------------------------------------------------------------------------
 TBeeIniParams gBeeIniParams;
 TBeeIniParams* beeIni = &gBeeIniParams;
@@ -24,9 +27,12 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
 		TStyleManager::TrySetStyle(gBeeIniParams.UITheme);
 		Application->CreateForm(__classid(TForm10), &Form10);
-		Application->CreateForm(__classid(TForm1), &Form1);
+		Application->CreateForm(__classid(TlongProcessForm), &longProcessForm);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->CreateForm(__classid(TOptionsForm), &OptionsForm);
+		Application->CreateForm(__classid(TKindEdit), &KindEdit);
+		Application->CreateForm(__classid(TkindEditorForm), &kindEditorForm);
+		Application->CreateForm(__classid(TForm2), &Form2);
 		Application->Run();
 	}
 	catch (Exception &exception)
