@@ -433,12 +433,31 @@ void __fastcall TForm10::ProcessImages(bool replace)
 	int num = 8;
 
 	TLFLandmarkFiles* files = PhLandmarksTool1->db->Files();
-
 	for (int i = 0; i < FileListBox1->Items->Count; i++)
 	{
 		awpImage* img = NULL;
 		AnsiString _ansi = FileListBox1->Items->Strings[i];
-		awpLoadImage(_ansi.c_str(), &img);
+		awp2DPoint res[8];
+		bool status[8];
+		AnsiString strstaus = " OK";
+		if (m_morphology.ProcessImage(_ansi.c_str(), res, status))
+		{
+			   TLFLandmarkFile* file = new TLFLandmarkFile(_ansi.c_str());
+				for (int i = 0; i < 8; i++) {
+				   TLFLandmarkAttr* attr = PhLandmarksTool1->db->Attributes()->Attribute(i);
+				   awp2DPoint p;
+				   p.X = res[i].X;//100.f*bp[i].x/(double)img->sSizeX;
+				   p.Y = res[i].Y;//100.f*bp[i].y/(double)img->sSizeY;
+				   TLFLandmark* land = new TLFLandmark(attr, p, 0);
+				   file->Append(land);
+				}
+				files->Append(file);
+		}
+		else
+			 strstaus = " FAIL";
+
+
+/*		awpLoadImage(_ansi.c_str(), &img);
 		AWPBYTE* data = NULL;
 		AWPDWORD l = 0;
 		if (img)
@@ -457,11 +476,12 @@ void __fastcall TForm10::ProcessImages(bool replace)
 				files->Append(file);
 			}
 
-			Application->ProcessMessages();
-			longProcessForm->Label1->Caption = _ansi;
-			longProcessForm->ProgressBar1->Position = 100*i/FileListBox1->Items->Count;
 			awpReleaseImage(&img);
-		}
+		}*/
+		Application->ProcessMessages();
+		longProcessForm->Label1->Caption = _ansi + strstaus;
+		longProcessForm->ProgressBar1->Position = 100*i/FileListBox1->Items->Count;
+
 	}
 	//
 	PhLandmarksTool1->Close();

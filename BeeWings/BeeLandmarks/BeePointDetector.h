@@ -18,6 +18,6 @@ public:
 
 	bool Init(const char* lpDetectorName, const char* lpTemplateName);
 	bool Detect(TLFImage* img0, awp2DPoint& result , awpRect* rect = NULL);
-
+	const char* GetClassName();
 };
 #endif

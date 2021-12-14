@@ -1689,7 +1689,7 @@ int fvcBuildReconstructionFloat(FvcTemplate* pTemplate, float* pCoeff, awpImage*
     Result = awpEigenProjectionFloat(class_info.m_nCount, class_info.m_pVectors, pCoeff, class_info.m_pAverage, *ppReconstruction);
     if(Result!= AWP_OK)
 		return Result;
-//    fvcFreeClassInfo (&class_info);
+    fvcFreeClassInfo (&class_info);
 
     return Result;
 }

@@ -190,7 +190,7 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 	HANDLE m_object;
-    TBeeMorphology m_morphology;
+	TBeeMorphology m_morphology;
 	TLFDBLandmarks m_db;
     TPhBeeLandmarksTool* m_beeTool;
 	bool __fastcall CreateLandmarks();
@@ -198,10 +198,11 @@ private:	// User declarations
 	bool __fastcall ExportTPS(const UnicodeString& strFileName);
 	void __fastcall UpdateTPSGrid();
 	void __fastcall MakeReport();
-    UnicodeString m_selectedFile;
+	UnicodeString m_selectedFile;
 public:		// User declarations
 	__fastcall TForm10(TComponent* Owner);
 	void __fastcall ProcessImages(bool replace = true);
+	//void __fastcall ProcessImages0(bool replace = true);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TForm10 *Form10;

@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #ifndef BeeMorphologyH
 #define BeeMorphologyH
 #include "BeePointDetector.h"
@@ -11,16 +10,15 @@ protected:
 	awp2DPoint*   m_points;
 	int m_width;
     int m_height;
-
-
+	TBeePointDector* GetDetector(const char* lpClassName);
 public:
    TBeeMorphology();
    ~TBeeMorphology();
 
    bool Init(const char* lpConfigFile);
 
-   awp2DPoint* ProcessImage(const char* lpFileName);
-   awp2DPoint* ProcessImage(TLFImage* image);
+   bool ProcessImage(const char* lpFileName, awp2DPoint* points, bool* status);
+   bool ProcessImage(TLFImage* image, awp2DPoint* points,  bool* status );
 
 };
 #endif
