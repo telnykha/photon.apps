@@ -615,21 +615,19 @@ object Form10: TForm10
             object Label2: TLabel
               Left = 0
               Top = 0
-              Width = 266
+              Width = 123
               Height = 13
               Align = alTop
               Caption = #1063#1080#1089#1083#1086' '#1085#1072#1081#1076#1077#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
-              ExplicitWidth = 123
             end
             object Label3: TLabel
               Left = 0
               Top = 185
-              Width = 266
+              Width = 201
               Height = 13
               Align = alTop
               Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1086#1090#1088#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
               Visible = False
-              ExplicitWidth = 201
             end
             object ValueListEditor1: TValueListEditor
               Left = 0

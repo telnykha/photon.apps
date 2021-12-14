@@ -7,7 +7,6 @@
 #include "beeLongProcessForm.h"
 #include "BeeAboutForm.h"
 #include "VerInfoUnit.h"
-#include "..\include\beepoints.h"
 #include "tpsUnit.h"
 #include "BeeOptionsForm.h"
 #include "BeeIniParamsUnit.h"
@@ -21,7 +20,6 @@
 #pragma link "PhZoomToRectTool"
 #pragma link "PhTriangleTool"
 #pragma link "PhZonesTool"
-#pragma link "MCTPoints.lib"
 #pragma link "PhLandmarksTool"
 #pragma resource "*.dfm"
 TForm10 *Form10;
@@ -37,14 +35,13 @@ extern TBeeIniParams* beeIni;
 __fastcall TForm10::TForm10(TComponent* Owner)
 	: TForm(Owner)
 {
-   m_object = NULL;
    m_selectedFile = L"";
    m_beeTool = NULL;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm10::fileExitActionExecute(TObject *Sender)
 {
-    Close();
+	Close();
 }
 //---------------------------------------------------------------------------
 
@@ -136,7 +133,7 @@ void __fastcall TForm10::fileAnalysisActionExecute(TObject *Sender)
 
 void __fastcall TForm10::fileAnalysisActionUpdate(TObject *Sender)
 {
-	fileAnalysisAction->Enabled = FileListBox1->Items->Count > 0 && this->m_object != NULL;
+	fileAnalysisAction->Enabled = FileListBox1->Items->Count > 0;// && this->m_object != NULL;
 }
 //---------------------------------------------------------------------------
 // отображает в строке статуса число файлов в ListBox
@@ -360,10 +357,6 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	AnsiString _ansi = ExtractFilePath(Application->ExeName);
 	PhZonesTool1->LoadZones(_ansi + "\\output.xml");
 	PhZonesTool1->OnChangeRoi = ChangeRoi;
-	m_object = beeObjectCreate(_ansi.c_str());
-	if (m_object == NULL) {
-		ShowMessage(L"Ќе могу загрузить детектор особых точек.");
-	}
 	PhImage1->Cursor = TCursor(crHandPoint);
 	StringGrid1->ColWidths[0] = 40;
 	StringGrid1->ColWidths[1] = 96;
@@ -424,12 +417,9 @@ void __fastcall TForm10::PhImage1ToolChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm10::ProcessImages(bool replace)
 {
-	if (m_object == NULL)
-		return;
 	if (!this->CreateLandmarks()) {
 		return;
 	}
-	beePoint bp[8];
 	int num = 8;
 
 	TLFLandmarkFiles* files = PhLandmarksTool1->db->Files();
@@ -440,44 +430,24 @@ void __fastcall TForm10::ProcessImages(bool replace)
 		awp2DPoint res[8];
 		bool status[8];
 		AnsiString strstaus = " OK";
-		if (m_morphology.ProcessImage(_ansi.c_str(), res, status))
+		memset(status, false, sizeof(status));
+		TLFLandmarkFile* file = new TLFLandmarkFile(_ansi.c_str());
+
+		if (!m_morphology.ProcessImage(_ansi.c_str(), res, status))
+			strstaus = " FAIL";
+
+		for (int i = 0; i < 8; i++)
 		{
-			   TLFLandmarkFile* file = new TLFLandmarkFile(_ansi.c_str());
-				for (int i = 0; i < 8; i++) {
-				   TLFLandmarkAttr* attr = PhLandmarksTool1->db->Attributes()->Attribute(i);
-				   awp2DPoint p;
-				   p.X = res[i].X;//100.f*bp[i].x/(double)img->sSizeX;
-				   p.Y = res[i].Y;//100.f*bp[i].y/(double)img->sSizeY;
-				   TLFLandmark* land = new TLFLandmark(attr, p, 0);
-				   file->Append(land);
-				}
-				files->Append(file);
+		   TLFLandmarkAttr* attr = PhLandmarksTool1->db->Attributes()->Attribute(i);
+		   awp2DPoint p;
+		   p.X = res[i].X;
+		   p.Y = res[i].Y;
+		   double ds = status[i] ? 1:0;
+		   TLFLandmark* land = new TLFLandmark(attr, p, ds);
+		   file->Append(land);
 		}
-		else
-			 strstaus = " FAIL";
 
-
-/*		awpLoadImage(_ansi.c_str(), &img);
-		AWPBYTE* data = NULL;
-		AWPDWORD l = 0;
-		if (img)
-		{
-			if (beeImageProcess(m_object, img->sSizeX, img->sSizeY,  (AWPBYTE*)img->pPixels,&num,  bp) == S_OK)
-			{
-			   TLFLandmarkFile* file = new TLFLandmarkFile(_ansi.c_str());
-				for (int i = 0; i < 8; i++) {
-				   TLFLandmarkAttr* attr = PhLandmarksTool1->db->Attributes()->Attribute(i);
-				   awp2DPoint p;
-				   p.X = 100.f*bp[i].x/(double)img->sSizeX;
-				   p.Y = 100.f*bp[i].y/(double)img->sSizeY;
-				   TLFLandmark* land = new TLFLandmark(attr, p, bp[i].q);
-				   file->Append(land);
-				}
-				files->Append(file);
-			}
-
-			awpReleaseImage(&img);
-		}*/
+		files->Append(file);
 		Application->ProcessMessages();
 		longProcessForm->Label1->Caption = _ansi + strstaus;
 		longProcessForm->ProgressBar1->Position = 100*i/FileListBox1->Items->Count;
@@ -645,19 +615,7 @@ void __fastcall TForm10::PhImage1Paint(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm10::ChangeRoi(TObject* sender,  int index, bool update)
 {
-	UnicodeString str = ExtractFilePath(Application->ExeName);
-	this->PhZonesTool1->SaveZones(str + "\\output.xml");
-	if (update) {
-		AnsiString _ansi = str;
-		if (m_object != NULL) {
-			beeObjectFree(m_object);
-			m_object = NULL;
-		}
-		m_object = beeObjectCreate(_ansi.c_str());
-		if (m_object == NULL) {
-			ShowMessage(L"Ќе могу загрузить детектор особых точек.");
-		}
-	}
+//
 }
 
 bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
@@ -923,5 +881,3 @@ void __fastcall TForm10::toolsKindEditorActionExecute(TObject *Sender)
     kindEditorForm->ShowModal();
 }
 //---------------------------------------------------------------------------
-
-

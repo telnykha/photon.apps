@@ -128,6 +128,12 @@ bool TBeeMorphology::ProcessImage(const char* lpFileName, awp2DPoint* points,  b
 }
 bool TBeeMorphology::ProcessImage(TLFImage* image, awp2DPoint* points, bool* status)
 {
+	for (int i = 0; i < 8; i++)
+	{
+		points[i] = gpoints[i];
+		status[i] = false;
+	}
+
 	if (image == NULL)
 		return false;
 
@@ -177,7 +183,8 @@ bool TBeeMorphology::ProcessImage(TLFImage* image, awp2DPoint* points, bool* sta
 	points[7] = p8;
 
 	// детектирование остальных точек
-
+	status[4] = true;
+	status[7] = true;
 	for (int i = 0; i < 8; i++)
 	{
 		if (i == 4 || i == 7)

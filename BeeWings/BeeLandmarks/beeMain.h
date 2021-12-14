@@ -189,7 +189,7 @@ __published:	// IDE-managed Components
 	void __fastcall toolsKindEditorActionExecute(TObject *Sender);
 
 private:	// User declarations
-	HANDLE m_object;
+//	HANDLE m_object;
 	TBeeMorphology m_morphology;
 	TLFDBLandmarks m_db;
     TPhBeeLandmarksTool* m_beeTool;

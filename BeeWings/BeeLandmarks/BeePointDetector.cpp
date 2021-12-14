@@ -7,22 +7,15 @@
 
 TBeePointDector::TBeePointDector(const char* className)
 {
-   m_template = NULL;
    m_strClassName = className;
 }
 
 TBeePointDector::~TBeePointDector()
 {
-	if (m_template != NULL)
-		fvcFreeTemplate(&m_template);
 }
 
 bool TBeePointDector::Init(const char* lpDetectorName, const char* lpTemplateName)
 {
-	if (m_template != NULL)
-		fvcFreeTemplate(&m_template);
-	if (fvcLoadTemplate(lpTemplateName, &m_template) != FVC_OK)
-		return false;
 	return m_detector.LoadDetector(lpDetectorName);
 }
 
@@ -32,7 +25,7 @@ bool TBeePointDector::Init(const char* lpDetectorName, const char* lpTemplateNam
 */
 bool TBeePointDector::Detect(TLFImage* img0, awp2DPoint& result , awpRect* rect)
 {
-	if (img0 == NULL || img0->GetImage() == NULL || m_template == NULL)
+	if (img0 == NULL || img0->GetImage() == NULL )
 		return false;
 	awpImage* img = img0->GetImage();
 	if (img->sSizeX != 960 || img->sSizeY != 540)
@@ -130,31 +123,6 @@ bool TBeePointDector::Detect(TLFImage* img0, awp2DPoint& result , awpRect* rect)
 	return true;
 }
 
-awpImage* TBeePointDector::Preprocess(awpImage* img, awpRect& r)
-{
-	awpImage* result = NULL;
-	if (awpCopyRect(img, &result, &r) != AWP_OK)
-		return NULL;
-	if (awpConvert(result, AWP_CONVERT_3TO1_BYTE) != AWP_OK)
-	{
-		_AWP_SAFE_RELEASE_(result)
-		return NULL;
-	}
-	awpImage* norm = NULL;
-	if (awpNormalize(result, &norm, AWP_NORM_L2) != AWP_OK)
-	{
-		_AWP_SAFE_RELEASE_(result)
-		return NULL;
-	}
-	if (awpConvert(norm, AWP_CONVERT_TO_FLOAT) != AWP_OK)
-	{
-		_AWP_SAFE_RELEASE_(result)
-		_AWP_SAFE_RELEASE_(norm)
-		return NULL;
-	}
-	_AWP_SAFE_RELEASE_(result)
-	return norm;
-}
 
 const char* TBeePointDector::GetClassName()
 {

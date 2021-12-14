@@ -3,15 +3,12 @@
 #define BeePointDetectorH
 
 #include "_LF.h"
-#include "fvlcore.h"
 //---------------------------------------------------------------------------
 class TBeePointDector : public TLFObject
 {
 protected:
 	TSCObjectDetector m_detector;
-	FvcTemplate*      m_template;
-	awpImage* Preprocess(awpImage* img, awpRect& r);
-    TLFString m_strClassName;
+	TLFString m_strClassName;
 public:
 	TBeePointDector(const char* className);
 	virtual ~TBeePointDector();
