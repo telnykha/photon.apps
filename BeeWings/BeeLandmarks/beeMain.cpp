@@ -355,8 +355,6 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	this->SpeedButton11->Caption = L"";
 
 	AnsiString _ansi = ExtractFilePath(Application->ExeName);
-	PhZonesTool1->LoadZones(_ansi + "\\output.xml");
-	PhZonesTool1->OnChangeRoi = ChangeRoi;
 	PhImage1->Cursor = TCursor(crHandPoint);
 	StringGrid1->ColWidths[0] = 40;
 	StringGrid1->ColWidths[1] = 96;
@@ -368,8 +366,8 @@ void __fastcall TForm10::FormCreate(TObject *Sender)
 	StringGrid1->Cells[3][0] = L"Y";
 
 	UnicodeString iniPath = beeIni->IniPath;
-	_ansi = iniPath;
-	_ansi += "BeeMorphology.xml";
+	//_ansi = iniPath;
+	_ansi += "\\BeeMorphology.xml";
 	if (!m_morphology.Init(_ansi.c_str()))
 	{
 		ShowMessage(L"Ќе могу загрузить детектор особых точек.");
@@ -881,3 +879,15 @@ void __fastcall TForm10::toolsKindEditorActionExecute(TObject *Sender)
     kindEditorForm->ShowModal();
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm10::fileClearDBActionExecute(TObject *Sender)
+{
+   //	m_db.
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::fileClearDBActionUpdate(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+

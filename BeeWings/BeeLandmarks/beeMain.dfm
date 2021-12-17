@@ -615,19 +615,21 @@ object Form10: TForm10
             object Label2: TLabel
               Left = 0
               Top = 0
-              Width = 123
+              Width = 266
               Height = 13
               Align = alTop
               Caption = #1063#1080#1089#1083#1086' '#1085#1072#1081#1076#1077#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
+              ExplicitWidth = 123
             end
             object Label3: TLabel
               Left = 0
               Top = 185
-              Width = 201
+              Width = 266
               Height = 13
               Align = alTop
               Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1086#1090#1088#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1085#1099#1093' '#1090#1086#1095#1077#1082
               Visible = False
+              ExplicitWidth = 201
             end
             object ValueListEditor1: TValueListEditor
               Left = 0
@@ -820,6 +822,12 @@ object Form10: TForm10
       Caption = #1056#1077#1076#1072#1082#1090#1086#1088' '#1087#1086#1088#1086#1076'...'
       OnExecute = toolsKindEditorActionExecute
     end
+    object fileClearDBAction: TAction
+      Category = 'File'
+      Caption = #1054#1095#1080#1089#1090#1080#1090#1100' '#1073#1072#1079#1091' '#1076#1072#1085#1085#1099#1093
+      OnExecute = fileClearDBActionExecute
+      OnUpdate = fileClearDBActionUpdate
+    end
   end
   object MainMenu1: TMainMenu
     Left = 545
@@ -828,6 +836,9 @@ object Form10: TForm10
       Caption = #1060#1072#1081#1083#1099
       object N9: TMenuItem
         Action = fileAnalysisAction
+      end
+      object N31: TMenuItem
+        Action = fileClearDBAction
       end
       object PS3: TMenuItem
         Action = fileImportTPSAction
@@ -934,11 +945,6 @@ object Form10: TForm10
     PhImage = PhImage1
     Left = 713
     Top = 250
-  end
-  object PhZonesTool1: TPhZonesTool
-    PhImage = PhImage1
-    Left = 713
-    Top = 306
   end
   object PhLandmarksTool1: TPhLandmarksTool
     PhImage = PhImage1
