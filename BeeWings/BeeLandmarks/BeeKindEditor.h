@@ -15,6 +15,8 @@
 #include <Data.SqlExpr.hpp>
 #include <Vcl.Grids.hpp>
 #include "BeeKinds.h"
+#include "BeeFeatures.h"
+//#include "Signs.h"
 //---------------------------------------------------------------------------
 class TkindEditorForm : public TForm
 {

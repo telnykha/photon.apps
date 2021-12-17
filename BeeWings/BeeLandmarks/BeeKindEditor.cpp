@@ -9,6 +9,8 @@
 #pragma resource "*.dfm"
 #include "DiaKIND.h"
 #include <string>
+#include "BeeFeatures.h"
+//#include "Signs.h"
 //using namespase std;
 extern "C"
 {
@@ -148,7 +150,9 @@ void __fastcall TkindEditorForm::Button1Click(TObject *Sender)
 		kind->SetmaxHi(StrToFloat(KindEdit->Edit7->Text));
 		kind->SetColor(KindEdit->ColorGrid1->ForegroundColor);
 		UpdateTable();
-		b.SaveXml("BeeKinds.xml");
+		AnsiString _ansi = ExtractFilePath(Application->ExeName);
+		_ansi+= "\\BeeKinds.xml";
+		b.SaveXml( _ansi.c_str());
 
 	 }
 }

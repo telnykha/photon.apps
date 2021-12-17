@@ -9,11 +9,11 @@
         <Projects Include="MCTPoints\MCTPoins.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="BeeLandmarks\BeeLandmarks.cbproj">
+            <Dependencies>..\..\photon41\photon41.cbproj;..\..\..\awplflib\borland\awplflibb.cbproj</Dependencies>
+        </Projects>
         <Projects Include="..\..\photon41\photon41.cbproj">
             <Dependencies/>
-        </Projects>
-        <Projects Include="BeeLandmarks\BeeLandmarks.cbproj">
-            <Dependencies>..\..\photon41\photon41.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\..\photon41\Demo\PhotonDemo.cbproj">
             <Dependencies/>
@@ -37,6 +37,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="Normalize\Normalize.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GrafCI\GrafCI.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="BeDetect\beedetect.cbproj">
@@ -68,6 +71,15 @@
     <Target Name="MCTPoins:Make">
         <MSBuild Projects="MCTPoints\MCTPoins.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="BeeLandmarks" DependsOnTargets="photon41;awplflibb">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj"/>
+    </Target>
+    <Target Name="BeeLandmarks:Clean" DependsOnTargets="photon41:Clean;awplflibb:Clean">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BeeLandmarks:Make" DependsOnTargets="photon41:Make;awplflibb:Make">
+        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="photon41">
         <MSBuild Projects="..\..\photon41\photon41.cbproj"/>
     </Target>
@@ -76,15 +88,6 @@
     </Target>
     <Target Name="photon41:Make">
         <MSBuild Projects="..\..\photon41\photon41.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="BeeLandmarks" DependsOnTargets="photon41">
-        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj"/>
-    </Target>
-    <Target Name="BeeLandmarks:Clean" DependsOnTargets="photon41:Clean">
-        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BeeLandmarks:Make" DependsOnTargets="photon41:Make">
-        <MSBuild Projects="BeeLandmarks\BeeLandmarks.cbproj" Targets="Make"/>
     </Target>
     <Target Name="PhotonDemo">
         <MSBuild Projects="..\..\photon41\Demo\PhotonDemo.cbproj"/>
@@ -158,6 +161,15 @@
     <Target Name="Normalize:Make">
         <MSBuild Projects="Normalize\Normalize.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="GrafCI">
+        <MSBuild Projects="GrafCI\GrafCI.cbproj"/>
+    </Target>
+    <Target Name="GrafCI:Clean">
+        <MSBuild Projects="GrafCI\GrafCI.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GrafCI:Make">
+        <MSBuild Projects="GrafCI\GrafCI.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="beedetect">
         <MSBuild Projects="BeDetect\beedetect.cbproj"/>
     </Target>
@@ -168,13 +180,13 @@
         <MSBuild Projects="BeDetect\beedetect.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="tps2landmarks;MCTPoins;photon41;BeeLandmarks;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck;Sings;Normalize;beedetect"/>
+        <CallTarget Targets="tps2landmarks;MCTPoins;BeeLandmarks;photon41;PhotonDemo;ObjectsMarker;awplflibb;FVLCB;fvccreate;fvccheck;Sings;Normalize;GrafCI;beedetect"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;photon41:Clean;BeeLandmarks:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean;Sings:Clean;Normalize:Clean;beedetect:Clean"/>
+        <CallTarget Targets="tps2landmarks:Clean;MCTPoins:Clean;BeeLandmarks:Clean;photon41:Clean;PhotonDemo:Clean;ObjectsMarker:Clean;awplflibb:Clean;FVLCB:Clean;fvccreate:Clean;fvccheck:Clean;Sings:Clean;Normalize:Clean;GrafCI:Clean;beedetect:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;photon41:Make;BeeLandmarks:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make;Sings:Make;Normalize:Make;beedetect:Make"/>
+        <CallTarget Targets="tps2landmarks:Make;MCTPoins:Make;BeeLandmarks:Make;photon41:Make;PhotonDemo:Make;ObjectsMarker:Make;awplflibb:Make;FVLCB:Make;fvccreate:Make;fvccheck:Make;Sings:Make;Normalize:Make;GrafCI:Make;beedetect:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
