@@ -129,6 +129,7 @@
         <VerInfo_Build>78</VerInfo_Build>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Keys>CompanyName=NN-Videolab.net;FileDescription=$(MSBuildProjectName);FileVersion=1.0.2.78;InternalName=;LegalCopyright=Copyright (c) 2021 NN-Videolab.net;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=Автоматическое определение породы пчел по изображению крыльев.</VerInfo_Keys>
+        <Icon_MainIcon>BeeLandmarks_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="BeeAboutForm.cpp">
