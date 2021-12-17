@@ -116,12 +116,6 @@ void TkindEditorForm::UpdateTable(){
    //UpdateTable();
 }
 
-
-
-
-
-
-
 void __fastcall TkindEditorForm::Button1Click(TObject *Sender)
 {
 	int index = StringGrid1->Row-1;

@@ -8,13 +8,13 @@
 #include <Vcl.Themes.hpp>
 #include "BeeIniParamsUnit.h"
 
-USEFORM("DiaKIND.cpp", KindEdit);
 USEFORM("BeeOptionsForm.cpp", OptionsForm);
 USEFORM("beeMain.cpp", Form10);
-USEFORM("BeeKindEditor.cpp", kindEditorForm);
-USEFORM("BeeAnalysisForm.cpp", Form2);
-USEFORM("BeeAboutForm.cpp", AboutBox);
+USEFORM("DiaKIND.cpp", KindEdit);
 USEFORM("beeLongProcessForm.cpp", longProcessForm);
+USEFORM("BeeAboutForm.cpp", AboutBox);
+USEFORM("BeeKindEditor.cpp", kindEditorForm);
+USEFORM("..\GrafCI\BeeAnalysisForm.cpp", AnalysisForm);
 //---------------------------------------------------------------------------
 TBeeIniParams gBeeIniParams;
 TBeeIniParams* beeIni = &gBeeIniParams;
@@ -32,7 +32,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TOptionsForm), &OptionsForm);
 		Application->CreateForm(__classid(TKindEdit), &KindEdit);
 		Application->CreateForm(__classid(TkindEditorForm), &kindEditorForm);
-		Application->CreateForm(__classid(TForm2), &Form2);
+		Application->CreateForm(__classid(TAnalysisForm), &AnalysisForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

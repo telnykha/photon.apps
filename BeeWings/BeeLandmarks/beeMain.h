@@ -133,6 +133,8 @@ __published:	// IDE-managed Components
 	TMenuItem *N30;
 	TAction *fileClearDBAction;
 	TMenuItem *N31;
+	TAction *viewAnalysisAction;
+	TMenuItem *N32;
 	void __fastcall fileExitActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionExecute(TObject *Sender);
 	void __fastcall fileFirstActionUpdate(TObject *Sender);
@@ -190,6 +192,7 @@ __published:	// IDE-managed Components
 	void __fastcall toolsKindEditorActionExecute(TObject *Sender);
 	void __fastcall fileClearDBActionExecute(TObject *Sender);
 	void __fastcall fileClearDBActionUpdate(TObject *Sender);
+	void __fastcall viewAnalysisActionExecute(TObject *Sender);
 
 private:	// User declarations
 //	HANDLE m_object;

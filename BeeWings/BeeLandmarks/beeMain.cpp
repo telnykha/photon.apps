@@ -11,6 +11,7 @@
 #include "BeeOptionsForm.h"
 #include "BeeIniParamsUnit.h"
 #include "BeeKindEditor.h"
+#include "BeeAnalysisForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "FImage41"
@@ -888,6 +889,11 @@ void __fastcall TForm10::fileClearDBActionExecute(TObject *Sender)
 void __fastcall TForm10::fileClearDBActionUpdate(TObject *Sender)
 {
 //
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm10::viewAnalysisActionExecute(TObject *Sender)
+{
+	AnalysisForm->Visible = !AnalysisForm->Visible;
 }
 //---------------------------------------------------------------------------
 

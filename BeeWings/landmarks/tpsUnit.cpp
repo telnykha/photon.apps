@@ -161,7 +161,7 @@ void takeSigns(const char* fileName)
 	}
 	for (int i = 0; i < kd.Files()->Count(); i++) {
 		//TLFLandmarkFile* f = src.Files()->File(i);
-		GetBeeFeatures(kd.Files()->File(i), Ci, DsA, Hi);
+		//GetBeeFeatures(kd.Files()->File(i), Ci, DsA, Hi);
 		printf("Ci=%lf DsA=%lf Hi=%lf\n", Ci, DsA, Hi);
 	}
 	kd.Close();

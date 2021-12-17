@@ -828,6 +828,11 @@ object Form10: TForm10
       OnExecute = fileClearDBActionExecute
       OnUpdate = fileClearDBActionUpdate
     end
+    object viewAnalysisAction: TAction
+      Category = 'View'
+      Caption = #1040#1085#1072#1083#1080#1079' '#1087#1088#1086#1073#1099'...'
+      OnExecute = viewAnalysisActionExecute
+    end
   end
   object MainMenu1: TMainMenu
     Left = 545
@@ -917,6 +922,9 @@ object Form10: TForm10
       end
       object N30: TMenuItem
         Action = toolsKindEditorAction
+      end
+      object N32: TMenuItem
+        Action = viewAnalysisAction
       end
     end
     object N27: TMenuItem

@@ -5,13 +5,13 @@
 #include <tchar.h>
 
 // ---------------------------------------------------------------------------
-USEFORM("Unit2.cpp", Form2);
+USEFORM("BeeAnalysisForm.cpp", AnalysisForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int) {
 	try {
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		Application->CreateForm(__classid(TForm2), &Form2);
+		Application->CreateForm(__classid(TAnalysisForm), &AnalysisForm);
 		Application->Run();
 	}
 	catch (Exception &exception) {
