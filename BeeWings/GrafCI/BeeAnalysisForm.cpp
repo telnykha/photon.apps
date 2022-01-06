@@ -203,3 +203,11 @@ void TAnalysisForm::Update(const char* path, TLFDBLandmarks* db)
 
 }
 
+void __fastcall TAnalysisForm::FormResize(TObject *Sender)
+{
+	Panel1->Height = Height / 2;
+	Panel2->Width  = Width  / 2;
+    Panel4->Width  = Width  / 2;
+}
+//---------------------------------------------------------------------------
+

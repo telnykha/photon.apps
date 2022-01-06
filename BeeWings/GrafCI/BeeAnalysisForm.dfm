@@ -14,6 +14,7 @@
   OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = FormCreate
+  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object Unit1: TPageControl
@@ -21,20 +22,18 @@
     Top = 0
     Width = 517
     Height = 452
-    ActivePage = Результаты
+    ActivePage = Индексы
     Align = alClient
     MultiLine = True
     TabOrder = 0
     TabPosition = tpBottom
-    ExplicitWidth = 854
-    ExplicitHeight = 450
     object Индексы: TTabSheet
       Caption = #1048#1085#1076#1077#1082#1089#1099
       object StringGrid1: TStringGrid
         Left = 0
         Top = 0
-        Width = 846
-        Height = 424
+        Width = 509
+        Height = 426
         Align = alClient
         ColCount = 4
         FixedCols = 0
@@ -56,50 +55,23 @@
         RowCount = 4
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goFixedRowDefAlign]
         TabOrder = 0
-        ExplicitWidth = 846
-        ExplicitHeight = 424
       end
     end
     object График_CI1: TTabSheet
       Caption = #1043#1088#1072#1092#1080#1082#1080
       ImageIndex = 1
-      object Splitter2: TSplitter
-        Left = 0
-        Top = 265
-        Width = 846
-        Height = 3
-        Cursor = crVSplit
-        Align = alTop
-        ExplicitWidth = 225
-      end
-      object Splitter3: TSplitter
-        Left = 419
-        Top = 268
-        Height = 156
-        ExplicitLeft = 440
-        ExplicitTop = 336
-        ExplicitHeight = 100
-      end
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 846
+        Width = 509
         Height = 265
         Align = alTop
         Caption = 'Panel1'
         TabOrder = 0
-        object Splitter1: TSplitter
-          Left = 421
-          Top = 1
-          Height = 263
-          ExplicitLeft = 432
-          ExplicitTop = 144
-          ExplicitHeight = 100
-        end
         object Panel2: TPanel
           Left = 1
           Top = 1
-          Width = 420
+          Width = 256
           Height = 263
           Align = alLeft
           Caption = 'Panel2'
@@ -107,7 +79,7 @@
           object Chart5: TChart
             Left = 1
             Top = 1
-            Width = 418
+            Width = 254
             Height = 261
             Legend.Visible = False
             Title.Text.Strings = (
@@ -116,6 +88,7 @@
             View3DOptions.Orthogonal = False
             Align = alClient
             TabOrder = 0
+            ExplicitWidth = 352
             DefaultCanvas = 'TGDIPlusCanvas'
             ColorPaletteIndex = 13
             object Series16: TPointSeries
@@ -131,17 +104,19 @@
           end
         end
         object Panel3: TPanel
-          Left = 424
+          Left = 257
           Top = 1
-          Width = 421
+          Width = 251
           Height = 263
           Align = alClient
           Caption = 'Panel3'
           TabOrder = 1
+          ExplicitLeft = 424
+          ExplicitWidth = 84
           object Chart6: TChart
             Left = 1
             Top = 1
-            Width = 419
+            Width = 249
             Height = 261
             Legend.Visible = False
             Title.Text.Strings = (
@@ -150,6 +125,7 @@
             View3DOptions.Orthogonal = False
             Align = alClient
             TabOrder = 0
+            ExplicitWidth = 82
             DefaultCanvas = 'TGDIPlusCanvas'
             ColorPaletteIndex = 13
             object Series8: TPointSeries
@@ -167,17 +143,19 @@
       end
       object Panel4: TPanel
         Left = 0
-        Top = 268
-        Width = 419
-        Height = 156
+        Top = 265
+        Width = 260
+        Height = 161
         Align = alLeft
         Caption = 'Panel4'
         TabOrder = 1
+        ExplicitTop = 268
+        ExplicitHeight = 158
         object Chart4: TChart
           Left = 1
           Top = 1
-          Width = 417
-          Height = 154
+          Width = 258
+          Height = 159
           Legend.Visible = False
           Title.Text.Strings = (
             'TChart')
@@ -185,6 +163,8 @@
           View3DOptions.Orthogonal = False
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 417
+          ExplicitHeight = 156
           DefaultCanvas = 'TGDIPlusCanvas'
           ColorPaletteIndex = 13
           object Series9: TPointSeries
@@ -199,13 +179,17 @@
         end
       end
       object Panel5: TPanel
-        Left = 422
-        Top = 268
-        Width = 424
-        Height = 156
+        Left = 260
+        Top = 265
+        Width = 249
+        Height = 161
         Align = alClient
         Caption = 'Panel5'
         TabOrder = 2
+        ExplicitLeft = 422
+        ExplicitTop = 268
+        ExplicitWidth = 87
+        ExplicitHeight = 158
       end
     end
     object График_CI: TTabSheet
@@ -214,8 +198,8 @@
       object Chart1: TChart
         Left = 0
         Top = 0
-        Width = 846
-        Height = 424
+        Width = 509
+        Height = 426
         Legend.Visible = False
         Title.Text.Strings = (
           #1043#1088#1072#1092#1080#1082' CI')
@@ -259,8 +243,8 @@
       object Chart2: TChart
         Left = 0
         Top = 0
-        Width = 846
-        Height = 424
+        Width = 509
+        Height = 426
         LeftWall.Visible = False
         Title.Text.Strings = (
           #1043#1088#1072#1092#1080#1082' DsA')
@@ -303,8 +287,8 @@
       object Chart3: TChart
         Left = 0
         Top = 0
-        Width = 846
-        Height = 424
+        Width = 509
+        Height = 426
         Title.Text.Strings = (
           #1043#1088#1072#1092#1080#1082' HI')
         LeftAxis.ExactDateTime = False
@@ -344,16 +328,14 @@
       object WebBrowser1: TWebBrowser
         Left = 0
         Top = 0
-        Width = 846
-        Height = 424
+        Width = 509
+        Height = 426
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 280
-        ExplicitTop = 160
-        ExplicitWidth = 300
-        ExplicitHeight = 150
+        ExplicitWidth = 846
+        ExplicitHeight = 424
         ControlData = {
-          4C00000070570000D22B00000000000000000000000000000000000000000000
+          4C0000009B340000072C00000000000000000000000000000000000000000000
           000000004C000000000000000000000001000000E0D057007335CF11AE690800
           2B2E126208000000000000004C0000000114020000000000C000000000000046
           8000000000000000000000000000000000000000000000000000000000000000

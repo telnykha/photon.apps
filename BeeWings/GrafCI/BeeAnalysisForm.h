@@ -52,14 +52,11 @@ __published: // IDE-managed Components
 	TPanel *Panel2;
 	TChart *Chart5;
 	TPointSeries *Series16;
-	TSplitter *Splitter1;
 	TPanel *Panel3;
 	TChart *Chart6;
-	TSplitter *Splitter2;
 	TPanel *Panel4;
 	TChart *Chart4;
 	TPanel *Panel5;
-	TSplitter *Splitter3;
 	TWebBrowser *WebBrowser1;
 	TOpenDialog *OpenDialog1;
 	TPopupMenu *PopupMenu1;
@@ -72,6 +69,7 @@ __published: // IDE-managed Components
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall N2Click(TObject *Sender);
 	void __fastcall PopupMenu11Click(TObject *Sender);
+	void __fastcall FormResize(TObject *Sender);
 
 private: // User declarations
 	TLFHistogramm hstCI, hstDsA, hstHI;

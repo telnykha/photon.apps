@@ -60,7 +60,7 @@ bool   TPhImageMarkTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 					for (int j = 0; j < 4; j++)
 					{
 						TPoint vertex = GetRectPoint(j, rect);
-						if  (_2D_Dist(vertex.x, vertex.y, p.x, p.y) < 4)//
+						if  (_2D_Dist(vertex.x, vertex.y, p.x, p.y) < 2)//
 						{
 						   res = true;
 						   idx1 = i;
@@ -85,7 +85,7 @@ bool   TPhImageMarkTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 					 _p2.x = p2.X*m_pImage->Bitmap->Width / 100.;
 					 _p2.y = p2.Y*m_pImage->Bitmap->Height / 100.;
 
-						if  (_2D_Dist(_p1.x, _p1.y, p.x, p.y) < 4)//
+						if  (_2D_Dist(_p1.x, _p1.y, p.x, p.y) < 2)//
 						{
 						   res = true;
 						   idx1 = i;
@@ -93,7 +93,7 @@ bool   TPhImageMarkTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 						   break;
 						}
 
-						if  (_2D_Dist(_p2.x, _p2.y, p.x, p.y) < 4)//
+						if  (_2D_Dist(_p2.x, _p2.y, p.x, p.y) < 2)//
 						{
 						   res = true;
 						   idx1 = i;
@@ -111,7 +111,7 @@ bool   TPhImageMarkTool::_is_near_vertex(int X, int Y, int& idx1, int& idx2)
 				for (int j = 0; j < 4; j++)
 				{
 					TPoint vertex = GetRectPoint(j, rect);
-					if  (_2D_Dist(vertex.x, vertex.y, p.x, p.y) < 4)//
+					if  (_2D_Dist(vertex.x, vertex.y, p.x, p.y) < 2)//
 					{
 					   res = true;
 					   idx1 = i;
