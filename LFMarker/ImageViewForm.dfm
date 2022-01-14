@@ -3,7 +3,7 @@ object FragmentForm: TFragmentForm
   Top = 459
   BorderStyle = bsSizeToolWin
   Caption = 'Semantic items editor'
-  ClientHeight = 160
+  ClientHeight = 196
   ClientWidth = 396
   Color = clBtnFace
   DragKind = dkDock
@@ -26,7 +26,6 @@ object FragmentForm: TFragmentForm
     Height = 49
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 421
     object SpeedButton1: TSpeedButton
       Left = 1
       Top = 1
@@ -384,12 +383,11 @@ object FragmentForm: TFragmentForm
   object Panel2: TPanel
     Left = 0
     Top = 49
-    Width = 185
-    Height = 111
+    Width = 223
+    Height = 147
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitHeight = 204
     object Label3: TLabel
       Left = 5
       Top = 8
@@ -406,7 +404,7 @@ object FragmentForm: TFragmentForm
     end
     object Label8: TLabel
       Left = 5
-      Top = 88
+      Top = 120
       Width = 44
       Height = 13
       Caption = 'Comment'
@@ -418,18 +416,25 @@ object FragmentForm: TFragmentForm
       Height = 13
       Caption = 'Racurs'
     end
+    object Label1: TLabel
+      Left = 5
+      Top = 91
+      Width = 75
+      Height = 13
+      Caption = 'Angle [0 ... 360]'
+    end
     object Edit1: TEdit
-      Left = 68
-      Top = 5
-      Width = 111
+      Left = 102
+      Top = 6
+      Width = 109
       Height = 21
       Enabled = False
       TabOrder = 0
       Text = 'Edit1'
     end
     object ComboBox1: TComboBox
-      Left = 70
-      Top = 31
+      Left = 102
+      Top = 32
       Width = 109
       Height = 21
       Style = csDropDownList
@@ -438,36 +443,79 @@ object FragmentForm: TFragmentForm
       OnExit = ComboBox1Exit
     end
     object Edit2: TEdit
-      Left = 70
-      Top = 85
+      Left = 102
+      Top = 114
       Width = 109
       Height = 21
       TabOrder = 2
+      OnChange = Edit2Change
     end
-    object Edit5: TEdit
-      Left = 70
-      Top = 58
+    object ComboBox2: TComboBox
+      Left = 102
+      Top = 59
       Width = 109
       Height = 21
-      Enabled = False
+      Style = csDropDownList
+      ItemIndex = 0
       TabOrder = 3
-      Text = 'Edit5'
+      Text = 'Front'
+      OnChange = ComboBox2Change
+      Items.Strings = (
+        'Front'
+        'Left semi-profile'
+        'Left profile'
+        'Left back semi-profile'
+        'Back'
+        'Right back semi-profile'
+        'Right profile'
+        'Right semi-profile'
+        'Bottom front'
+        'Bottom left semi-propfile'
+        'Bottom left profile'
+        'Bottom back left semi-profile'
+        'Bottom back'
+        'Bottom back right semi profile'
+        'Bottom right profile'
+        'Bottom right semi propfile'
+        'Bottom'
+        'Up front'
+        'Up left semi profile'
+        'Up left profile'
+        'Up left back semi profile'
+        'Up back'
+        'Up back right semi profile'
+        'Up right profile'
+        'Up right semi profile'
+        'Up')
+    end
+    object SpinEdit1: TSpinEdit
+      Left = 102
+      Top = 86
+      Width = 109
+      Height = 22
+      EditorEnabled = False
+      Increment = 15
+      MaxValue = 90
+      MinValue = -90
+      TabOrder = 4
+      Value = 0
+      OnChange = SpinEdit1Change
     end
   end
   object PhImage1: TPhImage
-    Left = 185
+    Left = 223
     Top = 49
-    Width = 211
-    Height = 111
+    Width = 173
+    Height = 147
+    AutoMosaic = True
     ThumbWidht = 128
     ThumbHeight = 128
     SlideShowInterval = 500
     Align = alClient
     ParentColor = False
-    ExplicitLeft = 192
-    ExplicitTop = 56
-    ExplicitWidth = 221
-    ExplicitHeight = 189
+    ExplicitLeft = 185
+    ExplicitWidth = 211
+    ExplicitHeight = 111
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle

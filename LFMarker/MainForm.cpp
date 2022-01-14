@@ -50,6 +50,8 @@
 #pragma link "PhPaneTool"
 #pragma link "PhSelectRectTool"
 #pragma link "PhZoomToRectTool"
+#pragma link "PhRulerTool"
+#pragma link "PhTriangleTool"
 #pragma resource "*.dfm"
 using namespace std;
 TForm1 *Form1;
@@ -784,7 +786,7 @@ void __fastcall TForm1::ModePaneActionExecute(TObject *Sender)
 void __fastcall TForm1::ModeZoomActionExecute(TObject *Sender)
 {
 	PhImage2->SelectPhTool(PhZoomToRectTool1);
-    PhImage2->Paint();
+	PhImage2->Paint();
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ObjectDetectorHelper()
@@ -2235,4 +2237,31 @@ void __fastcall TForm1::DbOpenActionExecute(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeAngleActionExecute(TObject *Sender)
+{
+	PhImage2->SelectPhTool(PhTriangleTool1);
+	PhImage2->Paint();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeAngleActionUpdate(TObject *Sender)
+{
+	ModeAngleAction->Checked = dynamic_cast< TPhTriangleTool*>(PhImage2->PhTool) != NULL;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeRulerActionExecute(TObject *Sender)
+{
+	PhImage2->SelectPhTool(PhRulerTool1);
+	PhImage2->Paint();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ModeRulerActionUpdate(TObject *Sender)
+{
+	ModeRulerAction->Checked = dynamic_cast< TPhRulerTool*>(PhImage2->PhTool) != NULL;
+}
+//---------------------------------------------------------------------------
+
 

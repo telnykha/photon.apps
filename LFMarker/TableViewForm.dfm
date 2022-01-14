@@ -24,7 +24,6 @@ object TableForm: TTableForm
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 624
     object sbDeleteRow: TSpeedButton
       Left = 6
       Top = 3
@@ -103,9 +102,8 @@ object TableForm: TTableForm
     TabOrder = 1
     ViewStyle = vsReport
     OnChange = ListView1Change
+    OnDblClick = ListView1DblClick
     OnSelectItem = ListView1SelectItem
-    ExplicitWidth = 624
-    ExplicitHeight = 409
   end
   object ActionList1: TActionList
     Left = 192

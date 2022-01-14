@@ -213,7 +213,7 @@ object Form1: TForm1
         Top = 1
         Width = 342
         Height = 425
-        ActivePage = TabSheet1
+        ActivePage = TabSheet3
         Align = alClient
         TabOrder = 0
         TabPosition = tpBottom
@@ -664,6 +664,13 @@ object Form1: TForm1
       end
       object SelectROI1: TMenuItem
         Action = ModeSelectRectAction
+      end
+      object RulerRuler1: TMenuItem
+        Action = ModeRulerAction
+      end
+      object AngleIAngle1: TMenuItem
+        Action = ModeAngleAction
+        Caption = 'Angle Tool'
       end
     end
     object I1: TMenuItem
@@ -1202,6 +1209,18 @@ object Form1: TForm1
       Category = 'Database'
       Caption = 'Open database...'
       OnExecute = DbOpenActionExecute
+    end
+    object ModeAngleAction: TAction
+      Category = 'Mode'
+      Caption = 'AngleIAngle'
+      OnExecute = ModeAngleActionExecute
+      OnUpdate = ModeAngleActionUpdate
+    end
+    object ModeRulerAction: TAction
+      Category = 'Mode'
+      Caption = 'Ruler Tool'
+      OnExecute = ModeRulerActionExecute
+      OnUpdate = ModeRulerActionUpdate
     end
   end
   object ImageList1: TImageList
@@ -1931,5 +1950,15 @@ object Form1: TForm1
     PhImage = PhImage2
     Left = 710
     Top = 276
+  end
+  object PhRulerTool1: TPhRulerTool
+    PhImage = PhImage2
+    Left = 366
+    Top = 44
+  end
+  object PhTriangleTool1: TPhTriangleTool
+    PhImage = PhImage2
+    Left = 366
+    Top = 100
   end
 end

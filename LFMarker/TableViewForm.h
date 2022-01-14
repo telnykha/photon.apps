@@ -32,6 +32,7 @@ __published:	// IDE-managed Components
     void __fastcall FragmentViewActionExecute(TObject *Sender);
     void __fastcall FragmentViewActionUpdate(TObject *Sender);
 	void __fastcall ListView1SelectItem(TObject *Sender, TListItem *Item, bool Selected);
+	void __fastcall ListView1DblClick(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations
@@ -39,7 +40,7 @@ public:		// User declarations
 
     void __fastcall AddNewItem(TLFDetectedItem* di);
     void __fastcall UpdateTable();
-    void __fastcall ChangeItem(int index, const char* value);
+    void __fastcall ChangeItem(int index, const char* value, int racurs = 0, int angle = 0, const char* comment = NULL);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TTableForm *TableForm;

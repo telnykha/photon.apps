@@ -13,9 +13,9 @@
 TTableForm *TableForm;
 static AnsiString RacursToStringHepler(int racurs)
 {
-    switch (racurs)
+	switch (racurs)
     {
-        case 0:
+		case 0:
             return "Front";
         case 1:
             return "Left semi-profile";
@@ -45,7 +45,7 @@ static AnsiString RacursToStringHepler(int racurs)
             return "Bottom back right semi profile";
         case 14:
             return "Bottom right profile";
-        case 15:
+		case 15:
             return "Bottom right semi propfile";
         case 16:
             return "Bottom";
@@ -82,30 +82,35 @@ void __fastcall TTableForm::FormShow(TObject *Sender)
     TListColumn  *NewColumn;
     TListItem  *ListItem;
 
-    NewColumn = ListView1->Columns->Add();
+	NewColumn = ListView1->Columns->Add();
     NewColumn->Caption = "ID";
 
-    NewColumn = ListView1->Columns->Add();
-    NewColumn->Caption = "Detector";
+	NewColumn = ListView1->Columns->Add();
+	NewColumn->Caption = "Detector";
 
-    NewColumn = ListView1->Columns->Add();
+	NewColumn = ListView1->Columns->Add();
     NewColumn->Caption = "Class label";
 
 	NewColumn = ListView1->Columns->Add();
 	NewColumn->Caption = "Racurs";
 
+	NewColumn = ListView1->Columns->Add();
+	NewColumn->Caption = "Angle";
 
-    NewColumn = ListView1->Columns->Add();
+	NewColumn = ListView1->Columns->Add();
     NewColumn->Caption = "left";
 
-    NewColumn = ListView1->Columns->Add();
+	NewColumn = ListView1->Columns->Add();
     NewColumn->Caption = "top";
 
-    NewColumn = ListView1->Columns->Add();
+	NewColumn = ListView1->Columns->Add();
     NewColumn->Caption = "width";
 
-    NewColumn = ListView1->Columns->Add();
-    NewColumn->Caption = "height";
+	NewColumn = ListView1->Columns->Add();
+	NewColumn->Caption = "height";
+
+	NewColumn = ListView1->Columns->Add();
+	NewColumn->Caption = "Comment";
 
     this->UpdateTable();
 }
@@ -130,60 +135,64 @@ void __fastcall TTableForm::sbClearClick(TObject *Sender)
 {
 
 	Form1->m_Descr.Clear();
-    AnsiString str =  ChangeFileExt(Form1->m_strFileName, ".xml");
-    Form1->m_Descr.SaveXML(str.c_str());
-    ListView1->Clear();
-    TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(Form1->PhImage2->PhTool);
-    if (tool != NULL)
-      tool->SetFrame(str.c_str());
-    // update DbView
-    TListItem* li = Form1->DbView->Items->Item[Form1->DbView->ItemIndex];
-    li->SubItems->Strings[0] = IntToStr(Form1->m_Descr.GetCount());
+	AnsiString str =  ChangeFileExt(Form1->m_strFileName, ".xml");
+	Form1->m_Descr.SaveXML(str.c_str());
+	ListView1->Clear();
+	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(Form1->PhImage2->PhTool);
+	if (tool != NULL)
+	  tool->SetFrame(str.c_str());
+	// update DbView
+	TListItem* li = Form1->DbView->Items->Item[Form1->DbView->ItemIndex];
+	li->SubItems->Strings[0] = IntToStr(Form1->m_Descr.GetCount());
 }
 //---------------------------------------------------------------------------
 void __fastcall TTableForm::AddNewItem(TLFDetectedItem* di)
 {
-    TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
+	TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
 
-    TListItem  *ListItem;
-    ListItem = ListView1->Items->Add();
-    ListItem->Caption = IntToStr(Form1->m_Descr.GetItemsCount()-1);
+	TListItem  *ListItem;
+	ListItem = ListView1->Items->Add();
+	ListItem->Caption = IntToStr(Form1->m_Descr.GetItemsCount()-1);
 
-    ListItem->SubItems->Add(di->GetDetectorName());
-    //
-    std::string str_uuid = di->GetType();
-    std::string str_label = dict->GetWordByUUID(str_uuid.c_str());
+	ListItem->SubItems->Add(di->GetDetectorName());
+	//
+	std::string str_uuid = di->GetType();
+	std::string str_label = dict->GetWordByUUID(str_uuid.c_str());
 	ListItem->SubItems->Add(str_label.c_str());
 	ListItem->SubItems->Add(RacursToStringHepler(di->GetRacurs()));
-    TLFRect* rr = di->GetBounds();
-    awpRect r = rr->GetRect();
-    ListItem->SubItems->Add(IntToStr(r.left));
-    ListItem->SubItems->Add(IntToStr(r.top));
-    ListItem->SubItems->Add(IntToStr(r.right - r.left));
+	ListItem->SubItems->Add(IntToStr(di->GetAngle()));
+
+	TLFRect* rr = di->GetBounds();
+	awpRect r = rr->GetRect();
+	ListItem->SubItems->Add(IntToStr(r.left));
+	ListItem->SubItems->Add(IntToStr(r.top));
+	ListItem->SubItems->Add(IntToStr(r.right - r.left));
 	ListItem->SubItems->Add(IntToStr(r.bottom - r.top));
+	ListItem->SubItems->Add(di->GetComment().c_str());
+
 }
 void __fastcall TTableForm::ListView1Change(TObject *Sender,
-      TListItem *Item, TItemChange Change)
+	  TListItem *Item, TItemChange Change)
 {
 	TPhImageMarkTool* tool = dynamic_cast< TPhImageMarkTool*>(Form1->PhImage2->PhTool);
-    if (tool != NULL)
-    {
-        if (ListView1->Selected != NULL)
-        {
-         tool->SetSelected(Item->Index);
-        }
-    }
+	if (tool != NULL)
+	{
+		if (ListView1->Selected != NULL)
+		{
+		 tool->SetSelected(Item->Index);
+		}
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TTableForm::UpdateTable()
 {
 	if (!Visible)
-    	return;
+		return;
 	ListView1->Items->Clear();
 	TListColumn  *NewColumn;
 	TListItem  *ListItem;
 
-    TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
+	TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
 	for (int i = 0; i < Form1->m_Descr.GetItemsCount(); i++)
 	{
 
@@ -191,11 +200,12 @@ void __fastcall TTableForm::UpdateTable()
 	  ListItem = ListView1->Items->Add();
 	  ListItem->Caption = IntToStr(i);
 	  ListItem->SubItems->Add(di->GetDetectorName());
-      //----------------
-      std::string str_uuid = di->GetType();
-      std::string str_label = dict->GetWordByUUID(str_uuid.c_str());
-      ListItem->SubItems->Add(str_label.c_str());
-      ListItem->SubItems->Add(RacursToStringHepler(di->GetRacurs()));
+	  //----------------
+	  std::string str_uuid = di->GetType();
+	  std::string str_label = dict->GetWordByUUID(str_uuid.c_str());
+	  ListItem->SubItems->Add(str_label.c_str());
+	  ListItem->SubItems->Add(RacursToStringHepler(di->GetRacurs()));
+	  ListItem->SubItems->Add(IntToStr(di->GetAngle()));
 	  TLFRect* rr = di->GetBounds();
 	  awpRect r = rr->GetRect();
 
@@ -203,6 +213,7 @@ void __fastcall TTableForm::UpdateTable()
 	  ListItem->SubItems->Add(IntToStr(r.top));
 	  ListItem->SubItems->Add(IntToStr(r.right - r.left));
 	  ListItem->SubItems->Add(IntToStr(r.bottom - r.top));
+	  ListItem->SubItems->Add(di->GetComment().c_str());
 	}
 
 	if (Form1->m_Descr.GetItemsCount() > 0)
@@ -211,15 +222,15 @@ void __fastcall TTableForm::UpdateTable()
 	   Form1->SelectedIndex = 0;
 	}
 
-    FragmentForm->DrawSelected();
+	FragmentForm->DrawSelected();
 }
 
 
 void __fastcall TTableForm::FragmentViewActionExecute(TObject *Sender)
 {
-    FragmentForm->Visible = !FragmentForm->Visible;
-    if (FragmentForm->Visible)
-       FragmentForm->DrawSelected();
+	FragmentForm->Visible = !FragmentForm->Visible;
+	if (FragmentForm->Visible)
+	   FragmentForm->DrawSelected();
 }
 //---------------------------------------------------------------------------
 
@@ -241,12 +252,24 @@ void __fastcall TTableForm::ListView1SelectItem(TObject *Sender, TListItem *Item
     }
 }
 //---------------------------------------------------------------------------
-void __fastcall TTableForm::ChangeItem(int index, const char* value)
+void __fastcall TTableForm::ChangeItem(int index, const char* value, int racurs, int angle, const char* comment)
 {
 	TListItem  *ListItem = this->ListView1->Items->Item[index];
-    if (ListItem != NULL)
-    {
+	if (ListItem != NULL)
+	{
 		ListItem->SubItems->Strings[1] = value;
+		ListItem->SubItems->Strings[2] = RacursToStringHepler(racurs);
+		ListItem->SubItems->Strings[3] = IntToStr(angle);
+
+		if (comment != NULL)
+			ListItem->SubItems->Strings[8] = comment;
     }
 }
+
+void __fastcall TTableForm::ListView1DblClick(TObject *Sender)
+{
+	FragmentForm->Visible = true;
+    FragmentForm->DrawSelected();
+}
+//---------------------------------------------------------------------------
 

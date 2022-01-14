@@ -34,6 +34,8 @@
 #include "PhSelectRectTool.h"
 #include "PhZoomToRectTool.h"
 #include "PhImageMarkTool.h"
+#include "PhRulerTool.h"
+#include "PhTriangleTool.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -233,6 +235,12 @@ __published:	// IDE-managed Components
 	TAction *ModeMarkPolygonAction;
 	TAction *DbOpenAction;
 	TMenuItem *Opendatabase1;
+	TAction *ModeAngleAction;
+	TPhRulerTool *PhRulerTool1;
+	TPhTriangleTool *PhTriangleTool1;
+	TAction *ModeRulerAction;
+	TMenuItem *RulerRuler1;
+	TMenuItem *AngleIAngle1;
     void __fastcall FileListBox1Change(TObject *Sender);
     void __fastcall FFaceEditor1AfterOpen(TObject *Sender);
     void __fastcall FormShow(TObject *Sender);
@@ -368,6 +376,10 @@ __published:	// IDE-managed Components
 	void __fastcall ModeMarkPolygonActionExecute(TObject *Sender);
 	void __fastcall ModeMarkPolygonActionUpdate(TObject *Sender);
 	void __fastcall DbOpenActionExecute(TObject *Sender);
+	void __fastcall ModeAngleActionExecute(TObject *Sender);
+	void __fastcall ModeAngleActionUpdate(TObject *Sender);
+	void __fastcall ModeRulerActionExecute(TObject *Sender);
+	void __fastcall ModeRulerActionUpdate(TObject *Sender);
 private:	// User declarations
     TPhImageMarkTool* m_markTool;
     AnsiString 		  m_strEngineName;

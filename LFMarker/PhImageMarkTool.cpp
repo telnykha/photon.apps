@@ -23,7 +23,8 @@ __fastcall TPhImageMarkTool::TPhImageMarkTool(TComponent* Owner): TPhImageTool(O
 	m_selected = -1;
 	m_dictinary = NULL;
 	m_mode = MTRect;
-    m_newZone = NULL;
+	m_newZone = NULL;
+	m_strToolName = "RECT ITEM";
 }
 //---------------------------------------------------------------------------
 __fastcall TPhImageMarkTool::~TPhImageMarkTool()
@@ -761,7 +762,28 @@ void __fastcall TPhImageMarkTool::SetDictionary(TLFSemanticDictinary* value)
 
 void __fastcall  TPhImageMarkTool::SetFrame(const char* lpFileName)
 {
-      m_descriptor.LoadXML(lpFileName);
-      m_strName = lpFileName;
-      m_pImage->Paint();
+	  m_descriptor.LoadXML(lpFileName);
+	  m_strName = lpFileName;
+	  m_pImage->Paint();
 }
+
+void __fastcall TPhImageMarkTool::SetMode(const TEMarkToolModes Value)
+{
+	//
+	m_mode = Value;
+//typedef enum {MTRect, MTVector, MTContour} TEMarkToolModes;
+
+	switch(m_mode)
+	{
+		case MTRect:
+			m_strToolName = "RECT ITEM";
+		break;
+		case MTVector:
+			m_strToolName = "VECTOR ITEM";
+		break;
+		case MTContour:
+			m_strToolName = "POLYGON ITEM";
+		break;
+	}
+}
+

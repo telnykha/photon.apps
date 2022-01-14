@@ -89,7 +89,7 @@ void __fastcall TFragmentForm::DrawSelected()
     {
      	ComboBox1->ItemIndex = index;
     }
-	Edit5->Text = IntToStr(di->GetRacurs());
+	ComboBox2->ItemIndex = di->GetRacurs();
 	Edit2->Text = di->GetComment().c_str();
 }
 void __fastcall TFragmentForm::SpeedButton1Click(TObject *Sender)
@@ -116,18 +116,21 @@ void __fastcall TFragmentForm::FormShow(TObject *Sender)
 
 void __fastcall TFragmentForm::ComboBox1Change(TObject *Sender)
 {
-	AnsiString strLabel = ComboBox1->Text;
-    TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
-    TLFSemanticDictinaryItem* sdi = dict->GetWordFromDictinary(strLabel.c_str());
+/*	AnsiString strLabel = ComboBox1->Text;
+	AnsiString strComment = Edit2->Text;
+	TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
+	TLFSemanticDictinaryItem* sdi = dict->GetWordFromDictinary(strLabel.c_str());
 	if (this->m_descr != NULL)
 	{
 		TLFDetectedItem* item = m_descr->GetDetectedItem(Form1->SelectedIndex);
 		if (item != NULL)
 		{
 			 item->SetType(sdi->GetId().c_str());
-			 TableForm->ChangeItem(Form1->SelectedIndex, strLabel.c_str());
+			 TableForm->ChangeItem(Form1->SelectedIndex, strLabel.c_str(), 0, 0, strComment.c_str());
 		}
-	}
+	}*/
+
+    UpdateTable();
 }
 //---------------------------------------------------------------------------
 
@@ -146,7 +149,7 @@ void __fastcall TFragmentForm::ChangeDictonary()
     for (int i = 0; i < Form1->m_db.Dictionary->GetCount(); i++)
     {
         TLFSemanticDictinaryItem* word = Form1->m_db.Dictionary->GetWordFromDictinary(i);
-        if (word != NULL)
+		if (word != NULL)
         {
 			ComboBox1->Items->Add(word->GetItemLabel());
         }
@@ -223,8 +226,44 @@ void __fastcall TFragmentForm::SpeedButton7Click(TObject *Sender)
 	di->SetType(sdi->GetId().c_str());
 	_ansi = Edit2->Text;
 	di->SetComment(_ansi.c_str());
+    di->SetAngle(SpinEdit1->Value);
+	di->SetRacurs(ComboBox2->ItemIndex);
     Form1->DbSaveMarkActionExecute(NULL);
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TFragmentForm::Edit2Change(TObject *Sender)
+{
+	UpdateTable();
+}
+//---------------------------------------------------------------------------
+void __fastcall TFragmentForm::UpdateTable()
+{
+	AnsiString strLabel = ComboBox1->Text;
+	AnsiString strComment = Edit2->Text;
+	TLFSemanticDictinary* dict = Form1->m_db.Dictionary;
+	TLFSemanticDictinaryItem* sdi = dict->GetWordFromDictinary(strLabel.c_str());
+	if (this->m_descr != NULL)
+	{
+		TLFDetectedItem* item = m_descr->GetDetectedItem(Form1->SelectedIndex);
+		if (item != NULL)
+		{
+			 item->SetType(sdi->GetId().c_str());
+			 TableForm->ChangeItem(Form1->SelectedIndex, strLabel.c_str(), ComboBox2->ItemIndex, SpinEdit1->Value, strComment.c_str());
+		}
+	}
+}
+
+void __fastcall TFragmentForm::ComboBox2Change(TObject *Sender)
+{
+	UpdateTable();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFragmentForm::SpinEdit1Change(TObject *Sender)
+{
+	UpdateTable();
+}
+//---------------------------------------------------------------------------
 
