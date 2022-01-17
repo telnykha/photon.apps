@@ -21,7 +21,7 @@ UsedUserAreasWarning=no
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=output
-OutputBaseFilename=setup_objectmarker
+OutputBaseFilename=setup_objectmarker41214
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -39,6 +39,8 @@ Source: "borlndmm.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "cc32270mt.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "cc32c270.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "cc32c270mt.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "lgpl.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "CSBuilder64.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

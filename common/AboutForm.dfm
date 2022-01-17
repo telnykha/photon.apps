@@ -203,35 +203,50 @@ object AboutBox: TAboutBox
       Left = 120
       Top = 8
       Width = 152
-      Height = 57
+      Height = 17
       AutoSize = False
-      Caption = 
-        #1042#1099#1095#1080#1089#1083#1077#1085#1080#1077' '#1089#1090#1072#1090#1080#1089#1090#1080#1095#1077#1089#1082#1080#1093' '#1093#1072#1088#1072#1082#1090#1077#1088#1080#1089#1090#1080#1082' '#1089#1080#1089#1090#1077#1084#1099' '#1088#1072#1089#1087#1086#1079#1085#1072#1074#1072#1085#1080#1103' '#1083#1080 +
-        #1094' '#1074' '#1074#1080#1076#1077#1086#1087#1086#1090#1086#1082#1077'. '
+      Caption = 'ProductName'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
       WordWrap = True
       IsControl = True
     end
     object Version: TLabel
       Left = 120
-      Top = 64
+      Top = 31
       Width = 83
       Height = 13
       Caption = 'Version 0.7 (beta)'
       IsControl = True
     end
     object Copyright: TLabel
-      Left = 8
-      Top = 112
-      Width = 44
-      Height = 13
+      Left = 120
+      Top = 50
+      Width = 152
+      Height = 24
+      AutoSize = False
       Caption = 'Copyright'
+      WordWrap = True
       IsControl = True
+    end
+    object Comments: TLabel
+      Left = 120
+      Top = 80
+      Width = 153
+      Height = 29
+      AutoSize = False
+      Caption = 'Comments'
+      WordWrap = True
     end
     object Memo1: TMemo
       Left = 8
-      Top = 128
+      Top = 115
       Width = 265
-      Height = 129
+      Height = 142
       BevelInner = bvSpace
       BevelOuter = bvRaised
       Color = clScrollBar

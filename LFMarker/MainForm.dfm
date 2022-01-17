@@ -792,8 +792,14 @@ object Form1: TForm1
     end
     object N2: TMenuItem
       Caption = 'Detector'
+      object CreateDetector1: TMenuItem
+        Action = DtCreateAction
+      end
       object N9: TMenuItem
         Action = FileOpenDetectorAction
+      end
+      object UpdateDetector1: TMenuItem
+        Action = DtUpdateAction
       end
       object N19: TMenuItem
         Caption = '-'
@@ -1221,6 +1227,18 @@ object Form1: TForm1
       Caption = 'Ruler Tool'
       OnExecute = ModeRulerActionExecute
       OnUpdate = ModeRulerActionUpdate
+    end
+    object DtCreateAction: TAction
+      Category = 'Detector'
+      Caption = 'Create Detector...'
+      OnExecute = DtCreateActionExecute
+      OnUpdate = DtCreateActionUpdate
+    end
+    object DtUpdateAction: TAction
+      Category = 'Detector'
+      Caption = 'Update Detector...'
+      OnExecute = DtUpdateActionExecute
+      OnUpdate = DtUpdateActionUpdate
     end
   end
   object ImageList1: TImageList
@@ -1934,7 +1952,7 @@ object Form1: TForm1
   object PhZoomToRectTool1: TPhZoomToRectTool
     PhImage = PhImage2
     Left = 734
-    Top = 140
+    Top = 148
   end
   object PhSelRectTool1: TPhSelRectTool
     PhImage = PhImage2

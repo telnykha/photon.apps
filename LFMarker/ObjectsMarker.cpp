@@ -2,13 +2,14 @@
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
+#include "IniParamsUnit.h"
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
-USEFORM("LongProcessForm.cpp", LongProcDlg);
 USEFORM("MainForm.cpp", Form1);
 USEFORM("MedianFilterForm.cpp", MedianFilterDlg);
 USEFORM("GaussFilterForm.cpp", GaussFilterDlg);
 USEFORM("ImageViewForm.cpp", FragmentForm);
+USEFORM("LongProcessForm.cpp", LongProcDlg);
 USEFORM("SelRectForm.cpp", RectToolForm);
 USEFORM("SystemOptionsForm.cpp", PagesDlg);
 USEFORM("TableViewForm.cpp", TableForm);
@@ -16,10 +17,10 @@ USEFORM("ResizeForm.cpp", ResizeDlg);
 USEFORM("RotateForm.cpp", RotateDlg);
 USEFORM("FilterForm.cpp", FilterDlg);
 USEFORM("..\EngineView\EngineViewUnit.cpp", EngineViewForm);
+USEFORM("DbConvertForm.cpp", DbConvertDlg);
 USEFORM("..\common\AboutForm.cpp", AboutBox);
 USEFORM("..\common\dictinaryEditor.cpp", dictinaryEditDlg);
 USEFORM("..\common\dictinaryItemEditor.cpp", dictinaryItemDlg);
-USEFORM("DbConvertForm.cpp", DbConvertDlg);
 USEFORM("DbSplitForm.cpp", DbSplitDlg);
 USEFORM("DetectorInfoForm.cpp", DetectorForm);
 USEFORM("DictionaryForm.cpp", DictionaryDialog);
@@ -29,6 +30,8 @@ USEFORM("DbExportForm.cpp", DbExportDialog);
 USEFORM("DbInfoForm.cpp", DbInfoDialog);
 //---------------------------------------------------------------------------
 HANDLE hm = 0;
+TMarkerIniParams gIniParams;
+TMarkerIniParams* IniParams = &gIniParams;
 bool Check()
 {
       bool res=  false;
@@ -43,7 +46,8 @@ WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
     {
  //        Check();
         Application->Initialize();
-        Application->CreateForm(__classid(TForm1), &Form1);
+        TStyleManager::TrySetStyle("Carbon");
+		Application->CreateForm(__classid(TForm1), &Form1);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->CreateForm(__classid(TTableForm), &TableForm);
 		Application->CreateForm(__classid(TFragmentForm), &FragmentForm);

@@ -241,6 +241,10 @@ __published:	// IDE-managed Components
 	TAction *ModeRulerAction;
 	TMenuItem *RulerRuler1;
 	TMenuItem *AngleIAngle1;
+	TAction *DtCreateAction;
+	TAction *DtUpdateAction;
+	TMenuItem *UpdateDetector1;
+	TMenuItem *CreateDetector1;
     void __fastcall FileListBox1Change(TObject *Sender);
     void __fastcall FFaceEditor1AfterOpen(TObject *Sender);
     void __fastcall FormShow(TObject *Sender);
@@ -380,6 +384,10 @@ __published:	// IDE-managed Components
 	void __fastcall ModeAngleActionUpdate(TObject *Sender);
 	void __fastcall ModeRulerActionExecute(TObject *Sender);
 	void __fastcall ModeRulerActionUpdate(TObject *Sender);
+	void __fastcall DtCreateActionExecute(TObject *Sender);
+	void __fastcall DtCreateActionUpdate(TObject *Sender);
+	void __fastcall DtUpdateActionExecute(TObject *Sender);
+	void __fastcall DtUpdateActionUpdate(TObject *Sender);
 private:	// User declarations
     TPhImageMarkTool* m_markTool;
     AnsiString 		  m_strEngineName;
@@ -438,10 +446,9 @@ private:	// User declarations
 	// DbView
 	void __fastcall InitDbView();
 	void __fastcall UpdateDbView();
-	// Database
-	void __fastcall OpenDatabase(const char* lpDbName);
 
-    void __fastcall ToolChange(TObject *Sender);
+
+	void __fastcall ToolChange(TObject *Sender);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 	__fastcall ~TForm1();
@@ -453,16 +460,19 @@ public:		// User declarations
 	__property   bool 		   SetNearestOverlap = {read = m_set_nearest_overlap, write = m_set_nearest_overlap};
 	__property   bool 		   DetectInRect = {read = m_detect_in_rect, write = m_detect_in_rect};
 
-    __property bool TableVisible = {read = m_tableVisible, write = m_tableVisible};
-    __property bool FragmentsVisible = {read = m_fragmentsVisible, write = m_fragmentsVisible};
+	__property bool TableVisible = {read = m_tableVisible, write = m_tableVisible};
+	__property bool FragmentsVisible = {read = m_fragmentsVisible, write = m_fragmentsVisible};
 
 
 	void __fastcall InitImageFile(AnsiString& strFileName);
-    void __fastcall DrawScene();
+	void __fastcall DrawScene();
 
-    void ShowDockPanel(TPanel* APanel, bool MakeVisible, TControl* Client);
+	// Database
+	void __fastcall OpenDatabase(const char* lpDbName);
 
-    TDbLabeledImages			m_db;
+	void ShowDockPanel(TPanel* APanel, bool MakeVisible, TControl* Client);
+
+	TDbLabeledImages			m_db;
 	TLFDetectedItem*            m_pBaseObject;
     // with this descriptor works TableViewForm and ImageViewForm
 	TLFSemanticImageDescriptor  m_Descr;

@@ -503,10 +503,11 @@ object FragmentForm: TFragmentForm
     end
   end
   object PhImage1: TPhImage
-    Left = 223
-    Top = 49
-    Width = 173
-    Height = 147
+    AlignWithMargins = True
+    Left = 226
+    Top = 52
+    Width = 167
+    Height = 141
     AutoMosaic = True
     ThumbWidht = 128
     ThumbHeight = 128
@@ -514,6 +515,7 @@ object FragmentForm: TFragmentForm
     Align = alClient
     ParentColor = False
     ExplicitLeft = 185
+    ExplicitTop = 49
     ExplicitWidth = 211
     ExplicitHeight = 111
   end

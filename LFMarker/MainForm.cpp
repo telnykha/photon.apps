@@ -33,7 +33,8 @@
 #include "ResizeForm.h"
 #include "dictinaryEditor.h"
 #include "PhImageMarkTool.h"
-
+#include "VerInfoUnit.h"
+#include "IniParamsUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
  extern "C"
@@ -55,7 +56,7 @@
 #pragma resource "*.dfm"
 using namespace std;
 TForm1 *Form1;
-
+extern TMarkerIniParams* IniParams;
 //---------------------------------------------------------------------------
 // функция прогресса
 void _stdcall progress(int p, const char* str_txt)
@@ -147,7 +148,7 @@ void __fastcall TForm1::InitImageFile(AnsiString& strFileName)
 	catch(...)
     {
 		Memo1->Lines->Add("ERROR: cannot open image " + strFileName);
-    }
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -227,19 +228,20 @@ void __fastcall TForm1::ActualSizeActionExecute(TObject *Sender)
 
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-    m_strEditCurrentDir = "";
+	m_strEditCurrentDir = "";
 
-     LoadIniFile();
+	 LoadIniFile();
 
-     m_NeedBestFit = true;
+	 m_NeedBestFit = true;
 
 	m_ProgressBar1 = new  TProgressBar ( StatusBar1 );
 	ProgressBar1->Parent = StatusBar1;
 	ProgressBar1->Visible = false;
-    UpdateSatatusBar();
-    TabSheet3->TabVisible = false;
-    TabSheet2->TabVisible = false;
-    InitDbView();
+	UpdateSatatusBar();
+	TabSheet3->TabVisible = false;
+	TabSheet2->TabVisible = false;
+	InitDbView();
+	DirectoryListBox1->Directory =  IniParams->LastPath;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DtDetectActionExecute(TObject *Sender)
@@ -275,7 +277,15 @@ void __fastcall TForm1::ModeActualSizeActionExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::AboutActionExecute(TObject *Sender)
 {
-        AboutBox->ShowModal();
+//        AboutBox->ShowModal();
+  TVersionInfo* vi = new TVersionInfo(NULL);
+  AboutBox->ProductName->Caption = vi->ProductName;
+  AboutBox->Version->Caption = vi->FileVersion;
+  AboutBox->Copyright->Caption = vi->LegalCopyright;
+  AboutBox->Comments->Caption = vi->Comments;
+  AboutBox->Memo1->Lines->LoadFromFile(ExtractFilePath(Application->ExeName) + L"\\lgpl.txt");
+  AboutBox->ShowModal();
+  delete vi;
 }
 //---------------------------------------------------------------------------
 
@@ -1308,13 +1318,12 @@ void __fastcall TForm1::DirectoryListBox1Change(TObject *Sender)
 	AnsiString str = DirectoryListBox1->Directory;
 
 	// open database
-
 	OpenDatabase(str.c_str());
-	if (FragmentForm->Visible)
+	if (FragmentForm!= NULL && FragmentForm->Visible)
 	{
 		FragmentForm->ChangeDictonary();
 	}
-
+    IniParams->LastPath = DirectoryListBox1->Directory;
 }
 //---------------------------------------------------------------------------
 
@@ -2264,4 +2273,32 @@ void __fastcall TForm1::ModeRulerActionUpdate(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TForm1::DtCreateActionExecute(TObject *Sender)
+{
+	AnsiString str = ExtractFilePath(Application->ExeName);
+	str += "\\CSBuilder64.exe";
+	UINT result = WinExec(str.c_str(), SW_SHOWNORMAL);
+	if (result < 31)
+		Memo1->Lines->Add(L"ERROR: cannot execute builder. Error code =  " + IntToStr((int)result));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::DtCreateActionUpdate(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::DtUpdateActionExecute(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::DtUpdateActionUpdate(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
 

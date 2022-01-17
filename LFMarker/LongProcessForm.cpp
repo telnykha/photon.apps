@@ -42,8 +42,12 @@ void __fastcall TLongProcDlg::Timer1Timer(TObject *Sender)
 		Form1->m_db.CopyDatabase(Form1->copy_options);
 	  break;
 	  case ptConvert:
+	  {
 		Label2->Caption = "Convert database...";
+		AnsiString str = Form1->m_db.DbName;
 		Form1->m_db.ConvertDatabase(Form1->convert_options);
+		Form1->OpenDatabase(str.c_str());
+      }
 	  break;
 	  case ptExport:
 	   Label2->Caption = "Export fragments from database...";

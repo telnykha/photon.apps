@@ -91,7 +91,7 @@ static bool ClearDirWithSubdirs(AnsiString& strDir, TStringList* subdirs)
     for (int i = 0; i < subdirs->Count; i++)
     {
     	AnsiString strPath = strDir + "\\" + subdirs->Strings[i] + "\\";
-        if (DirectoryExists(strPath))
+		if (DirectoryExists(strPath))
         {
             ClearDir(strPath);
           //  RemoveDir(strPath);
@@ -151,7 +151,7 @@ bool __fastcall TDbLabeledImages::Init(AnsiString& strDbPath, ILFDetectEngine* e
      AnsiString strDictionaryName = strDbPath;
 	 strDictionaryName += "\\";
      strDictionaryName += c_lpDictFileName ;
-     if (!m_db.InitDB(strDbPath.c_str()))
+	 if (!m_db.InitDB(strDbPath.c_str()))
         return false;
 
     m_NumImages = m_db.GetImagesCount();
@@ -174,7 +174,7 @@ void __fastcall TDbLabeledImages::SaveFragment(awpImage* img, SDbExportOptions& 
 
       awpImage* pFragment = NULL;
       awpRect rr = scanBox.GetRect();
-      awpCopyRect(img, &pFragment, &rr);
+	  awpCopyRect(img, &pFragment, &rr);
       if (pFragment == NULL)
       {
 			return;
@@ -236,7 +236,7 @@ void __fastcall TDbLabeledImages::SaveFragment(awpImage* img, SDbExportOptions& 
                 {
                     double alfa = (double)options.baseSize / (double)pFragment->sSizeX;
                     roi->Scale(alfa);
-                }
+				}
                     TROI r = roi->GetRoi();
 					r.p.X = pFragment->sSizeX - r.p.X;
                     r.p1.X = pFragment->sSizeX - r.p1.X;
@@ -246,7 +246,7 @@ void __fastcall TDbLabeledImages::SaveFragment(awpImage* img, SDbExportOptions& 
            }
 
 		  awpFlip(&pFragment, AWP_FLIP_HRZT);
-          if (options.needResize)
+		  if (options.needResize)
           {
              int w = options.baseSize;
              int h = (int)floor((double)w*(double)pFragment->sSizeY / (double)pFragment->sSizeX + 0.5);
@@ -567,101 +567,14 @@ void __fastcall TDbLabeledImages::ConvertDatabase(SDbConvertOptions& options)
 
 		  if (m_ProgressEvent != NULL)
 		  {
-			AnsiString _ansi = sr.Name;
-			m_ProgressEvent(int(100 *num / sl->Count),_ansi );
+			AnsiString _ansi = strXml;
+			m_ProgressEvent(int(100 *i / sl->Count),_ansi );
 		  }
 		}
 		Application->ProcessMessages();
 	 }
 
-	 Application->ProcessMessages();
 
-/*
-   if (FindFirst(strPath, iAttr, sr) == 0)
-   {
-	  do
-	  {
-		 if (_IsImageFile(sr.Name))
-		 {
-			num++;
-			Form1->PhImage1->Bitmap->LoadFromFile(sr.Name);
-			awpImage* img = NULL;
-			Form1->PhImage1->GetAwpImage(&img);
-			if (img)
-			{
-			  TLFSemanticImageDescriptor* sd = NULL;
-			  AnsiString strXml = ChangeFileExt(sr.Name, ".xml");
-			  if (FileExists(ChangeFileExt(sr.Name, ".xml")))
-			  {
-				sd = new TLFSemanticImageDescriptor();
-				sd->LoadXML(strXml.c_str());
-			  }
-			  if (options.needResize)
-			  {
-				  // resize
-				  int width  = options.baseWidth;
-				  double factor = (double)width / (double)img->sSizeX;
-				  int height = floor(factor*img->sSizeY + 0.5);
-				  if (!options.interpolation)
-					awpResize(img, width, height);
-				  else
-					awpResizeBilinear(img, width, height);
-				  if (sd != NULL)
-				  {
-
-					sd->Resize(factor);
-					sd->SetImage(img);
-				  }
-			  }
-			  if (options.RenameToUUID)
-			  {
-				  //////////////////////
-				  UUID id;
-				  LF_UUID_CREATE(id);
-				  std::string strUUID = LFGUIDToString(&id);
-				  AnsiString strFileName = m_strDbName + "\\";
-				  strFileName += strUUID.c_str();
-				  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
-				  strFileName += strExt;
-				  awpSaveImage(strFileName.c_str(), img);
-				  strFileName = ChangeFileExt(strFileName, ".xml");
-				  if (sd != NULL)
-				  {
-					sd->SaveXML(strFileName.c_str());
-					DeleteFile(strXml);
-				  }
-				  DeleteFile(sr.Name);
-
-			  }
-			  else
-			  {
-				  if (sd != NULL)
-					sd->SaveXML(strXml.c_str());
-				  // make new filename
-				  AnsiString strFileName = m_strDbName + "\\" + sr.Name;
-				  AnsiString strExt = options.format == awp ? ".awp" : ".jpg";
-				  strFileName = ChangeFileExt(strFileName, strExt);
-				  if (strExt != ExtractFileExt(sr.Name))
-					DeleteFile(sr.Name);
-				  awpSaveImage(strFileName.c_str(), img);
-			  }
-			  awpReleaseImage(&img);
-
-			  if (m_ProgressEvent != NULL)
-			  {
-				AnsiString _ansi = sr.Name;
-				m_ProgressEvent(int(100 *num / this->m_NumImages),_ansi );
-			  }
-			}
-		 }
-
-		 Application->ProcessMessages();
-
-	  }while(FindNext(sr) == 0);
-
-	  FindClose(sr);
-   }
-*/
    delete sl;
 }
 // копирование базы данных, в соответствии с опициями.
@@ -1046,7 +959,7 @@ void __fastcall TDbLabeledImages::SaveBackground(SDbExportOptions& options)
        strSourcePath += "\\*.xml";
 
        int iAttr =0;
-       iAttr |= faAnyFile;
+	   iAttr |= faAnyFile;
        int num = 0;
        int count = 0;
        AnsiString strClassLabel = options.ClassLabels->Strings[i];
@@ -1067,7 +980,7 @@ void __fastcall TDbLabeledImages::SaveBackground(SDbExportOptions& options)
                strFullName += strTmpFile;
                awpLoadImage(strFullName.c_str(), &img);
              }
-             else
+			 else
              {
                 strTmpFile = ChangeFileExt(sr.Name, ".jpeg");
                 if (FileExists(strTmpFile))
@@ -1077,7 +990,7 @@ void __fastcall TDbLabeledImages::SaveBackground(SDbExportOptions& options)
                     exist = true;
                 }
                 else
-                {
+				{
                   strTmpFile = ChangeFileExt(sr.Name, ".awp");
                   if (FileExists(strTmpFile))
                   {
@@ -1098,7 +1011,7 @@ void __fastcall TDbLabeledImages::SaveBackground(SDbExportOptions& options)
              {
                 TLFDetectedItem*  di = sd.GetDetectedItem(i);
                 if (di == NULL)
-                    continue;
+					continue;
 
                 UnicodeString strClassLabel0 = di->GetType().c_str();
                 if (options.ClassLabels->IndexOf(strClassLabel0) < 0)
@@ -1108,7 +1021,7 @@ void __fastcall TDbLabeledImages::SaveBackground(SDbExportOptions& options)
                 {
 					sd.Delete(i);
                 }
-             }
+			 }
 
              AnsiString strOutFileName = strPath;
              strOutFileName += ExtractFileName(strTmpFile);

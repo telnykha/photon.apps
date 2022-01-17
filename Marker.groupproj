@@ -33,6 +33,9 @@
         <Projects Include="..\photon.research\resize\resize.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="BeeWings\BeeLandmarks\BeeLandmarks.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -131,14 +134,23 @@
     <Target Name="resize:Make">
         <MSBuild Projects="..\photon.research\resize\resize.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="BeeLandmarks">
+        <MSBuild Projects="BeeWings\BeeLandmarks\BeeLandmarks.cbproj"/>
+    </Target>
+    <Target Name="BeeLandmarks:Clean">
+        <MSBuild Projects="BeeWings\BeeLandmarks\BeeLandmarks.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BeeLandmarks:Make">
+        <MSBuild Projects="BeeWings\BeeLandmarks\BeeLandmarks.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41;TinyXML;Video_Marker;awpipl2b;LandmarksEditor;tps2landmarks;resize"/>
+        <CallTarget Targets="awplflibb;ObjectsMarker;PhotonDemo;photon41;TinyXML;Video_Marker;awpipl2b;LandmarksEditor;tps2landmarks;resize;BeeLandmarks"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean;TinyXML:Clean;Video_Marker:Clean;awpipl2b:Clean;LandmarksEditor:Clean;tps2landmarks:Clean;resize:Clean"/>
+        <CallTarget Targets="awplflibb:Clean;ObjectsMarker:Clean;PhotonDemo:Clean;photon41:Clean;TinyXML:Clean;Video_Marker:Clean;awpipl2b:Clean;LandmarksEditor:Clean;tps2landmarks:Clean;resize:Clean;BeeLandmarks:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make;TinyXML:Make;Video_Marker:Make;awpipl2b:Make;LandmarksEditor:Make;tps2landmarks:Make;resize:Make"/>
+        <CallTarget Targets="awplflibb:Make;ObjectsMarker:Make;PhotonDemo:Make;photon41:Make;TinyXML:Make;Video_Marker:Make;awpipl2b:Make;LandmarksEditor:Make;tps2landmarks:Make;resize:Make;BeeLandmarks:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

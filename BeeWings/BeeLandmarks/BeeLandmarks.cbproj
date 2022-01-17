@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>BeeLandmarks.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
     </PropertyGroup>
@@ -122,7 +122,7 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;dbrtl.lib;dbexpress.lib;DbxCommonDriver.lib;Tee.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;photon41.lib;vclimg.lib;dbrtl.lib;dbexpress.lib;DbxCommonDriver.lib;Tee.lib;vclie.lib;vcledge.lib</LinkPackageStatics>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Release>2</VerInfo_Release>
@@ -216,12 +216,12 @@
             <BuildOrder>5</BuildOrder>
         </CppCompile>
         <FormResources Include="BeeOptionsForm.dfm"/>
-        <FormResources Include="beeMain.dfm"/>
         <FormResources Include="DiaKIND.dfm"/>
-        <FormResources Include="beeLongProcessForm.dfm"/>
-        <FormResources Include="BeeAboutForm.dfm"/>
-        <FormResources Include="BeeKindEditor.dfm"/>
         <FormResources Include="..\GrafCI\BeeAnalysisForm.dfm"/>
+        <FormResources Include="beeMain.dfm"/>
+        <FormResources Include="BeeKindEditor.dfm"/>
+        <FormResources Include="BeeAboutForm.dfm"/>
+        <FormResources Include="beeLongProcessForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
