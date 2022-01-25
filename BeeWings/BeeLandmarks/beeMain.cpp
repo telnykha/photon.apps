@@ -1,3 +1,4 @@
+
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
@@ -107,6 +108,8 @@ void __fastcall TForm10::filePrevActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::fileExportTPSActionExecute(TObject *Sender)
 {
+	if (!setlocale(LC_NUMERIC, "de_DE.utf8"))
+		fprintf(stderr, "Warning: Current locale is not supported by the C library.\n" );
 	if (SaveDialog1->Execute()) {
 		if (!ExportTPS(ChangeFileExt(SaveDialog1->FileName, L".tps")))
 			ShowMessage(L"Не могу сохранить файл: " +SaveDialog1->FileName);
@@ -116,6 +119,7 @@ void __fastcall TForm10::fileExportTPSActionExecute(TObject *Sender)
 			WinExec(_ansi.c_str(), SW_SHOW);
 		}
 	}
+	setlocale(LC_ALL, "C");
 }
 //---------------------------------------------------------------------------
 
@@ -150,11 +154,24 @@ void __fastcall TForm10::DirectoryListBox1Change(TObject *Sender)
 		if (!PhLandmarksTool1->Connect(str))
 		{
 			ShowMessage(L"Не могу открыть базу данных.");
+			this->PhLandmarksTool1->Close();
+			m_db.Close();
 		}
 		else
 		{
 			AnsiString _ansi = DirectoryListBox1->Directory + c_strDbFile0;
-			m_db.Connect(_ansi.c_str());
+			UnicodeString str0 = _ansi;
+			if (!m_db.Connect(_ansi.c_str()))
+			{
+				CopyFile(str.c_str(), str0.c_str(), false);
+				if (!m_db.Connect(_ansi.c_str()))
+				{
+					ShowMessage(L"Не могу открыть базу данных.");
+					this->PhLandmarksTool1->Close();
+					m_db.Close();
+				}
+
+			}
 		}
 	 }
 	 else
@@ -617,8 +634,31 @@ void __fastcall TForm10::ChangeRoi(TObject* sender,  int index, bool update)
 //
 }
 
+void test(const char* str) {
+  printf("%s => ", str);
+  char* endptr;
+  double num = strtod(str, &endptr);
+  // Checking if whole string parsed
+  if (endptr != str + strlen(str)) {
+    printf("ERROR");
+  } else {
+	printf("%lf", num);
+  }
+  printf("\n");
+}
+
+void locale_info() {
+  char buf[128];
+  sprintf(buf, "Current locale: %s\n", setlocale(LC_NUMERIC, NULL));
+  ShowMessage(buf);
+  sprintf(buf, "Current delimiter: '%s'\n", localeconv()->decimal_point);
+  ShowMessage(buf);
+}
+
 bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
 {
+
+	//locale_info();
 	AnsiString _ansi = strFileName;
 	FILE* f = fopen(_ansi.c_str(), "w+t");
 	if (f != NULL)
@@ -629,13 +669,19 @@ bool __fastcall TForm10::ExportTPS(const UnicodeString& strFileName)
 			TLFLandmarkFile* file = db->Files()->File(i);
 			if (file != NULL)
 			{
+				TLFImage img;
+				img.LoadFromFile(file->FileName());
+				int W = img.GetImage()->sSizeX;
+				int H = img.GetImage()->sSizeY;
 				fprintf(f, "LM=8\n");
 				for (int j = 0; j < 8; j++)
 				{
 					TLFLandmark* ll = file->Landmark(j);
-					fprintf(f, "%lf %lf\n", 1920*ll->x()/100, 1080*(100-ll->y())/100.);
+					fprintf(f, "%4.5lf %4.5lf\n", W*ll->x()/100., H*(100-ll->y())/100.);
 				}
 				fprintf(f, "IMAGE=%s\n", file->FileName());
+				fprintf(f, "ID=%d\n", i+1);
+
 			}
 			else
 				return false;
@@ -666,7 +712,10 @@ void __fastcall TForm10::viewBestFitActionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm10::UpdateTPSGrid()
 {
+
 	StringGrid1->RowCount = 2;
+	StringGrid1->Rows[1]->Clear();
+
 	StringGrid1->Cells[0][1] = L"№";
    if (PhLandmarksTool1->Connected)
    {
@@ -801,7 +850,7 @@ void __fastcall TForm10::MakeReport()
 
 void __fastcall TForm10::TabSheet4Show(TObject *Sender)
 {
-MakeReport();
+	//MakeReport();
 }
 //---------------------------------------------------------------------------
 
@@ -894,6 +943,64 @@ void __fastcall TForm10::fileClearDBActionUpdate(TObject *Sender)
 void __fastcall TForm10::viewAnalysisActionExecute(TObject *Sender)
 {
 	AnalysisForm->Visible = !AnalysisForm->Visible;
+}
+//---------------------------------------------------------------------------
+// удаление файла из папки, удаление файла из баз данных c_strDbFile c_strDbFile0
+//
+void __fastcall TForm10::fileRemoveActionExecute(TObject *Sender)
+{
+	AnsiString _ansi = ExtractFileName(FileListBox1->FileName);
+	UnicodeString message = L"Вы действительно хотите удалить файл ";
+	message += _ansi;
+	if (Application->MessageBox(message.c_str(),L"", MB_YESNO) != IDYES)
+		return;
+
+	TLFDBLandmarks* db = PhLandmarksTool1->db;
+	TLFLandmarkFile* f = db->Files()->File(_ansi.c_str());
+	if (f != NULL)
+	{
+		db->Files()->Delete(_ansi.c_str());
+		AnsiString _dbName = DirectoryListBox1->Directory + c_strDbFile;
+		db->Connect(_dbName.c_str());
+		UpdateTPSGrid();
+	}
+
+	if (m_db.Files()->Count() > 0)
+	{
+		 TLFLandmarkFile* f = m_db.Files()->File(_ansi.c_str());
+		 if (f != NULL)
+		 {
+			m_db.Files()->Delete(_ansi.c_str());
+
+		   AnsiString _dbName = DirectoryListBox1->Directory + c_strDbFile0;
+		   m_db.Connect(_dbName.c_str());
+
+		 }
+	}
+
+	int idx = FileListBox1->ItemIndex;
+	DeleteFile(_ansi.c_str());
+	FileListBox1->Update();
+	if (FileListBox1->Items->Count > 0)
+	{
+		if (idx  < FileListBox1->Items->Count)
+			FileListBox1->ItemIndex = idx;
+		else
+			FileListBox1->ItemIndex = FileListBox1->Items->Count - 1;
+
+        FileListBox1Change(NULL);
+	}
+	else
+	{
+		PhImage1->Close();
+		PhImage1->Paint();
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm10::fileRemoveActionUpdate(TObject *Sender)
+{
+	fileRemoveAction->Enabled = FileListBox1->Items->Count > 0 && !PhImage1->Bitmap->Empty;
 }
 //---------------------------------------------------------------------------
 

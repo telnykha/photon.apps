@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TBeeMorphology width="960" heght="540" count="8">
+  <BeePointDector detector="wing1.xml" template="wing1.fvc" class="wing1" />
+  <BeePointDector detector="wing2.xml" template="wing2.fvc" class="wing2" />
+  <BeePointDector detector="wing3.xml" template="wing3.fvc" class="wing3" />
+  <BeePointDector detector="wing4.xml" template="wing4.fvc" class="wing4" />
+  <BeePointDector detector="wing5.xml" template="wing5.fvc" class="wing5" />
+  <BeePointDector detector="wing6.xml" template="wing6.fvc" class="wing6" />
+  <BeePointDector detector="wing7.xml" template="wing7.fvc" class="wing7" />
+  <BeePointDector detector="wing8.xml" template="wing8.fvc" class="wing9" />
+</TBeeMorphology>

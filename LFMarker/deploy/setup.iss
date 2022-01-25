@@ -41,6 +41,9 @@ Source: "cc32c270.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "cc32c270mt.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "lgpl.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "CSBuilder64.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "msvcp120.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "vcomp120.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

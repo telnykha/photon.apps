@@ -7,7 +7,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="LFMarker\ObjectsMarker.cbproj">
-            <Dependencies/>
+            <Dependencies>..\..\awplflib\borland\awplflibb.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\photon41\Demo\PhotonDemo.cbproj">
             <Dependencies/>
@@ -53,13 +53,13 @@
     <Target Name="awplflibb:Make">
         <MSBuild Projects="..\..\awplflib\borland\awplflibb.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ObjectsMarker">
+    <Target Name="ObjectsMarker" DependsOnTargets="awplflibb">
         <MSBuild Projects="LFMarker\ObjectsMarker.cbproj"/>
     </Target>
-    <Target Name="ObjectsMarker:Clean">
+    <Target Name="ObjectsMarker:Clean" DependsOnTargets="awplflibb:Clean">
         <MSBuild Projects="LFMarker\ObjectsMarker.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ObjectsMarker:Make">
+    <Target Name="ObjectsMarker:Make" DependsOnTargets="awplflibb:Make">
         <MSBuild Projects="LFMarker\ObjectsMarker.cbproj" Targets="Make"/>
     </Target>
     <Target Name="PhotonDemo">

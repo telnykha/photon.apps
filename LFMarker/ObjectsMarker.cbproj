@@ -4,7 +4,7 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <MainSource>ObjectsMarker.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
@@ -169,9 +169,9 @@
         <BPILibOutputDir>$(PHOTON)\lib</BPILibOutputDir>
         <FinalOutputDir>$(PHOTON)\bin</FinalOutputDir>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <VerInfo_Build>15</VerInfo_Build>
+        <VerInfo_Build>17</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=NN-Videolab;FileVersion=4.1.2.15;InternalName=Objects Marker;LegalCopyright=Copyright (c) 2007-2022 NN-Videolab.net;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=Creation of models for the semantic analysis of images.;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=NN-Videolab;FileVersion=4.1.2.17;InternalName=Objects Marker;LegalCopyright=Copyright (c) 2007-2022 NN-Videolab.net;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=Creation of models for the semantic analysis of images.;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;bcbsmp.lib;dbrtl.lib;xmlrtl.lib;inet.lib;vcldb.lib;vclimg.lib;VclSmp.lib;photon41.lib;Tee.lib</LinkPackageStatics>
         <BCC_UserSuppliedOptions> -tWM -Vx -r- -k -Ve -r</BCC_UserSuppliedOptions>
@@ -367,29 +367,29 @@
             <BuildOrder>16</BuildOrder>
         </CppCompile>
         <None Include="todo.txt"/>
+        <FormResources Include="LongProcessForm.dfm"/>
         <FormResources Include="MainForm.dfm"/>
         <FormResources Include="MedianFilterForm.dfm"/>
         <FormResources Include="GaussFilterForm.dfm"/>
         <FormResources Include="ImageViewForm.dfm"/>
-        <FormResources Include="LongProcessForm.dfm"/>
         <FormResources Include="SelRectForm.dfm"/>
         <FormResources Include="SystemOptionsForm.dfm"/>
         <FormResources Include="TableViewForm.dfm"/>
         <FormResources Include="ResizeForm.dfm"/>
         <FormResources Include="RotateForm.dfm"/>
-        <FormResources Include="FilterForm.dfm"/>
         <FormResources Include="..\EngineView\EngineViewUnit.dfm"/>
         <FormResources Include="DbConvertForm.dfm"/>
         <FormResources Include="..\common\AboutForm.dfm"/>
         <FormResources Include="..\common\dictinaryEditor.dfm"/>
         <FormResources Include="..\common\dictinaryItemEditor.dfm"/>
-        <FormResources Include="DbSplitForm.dfm"/>
+        <FormResources Include="DbCopyForm.dfm"/>
         <FormResources Include="DetectorInfoForm.dfm"/>
         <FormResources Include="DictionaryForm.dfm"/>
         <FormResources Include="EngineErrForm.dfm"/>
-        <FormResources Include="DbCopyForm.dfm"/>
+        <FormResources Include="FilterForm.dfm"/>
         <FormResources Include="DbExportForm.dfm"/>
         <FormResources Include="DbInfoForm.dfm"/>
+        <FormResources Include="DbSplitForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -570,11 +570,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64160mt.dll" Class="DependencyModule"/>
                 <DeployFile LocalName=".\ObjectsMarker.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32260.dll" Class="DependencyModule">
                     <Platform Name="Win32">
@@ -637,19 +633,19 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c270.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="todo.txt" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c270.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin64\borlndmm.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
@@ -704,12 +700,16 @@
                 </DeployFile>
                 <DeployFile LocalName="..\..\bin\ObjectsMarker.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule"/>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c270mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64160mt.dll" Class="DependencyModule"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>

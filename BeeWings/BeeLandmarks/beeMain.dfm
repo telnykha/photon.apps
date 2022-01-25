@@ -833,6 +833,12 @@ object Form10: TForm10
       Caption = #1040#1085#1072#1083#1080#1079' '#1087#1088#1086#1073#1099'...'
       OnExecute = viewAnalysisActionExecute
     end
+    object fileRemoveAction: TAction
+      Category = 'File'
+      Caption = #1059#1076#1072#1083#1080#1090#1100' '#1092#1072#1081#1083
+      OnExecute = fileRemoveActionExecute
+      OnUpdate = fileRemoveActionUpdate
+    end
   end
   object MainMenu1: TMainMenu
     Left = 545
@@ -844,6 +850,9 @@ object Form10: TForm10
       end
       object N31: TMenuItem
         Action = fileClearDBAction
+      end
+      object N33: TMenuItem
+        Action = fileRemoveAction
       end
       object PS3: TMenuItem
         Action = fileImportTPSAction
@@ -970,6 +979,9 @@ object Form10: TForm10
     Top = 154
     object PS2: TMenuItem
       Action = fileExportTPSAction
+    end
+    object N34: TMenuItem
+      Action = fileRemoveAction
     end
     object N25: TMenuItem
       Caption = '-'

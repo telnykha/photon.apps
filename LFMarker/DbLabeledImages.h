@@ -51,6 +51,7 @@ struct SDbConvertOptions
 	bool    RenameToUUID;
 	EExportFormat format;
 };
+
 //---------------------------------------------------------------------------
 // TDbLabeledImages
 class TDbLabeledImages
@@ -98,10 +99,10 @@ public:
 
 // properties
    __property AnsiString DbName = {read = m_strDbName};
-   __property int NumImages    = {read = m_NumImages};
-   __property int NumXmlFiles  = {read = m_NumXmlFiles};
-   __property int NumXmlItems  = {read = m_NumXmlItems};
-   __property int NumLabels    = {read = GetNumLabels};
+   __property int NumImages    = {read  = m_NumImages};
+   __property int NumXmlFiles  = {read  = m_NumXmlFiles};
+   __property int NumXmlItems  = {read  = m_NumXmlItems};
+   __property int NumLabels    = {read  = GetNumLabels};
    __property TLFSemanticDictinary* Dictionary = {read =  GetDictionary};
    __property TLFDBLabeledImages*   Data  = {read = GetDatabase};
 // events
