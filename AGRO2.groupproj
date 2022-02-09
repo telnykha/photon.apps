@@ -6,7 +6,16 @@
         <Projects Include="PAM2\pam2.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="PAM2\ComPort\ComPort.cbproj">
+        <Projects Include="PRI2\pri2.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="common\ComPort\ComPort.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PRI\pri.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="common\ComPort\Comtest.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -26,23 +35,50 @@
     <Target Name="pam2:Make">
         <MSBuild Projects="PAM2\pam2.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="pri2">
+        <MSBuild Projects="PRI2\pri2.cbproj"/>
+    </Target>
+    <Target Name="pri2:Clean">
+        <MSBuild Projects="PRI2\pri2.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pri2:Make">
+        <MSBuild Projects="PRI2\pri2.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="ComPort">
-        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj"/>
+        <MSBuild Projects="common\ComPort\ComPort.cbproj"/>
     </Target>
     <Target Name="ComPort:Clean">
-        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj" Targets="Clean"/>
+        <MSBuild Projects="common\ComPort\ComPort.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="ComPort:Make">
-        <MSBuild Projects="PAM2\ComPort\ComPort.cbproj" Targets="Make"/>
+        <MSBuild Projects="common\ComPort\ComPort.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="pri">
+        <MSBuild Projects="PRI\pri.cbproj"/>
+    </Target>
+    <Target Name="pri:Clean">
+        <MSBuild Projects="PRI\pri.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pri:Make">
+        <MSBuild Projects="PRI\pri.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Comtest">
+        <MSBuild Projects="common\ComPort\Comtest.cbproj"/>
+    </Target>
+    <Target Name="Comtest:Clean">
+        <MSBuild Projects="common\ComPort\Comtest.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Comtest:Make">
+        <MSBuild Projects="common\ComPort\Comtest.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="pam2;ComPort"/>
+        <CallTarget Targets="pam2;pri2;ComPort;pri;Comtest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="pam2:Clean;ComPort:Clean"/>
+        <CallTarget Targets="pam2:Clean;pri2:Clean;ComPort:Clean;pri:Clean;Comtest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="pam2:Make;ComPort:Make"/>
+        <CallTarget Targets="pam2:Make;pri2:Make;ComPort:Make;pri:Make;Comtest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

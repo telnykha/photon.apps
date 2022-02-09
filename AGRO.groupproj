@@ -30,7 +30,10 @@
         <Projects Include="..\photon.research\ZonesEditor\ZonesEditor.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="PAM2\phserialport\Cosoletest1\serialtest.cbproj">
+        <Projects Include="..\..\jpeg-6b\borland\JPEGLIB.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="common\phserialport\Cosoletest1\serialtest.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -122,23 +125,32 @@
     <Target Name="ZonesEditor:Make">
         <MSBuild Projects="..\photon.research\ZonesEditor\ZonesEditor.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="JPEGLIB">
+        <MSBuild Projects="..\..\jpeg-6b\borland\JPEGLIB.cbproj"/>
+    </Target>
+    <Target Name="JPEGLIB:Clean">
+        <MSBuild Projects="..\..\jpeg-6b\borland\JPEGLIB.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JPEGLIB:Make">
+        <MSBuild Projects="..\..\jpeg-6b\borland\JPEGLIB.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="serialtest">
-        <MSBuild Projects="PAM2\phserialport\Cosoletest1\serialtest.cbproj"/>
+        <MSBuild Projects="common\phserialport\Cosoletest1\serialtest.cbproj"/>
     </Target>
     <Target Name="serialtest:Clean">
-        <MSBuild Projects="PAM2\phserialport\Cosoletest1\serialtest.cbproj" Targets="Clean"/>
+        <MSBuild Projects="common\phserialport\Cosoletest1\serialtest.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="serialtest:Make">
-        <MSBuild Projects="PAM2\phserialport\Cosoletest1\serialtest.cbproj" Targets="Make"/>
+        <MSBuild Projects="common\phserialport\Cosoletest1\serialtest.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML;ObjectsMarker;awplflibb;ZonesEditor;serialtest"/>
+        <CallTarget Targets="PAM;pri;awpipl2b;pam2;photon41;TinyXML;ObjectsMarker;awplflibb;ZonesEditor;JPEGLIB;serialtest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean;ObjectsMarker:Clean;awplflibb:Clean;ZonesEditor:Clean;serialtest:Clean"/>
+        <CallTarget Targets="PAM:Clean;pri:Clean;awpipl2b:Clean;pam2:Clean;photon41:Clean;TinyXML:Clean;ObjectsMarker:Clean;awplflibb:Clean;ZonesEditor:Clean;JPEGLIB:Clean;serialtest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make;ObjectsMarker:Make;awplflibb:Make;ZonesEditor:Make;serialtest:Make"/>
+        <CallTarget Targets="PAM:Make;pri:Make;awpipl2b:Make;pam2:Make;photon41:Make;TinyXML:Make;ObjectsMarker:Make;awplflibb:Make;ZonesEditor:Make;JPEGLIB:Make;serialtest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

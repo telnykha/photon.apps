@@ -1,0 +1,17 @@
+LIBRARY "pylonwrapper"
+EXPORTS
+	wpCreateCamera @1
+	wpConnect		 @2
+	wpDisconnect	 @3	
+	wpFreeCamera   @4
+	wpCameraName	 @5
+	wpCameraGetExposure @6
+	wpCameraSetExposure @7
+	wpCameraGetMode @8
+	wpCameraSetMode @9
+	wpStart @10
+	wpStop @11
+	wpIsGrabbing @12
+
+
+

@@ -93,3 +93,12 @@ BeeWings/BeDetect/__recovery
 BeeWings/GrafCI/Win32
 BeeWings/GrafCI/__history
 BeeWings/GrafCI/__recovery
+PRI2/Win32
+common/ComPort/__history
+common/ComPort/Win32
+common/phserialport/Cosoletest1/__history
+common/phserialport/Cosoletest1/Win32
+PRI2/__history
+PRI2/pylon/driver/pylonwrapper/Debug
+PRI2/pylon/driver/pylonwrapper/ipch
+PRI2/pylon/driver/pylonwrapper/Release

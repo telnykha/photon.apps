@@ -37,7 +37,7 @@
 #pragma link "awplflibb.lib"
 extern "C"
 {
-	#pragma link "phserialport/phserialport.lib"
+	#pragma link "phserialport.lib"
 }
 
 TpamMainForm *pamMainForm;

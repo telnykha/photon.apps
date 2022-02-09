@@ -108,8 +108,8 @@ void __fastcall TForm10::filePrevActionUpdate(TObject *Sender)
 
 void __fastcall TForm10::fileExportTPSActionExecute(TObject *Sender)
 {
-	if (!setlocale(LC_NUMERIC, "de_DE.utf8"))
-		fprintf(stderr, "Warning: Current locale is not supported by the C library.\n" );
+	//if (!setlocale(LC_NUMERIC, "de_DE.utf8"))
+	//	fprintf(stderr, "Warning: Current locale is not supported by the C library.\n" );
 	if (SaveDialog1->Execute()) {
 		if (!ExportTPS(ChangeFileExt(SaveDialog1->FileName, L".tps")))
 			ShowMessage(L"Не могу сохранить файл: " +SaveDialog1->FileName);
@@ -119,7 +119,7 @@ void __fastcall TForm10::fileExportTPSActionExecute(TObject *Sender)
 			WinExec(_ansi.c_str(), SW_SHOW);
 		}
 	}
-	setlocale(LC_ALL, "C");
+	//(LC_ALL, "C");
 }
 //---------------------------------------------------------------------------
 

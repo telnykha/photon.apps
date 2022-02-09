@@ -5,29 +5,28 @@
 #include "IniParamsUnit.h"
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
+USEFORM("LongProcessForm.cpp", LongProcDlg);
 USEFORM("MainForm.cpp", Form1);
 USEFORM("MedianFilterForm.cpp", MedianFilterDlg);
 USEFORM("GaussFilterForm.cpp", GaussFilterDlg);
 USEFORM("ImageViewForm.cpp", FragmentForm);
-USEFORM("LongProcessForm.cpp", LongProcDlg);
-USEFORM("SelRectForm.cpp", RectToolForm);
 USEFORM("SystemOptionsForm.cpp", PagesDlg);
 USEFORM("TableViewForm.cpp", TableForm);
 USEFORM("ResizeForm.cpp", ResizeDlg);
 USEFORM("RotateForm.cpp", RotateDlg);
-USEFORM("FilterForm.cpp", FilterDlg);
 USEFORM("..\EngineView\EngineViewUnit.cpp", EngineViewForm);
 USEFORM("DbConvertForm.cpp", DbConvertDlg);
 USEFORM("..\common\AboutForm.cpp", AboutBox);
 USEFORM("..\common\dictinaryEditor.cpp", dictinaryEditDlg);
 USEFORM("..\common\dictinaryItemEditor.cpp", dictinaryItemDlg);
-USEFORM("DbSplitForm.cpp", DbSplitDlg);
+USEFORM("DbCopyForm.cpp", DbCopyDlg);
 USEFORM("DetectorInfoForm.cpp", DetectorForm);
 USEFORM("DictionaryForm.cpp", DictionaryDialog);
 USEFORM("EngineErrForm.cpp", EngineErrDlg);
-USEFORM("DbCopyForm.cpp", DbCopyDlg);
+USEFORM("FilterForm.cpp", FilterDlg);
 USEFORM("DbExportForm.cpp", DbExportDialog);
 USEFORM("DbInfoForm.cpp", DbInfoDialog);
+USEFORM("DbSplitForm.cpp", DbSplitDlg);
 //---------------------------------------------------------------------------
 HANDLE hm = 0;
 TMarkerIniParams gIniParams;
@@ -51,7 +50,6 @@ WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->CreateForm(__classid(TTableForm), &TableForm);
 		Application->CreateForm(__classid(TFragmentForm), &FragmentForm);
-		Application->CreateForm(__classid(TRectToolForm), &RectToolForm);
 		Application->CreateForm(__classid(TDbInfoDialog), &DbInfoDialog);
 		Application->CreateForm(__classid(TDbExportDialog), &DbExportDialog);
 		Application->CreateForm(__classid(TPagesDlg), &PagesDlg);
