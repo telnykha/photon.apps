@@ -102,3 +102,7 @@ PRI2/__history
 PRI2/pylon/driver/pylonwrapper/Debug
 PRI2/pylon/driver/pylonwrapper/ipch
 PRI2/pylon/driver/pylonwrapper/Release
+PAM2/pam2.cbproj
+PRI/pri.cbproj
+PRI/pri.cbproj
+VideoMarker/Video.Marker.cbproj

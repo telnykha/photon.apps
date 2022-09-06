@@ -56,20 +56,24 @@ TPamImageBuffer& TPamImageBuffer::operator=(TPamImageBuffer& buffer)
 
 void __fastcall TPamImageBuffer::AddFrame(int width, int height, unsigned char* data)
 {
-	 awpImage* img =  Convert12BitToAwpFloat(width, height, data);
+	// awpImage* img =  Convert12BitToAwpFloat(width, height, data);
+	awpImage* img = NULL;
+	awpCreateImage(&img, width,height,1, AWP_BYTE);
+	AWPBYTE* b = (AWPBYTE*)img->pPixels;
+	memcpy(b, data, width*height*sizeof(AWPBYTE));
 	 if (img != NULL && m_count < m_size)
 	 {
 		TLFImage* _img = new TLFImage();
 		_img->SetImage(img);
 		m_list.AddImage(_img);
-        _AWP_SAFE_RELEASE_(img)
+		_AWP_SAFE_RELEASE_(img)
 	 }
 	 m_count++;
 	 if (m_count >= m_size) {
 		// в буфере закончились кадры, отправляем его в документ
 		pamMainForm->doc->SetBuffer(this);
 #ifdef _DEBUG
-     _DebugSave(ExtractFilePath(Application->ExeName));
+	 _DebugSave(ExtractFilePath(Application->ExeName));
 #endif
 	 }
 }

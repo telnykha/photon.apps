@@ -400,6 +400,8 @@ private:	// User declarations
 	// параметры видеокамеры
 	int              m_exposure;
 	int              m_gain;
+    	//установленный фильтр
+    int              m_filter;
 	// параметры освещения
 	int              m_sat;
 	int              m_act;
@@ -408,6 +410,7 @@ private:	// User declarations
 	int              m_lact;
 	int              m_ladd;
 	int              m_lflash;
+	int              m_frameBuffer;
 	// переменные инициализации оборудования
 	int              m_currentCommand;
 	bool             m_initArduino;
@@ -417,6 +420,11 @@ private:	// User declarations
 
 	// редактор roi
 	TPhPam2RoiTool*  m_roiTool;
+        // pylon
+	HANDLE camera;
+	int m_exposure_pylon;
+	void __fastcall SetVideoModePylon(int value);
+	void __fastcall SetExposure_pylone(const int value);
 protected:
 	BEGIN_MESSAGE_MAP
 		VCL_MESSAGE_HANDLER(WM_USER+1, TMessage, WMUSER1)
@@ -436,6 +444,9 @@ protected:
 	void __fastcall ChangeRoi(TObject* sender,  int index, bool update);
 	UnicodeString __fastcall FindDevice();
 public:		// User declarations
+
+TLFImage m_Image;
+
 	__fastcall TpamMainForm(TComponent* Owner);
 	void ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl* Client);
 	void __fastcall PreviewFrame(int width, int height, unsigned char* data, int cameraID);
@@ -449,6 +460,7 @@ public:		// User declarations
 	void __fastcall SetAct(int value);
 	void __fastcall SwitchAct(int value);
 	void __fastcall ExecuteCommand(const UnicodeString& command);
+	void __fastcall SetBuffer(int w, int h, AWPBYTE* b);
 
 	void __fastcall SetPicture(awpImage* img);
 	void __fastcall UpdateScreen();

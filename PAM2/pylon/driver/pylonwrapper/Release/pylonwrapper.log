@@ -1,0 +1,19 @@
+﻿Сборка начата 02.09.2022 13:49:38.
+     1>Проект "C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\pylonwrapper.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\Basler\pylon 6\Development\\include" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D PYLONWRAPPER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\pylonwrapper.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt pylonwrapper.cpp
+         pylonwrapper.cpp
+     1>pylonwrapper.cpp(99): warning C4244: return: преобразование "double" в "const int", возможна потеря данных
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Release\pylonwrapper.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Program Files\Basler\pylon 6\Development\\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"pylonwrapper.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Release\pylonwrapper.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Release\pylonwrapper.lib" /MACHINE:X86 /SAFESEH /DLL Release\dllmain.obj
+         Release\pylonwrapper.obj
+         Release\stdafx.obj
+            Создается библиотека C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Release\pylonwrapper.lib и объект C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Release\pylonwrapper.exp
+         Создание кода
+         Создание кода завершено
+         pylonwrapper.vcxproj -> C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Release\pylonwrapper.dll
+     1>Сборка проекта "C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\pylonwrapper.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:02.02

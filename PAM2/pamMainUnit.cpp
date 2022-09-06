@@ -38,10 +38,30 @@
 extern "C"
 {
 	#pragma link "phserialport.lib"
+	#include "pylon\driver\pylonwrapper\pylonwrapper.h"
+	#pragma link "pylonwrapper.lib"
 }
 
 TpamMainForm *pamMainForm;
 
+ void ImageEvent(int frame, int w, int h, void* p)
+{
+	awpImage* img = NULL;
+	awpCreateImage(&img, w,h,1, AWP_BYTE);
+	AWPBYTE* b = (AWPBYTE*)img->pPixels;
+	memcpy(b, p, w*h*sizeof(AWPBYTE));
+
+
+	// todo: protect this code
+	pamMainForm->m_Image.SetImage(img);
+
+	awpReleaseImage(&img);
+	pamMainForm->Caption = IntToStr(frame);
+
+	SendMessage(pamMainForm->Handle,WM_USER+1, 0,0 );
+	pamMainForm->PhImage1->SetAwpImage(pamMainForm->m_Image.GetImage());
+	pamMainForm->SetBuffer(w,h,b);
+}
 
 void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 {
@@ -51,10 +71,13 @@ void CamHook(TProcessedDataProperty* Attributes, unsigned char *BytePtr)
 	 }
 }
 
+
+
 //---------------------------------------------------------------------------
 __fastcall TpamMainForm::TpamMainForm(TComponent* Owner)
 	: TForm(Owner)
 {
+	m_frameBuffer = 0;
 	m_camera = 0;
 	m_numCameras = 0;
 	m_videoMode  = pam2videoCommands;
@@ -119,6 +142,21 @@ void TpamMainForm::ShowDockPanel(TWinControl* APanel, bool MakeVisible, TControl
 	Client->Show();
 }
 //---------------------------------------------------------------------------
+void __fastcall TpamMainForm::SetBuffer(int w, int h, AWPBYTE* b)
+{
+ if (pamMainForm->m_buffer!=0)
+ {
+	 if(pamMainForm->m_buffer->BufferType==pam2bfFoFm||pamMainForm->m_buffer->BufferType==pam2bfFtFm1)
+	 {
+	 pamMainForm->m_frameBuffer+1;
+	 pamMainForm->m_buffer->AddFrame(w,h,b);
+	 if (pamMainForm->m_frameBuffer==7)
+	 pamMainForm->m_frameBuffer = 0;
+	 }
+
+ }
+}
+
 void __fastcall TpamMainForm::filesCloseActionExecute(TObject *Sender)
 {
     Close();
@@ -226,11 +264,43 @@ void __fastcall TpamMainForm::FormCreate(TObject *Sender)
 		m_hardware_ready = false;
         return;
 	}
-	if (!OpenCamera())
+
+    //Подключение pylon к программе
+	camera =  wpCreateCamera(ImageEvent);
+	m_hardware_ready = true;
+	if (camera == NULL)
 	{
-		ShowMessage("Не подключена видеокамера!");
+		ShowMessage("Не могу подкоючиться к видеокамере!");
 		m_hardware_ready = false;
 	}
+	try
+	{
+
+		 if (wpConnect(camera))
+		 {
+			 UnicodeString str = wpCameraName(camera);
+			 StatusBar1->Panels->Items[0]->Text = str;
+			 wpCameraSetExposure(camera, 100000);
+			 m_exposure = wpCameraGetExposure(camera);
+			 wpCameraSetMode(camera, 0);
+		 }
+		 else
+		 {
+			ShowMessage("Не могу подкоючиться к видеокамере!");
+			m_hardware_ready = false;
+
+		 }
+	}
+	catch(...)
+	{
+		ShowMessage("Не могу подкоючиться к видеокамере!");
+		m_hardware_ready = false;
+	}
+//	if (!OpenCamera())
+//	{
+//		ShowMessage("Не подключена видеокамера!");
+//		m_hardware_ready = false;
+//	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TpamMainForm::Comm1RxChar(TObject *param_0, DWORD Count)
@@ -773,6 +843,7 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 0);
 		BUFCCDUSB_SetFrameTime( m_camera, 2500);
 		BUFCCDUSB_StartFrameGrab(GRAB_FRAME_FOREVER);
+		SetVideoModePylon(0);
 	  }
 	  else if (m_videoMode == pam2videoFlash)
 	  {
@@ -780,6 +851,7 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
 		//BUFCCDUSB_SetFrameTime( m_camera, 2500);
 		Timer1->Enabled = true;
+		SetVideoModePylon(1);
 	  }
 	  else if (m_videoMode == pam2videoCommands)
 	  {
@@ -787,7 +859,19 @@ void __fastcall TpamMainForm::SetVideoMode(EPam2VideoModes mode)
 		BUFCCDUSB_StopFrameGrab();
 		//BUFCCDUSB_SetFrameTime( m_camera, 2500);
 		BUFCCDUSB_SetCameraWorkMode(m_camera, 1);
+		SetVideoModePylon(1);
 	  }
+}
+
+void __fastcall TpamMainForm::SetVideoModePylon(value)
+{
+		if (value == 0)
+		wpStart(camera);
+	else
+		wpStop(camera);
+
+	wpCameraSetMode(camera, value);
+	wpStart(camera);
 }
 
 void __fastcall TpamMainForm::Timer1Timer(TObject *Sender)
@@ -1173,7 +1257,15 @@ void __fastcall TpamMainForm::ExecuteCommand(const UnicodeString& command)
 			 }
 
 		}
+        else if(_str.Pos(L"FIR0")== 1)
+		{
+				this->m_filter = 0;
+		}
 
+		else if(_str.Pos(L"FIR1")== 1)
+		{
+				this->m_filter = 1;
+		}
 		AnsiString str = command;
 		sprintf(wb,"%s",str.c_str());
 		i = pamMainForm->Comm1->Write(wb, command.Length()+1);
@@ -1391,6 +1483,7 @@ void __fastcall TpamMainForm::viewqN1ActionUpdate(TObject *Sender)
 void __fastcall TpamMainForm::WMUSER1(TMessage & msg)
 {
 	this->UpdateScreen();
+	//pamMainForm->PhImage1->SetAwpImage(m_Image.GetImage());
 }
 void __fastcall TpamMainForm::WMUSER2(TMessage & msg)
 {

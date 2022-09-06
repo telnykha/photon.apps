@@ -31,12 +31,17 @@
   DELAY(t)        - зедержка выполениия на время t в миллисекундах
   F0FM(t)         - получение пары изображений Fo и Fm  
   FT1FM1(t)       - получение пары изображений F(t) и Fm(t) 
-  OFF             - выключает все источники освещения  
+  OFF             - выключает все источники освещения 
+
+  FIR0         - выдвигает фильтр порта 12
+  FIR1         - выдвигает фильтр порта 13
 */
 
 #define BLUE_PIN    9
 #define RED_PIN     10
 #define CAMERA_PIN  11
+#define FIR_0       12
+#define FIR_1       13
 
 #define __SWITCH_OFF__ \
       int oldBlue = SAT;\
@@ -84,6 +89,7 @@ int EXP      = 75;    /*время экспозиции видеокамеры �
 int GAIN     = 6;     /*усиление видеокамеры в децибеллах*/
 int LFLASH   = 20;    /*время измерительной вспышки в микроукундах*/
 int TRANSFER = 100; /*передача данных с видеокамеры на ПК в миллисекундах*/ 
+int FILTER   = 1; /*используемый фильтр*/
 
 /*буфер команд*/
 int  COMMANDSLEN = 0;
@@ -690,6 +696,33 @@ void pamFtFm1()
     Serial.println(_success + "FTFM1");    
 }
 
+void filter0()
+{
+  if (FILTER == 1)
+    {
+    digitalWrite(FIR_0, HIGH);
+    delay(300);
+    digitalWrite(FIR_0,LOW);
+    FILTER = 0;
+    Serial.println(_success +"filter0 set");
+    }
+  else
+  Serial.println(_success +"filter0 already set");
+}
+void filter1()
+{
+  if (FILTER == 0)
+    {
+    digitalWrite(FIR_1, HIGH);
+    delay(300);
+    digitalWrite(FIR_1,LOW);
+    FILTER = 1;
+    Serial.println(_success +"filter1 set");
+    }
+  else
+  Serial.println(_success +"filter1 already set");
+}
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -698,6 +731,8 @@ void setup() {
   pinMode(BLUE_PIN,    OUTPUT);
   pinMode(RED_PIN,     OUTPUT);
   pinMode(CAMERA_PIN,  OUTPUT);
+  pinMode(FIR_0,  OUTPUT);
+  pinMode(FIR_1,  OUTPUT);
 }
 
 void loop() {
@@ -726,7 +761,11 @@ void loop() {
         pamSetGAIN(incomingString);        
       else if(incomingString.indexOf("LFLASH=") != -1)
         pamSetLFLASH(incomingString);
-      else
+      else if(incomingString.indexOf("FIR1") != -1)
+        filter1();
+      else if(incomingString.indexOf("FIR0") != -1)
+        filter0();
+        else
         Serial.println(_unknown);
     }
     else if (incomingString.equals("PAM2"))
@@ -768,7 +807,11 @@ void loop() {
     else if (incomingString.indexOf("FOFM") != -1)
       pamFoFm();           
     else if (incomingString.indexOf("FTFM1") != -1)
-      pamFtFm1();           
+      pamFtFm1();
+    else if (incomingString.indexOf("FIR0") != -1)
+      filter0();
+    else if (incomingString.indexOf("FIR1") != -1)
+      filter1();           
     else
       Serial.println(_unknown);
   }

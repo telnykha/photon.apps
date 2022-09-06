@@ -1,0 +1,16 @@
+﻿Сборка начата 05.09.2022 16:33:06.
+     1>Проект "C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\pylonwrapper.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\Basler\pylon 6\Development\\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D PYLONWRAPPER_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\pylonwrapper.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt pylonwrapper.cpp
+         pylonwrapper.cpp
+     1>c:\ipfran\photon\photon.apps\pam2\pylon\driver\pylonwrapper\pylonwrapper.cpp(99): warning C4244: return: преобразование "double" в "const int", возможна потеря данных
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Debug\pylonwrapper.dll" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\Basler\pylon 6\Development\\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Debug\pylonwrapper.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Debug\pylonwrapper.lib" /MACHINE:X86 /DLL Debug\dllmain.obj
+         Debug\pylonwrapper.obj
+         Debug\stdafx.obj
+         pylonwrapper.vcxproj -> C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\Debug\pylonwrapper.dll
+     1>Сборка проекта "C:\IPFRAN\photon\photon.apps\PAM2\pylon\driver\pylonwrapper\pylonwrapper.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:01.81

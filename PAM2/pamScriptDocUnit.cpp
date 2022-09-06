@@ -30,6 +30,8 @@ TPam2ScriptDoc::TPam2ScriptDoc(TRichEdit* edit)
 	m_cmds->Add(L"ACTINIC");
 	m_cmds->Add(L"ADIITIONAL");
 	m_cmds->Add(L"OFF");
+	m_cmds->Add(L"FIR0");
+	m_cmds->Add(L"FIR1");
 
 	m_script = new TStringList();
 	m_running = false;
@@ -147,7 +149,9 @@ bool __fastcall TPam2ScriptDoc::CheckCommand(const UnicodeString& str)
 		 _str == L"DARK" ||
 		 _str == L"OFF" ||
 		 _str == L"FOFM" ||
-		 _str == L"FTFM1")
+		 _str == L"FTFM1"||
+		 _str == L"FIR0" ||
+		 _str == L"FIR1")
 	{
 		return true;
 	}
